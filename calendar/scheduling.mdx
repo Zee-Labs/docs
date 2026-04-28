@@ -1,5 +1,107 @@
 ---
-title: scheduling
+title: Scheduling Posts
+icon: clock
 ---
 
-Coming soon.
+Schedule your posts to publish automatically at the perfect time. Postzee handles timezone conversion, queue management, and delivery to all your connected channels.
+
+## Publishing options
+
+When creating or editing a post, you have three publishing options:
+
+| Option | What it does |
+|--------|-------------|
+| **Publish now** | Sends the post immediately to your selected channels |
+| **Schedule** | Queues the post to publish at a specific date and time |
+| **Save as Draft** | Saves the post without scheduling — you can schedule it later |
+
+## How to schedule a post
+
+1. Open the **Post Editor** (from Calendar, Zee Studio, or the **Create Post** button)
+2. Write your content and select your channels
+3. Pick a date and time using the **date/time picker**
+4. Click **Schedule**
+5. The post appears on your Calendar with a blue **Scheduled** indicator
+6. At the scheduled time, Postzee automatically publishes to all selected channels
+
+<Note>
+The minimum scheduling time is the current moment. You cannot schedule posts in the past.
+</Note>
+
+## Timezone handling
+
+All scheduled times respect your team's configured timezone:
+
+- The date/time picker shows times in **your timezone**
+- When publishing, Postzee converts to UTC internally and delivers at the exact moment you selected
+- Team members in different timezones all see the same local time relative to the team's setting
+
+To change your team's timezone, go to **Settings** → **Team** → **Timezone**.
+
+## Find the best time
+
+Not sure when to post? Use the **Find Best Time** feature:
+
+1. In the post editor, click **Find Best Time** (or the clock icon)
+2. Postzee analyzes your calendar and finds the least congested time slots
+3. A suggested date/time is automatically filled in
+4. Adjust if needed, then click **Schedule**
+
+The algorithm looks at your existing scheduled posts across all channels and suggests times when your calendar is least busy, spreading your content evenly throughout the day.
+
+## Rescheduling
+
+There are two ways to reschedule a post:
+
+### Drag and drop (Calendar)
+
+1. Open the **Calendar** view (Month, Week, or Day)
+2. Click and drag the post to a new date or time slot
+3. The post is instantly rescheduled to the new time
+
+### Edit the post
+
+1. Click on the post in the Calendar or Posts list
+2. Change the date/time in the editor
+3. Click **Save** or **Schedule**
+
+<Note>
+Only **Draft** and **Scheduled** posts can be rescheduled. Once a post is published, its date is locked.
+</Note>
+
+## Recurring posts
+
+Set up posts that automatically repeat on a regular interval:
+
+1. Create your post and schedule the first occurrence
+2. Set the **Repeat interval** (in days) — for example, every 7 days for weekly
+3. Click **Schedule**
+4. Postzee automatically creates future occurrences at the specified interval
+
+Recurring posts are grouped together on the calendar with matching color indicators. You can manage the entire series or edit individual occurrences.
+
+## Multi-channel scheduling
+
+When you select multiple channels, the same post is scheduled for all of them simultaneously:
+
+- All channels receive the post at the same scheduled time
+- Platform-specific settings (TikTok privacy, YouTube visibility, etc.) are applied per channel
+- If one channel fails, the others still publish successfully — you can retry the failed one individually
+
+## Queue processing
+
+Here's what happens behind the scenes when your scheduled time arrives:
+
+1. The post moves from **Scheduled** to **Queue** status
+2. Postzee's worker processes the queue and sends content to each platform's API
+3. On success, the post moves to **Published** status
+4. On failure, the post moves to **Error** status with a specific error message
+
+<CardGroup cols={2}>
+  <Card title="Post Editor" icon="pen-to-square" href="/calendar/post-editor">
+    Learn how to create and customize your posts.
+  </Card>
+  <Card title="Post Lifecycle" icon="arrows-rotate" href="/calendar/post-lifecycle">
+    Understand post statuses and error recovery.
+  </Card>
+</CardGroup>

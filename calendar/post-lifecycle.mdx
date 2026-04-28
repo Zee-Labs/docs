@@ -1,5 +1,125 @@
 ---
-title: post lifecycle
+title: Post Lifecycle
+icon: arrows-rotate
 ---
 
-Coming soon.
+Every post in Postzee follows a lifecycle from creation to publication. Understanding these statuses helps you manage your content pipeline and troubleshoot issues.
+
+## Post statuses
+
+A post progresses through these statuses:
+
+```
+Draft → Scheduled → Queue → Published
+                         └→ Error
+```
+
+| Status | Color | Description |
+|--------|-------|-------------|
+| **Draft** | Gray | Post is saved but not scheduled. It won't be published until you schedule it. |
+| **Scheduled** | Blue | Post is set to publish at a specific date/time. Waiting for the scheduled moment. |
+| **Queue** | Blue | Scheduled time has arrived. The post is being processed and sent to the platform's API. |
+| **Published** | Purple | Post was successfully delivered to the platform. It's live. |
+| **Error** | Red | Post failed to publish. Check the error details for the reason. |
+
+## Status transitions
+
+### Draft to Scheduled
+
+When you set a date/time and click **Schedule**, the post moves from Draft to Scheduled. It appears on your Calendar with a blue indicator.
+
+You can still edit the content and reschedule while in this status.
+
+### Scheduled to Queue
+
+At the scheduled time, the post automatically enters the Queue. Postzee's background workers pick it up and begin the publishing process.
+
+This transition is automatic — no action needed from you.
+
+### Queue to Published
+
+The worker sends your content to the platform's API (Instagram, TikTok, LinkedIn, etc.). On success, the post moves to Published and the purple indicator appears on your Calendar.
+
+### Queue to Error
+
+If the platform's API rejects the post or a connection issue occurs, the post moves to Error status. The specific error reason is saved so you can diagnose the problem.
+
+## What you can do at each status
+
+| Action | Draft | Scheduled | Published | Error |
+|--------|:---:|:---:|:---:|:---:|
+| Edit content | Yes | Yes | — | — |
+| Reschedule | Yes | Yes | — | — |
+| Drag on calendar | Yes | Yes | — | — |
+| Delete | Yes | Yes | Yes | Yes |
+| Retry | — | — | — | Yes |
+| View details | Yes | Yes | Yes | Yes |
+
+## Handling errors
+
+When a post fails, here's how to fix it:
+
+1. Find the post on your Calendar (it has a red indicator)
+2. Click on it to see the **error details**
+3. Fix the underlying issue based on the error reason
+4. Click **Retry** to attempt publishing again
+
+### Common error reasons
+
+| Error | Cause | Solution |
+|-------|-------|----------|
+| **Channel disconnected** | OAuth token expired or revoked | Go to **Channels** → reconnect the account |
+| **Channel disabled** | The channel was manually disabled | Go to **Channels** → enable the channel |
+| **Content rejected** | Platform rejected the content (format, size, policy) | Edit the post to match the platform's requirements |
+| **Rate limited** | Too many posts sent to the platform in a short time | Wait a few minutes and retry |
+| **Account blocked** | Your Postzee account has a billing or policy issue | Check your account status in **Settings** |
+
+## Multi-channel post behavior
+
+When you publish to multiple channels simultaneously:
+
+- Each channel is processed independently
+- If one channel fails, the others still publish successfully
+- Failed channels show an Error status — you can retry them individually
+- All posts in the same group share a **group ID** linking them together
+
+### Example
+
+You schedule a post for Instagram, LinkedIn, and X (Twitter) at 10:00 AM:
+
+| Channel | Result | Status |
+|---------|--------|--------|
+| Instagram | Delivered successfully | Published |
+| LinkedIn | Delivered successfully | Published |
+| X (Twitter) | Token expired | Error |
+
+In this case, you only need to reconnect your X (Twitter) account and retry that single post. Instagram and LinkedIn are already live.
+
+## Deletion
+
+When you delete a post:
+
+- **Draft / Scheduled** — the post is removed from your Calendar. Nothing was published.
+- **Published** — the post is removed from Postzee's Calendar, but the content **remains live on the platform**. To remove it from the platform, you need to delete it directly from Instagram, LinkedIn, etc.
+- **Error** — the post is removed. Since it was never published, there's nothing to clean up.
+
+<Note>
+Deleting a post in Postzee does not delete it from the social media platform. If a post was already published, you must remove it directly from the platform.
+</Note>
+
+## Post comments
+
+Team members can leave comments on any post for collaboration:
+
+- Open a post from the Calendar
+- Add a comment in the comment section
+- Comments are visible to all team members
+
+<CardGroup cols={2}>
+  <Card title="Calendar Overview" icon="calendar" href="/calendar/overview">
+    Navigate and manage your content calendar.
+  </Card>
+  <Card title="Connecting Channels" icon="plug" href="/channels/connecting">
+    Fix channel connection issues.
+  </Card>
+</CardGroup>
