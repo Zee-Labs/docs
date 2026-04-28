@@ -1,5 +1,109 @@
 ---
-title: video generation
+title: Video Generation
+icon: video
 ---
 
-Coming soon.
+Generate AI videos directly in Zee Studio. Choose from multiple models optimized for different styles — cinematic motion, fast iterations, professional-grade quality, and more.
+
+## How to generate a video
+
+1. Open **Zee Studio** from the sidebar
+2. Select **AI Video** mode in the creator panel
+3. Choose your generation mode:
+   - **Text to Video** — describe the scene you want in the prompt field
+   - **Image to Video** — attach a reference image and describe the motion you want
+4. Type your prompt (e.g., "A golden sunset over a calm ocean with gentle waves")
+5. *(Optional)* Click the **Enhance with AI** button (✨) to optimize your prompt for video — this adds camera movements, lighting, and motion descriptions automatically
+6. Click the model chip to select an AI model and adjust settings
+7. Check the credit cost displayed on the **Generate** button
+8. Click **Generate**
+9. Wait for processing — video generation typically takes 1-5 minutes depending on the model and duration
+10. Your video appears in **My Creations** when ready
+
+<Note>
+Video generation takes longer than image generation. You can close Zee Studio and come back later — your video will be waiting in **My Creations** when it's done.
+</Note>
+
+## Choosing the right model
+
+| Model | Best for | Duration | Credit cost |
+|-------|----------|----------|-------------|
+| **Sora 2** | Fast, cost-effective video generation | 10s, 15s | ~300-450 credits |
+| **Sora 2 Pro** | Premium cinematic quality, enhanced depth and motion | 10s, 15s | ~450-700 credits |
+| **Veo 3.1** | Smooth, stable video with clear visuals | 4s, 6s, 8s | ~160-400 credits |
+| **Veo 3.1 Fast** | Quick iterations with optional synced audio | 4s, 6s, 8s | ~80-200 credits |
+| **Kling 3.0 Pro** | High-fidelity motion with realistic physics | Variable | ~200-500 credits |
+| **Luma Ray 2** | Artistic, dreamlike video styles | Variable | ~150-400 credits |
+| **Seedance 2.0** | Dance and character animation | Variable | ~150-350 credits |
+| **MiniMax Video** | Versatile video generation | Variable | ~100-300 credits |
+
+<Note>
+Credit costs vary by model, duration, resolution, and quality settings. The exact cost is always shown on the **Generate** button before you confirm.
+</Note>
+
+See the complete list in [Video Models](/ai-models/video-models).
+
+## Model settings
+
+Click the model chip (e.g., **Sora 2**) to open the settings panel:
+
+- **Model selector** — browse and switch between available video models
+- **Duration** — choose video length:
+  - Sora 2 models: 10 seconds or 15 seconds
+  - Veo 3.1 models: 4, 6, or 8 seconds
+- **Aspect ratio** — landscape (16:9), portrait (9:16), or square (1:1)
+- **Resolution** — 720p (HD) or 1080p (Full HD) where supported
+- **Audio generation** — enable synced audio (available on Veo 3.1 Fast)
+- **Negative prompt** — describe what you don't want in the video (supported by some models)
+
+### Recommended aspect ratios by platform
+
+| Platform | Recommended |
+|----------|-------------|
+| Instagram Reels, TikTok, YouTube Shorts | Portrait 9:16 |
+| YouTube, Facebook Video | Landscape 16:9 |
+| Instagram Feed, LinkedIn | Square 1:1 |
+
+## Animating images (Image to Video)
+
+In **Image to Video** mode, you can bring any still image to life:
+
+1. Switch to **Image to Video** in the creator panel
+2. Click the image icon to attach your source image
+3. Describe the motion you want in the prompt (e.g., "The camera slowly zooms in while the leaves gently sway in the wind")
+4. Select a model that supports image-to-video:
+   - **Sora 2** (Image to Video)
+   - **Veo 3.1** (Image to Video)
+5. Click **Generate**
+
+<Note>
+For best results, use high-quality source images. The AI preserves the style and composition of your original image while adding natural motion.
+</Note>
+
+## Tips for better video results
+
+- **Describe the motion** — "The camera pans left to reveal a mountain range" works better than "mountains"
+- **Use the Prompt Optimizer** — it adds camera movements, lighting transitions, and motion dynamics automatically
+- **Specify camera work** — "slow zoom in", "tracking shot", "aerial drone view", "dolly forward"
+- **Mention transitions** — "the scene fades from dawn to sunrise with warm golden light"
+- **Keep it focused** — one clear scene per generation works better than complex multi-scene descriptions
+- **Try different durations** — shorter videos (4-6s) are great for social media loops, longer ones (10-15s) for storytelling
+
+## After generation
+
+Once your video is ready, click on it to:
+
+- **Download** — save to your device as MP4
+- **Create Post** — open the post editor with the video attached
+- **Recreate** — reuse the same model and settings with a new prompt
+- **Use prompt** — copy the prompt to the creator field
+- **Publish** — share to the public Explore gallery
+
+<CardGroup cols={2}>
+  <Card title="Image Generation" icon="image" href="/zee-studio/image-generation">
+    Generate AI images from text or reference images.
+  </Card>
+  <Card title="HeyGen Avatars" icon="user" href="/zee-studio/heygen-avatars">
+    Create videos with talking AI avatars.
+  </Card>
+</CardGroup>
