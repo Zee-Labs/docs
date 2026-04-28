@@ -24,18 +24,24 @@ curl -H "Authorization: YOUR_API_KEY" \
 
 ```json
 {
-  "balance": 4.5,
-  "currency": "USD"
+  "monthlyCredits": 5.0,
+  "purchasedCredits": 2.0,
+  "usedCredits": 0.5,
+  "availableCredits": 6.5,
+  "lastReset": "2026-04-01T00:00:00.000Z"
 }
 ```
 
 | Field | Type | Description |
 |-------|------|-------------|
-| `balance` | number | Available credits in USD (multiply by 1,000 for credit count) |
-| `currency` | string | Always `"USD"` |
+| `monthlyCredits` | number | Monthly credits from your plan (in USD) |
+| `purchasedCredits` | number | Purchased credits that never expire (in USD) |
+| `usedCredits` | number | Credits used in the current billing cycle (in USD) |
+| `availableCredits` | number | Total available credits — monthly + purchased - used (in USD) |
+| `lastReset` | string | ISO timestamp of the last monthly credit reset |
 
 <Note>
-The balance is returned in USD. To convert to credits: `balance × 1,000`. For example, `4.5` USD = `4,500` credits.
+All credit values are in USD. To convert to credit count: `value × 1,000`. For example, `availableCredits: 6.5` = `6,500` credits available.
 </Note>
 
 ---

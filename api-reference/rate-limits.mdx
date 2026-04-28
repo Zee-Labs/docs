@@ -9,14 +9,19 @@ The Postzee API enforces rate limits to ensure fair usage and platform stability
 
 | Endpoint | Limit | Window |
 |----------|-------|--------|
-| **General API** | 60 requests | per minute |
+| **Global default** | 30 requests | per hour |
 | `POST /generate-image` | 10 requests | per minute |
 | `POST /generate-video-ai` | 10 requests | per minute |
 | `POST /generate-heygen-video` | 10 requests | per minute |
 | `POST /enhance-prompt` | 10 requests | per minute |
 | `GET /video-models` | 30 requests | per minute |
+| `GET /image-models` | 30 requests | per minute |
 | `GET /heygen-avatars` | 30 requests | per minute |
 | `GET /heygen-voices` | 30 requests | per minute |
+
+<Note>
+Endpoints with explicit per-minute limits override the global default. Most read endpoints (channels, credits, posts, jobs) fall under the global 30/hour limit. AI generation endpoints have their own higher-frequency limits.
+</Note>
 
 ## MCP server rate limits
 

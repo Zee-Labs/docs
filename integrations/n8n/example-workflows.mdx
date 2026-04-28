@@ -80,7 +80,7 @@ Generate an AI image, then create posts for multiple platforms with platform-opt
 - **Use the Wait node** — add a 15-30 second wait before the first Job Status check to avoid unnecessary polling.
 - **Error handling** — add an IF node after Job Status to handle `status === "failed"` cases.
 - **Dynamic channel selection** — use Get Channels to build dynamic channel lists instead of hardcoding channel IDs.
-- **Rate limits** — Postzee's API allows 60 requests/minute for general endpoints and 10 requests/minute for AI generation. Space out batch operations accordingly.
+- **Rate limits** — Postzee's API allows 30 requests/hour for general endpoints and 10 requests/minute for AI generation. Space out batch operations accordingly.
 
 <CardGroup cols={2}>
   <Card title="Operations Reference" icon="list" href="/integrations/n8n/operations">
