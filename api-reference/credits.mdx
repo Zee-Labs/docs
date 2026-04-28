@@ -1,5 +1,89 @@
 ---
-title: credits
+title: Credits
+icon: coins
 ---
 
-Coming soon.
+Check your AI credit balance and enhance prompts via the API.
+
+## Get credit balance
+
+```
+GET /public/v1/credits
+```
+
+Returns your current credit balance.
+
+### Request
+
+```bash
+curl -H "Authorization: YOUR_API_KEY" \
+  https://api.postzee.app/public/v1/credits
+```
+
+### Response
+
+```json
+{
+  "balance": 4.5,
+  "currency": "USD"
+}
+```
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `balance` | number | Available credits in USD (multiply by 1,000 for credit count) |
+| `currency` | string | Always `"USD"` |
+
+<Note>
+The balance is returned in USD. To convert to credits: `balance × 1,000`. For example, `4.5` USD = `4,500` credits.
+</Note>
+
+---
+
+## Enhance prompt
+
+```
+POST /public/v1/enhance-prompt
+```
+
+Optimize a prompt for better AI generation results. This endpoint is **free** — no credits are consumed.
+
+**Rate limit:** 10 requests per minute.
+
+### Request
+
+```bash
+curl -X POST \
+  -H "Authorization: YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "prompt": "a cat on a windowsill",
+    "mediaType": "image"
+  }' \
+  https://api.postzee.app/public/v1/enhance-prompt
+```
+
+### Parameters
+
+| Parameter | Type | Required | Description |
+|-----------|------|:---:|-------------|
+| `prompt` | string | Yes | The prompt to enhance (max 2,000 characters) |
+| `mediaType` | string | Yes | `"image"` or `"video"` |
+| `model` | string | No | Target AI model ID for model-specific optimization |
+| `stylePreferences` | string | No | Style hints (max 500 characters) |
+| `sourceImageUrls` | string[] | No | Reference image URLs (max 5) |
+
+### Response
+
+```json
+{
+  "enhancedPrompt": "A fluffy ginger cat perched on a sunlit windowsill, warm afternoon light casting soft shadows through lace curtains...",
+  "success": true
+}
+```
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `enhancedPrompt` | string | The optimized prompt |
+| `success` | boolean | Whether enhancement succeeded |
+| `error` | string | Error message (only if `success` is `false`) |

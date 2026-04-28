@@ -1,5 +1,65 @@
 ---
-title: channels
+title: Channels
+icon: share-nodes
 ---
 
-Coming soon.
+Retrieve your connected social media channels.
+
+## List channels
+
+```
+GET /public/v1/integrations
+```
+
+Returns all connected social media channels for your account.
+
+### Request
+
+```bash
+curl -H "Authorization: YOUR_API_KEY" \
+  https://api.postzee.app/public/v1/integrations
+```
+
+### Response
+
+```json
+[
+  {
+    "id": "abc123-def456",
+    "name": "My Instagram",
+    "identifier": "instagram",
+    "picture": "https://...",
+    "disabled": false,
+    "profile": "username",
+    "customer": {
+      "id": "cust-123",
+      "name": "Client A"
+    }
+  },
+  {
+    "id": "ghi789-jkl012",
+    "name": "Company LinkedIn",
+    "identifier": "linkedin-page",
+    "picture": "https://...",
+    "disabled": false,
+    "profile": "Company Name",
+    "customer": null
+  }
+]
+```
+
+### Response fields
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `id` | string | Unique channel ID — use this in Create Post |
+| `name` | string | Channel display name |
+| `identifier` | string | Platform identifier (e.g., `instagram`, `linkedin-page`, `tiktok`, `x`) |
+| `picture` | string | Profile picture URL |
+| `disabled` | boolean | Whether the channel is disabled |
+| `profile` | string | Platform username or page name |
+| `customer` | object/null | Customer grouping (if assigned) |
+
+<Note>
+The `id` field is what you pass as `channelId` when creating posts. The `identifier` field tells you which platform this channel belongs to.
+</Note>

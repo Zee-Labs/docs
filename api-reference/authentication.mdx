@@ -1,5 +1,85 @@
 ---
-title: authentication
+title: Authentication
+icon: lock
 ---
 
-Coming soon.
+The Postzee public API uses **API key authentication**. All endpoints require a valid API key sent in the `Authorization` header.
+
+## Base URL
+
+```
+https://api.postzee.app/public/v1
+```
+
+## Authentication
+
+Include your API key in the `Authorization` header of every request:
+
+```bash
+curl -H "Authorization: YOUR_API_KEY" \
+  https://api.postzee.app/public/v1/credits
+```
+
+<Warning>
+Do **not** use the `Bearer` prefix. Send the API key directly as the header value.
+</Warning>
+
+## Creating an API key
+
+1. Log in to [Postzee](https://dashboard.postzee.app)
+2. Open the account drawer (click your avatar in the top-right)
+3. Go to **Settings** → **API** tab
+4. Click **Create API Key**
+5. Copy the key immediately — it will only be shown once
+
+## Requirements
+
+- A **paid plan** (Standard or higher) — the Free plan does not include API access
+- An **active subscription** — expired subscriptions cannot use the API
+- Account must **not be blocked**
+
+## Error responses
+
+| Status | Meaning |
+|--------|---------|
+| `401` | Missing or invalid API key |
+| `401` | No active subscription |
+| `403` | Account blocked |
+| `429` | Rate limit exceeded |
+
+All error responses follow this format:
+
+```json
+{
+  "statusCode": 401,
+  "message": "Unauthorized"
+}
+```
+
+## Testing your connection
+
+Use the health check endpoint to verify your API key works:
+
+```bash
+curl -H "Authorization: YOUR_API_KEY" \
+  https://api.postzee.app/public/v1/is-connected
+```
+
+**Success response:**
+```json
+{
+  "connected": true
+}
+```
+
+## Available endpoints
+
+| Group | Endpoints |
+|-------|-----------|
+| [Posts](/api-reference/posts) | Create, list, delete posts |
+| [Channels](/api-reference/channels) | List connected channels |
+| [Media](/api-reference/media) | Generate images, videos, upload files |
+| [Credits](/api-reference/credits) | Check balance, enhance prompts |
+| [Jobs](/api-reference/jobs) | Poll async generation tasks |
+
+See [Rate Limits](/api-reference/rate-limits) for request limits per endpoint.

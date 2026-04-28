@@ -1,5 +1,133 @@
 ---
-title: jous
+title: Jobs
+icon: spinner
 ---
 
-Coming soon.
+Poll the status of async AI generation tasks. Image and video generation are asynchronous — they return a `jobId` immediately, and you poll this endpoint to check when the result is ready.
+
+## Get job status
+
+```
+GET /public/v1/jobs/:jobId/status
+```
+
+Check the progress of an image or video generation job.
+
+### Request
+
+```bash
+curl -H "Authorization: YOUR_API_KEY" \
+  https://api.postzee.app/public/v1/jobs/task-uuid-here/status
+```
+
+### Parameters
+
+| Parameter | Type | Required | Description |
+|-----------|------|:---:|-------------|
+| `jobId` | string (path) | Yes | Job ID from Generate Image or Generate Video |
+
+### Response — Processing
+
+```json
+{
+  "jobId": "task-uuid-here",
+  "jobType": "task",
+  "status": "processing",
+  "progress": 45
+}
+```
+
+### Response — Success (single image/video)
+
+```json
+{
+  "jobId": "task-uuid-here",
+  "jobType": "task",
+  "status": "success",
+  "progress": 100,
+  "medias": [
+    {
+      "id": "media-uuid",
+      "path": "https://cdn.postzee.app/generated/image.jpg",
+      "type": "image"
+    }
+  ]
+}
+```
+
+### Response — Success (batch)
+
+When generating multiple images (via `generate-media` with `quantity > 1`):
+
+```json
+{
+  "jobId": "group-uuid-here",
+  "jobType": "group",
+  "status": "complete",
+  "completed": 4,
+  "total": 4,
+  "medias": [
+    {
+      "id": "media-uuid-1",
+      "path": "https://cdn.postzee.app/generated/image1.jpg",
+      "type": "image",
+      "order": 0
+    },
+    {
+      "id": "media-uuid-2",
+      "path": "https://cdn.postzee.app/generated/image2.jpg",
+      "type": "image",
+      "order": 1
+    }
+  ]
+}
+```
+
+### Response — Failed
+
+```json
+{
+  "jobId": "task-uuid-here",
+  "jobType": "task",
+  "status": "failed",
+  "error": "Generation failed: insufficient credits"
+}
+```
+
+### Response fields
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `jobId` | string | The job identifier |
+| `jobType` | string | `"task"` (single) or `"group"` (batch) |
+| `status` | string | `"processing"`, `"success"`, `"complete"`, or `"failed"` |
+| `progress` | number | Progress percentage (0-100), for single tasks |
+| `completed` | number | Number of completed items, for batch jobs |
+| `total` | number | Total items in batch |
+| `medias` | array | Generated media objects (only when done) |
+| `medias[].id` | string | Media ID — use in Create Post to attach |
+| `medias[].path` | string | CDN URL to download the media |
+| `medias[].type` | string | `"image"` or `"video"` |
+| `error` | string | Error description (only when failed) |
+
+## Recommended polling pattern
+
+```
+1. Call generate-image or generate-video-ai → get jobId
+2. Wait 5-10 seconds
+3. Call GET /jobs/{jobId}/status
+4. If status === "processing" → wait 5 seconds, poll again
+5. If status === "success" → use medias[].path or medias[].id
+6. If status === "failed" → read error, retry or abort
+```
+
+<Note>
+Image generation typically takes 10-30 seconds. Video generation takes 1-5 minutes depending on the model and duration. Avoid polling faster than every 5 seconds to stay within rate limits.
+</Note>
+
+### Error codes
+
+| Status | Meaning |
+|--------|---------|
+| `200` | Job found, status returned |
+| `404` | Job not found (invalid ID or expired) |

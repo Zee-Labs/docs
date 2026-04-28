@@ -1,5 +1,209 @@
 ---
-title: posts
+title: Posts
+icon: paper-plane
 ---
 
-Coming soon.
+Create, list, and delete social media posts via the API.
+
+## Create post
+
+```
+POST /public/v1/posts
+```
+
+Create a new post as a draft, schedule it for later, or publish immediately.
+
+### Request
+
+```bash
+curl -X POST \
+  -H "Authorization: YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "type": "schedule",
+    "date": "2026-05-01T14:00:00Z",
+    "posts": [
+      {
+        "integration": { "id": "channel-uuid" },
+        "value": [
+          {
+            "content": "Check out our latest product launch!",
+            "id": "unique-uuid",
+            "image": []
+          }
+        ]
+      }
+    ]
+  }' \
+  https://api.postzee.app/public/v1/posts
+```
+
+### Parameters
+
+| Parameter | Type | Required | Description |
+|-----------|------|:---:|-------------|
+| `type` | string | Yes | `"now"` (publish immediately), `"schedule"`, or `"draft"` |
+| `date` | string | Schedule only | UTC datetime in ISO 8601 format (e.g., `"2026-05-01T14:00:00Z"`) |
+| `posts` | array | Yes | Array of post objects (one per channel) |
+| `posts[].integration.id` | string | Yes | Channel ID from the [Channels endpoint](/api-reference/channels) |
+| `posts[].value[].content` | string | Yes | Post text content |
+| `posts[].value[].id` | string | Yes | Unique identifier (UUID) for this content block |
+| `posts[].value[].image` | array | No | Array of media objects to attach |
+| `posts[].settings` | object | No | Platform-specific settings (see below) |
+| `tags` | array | No | Content tags (`[{ "value": "id", "label": "name" }]`) |
+| `shortLink` | boolean | No | Enable URL shortening and click tracking |
+
+### Platform-specific settings
+
+Include these in `posts[].settings` for platform-specific features:
+
+**TikTok:**
+```json
+{
+  "tiktok": {
+    "title": "Video title",
+    "privacy_level": "PUBLIC_TO_EVERYONE",
+    "duet": true,
+    "stitch": true,
+    "comment": true
+  }
+}
+```
+
+**YouTube:**
+```json
+{
+  "youtube": {
+    "title": "Video title",
+    "type": "public",
+    "tags": [{ "value": "tag1", "label": "Tag 1" }]
+  }
+}
+```
+
+**Instagram:**
+```json
+{
+  "instagram": {
+    "post_type": "post",
+    "collaborators": [{ "label": "@username" }]
+  }
+}
+```
+
+**LinkedIn:**
+```json
+{
+  "linkedin": {
+    "post_as_images_carousel": true
+  }
+}
+```
+
+### Response
+
+Returns the created post object with `id`, `status`, and scheduled date.
+
+---
+
+## List posts
+
+```
+GET /public/v1/posts
+```
+
+Retrieve posts within a date range.
+
+### Request
+
+```bash
+curl -H "Authorization: YOUR_API_KEY" \
+  "https://api.postzee.app/public/v1/posts?startDate=2026-04-01T00:00:00Z&endDate=2026-04-30T23:59:59Z"
+```
+
+### Query parameters
+
+| Parameter | Type | Required | Description |
+|-----------|------|:---:|-------------|
+| `startDate` | string | Yes | Start date (ISO 8601) |
+| `endDate` | string | Yes | End date (ISO 8601) |
+| `customer` | string | No | Filter by customer/group ID |
+
+### Response
+
+```json
+{
+  "posts": [
+    {
+      "id": "post-uuid",
+      "content": "Post text content...",
+      "status": "published",
+      "publishDate": "2026-04-15T14:00:00Z",
+      "integration": {
+        "id": "channel-uuid",
+        "name": "My Instagram",
+        "identifier": "instagram"
+      }
+    }
+  ]
+}
+```
+
+---
+
+## Delete post
+
+```
+DELETE /public/v1/posts/:id
+```
+
+Delete a post by ID.
+
+### Request
+
+```bash
+curl -X DELETE \
+  -H "Authorization: YOUR_API_KEY" \
+  https://api.postzee.app/public/v1/posts/post-uuid-here
+```
+
+### Parameters
+
+| Parameter | Type | Required | Description |
+|-----------|------|:---:|-------------|
+| `id` | string (path) | Yes | The post ID to delete |
+
+### Response
+
+Returns `200 OK` on success.
+
+<Note>
+Deleting a published post removes it from Postzee but does **not** remove it from the social media platform. To remove published content, you must delete it directly on the platform.
+</Note>
+
+---
+
+## Find best time
+
+```
+GET /public/v1/find-slot/:id
+```
+
+Find the least congested time slot for posting.
+
+### Request
+
+```bash
+curl -H "Authorization: YOUR_API_KEY" \
+  https://api.postzee.app/public/v1/find-slot/channel-uuid
+```
+
+### Response
+
+```json
+{
+  "date": "2026-05-01T10:00:00Z"
+}
+```
+
+Returns a suggested UTC datetime when your calendar is least busy.

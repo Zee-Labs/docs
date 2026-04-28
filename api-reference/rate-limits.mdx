@@ -1,5 +1,73 @@
 ---
-title: rate limits
+title: Rate Limits
+icon: gauge-high
 ---
 
-Coming soon.
+The Postzee API enforces rate limits to ensure fair usage and platform stability. Limits vary by endpoint type.
+
+## Rate limits by endpoint
+
+| Endpoint | Limit | Window |
+|----------|-------|--------|
+| **General API** | 60 requests | per minute |
+| `POST /generate-image` | 10 requests | per minute |
+| `POST /generate-video-ai` | 10 requests | per minute |
+| `POST /generate-heygen-video` | 10 requests | per minute |
+| `POST /enhance-prompt` | 10 requests | per minute |
+| `GET /video-models` | 30 requests | per minute |
+| `GET /heygen-avatars` | 30 requests | per minute |
+| `GET /heygen-voices` | 30 requests | per minute |
+
+## MCP server rate limits
+
+| Transport | Limit | Window |
+|-----------|-------|--------|
+| **SSE** (Server-Sent Events) | 30 requests | per minute |
+| **HTTP POST** | 60 requests | per minute |
+
+## Rate limit headers
+
+When you approach or exceed a rate limit, the API returns standard rate limit headers:
+
+| Header | Description |
+|--------|-------------|
+| `X-RateLimit-Limit` | Maximum requests allowed in the window |
+| `X-RateLimit-Remaining` | Requests remaining in the current window |
+| `X-RateLimit-Reset` | Unix timestamp when the window resets |
+
+## Exceeding the limit
+
+When you exceed the rate limit, the API returns:
+
+```
+HTTP 429 Too Many Requests
+```
+
+```json
+{
+  "statusCode": 429,
+  "message": "ThrottlerException: Too Many Requests"
+}
+```
+
+**What to do:** Wait for the rate limit window to reset (check the `X-RateLimit-Reset` header), then retry your request.
+
+## Best practices
+
+- **Space out AI generation requests** — limit to 10 per minute for image/video generation
+- **Cache model lists** — the available models don't change frequently, so cache responses from `/image-models` and `/video-models`
+- **Poll job status reasonably** — check every 5-10 seconds, not every second
+- **Use batch operations** — when generating multiple images, use `generate-media` with `quantity: 2-4` instead of multiple `generate-image` calls
+- **Handle 429 gracefully** — implement exponential backoff when rate limited
+
+## Limits by plan
+
+Rate limits are the same across all paid plans. The API is not available on the Free plan.
+
+| Plan | API Access | Rate limits |
+|------|-----------|-------------|
+| Free | No | — |
+| Standard | Yes | Standard limits |
+| Team | Yes | Standard limits |
+| Pro | Yes | Standard limits |
+| Ultimate | Yes | Standard limits |
