@@ -1,5 +1,102 @@
 ---
-title: platform settings
+title: Platform Settings
+icon: gear
 ---
 
-Coming soon.
+Each platform has unique features and requirements. Postzee lets you configure platform-specific settings per channel so your content is optimized for every platform you publish to.
+
+## How to access
+
+1. Go to **Channels** in the left sidebar
+2. Click on a channel to open its settings
+3. Configure the available options for that platform
+
+## Settings by platform
+
+### TikTok
+
+TikTok requires content disclosure settings for every video posted through its API:
+
+| Setting | Options | Description |
+|---------|---------|-------------|
+| **Privacy** | Public, Mutual Follow Friends, Followers Only, Private | Who can see your video |
+| **Allow Duets** | On / Off | Whether others can create duets with your video |
+| **Allow Stitches** | On / Off | Whether others can stitch your video |
+| **Allow Comments** | On / Off | Whether viewers can comment |
+| **Auto-add Music** | Yes / No | Let TikTok add background music |
+| **Brand Content** | On / Off | Disclose branded/sponsored content |
+| **Made with AI** | On / Off | Disclose AI-generated content |
+
+<Note>
+TikTok's API compliance requires these disclosure settings. They cannot be simplified or skipped. Postzee validates them before every publish.
+</Note>
+
+### YouTube
+
+| Setting | Options | Description |
+|---------|---------|-------------|
+| **Title** | Text (2-100 characters) | Video title — required for all YouTube uploads |
+| **Visibility** | Public, Private, Unlisted | Who can see your video |
+| **Thumbnail** | Image upload | Custom video thumbnail |
+| **Tags** | Text tags | Searchable keywords for discovery |
+
+### Instagram
+
+| Setting | Options | Description |
+|---------|---------|-------------|
+| **Post Type** | Feed Post, Story | Where the content appears |
+| **Collaborators** | Account tags | Tag collaborator accounts on the post |
+
+### LinkedIn
+
+| Setting | Options | Description |
+|---------|---------|-------------|
+| **Image Carousel** | On / Off | Display multiple images as a swipeable carousel |
+
+### Mastodon
+
+For self-hosted Mastodon instances:
+
+| Setting | Description |
+|---------|-------------|
+| **Instance URL** | Your Mastodon server address (e.g., `mastodon.social`) |
+
+### WordPress
+
+| Setting | Description |
+|---------|-------------|
+| **Site URL** | Your WordPress site address |
+| **Authentication** | Application password or OAuth credentials |
+
+## Per-post vs per-channel settings
+
+- **Per-channel settings** are configured once in the Channels page and apply as defaults to all posts
+- **Per-post settings** can override channel defaults when creating individual posts in the Post Editor
+
+For example, you might set your TikTok channel's default privacy to "Public" but override it to "Followers Only" for a specific post.
+
+## Channel profile
+
+Some platforms allow you to update your profile directly from Postzee:
+
+| Feature | Description |
+|---------|-------------|
+| **Profile picture** | Update your channel's avatar (supported platforms only) |
+| **Display name** | Change the channel's nickname in Postzee |
+
+## Posting times
+
+Configure preferred posting times per channel:
+
+- Set specific hours when content should be published
+- Used by the **Find Best Time** feature when scheduling posts
+- Helps spread your content across optimal time slots
+
+<CardGroup cols={2}>
+  <Card title="Connecting Channels" icon="plug" href="/channels/connecting">
+    Connect new social media accounts.
+  </Card>
+  <Card title="Post Editor" icon="pen-to-square" href="/calendar/post-editor">
+    Use platform settings when creating posts.
+  </Card>
+</CardGroup>

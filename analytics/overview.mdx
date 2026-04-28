@@ -1,5 +1,87 @@
 ---
-title: overview
+title: Analytics Overview
+icon: chart-mixed
 ---
 
-Coming soon.
+Track the performance of your social media content with Postzee's built-in analytics. See engagement metrics, audience insights, and content performance across all your connected channels.
+
+## How to access
+
+Click **Analytics** in the left sidebar. Select a channel to view its metrics, or see an aggregate view across all channels.
+
+## Available metrics
+
+Analytics data comes directly from each platform's API. The metrics available depend on the platform:
+
+### Common metrics
+
+| Metric | Description |
+|--------|-------------|
+| **Impressions** | How many times your content was displayed |
+| **Reach** | How many unique accounts saw your content |
+| **Engagement** | Total interactions (likes, comments, shares, saves) |
+| **Engagement Rate** | Engagement divided by reach or impressions |
+| **Followers** | Current follower count and growth over time |
+| **Clicks** | Link clicks and profile visits |
+
+### Platform-specific metrics
+
+| Platform | Additional Metrics |
+|----------|-------------------|
+| **Instagram** | Story views, Reel plays, Saves, Profile visits |
+| **Facebook** | Page likes, Post reach, Video views |
+| **LinkedIn** | Post impressions, Click-through rate |
+| **YouTube** | Watch time, Subscribers, Video views |
+| **X (Twitter)** | Tweet impressions, Profile visits, Mentions |
+| **TikTok** | Video views, Shares, Watch time |
+
+## Filtering data
+
+Use the controls at the top of the Analytics page to filter:
+
+| Filter | Options |
+|--------|---------|
+| **Channel** | Select a specific channel or view all |
+| **Date range** | Custom date range picker |
+| **Metric type** | Focus on specific metrics |
+
+## Data freshness
+
+Analytics data is cached for performance:
+
+- Data refreshes **every hour** in production
+- Metrics are pulled from each platform's API at regular intervals
+- Some platforms may have their own delays in reporting (e.g., Instagram metrics can take up to 24 hours)
+
+<Note>
+Analytics availability depends on the platform's API. Some platforms provide more detailed metrics than others. Postzee shows all available data from each connected channel.
+</Note>
+
+## Post performance
+
+Beyond channel-level analytics, you can track individual post performance:
+
+- **Click tracking** — posts with short links include click statistics
+- **Publishing status** — see which posts succeeded or failed across channels
+- **Cross-channel comparison** — compare how the same content performs on different platforms
+
+## Plans with analytics
+
+Analytics are available on all paid plans:
+
+| Plan | Analytics Access |
+|------|-----------------|
+| **Free** | Not available |
+| **Standard** | Full analytics |
+| **Team** | Full analytics |
+| **Pro** | Full analytics |
+| **Ultimate** | Full analytics |
+
+<CardGroup cols={2}>
+  <Card title="Calendar Overview" icon="calendar" href="/calendar/overview">
+    View your content calendar alongside analytics.
+  </Card>
+  <Card title="Channels Overview" icon="share-nodes" href="/channels/overview">
+    Manage the channels you're tracking.
+  </Card>
+</CardGroup>

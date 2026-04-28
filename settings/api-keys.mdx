@@ -1,5 +1,100 @@
 ---
-title: api keys
+title: API Keys
+icon: key
 ---
 
-Coming soon.
+Create and manage API keys to access Postzee's public REST API programmatically. Use API keys to automate content creation, integrate with external tools, or build custom workflows.
+
+## How to access
+
+Go to **Settings** → **API Keys** in the sidebar.
+
+<Note>
+API key management requires **Admin** or **Super Admin** role. Team members with the User role cannot view or create API keys.
+</Note>
+
+## Creating an API key
+
+1. Go to **Settings** → **API Keys**
+2. Click **Create API Key**
+3. Enter a name for your key (minimum 4 characters) — use a descriptive name like "n8n automation" or "custom script"
+4. Click **Create**
+5. **Copy the key immediately** — it will only be shown once
+
+<Warning>
+Store your API key securely. It provides full API access to your account. Never share it publicly or commit it to version control.
+</Warning>
+
+## Using your API key
+
+Include the API key in the `Authorization` header of your API requests:
+
+```bash
+curl -H "Authorization: YOUR_API_KEY" \
+  https://api.postzee.app/public/v1/credits
+```
+
+<Note>
+Do not use the `Bearer` prefix — pass the API key directly as the Authorization header value.
+</Note>
+
+## What you can do with the API
+
+The public API gives you programmatic access to:
+
+| Endpoint | Description |
+|----------|-------------|
+| **Create Post** | Schedule or publish posts to your channels |
+| **Generate Image** | Generate AI images with any available model |
+| **Generate Video** | Generate AI videos |
+| **List Channels** | Get all connected channels |
+| **Get Credits** | Check your current credit balance |
+| **Enhance Prompt** | Optimize prompts with the Prompt Optimizer |
+| **Check Job Status** | Monitor async generation tasks |
+
+See the complete [API Reference](/api-reference/authentication) for all endpoints.
+
+## Managing API keys
+
+- **View** — see all active API keys and their names
+- **Delete** — revoke an API key permanently (any integrations using it will stop working)
+- **Regenerate** — delete the old key and create a new one
+
+## Plans with API access
+
+| Plan | API Access |
+|------|-----------|
+| **Free** | — |
+| **Standard** | Yes |
+| **Team** | Yes |
+| **Pro** | Yes |
+| **Ultimate** | Yes |
+
+## Rate limits
+
+API requests are rate-limited to protect the platform:
+
+| Endpoint type | Limit |
+|--------------|-------|
+| **General requests** | 60 requests/minute |
+| **AI generation** | 10 requests/minute |
+| **Prompt enhancement** | 10 requests/minute |
+
+See [Rate Limits](/api-reference/rate-limits) for details.
+
+## Integrations that use API keys
+
+Postzee API keys are used by:
+
+- **[n8n Integration](/integrations/n8n/overview)** — automate workflows with the custom Postzee node
+- **[AI Agents (MCP)](/integrations/mcp/overview)** — connect Claude Code, OpenClaw, and other AI agents
+- **Custom scripts** — build your own automations with the REST API
+
+<CardGroup cols={2}>
+  <Card title="API Reference" icon="code" href="/api-reference/authentication">
+    Full API documentation and endpoints.
+  </Card>
+  <Card title="n8n Integration" icon="arrows-rotate" href="/integrations/n8n/overview">
+    Automate Postzee with n8n workflows.
+  </Card>
+</CardGroup>

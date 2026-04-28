@@ -1,5 +1,128 @@
 ---
-title: connecting
+title: Connecting Channels
+icon: plug
 ---
 
-Coming soon.
+Connect your social media accounts to Postzee so you can publish content from one dashboard. Each platform uses a secure OAuth authorization flow — Postzee never sees or stores your password.
+
+## How to connect a channel
+
+1. Go to **Channels** in the left sidebar
+2. Click **Add Channel**
+3. Select the platform you want to connect (e.g., Instagram, LinkedIn, TikTok)
+4. You'll be redirected to the platform's login page
+5. Log in and **authorize** Postzee to access your account
+6. You're redirected back to Postzee — your channel is now connected
+
+<Note>
+Some platforms (like Instagram and Facebook) share the same authorization flow via Facebook Business. Connecting one may give you access to connect the other.
+</Note>
+
+## Platform-specific instructions
+
+### Instagram
+
+1. Click **Add Channel** → **Instagram**
+2. Log in with your **Facebook** account (Instagram business profiles are managed through Facebook)
+3. Select the Instagram Business or Creator profile you want to connect
+4. Authorize the required permissions
+5. Your Instagram channel appears in the list
+
+<Note>
+Instagram requires a **Business** or **Creator** profile connected to a Facebook Page. Personal Instagram accounts cannot be connected via the API.
+</Note>
+
+### Facebook
+
+1. Click **Add Channel** → **Facebook**
+2. Log in with your Facebook account
+3. Select the **Page** or **Group** you want to manage
+4. Authorize permissions
+5. Your Facebook channel is ready
+
+### TikTok
+
+1. Click **Add Channel** → **TikTok**
+2. Log in with your TikTok account
+3. Authorize Postzee
+4. Configure content disclosure settings (required by TikTok's API)
+5. Your TikTok channel is connected
+
+### LinkedIn
+
+1. Click **Add Channel** → **LinkedIn**
+2. Log in with your LinkedIn account
+3. Choose between your **Personal Profile** or a **Company Page**
+4. Authorize permissions
+5. Your LinkedIn channel is ready
+
+### YouTube
+
+1. Click **Add Channel** → **YouTube**
+2. Log in with your Google account
+3. Select the YouTube channel you want to manage
+4. Authorize permissions
+5. Your YouTube channel is connected
+
+### X (Twitter)
+
+1. Click **Add Channel** → **X (Twitter)**
+2. Log in with your X account
+3. Authorize Postzee
+4. Your X channel is ready
+
+### Other platforms
+
+For platforms like Pinterest, Threads, Bluesky, Discord, Telegram, Slack, Reddit, Mastodon, and others — the flow is similar:
+
+1. Click **Add Channel** → select the platform
+2. Complete the platform's authorization or provide the required credentials
+3. The channel appears in your list
+
+Some platforms (Discord, Telegram, Slack) use **webhook-based** connections instead of OAuth — you'll be guided through the setup.
+
+For self-hosted platforms like **Mastodon** or **WordPress**, you'll need to provide your instance URL during setup.
+
+## Multiple accounts
+
+You can connect multiple accounts from the same platform. For example:
+
+- 2 Instagram Business profiles
+- 3 LinkedIn Company Pages
+- 1 TikTok account
+
+Each connection counts as one channel toward your plan's limit.
+
+## Reconnecting a channel
+
+OAuth tokens can expire or be revoked. When this happens, the channel shows a **Needs Reconnection** indicator.
+
+To fix it:
+
+1. Go to **Channels**
+2. Find the channel with the reconnection warning
+3. Click **Reconnect**
+4. Complete the OAuth flow again
+5. The channel is restored with all its settings intact
+
+<Note>
+Scheduled posts for a disconnected channel will fail when their publish time arrives. Reconnect the channel before the scheduled time to avoid errors.
+</Note>
+
+## Troubleshooting
+
+| Problem | Solution |
+|---------|----------|
+| Authorization fails | Make sure you're logging into the correct account on the platform |
+| Instagram not showing | Ensure your Instagram is a Business or Creator profile linked to a Facebook Page |
+| Channel shows "Needs Reconnection" | The token expired — click Reconnect to re-authorize |
+| Platform not in the list | Check [Supported Platforms](/get-started/supported-platforms) for the full list, or contact support |
+
+<CardGroup cols={2}>
+  <Card title="Channels Overview" icon="share-nodes" href="/channels/overview">
+    Manage and organize your connected channels.
+  </Card>
+  <Card title="Platform Settings" icon="gear" href="/channels/platform-settings">
+    Configure per-platform options after connecting.
+  </Card>
+</CardGroup>
