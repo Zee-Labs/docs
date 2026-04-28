@@ -1,5 +1,89 @@
 ---
-title: openclaw
+title: OpenClaw
+icon: plug
 ---
 
-Coming soon.
+Connect Postzee to **OpenClaw** to generate AI media and manage social media posts through your OpenClaw AI agent.
+
+## Installation
+
+Install the Postzee plugin from ClawHub:
+
+```bash
+openclaw plugins install @zeelabs/openclaw-postzee
+openclaw gateway restart
+```
+
+## Configuration
+
+Add your Postzee API key to the OpenClaw configuration:
+
+```json
+{
+  "plugins": {
+    "entries": {
+      "postzee": {
+        "enabled": true,
+        "config": {
+          "apiKey": "YOUR_POSTZEE_API_KEY"
+        }
+      }
+    }
+  }
+}
+```
+
+### Getting your API key
+
+1. Log in to [Postzee](https://dashboard.postzee.app)
+2. Open the account drawer → **Settings** → **API** tab
+3. Click **Reveal** and copy the API key
+4. Paste it in the `apiKey` field above
+
+<Note>
+Copy the **API Key** value, not the MCP URL. The plugin handles the connection configuration automatically.
+</Note>
+
+## Available tools
+
+Once installed, the following tools are available to your OpenClaw agent:
+
+| Tool | Description |
+|------|-------------|
+| `postzee_list_channels` | List connected social media channels |
+| `postzee_get_credits` | Check AI credit balance |
+| `postzee_list_image_models` | List available image models |
+| `postzee_list_video_models` | List available video models |
+| `postzee_enhance_prompt` | Optimize prompts for better results (free) |
+| `postzee_generate_image` | Generate an AI image |
+| `postzee_generate_video` | Generate an AI video |
+| `postzee_check_job` | Check generation job status |
+| `postzee_create_post` | Create, schedule, or publish a post |
+
+## Usage examples
+
+Once configured, interact with Postzee through your OpenClaw agent:
+
+- "List my connected social media channels"
+- "Generate a professional product photo of a coffee cup"
+- "Post a sunset image to my LinkedIn with the caption 'Another beautiful day'"
+- "How many credits do I have?"
+- "Generate a 10-second video of ocean waves"
+
+## Plugin details
+
+| Property | Value |
+|----------|-------|
+| **Package** | `@zeelabs/openclaw-postzee` |
+| **Plugin ID** | `postzee` |
+| **Tools** | 9 |
+| **Compatibility** | OpenClaw 2026.3.24-beta.2+ |
+
+<CardGroup cols={2}>
+  <Card title="Tools Reference" icon="wrench" href="/integrations/mcp/tools-reference">
+    Complete reference for all 9 tools.
+  </Card>
+  <Card title="Claude Code" icon="terminal" href="/integrations/mcp/claude-code">
+    Connect Postzee to Claude Code instead.
+  </Card>
+</CardGroup>

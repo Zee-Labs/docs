@@ -1,5 +1,92 @@
 ---
-title: example workflows
+title: Example Workflows
+icon: diagram-project
 ---
 
-Coming soon.
+Ready-to-use workflow patterns for common automation scenarios with the Postzee n8n node.
+
+## 1. Generate AI image and post to Instagram
+
+Automatically generate an AI image and publish it to Instagram.
+
+**Workflow steps:**
+
+1. **Trigger** — Schedule (e.g., every day at 9:00 AM) or manual
+2. **Postzee: Generate Image** — prompt: your text, model: Nano Banana Pro
+3. **Wait** — 30 seconds (for generation to complete)
+4. **Postzee: Job Status** — check if image is ready
+5. **IF** — status = "success"
+6. **Postzee: Create Post** — type: "now", channel: Instagram, media: mediaId from step 4
+
+**Key configuration:**
+- Use the **Job Status** node in a loop to poll until `status === "success"`
+- Pass the `mediaId` from Job Status to Create Post
+
+## 2. RSS feed to social media
+
+Automatically post new RSS feed items to multiple social channels.
+
+**Workflow steps:**
+
+1. **RSS Feed Trigger** — watch your blog or news feed
+2. **Postzee: Get Channels** — get available channels
+3. **Postzee: Create Post** — for each new RSS item:
+   - `type`: "now"
+   - `content`: RSS title + link
+   - `channel`: target channel ID
+
+## 3. Bulk schedule weekly content
+
+Prepare and schedule a week's worth of content in one batch.
+
+**Workflow steps:**
+
+1. **Google Sheets** — read content plan (columns: date, time, text, channel, image prompt)
+2. **Loop** — for each row:
+   - **Postzee: Generate Image** — use the image prompt
+   - **Wait + Job Status** — poll until ready
+   - **Postzee: Create Post** — type: "schedule", date: from spreadsheet, media: generated image
+
+## 4. AI image generation pipeline
+
+Generate multiple AI images with different models and styles for A/B testing.
+
+**Workflow steps:**
+
+1. **Trigger** — manual or webhook
+2. **Split in Batches** — create variations of the same prompt
+3. **Postzee: Generate Image** — different model per batch (Nano Banana Pro, FLUX, Recraft)
+4. **Wait + Job Status** — poll all jobs
+5. **Merge** — collect all generated images
+6. **Postzee: Create Post** — post the best one, or create a carousel
+
+## 5. Content repurposing pipeline
+
+Generate an AI image, then create posts for multiple platforms with platform-optimized content.
+
+**Workflow steps:**
+
+1. **Trigger** — webhook with topic/prompt
+2. **OpenAI Node** — generate platform-specific captions (short for X, longer for LinkedIn)
+3. **Postzee: Generate Image** — generate the visual
+4. **Wait + Job Status** — poll until ready
+5. **Postzee: Create Post (Instagram)** — image + Instagram caption + hashtags
+6. **Postzee: Create Post (LinkedIn)** — same image + LinkedIn caption
+7. **Postzee: Create Post (X)** — same image + short tweet
+
+## Tips for building workflows
+
+- **Always poll Job Status** — image and video generation is async. Never assume the media is ready immediately.
+- **Use the Wait node** — add a 15-30 second wait before the first Job Status check to avoid unnecessary polling.
+- **Error handling** — add an IF node after Job Status to handle `status === "failed"` cases.
+- **Dynamic channel selection** — use Get Channels to build dynamic channel lists instead of hardcoding channel IDs.
+- **Rate limits** — Postzee's API allows 60 requests/minute for general endpoints and 10 requests/minute for AI generation. Space out batch operations accordingly.
+
+<CardGroup cols={2}>
+  <Card title="Operations Reference" icon="list" href="/integrations/n8n/operations">
+    Detailed reference for all 9 operations.
+  </Card>
+  <Card title="API Reference" icon="code" href="/api-reference/authentication">
+    Use the REST API directly for custom integrations.
+  </Card>
+</CardGroup>

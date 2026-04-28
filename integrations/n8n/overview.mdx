@@ -1,5 +1,53 @@
 ---
-title: overview
+title: n8n Integration
+icon: arrows-rotate
 ---
 
-Coming soon.
+Automate your social media workflows with Postzee's custom **n8n node**. Create posts, generate AI media, manage channels, and build complex automation pipelines — all without writing code.
+
+## What is n8n?
+
+[n8n](https://n8n.io) is an open-source workflow automation platform. It lets you connect apps and services together with visual workflows. Postzee's custom n8n node brings all of Postzee's features into your automation pipelines.
+
+## What you can automate
+
+With the Postzee n8n node, you can:
+
+- **Create and schedule posts** to any connected channel
+- **Generate AI images** with any of Postzee's 17 image models
+- **Generate AI videos** with 30+ video models
+- **Generate avatar videos** with HeyGen
+- **Upload files** to your media library
+- **List channels** to dynamically select publishing targets
+- **Check job status** to wait for AI generation to complete
+- **Get posts** to retrieve existing scheduled or published content
+- **Delete posts** to clean up content
+
+## Available operations
+
+| Operation | Description |
+|-----------|-------------|
+| **Create Post** | Schedule, publish, or draft a post to one or more channels |
+| **Delete Post** | Delete a scheduled or published post |
+| **Generate Image** | Generate an AI image (async — returns job ID) |
+| **Generate Video** | Generate an AI video (async — returns job ID) |
+| **Generate Avatar Video** | Create a HeyGen avatar video |
+| **Get Channels** | List all connected social media channels |
+| **Get Posts** | Retrieve scheduled and published posts |
+| **Job Status** | Check async generation job progress |
+| **Upload File** | Upload an image or video to the media library |
+
+## Requirements
+
+- A **Postzee account** with a paid plan (Standard or higher)
+- An **n8n instance** (self-hosted or n8n Cloud)
+- A **Postzee API key** (create one in Settings → API tab)
+
+<CardGroup cols={2}>
+  <Card title="Setup Guide" icon="wrench" href="/integrations/n8n/setup">
+    Install the Postzee node and configure credentials.
+  </Card>
+  <Card title="Operations" icon="list" href="/integrations/n8n/operations">
+    Detailed reference for all 9 operations.
+  </Card>
+</CardGroup>

@@ -1,5 +1,74 @@
 ---
-title: overview
+title: AI Agents (MCP)
+icon: robot
 ---
 
-Coming soon.
+Postzee includes a built-in **MCP server** (Model Context Protocol) that lets AI agents interact with your Postzee account. Generate images, create videos, publish posts, and manage your social media — all through natural language conversation with your AI agent.
+
+## What is MCP?
+
+The [Model Context Protocol](https://modelcontextprotocol.io) is an open standard for connecting AI models to external tools and data sources. Postzee's MCP server exposes 9 tools that any MCP-compatible AI agent can use.
+
+## Supported AI agents
+
+| Agent | Integration type | Setup time |
+|-------|-----------------|------------|
+| **Claude Code** | Plugin (marketplace) | < 1 minute |
+| **OpenClaw** | Plugin (ClawHub) | ~ 2 minutes |
+| **Any MCP client** | Direct HTTP connection | ~ 1 minute |
+
+## What agents can do
+
+With Postzee's MCP tools, an AI agent can:
+
+- **List your channels** — see all connected social media accounts
+- **Check credit balance** — view available AI credits
+- **Browse AI models** — list available image and video models
+- **Enhance prompts** — optimize prompts for better AI generation
+- **Generate images** — create AI images with any model
+- **Generate videos** — create AI videos with any model
+- **Check job status** — poll async generation tasks
+- **Create posts** — publish, schedule, or draft posts to any channel
+
+## How it works
+
+```
+You (conversation) → AI Agent → MCP Protocol → Postzee API → Social Platforms
+```
+
+1. You describe what you want in natural language (e.g., "Generate a sunset photo and post it to Instagram")
+2. The AI agent uses Postzee's MCP tools to execute the task
+3. Postzee handles the AI generation, scheduling, and publishing
+4. The agent reports back with the results
+
+## Connection details
+
+| Property | Value |
+|----------|-------|
+| **Server name** | Postzee |
+| **Version** | 3.0.0 |
+| **Transport** | Streamable HTTP (with SSE fallback) |
+| **Endpoint** | `https://api.postzee.app/mcp/{apiKey}/messages` |
+| **Authentication** | API key (embedded in URL) |
+| **Tools** | 9 |
+
+## Requirements
+
+- A **Postzee account** with a paid plan (Standard or higher)
+- A **Postzee API key** (create one in Settings → API tab)
+- An **MCP-compatible AI agent** (Claude Code, OpenClaw, or any MCP client)
+
+<CardGroup cols={2}>
+  <Card title="Claude Code" icon="terminal" href="/integrations/mcp/claude-code">
+    Connect Postzee to Claude Code.
+  </Card>
+  <Card title="OpenClaw" icon="plug" href="/integrations/mcp/openclaw">
+    Connect Postzee to OpenClaw.
+  </Card>
+  <Card title="Tools Reference" icon="wrench" href="/integrations/mcp/tools-reference">
+    Complete reference for all 9 MCP tools.
+  </Card>
+  <Card title="API Keys" icon="key" href="/settings/api-keys">
+    Create and manage your API keys.
+  </Card>
+</CardGroup>

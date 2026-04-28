@@ -1,5 +1,55 @@
 ---
-title: tiktok
+title: TikTok
+icon: tiktok
 ---
 
-Coming soon.
+Connect your TikTok account to Postzee to publish videos directly from the dashboard. TikTok requires specific content disclosure settings that Postzee handles for you.
+
+## Requirements
+
+- A **TikTok** account
+- Content must be in video format (TikTok does not support image-only posts via API)
+
+## How to connect
+
+1. Go to **Channels** in the top navigation bar
+2. Click **Add Channel** → **TikTok**
+3. Log in with your TikTok account
+4. Authorize Postzee
+5. Configure the required content disclosure settings
+6. Your TikTok channel appears in the channel list
+
+## Content disclosure settings
+
+TikTok's API requires specific disclosure settings on every post. These are configured per channel and can be overridden per post:
+
+| Setting | Options | Description |
+|---------|---------|-------------|
+| **Title** | Text (max 90 characters) | Video title/description |
+| **Privacy** | Public, Mutual Follow Friends, Followers Only, Private | Who can see your video |
+| **Allow Duets** | On / Off | Whether others can create duets |
+| **Allow Stitches** | On / Off | Whether others can stitch your video |
+| **Allow Comments** | On / Off | Whether viewers can comment |
+| **Auto-add Music** | Yes / No | Let TikTok add background music |
+| **Brand Content** | On / Off | Disclose branded/sponsored content |
+| **Made with AI** | On / Off | Disclose AI-generated content |
+
+<Warning>
+These disclosure settings are required by TikTok's API compliance rules and cannot be skipped. Postzee validates them before every publish to ensure compliance.
+</Warning>
+
+## Supported content types
+
+| Type | Description |
+|------|-------------|
+| **Video** | Vertical video (9:16 recommended) |
+
+## Tips
+
+- **Aspect ratio:** Always use 9:16 (portrait) for TikTok — it's designed for vertical viewing.
+- **Duration:** Videos up to 10 minutes are supported, but 15-60 seconds tends to perform best.
+- **AI disclosure:** If your video was generated with AI, enable the "Made with AI" toggle to comply with TikTok's policies.
+
+<Card title="Connecting Channels" icon="plug" href="/channels/connecting">
+  General guide for connecting social media accounts.
+</Card>

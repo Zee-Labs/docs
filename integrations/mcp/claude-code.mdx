@@ -1,5 +1,103 @@
 ---
-title: claude code
+title: Claude Code
+icon: terminal
 ---
 
-Coming soon.
+Connect Postzee to **Claude Code** to generate AI media and publish social media posts through natural language conversation.
+
+## Option 1: Plugin (Marketplace)
+
+The fastest way to connect — install from the Claude Code plugin marketplace.
+
+### Installation
+
+```bash
+/plugin marketplace add Zee-Labs/postzee-claude-plugin
+/plugin install postzee@zee-labs-plugins
+```
+
+### Configuration
+
+When prompted, enter your Postzee API key:
+
+1. Log in to [Postzee](https://dashboard.postzee.app)
+2. Open the account drawer → **Settings** → **API** tab
+3. Click **Reveal** and copy the API key
+4. Paste it into Claude Code when prompted
+
+<Note>
+Copy the **API Key** value, not the MCP URL. The plugin configures the connection URL automatically.
+</Note>
+
+## Option 2: Direct MCP connection
+
+Connect directly to Postzee's MCP server without the plugin.
+
+### Add the MCP server
+
+```bash
+claude mcp add postzee --transport http https://api.postzee.app/mcp/YOUR_API_KEY/messages
+```
+
+Replace `YOUR_API_KEY` with your actual Postzee API key.
+
+### Verify the connection
+
+After adding, test the connection:
+
+```
+List my Postzee channels
+```
+
+Claude Code should call the `POSTZEE_LIST_CHANNELS` tool and show your connected social media accounts.
+
+## Usage examples
+
+Once connected, you can use natural language to interact with Postzee:
+
+### Generate an image
+
+> "Generate a professional headshot of a woman in a modern office using Nano Banana Pro"
+
+Claude Code will:
+1. Call `POSTZEE_GENERATE_IMAGE` with your prompt
+2. Poll `POSTZEE_CHECK_JOB` until the image is ready
+3. Show you the result with a media URL
+
+### Generate and post
+
+> "Generate a sunset beach photo and post it to my Instagram with the caption 'Golden hour vibes'"
+
+Claude Code will:
+1. Generate the image
+2. Wait for completion
+3. Create a post with your caption and media
+4. Publish to your Instagram channel
+
+### Check your credits
+
+> "How many AI credits do I have left?"
+
+### Enhance a prompt
+
+> "Enhance this prompt for better results: 'a cat sitting on a windowsill'"
+
+## Recommended workflow
+
+For best results with Claude Code:
+
+1. **Check credits** — verify you have enough credits before generating
+2. **List models** — ask which models are available for your use case
+3. **Enhance prompt** — use the prompt optimizer for better results (free)
+4. **Generate** — create the image or video
+5. **List channels** — see where you can publish
+6. **Create post** — publish or schedule to your channels
+
+<CardGroup cols={2}>
+  <Card title="Tools Reference" icon="wrench" href="/integrations/mcp/tools-reference">
+    Complete reference for all 9 MCP tools.
+  </Card>
+  <Card title="OpenClaw" icon="plug" href="/integrations/mcp/openclaw">
+    Connect Postzee to OpenClaw instead.
+  </Card>
+</CardGroup>

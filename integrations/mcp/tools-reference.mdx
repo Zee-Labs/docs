@@ -1,5 +1,229 @@
 ---
-title: tools reference
+title: MCP Tools Reference
+icon: wrench
 ---
 
-Coming soon.
+Complete reference for all 9 tools exposed by Postzee's MCP server. These tools are available to any MCP-compatible AI agent (Claude Code, OpenClaw, or direct MCP clients).
+
+## POSTZEE_LIST_CHANNELS
+
+Get all connected social media channels.
+
+**Parameters:** None
+
+**Returns:**
+```json
+[
+  {
+    "id": "channel-uuid",
+    "name": "My Instagram",
+    "platform": "instagram",
+    "picture": "https://...",
+    "disabled": false
+  }
+]
+```
+
+---
+
+## POSTZEE_GET_CREDITS
+
+Check AI credit balance and usage.
+
+**Parameters:** None
+
+**Returns:**
+```json
+{
+  "available": 4500,
+  "monthly": 5000,
+  "used": 500,
+  "purchased": 0
+}
+```
+
+All values are in credits (1,000 credits = $1 USD).
+
+---
+
+## POSTZEE_LIST_IMAGE_MODELS
+
+List available AI image generation models with their capabilities.
+
+**Parameters:** None
+
+**Returns:** Array of models with `id`, `displayName`, `supportsReferenceImages`, and other metadata.
+
+---
+
+## POSTZEE_LIST_VIDEO_MODELS
+
+List available AI video generation models with their capabilities.
+
+**Parameters:** None
+
+**Returns:** Array of video models with `id`, `displayName`, and other metadata.
+
+---
+
+## POSTZEE_ENHANCE_PROMPT
+
+Optimize a user prompt for better AI generation results. This is free — no credit cost.
+
+**Parameters:**
+
+| Parameter | Type | Required | Description |
+|-----------|------|:---:|-------------|
+| `prompt` | string | Yes | The user's prompt to optimize |
+| `mediaType` | string | Yes | `"image"` or `"video"` |
+| `model` | string | No | Target AI model ID (for model-specific optimization) |
+
+**Returns:**
+```json
+{
+  "success": true,
+  "enhancedPrompt": "A young woman in a tailored trench coat walks through..."
+}
+```
+
+---
+
+## POSTZEE_GENERATE_IMAGE
+
+Generate an AI image from a text prompt. This is an **async operation** — it returns a job ID that you must poll with `POSTZEE_CHECK_JOB`.
+
+**Parameters:**
+
+| Parameter | Type | Required | Description |
+|-----------|------|:---:|-------------|
+| `prompt` | string | Yes | Detailed image description |
+| `model` | string | Yes | Model ID from `POSTZEE_LIST_IMAGE_MODELS` |
+
+**Returns:**
+```json
+{
+  "jobId": "job-uuid",
+  "status": "processing",
+  "message": "Image generation started"
+}
+```
+
+---
+
+## POSTZEE_GENERATE_VIDEO
+
+Generate an AI video from a text prompt. This is an **async operation** — it returns a job ID that you must poll with `POSTZEE_CHECK_JOB`.
+
+**Parameters:**
+
+| Parameter | Type | Required | Description |
+|-----------|------|:---:|-------------|
+| `prompt` | string | Yes | Detailed video description |
+| `model` | string | Yes | Model ID from `POSTZEE_LIST_VIDEO_MODELS` |
+| `duration` | string | No | Duration in seconds (e.g., `"5"`, `"10"`) |
+| `aspectRatio` | string | No | Aspect ratio (e.g., `"16:9"`, `"9:16"`). Default: `"16:9"` |
+
+**Returns:**
+```json
+{
+  "jobId": "job-uuid",
+  "status": "processing",
+  "message": "Video generation started"
+}
+```
+
+---
+
+## POSTZEE_CHECK_JOB
+
+Poll the status of an async image or video generation job.
+
+**Parameters:**
+
+| Parameter | Type | Required | Description |
+|-----------|------|:---:|-------------|
+| `jobId` | string | Yes | Job ID from `POSTZEE_GENERATE_IMAGE` or `POSTZEE_GENERATE_VIDEO` |
+
+**Returns (processing):**
+```json
+{
+  "jobId": "job-uuid",
+  "status": "processing",
+  "progress": 45
+}
+```
+
+**Returns (success):**
+```json
+{
+  "jobId": "job-uuid",
+  "status": "success",
+  "progress": 100,
+  "mediaUrl": "https://cdn.postzee.app/...",
+  "mediaId": "media-uuid"
+}
+```
+
+**Returns (failed):**
+```json
+{
+  "jobId": "job-uuid",
+  "status": "failed",
+  "error": "Generation failed: insufficient credits"
+}
+```
+
+---
+
+## POSTZEE_CREATE_POST
+
+Create, schedule, or publish a post to one or more social media channels.
+
+**Parameters:**
+
+| Parameter | Type | Required | Description |
+|-----------|------|:---:|-------------|
+| `type` | string | Yes | `"now"` (publish immediately), `"draft"`, or `"schedule"` |
+| `date` | string | Schedule only | UTC datetime (e.g., `"2026-04-24T15:00:00Z"`) |
+| `channelId` | string | Yes | Channel ID from `POSTZEE_LIST_CHANNELS` |
+| `text` | string | Yes | Post text content |
+| `mediaUrls` | string[] | No | Media URLs from `POSTZEE_CHECK_JOB` results |
+
+**Returns:**
+```json
+{
+  "success": true,
+  "postId": "post-uuid",
+  "message": "Post published successfully"
+}
+```
+
+---
+
+## Async workflow pattern
+
+Image and video generation are async. The recommended workflow:
+
+1. Call `POSTZEE_GENERATE_IMAGE` or `POSTZEE_GENERATE_VIDEO` → get `jobId`
+2. Wait a few seconds
+3. Call `POSTZEE_CHECK_JOB` with the `jobId`
+4. If `status === "processing"`, wait and poll again
+5. If `status === "success"`, use the `mediaUrl` or `mediaId` in `POSTZEE_CREATE_POST`
+6. If `status === "failed"`, read the error and retry or inform the user
+
+## Rate limits
+
+| Endpoint | Limit |
+|----------|-------|
+| SSE connection | 30 requests/minute |
+| HTTP POST | 60 requests/minute |
+| AI generation | 10 requests/minute |
+
+<CardGroup cols={2}>
+  <Card title="Claude Code" icon="terminal" href="/integrations/mcp/claude-code">
+    Connect Postzee to Claude Code.
+  </Card>
+  <Card title="OpenClaw" icon="plug" href="/integrations/mcp/openclaw">
+    Connect Postzee to OpenClaw.
+  </Card>
+</CardGroup>

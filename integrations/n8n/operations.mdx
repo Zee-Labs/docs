@@ -1,5 +1,119 @@
 ---
-title: operations
+title: n8n Operations
+icon: list
 ---
 
-Coming soon.
+Complete reference for all 9 operations available in the Postzee n8n node.
+
+## Create Post
+
+Schedule, publish immediately, or save a draft post to one or more social media channels.
+
+| Parameter | Type | Required | Description |
+|-----------|------|:---:|-------------|
+| **Type** | Select | Yes | `now` (publish immediately), `schedule`, or `draft` |
+| **Channel** | Select | Yes | Target channel (from your connected channels) |
+| **Content** | Text | Yes | Post text content |
+| **Date** | DateTime | Schedule only | UTC datetime for scheduling |
+| **Media** | String | No | Media ID(s) from Upload File or AI generation |
+| **Tags** | String | No | Content tags |
+
+**Platform-specific settings** are available for Instagram (post type, collaborators), LinkedIn (carousel), YouTube (title, visibility, thumbnail, tags), TikTok (privacy, duets, stitches, comments, brand content), and other platforms.
+
+## Delete Post
+
+Delete a scheduled or published post by ID.
+
+| Parameter | Type | Required | Description |
+|-----------|------|:---:|-------------|
+| **Post ID** | String | Yes | The ID of the post to delete |
+
+## Generate Image
+
+Generate an AI image asynchronously. Returns a job ID for polling.
+
+| Parameter | Type | Required | Description |
+|-----------|------|:---:|-------------|
+| **Prompt** | Text | Yes | Image description |
+| **Model** | Select | Yes | AI model (FLUX, GPT Image, Nano Banana, Recraft, Ideogram) |
+| **Quantity** | Number | No | Number of images (1-4, default: 1) |
+
+**Returns:** `{ jobId, status: "processing" }`
+
+Use the **Job Status** operation to poll until the image is ready.
+
+## Generate Video
+
+Generate an AI video asynchronously. Returns a job ID for polling.
+
+| Parameter | Type | Required | Description |
+|-----------|------|:---:|-------------|
+| **Prompt** | Text | Yes | Video description |
+| **Model** | Select | No | Video model |
+| **Duration** | Number | No | Duration in seconds |
+| **Aspect Ratio** | Select | No | 16:9, 9:16, 1:1 |
+
+**Returns:** `{ jobId, status: "processing" }`
+
+## Generate Avatar Video
+
+Create a HeyGen avatar video with a script.
+
+| Parameter | Type | Required | Description |
+|-----------|------|:---:|-------------|
+| **Avatar ID** | String | Yes | HeyGen avatar ID |
+| **Voice ID** | String | Yes | HeyGen voice ID |
+| **Script** | Text | Yes | Text the avatar will speak |
+
+## Get Channels
+
+List all connected social media channels with their IDs, names, and platforms.
+
+**Parameters:** None
+
+**Returns:** Array of channels, each with `id`, `name`, `platform`, `picture`, `disabled`.
+
+## Get Posts
+
+Retrieve scheduled and published posts filtered by date range.
+
+| Parameter | Type | Required | Description |
+|-----------|------|:---:|-------------|
+| **Start Date** | DateTime | Yes | Start of date range |
+| **End Date** | DateTime | Yes | End of date range |
+
+## Job Status
+
+Check the progress of an async image or video generation job.
+
+| Parameter | Type | Required | Description |
+|-----------|------|:---:|-------------|
+| **Job ID** | String | Yes | Job ID from Generate Image or Generate Video |
+
+**Returns:**
+
+| Field | Description |
+|-------|-------------|
+| `status` | `processing`, `success`, or `failed` |
+| `progress` | 0-100 percentage |
+| `mediaUrl` | Download URL (when `success`) |
+| `mediaId` | Media ID for use in Create Post (when `success`) |
+
+## Upload File
+
+Upload an image or video file to the Postzee media library.
+
+| Parameter | Type | Required | Description |
+|-----------|------|:---:|-------------|
+| **File** | Binary | Yes | The file to upload |
+
+**Returns:** `{ mediaId }` — use this ID in Create Post to attach the media.
+
+<CardGroup cols={2}>
+  <Card title="Example Workflows" icon="diagram-project" href="/integrations/n8n/example-workflows">
+    Ready-to-use workflow templates.
+  </Card>
+  <Card title="Setup Guide" icon="wrench" href="/integrations/n8n/setup">
+    Install and configure the Postzee node.
+  </Card>
+</CardGroup>
