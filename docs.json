@@ -8,6 +8,12 @@
     "dark": "#7C3AED"
   },
   "favicon": "/favicon.svg",
+  "languages": [
+    {"language": "en", "label": "English", "default": true},
+    {"language": "pt-BR", "label": "Português"},
+    {"language": "es", "label": "Español"},
+    {"language": "fr", "label": "Français"}
+  ],
   "logo": {
     "light": "/logo/light.svg",
     "dark": "/logo/dark.svg"
