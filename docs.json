@@ -1,92 +1,13 @@
 {
   "$schema": "https://mintlify.com/docs.json",
   "theme": "mint",
-  "name": "Mintlify Starter Kit",
+  "name": "Postzee Docs",
   "colors": {
-    "primary": "#16A34A",
-    "light": "#07C983",
-    "dark": "#15803D"
+    "primary": "#A855F7",
+    "light": "#C084FC",
+    "dark": "#7C3AED"
   },
   "favicon": "/favicon.svg",
-  "navigation": {
-    "tabs": [
-      {
-        "tab": "Guides",
-        "groups": [
-          {
-            "group": "Getting started",
-            "pages": [
-              "index",
-              "quickstart",
-              "development"
-            ]
-          },
-          {
-            "group": "Customization",
-            "pages": [
-              "essentials/settings",
-              "essentials/navigation"
-            ]
-          },
-          {
-            "group": "Writing content",
-            "pages": [
-              "essentials/markdown",
-              "essentials/code",
-              "essentials/images",
-              "essentials/components",
-              "essentials/reusable-snippets"
-            ]
-          },
-          {
-            "group": "Agent ready",
-            "pages": [
-              "agent-ready/prompt",
-              "agent-ready/visibility",
-              "agent-ready/contextual",
-              "ai-tools/cursor",
-              "ai-tools/claude-code",
-              "ai-tools/windsurf"
-            ]
-          }
-        ]
-      },
-      {
-        "tab": "API reference",
-        "groups": [
-          {
-            "group": "API documentation",
-            "pages": [
-              "api-reference/introduction"
-            ]
-          },
-          {
-            "group": "Endpoint examples",
-            "pages": [
-              "api-reference/endpoint/get",
-              "api-reference/endpoint/create",
-              "api-reference/endpoint/delete",
-              "api-reference/endpoint/webhook"
-            ]
-          }
-        ]
-      }
-    ],
-    "global": {
-      "anchors": [
-        {
-          "anchor": "Documentation",
-          "href": "https://mintlify.com/docs",
-          "icon": "book-open-cover"
-        },
-        {
-          "anchor": "Blog",
-          "href": "https://mintlify.com/blog",
-          "icon": "newspaper"
-        }
-      ]
-    }
-  },
   "logo": {
     "light": "/logo/light.svg",
     "dark": "/logo/dark.svg"
@@ -95,32 +16,179 @@
     "links": [
       {
         "label": "Support",
-        "href": "mailto:hi@mintlify.com"
+        "href": "mailto:support@postzee.app"
       }
     ],
     "primary": {
       "type": "button",
       "label": "Dashboard",
-      "href": "https://dashboard.mintlify.com"
+      "href": "https://dashboard.postzee.app"
     }
   },
-  "contextual": {
-    "options": [
-     "copy",
-     "view",
-     "chatgpt",
-     "claude",
-     "perplexity",
-     "mcp",
-     "cursor",
-     "vscode"
-   ]
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "Learn",
+        "groups": [
+          {
+            "group": "Get Started",
+            "pages": [
+              "get-started/introduction",
+              "get-started/quickstart",
+              "get-started/supported-platforms"
+            ]
+          },
+          {
+            "group": "Zee Studio",
+            "pages": [
+              "zee-studio/overview",
+              "zee-studio/image-generation",
+              "zee-studio/video-generation",
+              "zee-studio/heygen-avatars",
+              "zee-studio/prompt-optimizer",
+              "zee-studio/voice-input",
+              "zee-studio/gallery",
+              "zee-studio/explore",
+              "zee-studio/upload"
+            ]
+          },
+          {
+            "group": "Calendar & Posts",
+            "pages": [
+              "calendar/overview",
+              "calendar/scheduling",
+              "calendar/post-editor",
+              "calendar/post-lifecycle"
+            ]
+          },
+          {
+            "group": "Channels",
+            "pages": [
+              "channels/overview",
+              "channels/connecting",
+              "channels/platform-settings"
+            ]
+          },
+          {
+            "group": "Analytics",
+            "pages": [
+              "analytics/overview"
+            ]
+          },
+          {
+            "group": "Billing & Credits",
+            "pages": [
+              "billing/plans",
+              "billing/credits",
+              "billing/purchasing-credits",
+              "billing/managing-subscription"
+            ]
+          },
+          {
+            "group": "Settings",
+            "pages": [
+              "settings/account",
+              "settings/team",
+              "settings/api-keys",
+              "settings/preferences"
+            ]
+          },
+          {
+            "group": "AI Models",
+            "pages": [
+              "ai-models/image-models",
+              "ai-models/video-models",
+              "ai-models/pricing"
+            ]
+          },
+          {
+            "group": "FAQ",
+            "pages": [
+              "faq"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Integrations",
+        "groups": [
+          {
+            "group": "Social Channels",
+            "pages": [
+              "integrations/channels/instagram",
+              "integrations/channels/facebook",
+              "integrations/channels/tiktok",
+              "integrations/channels/linkedin",
+              "integrations/channels/x-twitter",
+              "integrations/channels/youtube",
+              "integrations/channels/pinterest",
+              "integrations/channels/threads",
+              "integrations/channels/bluesky",
+              "integrations/channels/other-platforms"
+            ]
+          },
+          {
+            "group": "n8n Automation",
+            "pages": [
+              "integrations/n8n/overview",
+              "integrations/n8n/setup",
+              "integrations/n8n/operations",
+              "integrations/n8n/example-workflows"
+            ]
+          },
+          {
+            "group": "AI Agents (MCP)",
+            "pages": [
+              "integrations/mcp/overview",
+              "integrations/mcp/claude-code",
+              "integrations/mcp/openclaw",
+              "integrations/mcp/tools-reference"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "API Reference",
+        "groups": [
+          {
+            "group": "Overview",
+            "pages": [
+              "api-reference/authentication",
+              "api-reference/rate-limits"
+            ]
+          },
+          {
+            "group": "Endpoints",
+            "pages": [
+              "api-reference/posts",
+              "api-reference/channels",
+              "api-reference/media",
+              "api-reference/credits",
+              "api-reference/jobs"
+            ]
+          }
+        ]
+      }
+    ],
+    "global": {
+      "anchors": [
+        {
+          "anchor": "API Reference",
+          "href": "/api-reference/authentication",
+          "icon": "code"
+        },
+        {
+          "anchor": "Website",
+          "href": "https://postzee.app",
+          "icon": "globe"
+        }
+      ]
+    }
   },
   "footer": {
     "socials": {
-      "x": "https://x.com/mintlify",
-      "github": "https://github.com/mintlify",
-      "linkedin": "https://linkedin.com/company/mintlify"
+      "website": "https://postzee.app",
+      "github": "https://github.com/Zee-Labs"
     }
   }
 }
