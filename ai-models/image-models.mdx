@@ -1,5 +1,123 @@
 ---
-title: image models
+title: Image Models
+icon: image
 ---
 
-Coming soon.
+Postzee offers **17 AI image models** across multiple families, each optimized for different use cases — photorealism, design, text rendering, vector art, and more.
+
+## Nano Banana family
+
+Built on Google's Gemini foundation. Excellent for fast, high-quality photorealistic images.
+
+| Model | Description | Reference images | Credit cost |
+|-------|-------------|:---:|-------------|
+| **Nano Banana** | Fast general-purpose image generation. Good balance of speed and quality. | Yes | ~78 credits |
+| **Nano Banana 2** | Powered by Gemini 3.1 Flash. Best value — fast and versatile. | Yes | ~160 credits |
+| **Nano Banana Pro** | Powered by Gemini 3 Pro. Premium photorealistic quality with precise prompt adherence. | Yes | ~300 credits |
+
+**Best for:** Photorealistic portraits, product shots, lifestyle photography, character consistency.
+
+## GPT Image family
+
+OpenAI's image generation models. Multiple quality tiers from budget-friendly to state-of-the-art.
+
+| Model | Description | Reference images | Credit cost |
+|-------|-------------|:---:|-------------|
+| **GPT Image 2** | Latest generation. Creative, narrative-driven images. 3 quality tiers (Low, Medium, High). | Yes | ~20-440 credits |
+| **GPT Image 1.5** | State-of-the-art quality. Great balance of creativity and accuracy. | Yes | ~68-100 credits |
+| **GPT Image 1** | High-quality general purpose generation. | Yes | ~84-126 credits |
+| **GPT Image Mini** | Fast and affordable. Best for quick iterations and drafts. | Yes | ~22-32 credits |
+
+**Best for:** Creative illustrations, narrative scenes, conceptual art, quick drafts (Mini).
+
+### GPT Image 2 quality tiers
+
+GPT Image 2 lets you choose between three quality levels that affect both output quality and credit cost:
+
+| Quality | Square (1:1) | Portrait/Landscape |
+|---------|-------------|-------------------|
+| **Low** | ~20 credits | ~20 credits |
+| **Medium** | ~120 credits | ~100 credits |
+| **High** | ~440 credits | ~340 credits |
+
+## FLUX family
+
+High-quality photorealistic models with varying speed and resolution capabilities.
+
+| Model | Description | Reference images | Credit cost |
+|-------|-------------|:---:|-------------|
+| **FLUX.2 Pro** | Latest generation. Photorealism with reference image support (via prompt). | Yes | ~60-90 credits |
+| **FLUX 1.1 Pro** | Fast, consistent image generation. Great for batch production. | No | ~80-160 credits |
+| **FLUX 1.1 Ultra** | High-resolution output up to 2K (4 megapixels). Image conditioning support. | Yes | ~120 credits |
+
+**Best for:** Photorealistic scenes, product photography, high-resolution prints (Ultra).
+
+<Note>
+FLUX model costs vary by aspect ratio. Square (1:1) images are cheaper than portrait or landscape formats because they use fewer megapixels.
+</Note>
+
+## Recraft family
+
+Design-focused models optimized for logos, icons, vector art, and professional design work. Support both raster (PNG) and vector (SVG) output.
+
+| Model | Description | Reference images | Credit cost |
+|-------|-------------|:---:|-------------|
+| **Recraft V4** | Logos, icons, vector illustrations, and design assets. | No | ~80 credits (raster) / ~160 credits (vector) |
+| **Recraft V4 Pro** | Premium design quality. Best results for professional brand assets. | No | ~500 credits (raster) / ~600 credits (vector) |
+| **Recraft V3** | Design with 70+ style presets. #1 on benchmarks at launch. | No | ~80 credits (raster) / ~160 credits (vector) |
+
+**Best for:** Logos, brand icons, app icons, infographics, vector illustrations, flat design.
+
+<Note>
+Recraft models support both **raster** (PNG) and **vector** (SVG) output. Vector output costs approximately 2x more but produces scalable graphics perfect for logos and brand assets.
+</Note>
+
+## Ideogram family
+
+Specialized in rendering readable text inside images — ideal for social media graphics, posters, and banners.
+
+| Model | Description | Reference images | Credit cost |
+|-------|-------------|:---:|-------------|
+| **Ideogram V3** | Text rendering, negative prompt support, 50+ style presets. 3 quality tiers (Turbo, Balanced, Quality). | Yes | ~60-180 credits |
+| **Ideogram V2** | General purpose with good text rendering. | No | ~160 credits |
+
+**Best for:** Social media graphics with text, posters, banners, promotional materials, typographic designs.
+
+### Ideogram V3 quality tiers
+
+| Tier | Speed | Quality | Credit cost |
+|------|-------|---------|-------------|
+| **Turbo** | Fastest | Good | ~60 credits |
+| **Balanced** | Medium | Better | ~120 credits |
+| **Quality** | Slowest | Best | ~180 credits |
+
+## Other models
+
+| Model | Description | Reference images | Credit cost |
+|-------|-------------|:---:|-------------|
+| **DALL-E 3** | OpenAI's multipurpose image generation. High-quality, versatile outputs. | No | Varies |
+
+## Feature comparison
+
+| Feature | Nano Banana | GPT Image | FLUX | Recraft | Ideogram |
+|---------|:---:|:---:|:---:|:---:|:---:|
+| **Photorealism** | Excellent | Good | Excellent | — | Good |
+| **Text in images** | — | Fair | — | — | Excellent |
+| **Vector output** | — | — | — | Yes | — |
+| **Reference images** | Yes | Yes | Partial | — | V3 only |
+| **Negative prompt** | — | — | — | — | V3 only |
+| **Style presets** | — | — | — | 70+ | 50+ |
+| **Budget option** | Nano Banana | Mini (~22) | — | — | Turbo (~60) |
+
+<Note>
+All models support Text to Image generation. Models marked with "Reference images: Yes" also support Image to Image mode, where you provide a source image and describe the changes you want.
+</Note>
+
+<CardGroup cols={2}>
+  <Card title="Video Models" icon="video" href="/ai-models/video-models">
+    Browse all available video generation models.
+  </Card>
+  <Card title="Pricing" icon="tag" href="/ai-models/pricing">
+    Complete credit cost reference for all models.
+  </Card>
+</CardGroup>

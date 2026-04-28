@@ -1,5 +1,159 @@
 ---
-title: pricing
+title: AI Models Pricing
+icon: tag
 ---
 
-Coming soon.
+Complete credit cost reference for all AI models in Postzee. All prices are shown in **credits** (1,000 credits = $1 USD).
+
+<Note>
+The exact credit cost for each generation is always shown on the **Generate** button before you confirm. Costs shown here are base values — actual costs may vary slightly by aspect ratio and quality settings.
+</Note>
+
+## How pricing works
+
+- **$1 USD = 1,000 credits**
+- Credits are deducted when you click **Generate**
+- The **Prompt Optimizer** is always free (0 credits)
+- Costs vary by model, resolution, quality, and duration (for videos)
+
+## Image model pricing
+
+### Nano Banana family
+
+| Model | Square (1:1) | Portrait/Landscape |
+|-------|-------------|-------------------|
+| **Nano Banana** | ~78 credits | ~78 credits |
+| **Nano Banana 2** | ~160 credits | ~160 credits |
+| **Nano Banana Pro** | ~300 credits | ~300 credits |
+
+### GPT Image family
+
+**GPT Image 2** (3 quality tiers):
+
+| Quality | Square (1:1) | Portrait/Landscape |
+|---------|-------------|-------------------|
+| Low | ~20 credits | ~20 credits |
+| Medium | ~120 credits | ~100 credits |
+| High | ~440 credits | ~340 credits |
+
+**GPT Image 1.5 / 1 / Mini:**
+
+| Model | Square (1:1) | Portrait/Landscape |
+|-------|-------------|-------------------|
+| GPT Image 1.5 | ~68 credits | ~100 credits |
+| GPT Image 1 | ~84 credits | ~126 credits |
+| GPT Image Mini | ~22 credits | ~32 credits |
+
+### FLUX family
+
+| Model | Square (1:1) | Portrait/Landscape |
+|-------|-------------|-------------------|
+| **FLUX.2 Pro** | ~60 credits | ~90 credits |
+| **FLUX 1.1 Pro** | ~80 credits | ~160 credits |
+| **FLUX 1.1 Ultra** | ~120 credits | ~120 credits (fixed) |
+
+### Recraft family
+
+| Model | Raster (PNG) | Vector (SVG) |
+|-------|-------------|-------------|
+| **Recraft V4** | ~80 credits | ~160 credits |
+| **Recraft V4 Pro** | ~500 credits | ~600 credits |
+| **Recraft V3** | ~80 credits | ~160 credits |
+
+### Ideogram family
+
+**Ideogram V3** (3 rendering speed tiers):
+
+| Tier | Credit cost |
+|------|-------------|
+| Turbo (fastest) | ~60 credits |
+| Balanced | ~120 credits |
+| Quality (best) | ~180 credits |
+
+**Ideogram V2:** ~160 credits (fixed)
+
+---
+
+## Video model pricing
+
+### Sora 2 — flat per-video pricing
+
+| Model | 10 seconds | 15 seconds |
+|-------|-----------|-----------|
+| **Sora 2** | ~300 credits | ~350 credits |
+| **Sora 2 Pro (720p)** | ~1,500 credits | ~2,700 credits |
+| **Sora 2 Pro (1080p)** | ~3,300 credits | ~6,300 credits |
+
+Sora 2 Image-to-Video uses the same pricing as Text-to-Video.
+
+**Additional features:**
+| Feature | Credit cost |
+|---------|-------------|
+| Watermark removal | ~100 credits |
+| Storyboard (720p, 10s) | ~1,500 credits |
+| Storyboard (720p, 15-25s) | ~2,700 credits |
+
+### Veo 3.1 — per-second pricing
+
+#### Veo 3.1 Fast (credits per second)
+
+| Resolution | Without audio | With audio |
+|------------|--------------|------------|
+| 720p / 1080p | 200 credits/s | 300 credits/s |
+| 4K | 600 credits/s | 700 credits/s |
+
+#### Veo 3.1 Standard (credits per second)
+
+| Resolution | Without audio | With audio |
+|------------|--------------|------------|
+| 720p / 1080p | 400 credits/s | 800 credits/s |
+| 4K | 800 credits/s | 1,200 credits/s |
+
+#### Quick reference (Veo 3.1 Fast, 720p, no audio)
+
+| Duration | Credits |
+|----------|---------|
+| 4 seconds | ~800 |
+| 6 seconds | ~1,200 |
+| 8 seconds | ~1,600 |
+
+### Other video models
+
+Kling, Luma Ray, Seedance, Wan, PixVerse, Vidu, MiniMax, and Hunyuan models use dynamic pricing based on duration and settings. The exact cost is always displayed on the **Generate** button before you confirm.
+
+---
+
+## Free features
+
+These features are always free and never consume credits:
+
+| Feature | Cost |
+|---------|------|
+| **Prompt Optimizer** | Free |
+| **Voice input** | Free |
+| **Browsing Explore gallery** | Free |
+| **Uploading media** | Free |
+| **Scheduling and publishing posts** | Free (uses plan, not credits) |
+
+## Monthly plan credits
+
+Paid plans include a monthly credit allocation that resets each billing cycle:
+
+| Plan | Monthly credits |
+|------|----------------|
+| Free | 0 |
+| Standard ($27/mo) | 2,000 |
+| Team ($37/mo) | 3,000 |
+| Pro ($47/mo) | 5,000 |
+| Ultimate ($97/mo) | 10,000 |
+
+Need more? [Purchase additional credits](/billing/purchasing-credits) — they never expire.
+
+<CardGroup cols={2}>
+  <Card title="Image Models" icon="image" href="/ai-models/image-models">
+    Detailed guide to all image models and their capabilities.
+  </Card>
+  <Card title="Video Models" icon="video" href="/ai-models/video-models">
+    Detailed guide to all video models and their capabilities.
+  </Card>
+</CardGroup>
