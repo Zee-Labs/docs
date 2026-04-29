@@ -1,0 +1,100 @@
+---
+title: Cles API
+icon: key
+---
+
+Creez et gerez des cles API pour acceder a l'API REST publique de Postzee de maniere programmatique. Utilisez les cles API pour automatiser la creation de contenu, integrer des outils externes ou creer des workflows personnalises.
+
+## Comment y acceder
+
+Ouvrez le panneau de compte (cliquez sur votre avatar en haut a droite) → **Parametres** → onglet **API**.
+
+<Note>
+La gestion des cles API necessite le role **Administrateur** ou **Super Administrateur**. Les membres d'equipe avec le role Utilisateur ne peuvent pas voir ou creer de cles API.
+</Note>
+
+## Creer une cle API
+
+1. Allez dans **Parametres** → **Cles API**
+2. Cliquez sur **Creer une cle API**
+3. Entrez un nom pour votre cle (minimum 4 caracteres) — utilisez un nom descriptif comme "automatisation n8n" ou "script personnalise"
+4. Cliquez sur **Creer**
+5. **Copiez la cle immediatement** — elle ne sera affichee qu'une seule fois
+
+<Warning>
+Stockez votre cle API de maniere securisee. Elle fournit un acces API complet a votre compte. Ne la partagez jamais publiquement et ne la commitez pas dans un systeme de controle de version.
+</Warning>
+
+## Utiliser votre cle API
+
+Incluez la cle API dans l'en-tete `Authorization` de vos requetes API :
+
+```bash
+curl -H "Authorization: YOUR_API_KEY" \
+  https://api.postzee.app/public/v1/credits
+```
+
+<Note>
+N'utilisez pas le prefixe `Bearer` — passez la cle API directement comme valeur de l'en-tete Authorization.
+</Note>
+
+## Ce que vous pouvez faire avec l'API
+
+L'API publique vous donne un acces programmatique a :
+
+| Endpoint | Description |
+|----------|-------------|
+| **Create Post** | Programmer ou publier des posts sur vos canaux |
+| **Generate Image** | Generer des images IA avec n'importe quel modele disponible |
+| **Generate Video** | Generer des videos IA |
+| **List Channels** | Obtenir tous les canaux connectes |
+| **Get Credits** | Verifier votre solde de credits actuel |
+| **Enhance Prompt** | Optimiser les prompts avec l'Optimiseur de Prompts |
+| **Check Job Status** | Surveiller les taches de generation asynchrones |
+
+Consultez la [Reference API](/api-reference/authentication) complete pour tous les endpoints.
+
+## Gerer les cles API
+
+- **Voir** — consultez toutes les cles API actives et leurs noms
+- **Supprimer** — revoquez une cle API de maniere permanente (toute integration l'utilisant cessera de fonctionner)
+- **Regenerer** — supprimez l'ancienne cle et creez-en une nouvelle
+
+## Plans avec acces API
+
+| Plan | Acces API |
+|------|-----------|
+| **Gratuit** | — |
+| **Standard** | Oui |
+| **Team** | Oui |
+| **Pro** | Oui |
+| **Ultimate** | Oui |
+
+## Limites de debit
+
+Les requetes API sont soumises a des limites de debit pour proteger la plateforme :
+
+| Type d'endpoint | Limite |
+|----------------|--------|
+| **Requetes generales** | 30 requetes/heure |
+| **Generation IA** | 10 requetes/minute |
+| **Amelioration de prompt** | 10 requetes/minute |
+
+Consultez [Limites de debit](/api-reference/rate-limits) pour plus de details.
+
+## Integrations utilisant les cles API
+
+Les cles API Postzee sont utilisees par :
+
+- **[Integration n8n](/integrations/n8n/overview)** — automatiser les workflows avec le noeud Postzee personnalise
+- **[Agents IA (MCP)](/integrations/mcp/overview)** — connecter Claude Code, OpenClaw et d'autres agents IA
+- **Scripts personnalises** — construire vos propres automatisations avec l'API REST
+
+<CardGroup cols={2}>
+  <Card title="Reference API" icon="code" href="/api-reference/authentication">
+    Documentation et endpoints API complets.
+  </Card>
+  <Card title="Integration n8n" icon="arrows-rotate" href="/integrations/n8n/overview">
+    Automatiser Postzee avec les workflows n8n.
+  </Card>
+</CardGroup>

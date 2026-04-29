@@ -1,0 +1,78 @@
+---
+title: Limites de debit
+icon: gauge-high
+---
+
+L'API Postzee applique des limites de debit pour assurer une utilisation equitable et la stabilite de la plateforme. Les limites varient selon le type d'endpoint.
+
+## Limites de debit par endpoint
+
+| Endpoint | Limite | Fenetre |
+|----------|--------|---------|
+| **Defaut global** | 30 requetes | par heure |
+| `POST /generate-image` | 10 requetes | par minute |
+| `POST /generate-video-ai` | 10 requetes | par minute |
+| `POST /generate-heygen-video` | 10 requetes | par minute |
+| `POST /enhance-prompt` | 10 requetes | par minute |
+| `GET /video-models` | 30 requetes | par minute |
+| `GET /image-models` | 30 requetes | par minute |
+| `GET /heygen-avatars` | 30 requetes | par minute |
+| `GET /heygen-voices` | 30 requetes | par minute |
+
+<Note>
+Les endpoints avec des limites explicites par minute remplacent le defaut global. La plupart des endpoints de lecture (canaux, credits, posts, taches) sont soumis a la limite globale de 30/heure. Les endpoints de generation IA ont leurs propres limites a plus haute frequence.
+</Note>
+
+## Limites de debit du serveur MCP
+
+| Transport | Limite | Fenetre |
+|-----------|--------|---------|
+| **SSE** (Server-Sent Events) | 30 requetes | par minute |
+| **HTTP POST** | 60 requetes | par minute |
+
+## En-tetes de limite de debit
+
+Lorsque vous approchez ou depassez une limite de debit, l'API retourne des en-tetes de limite de debit standards :
+
+| En-tete | Description |
+|---------|-------------|
+| `X-RateLimit-Limit` | Nombre maximum de requetes autorisees dans la fenetre |
+| `X-RateLimit-Remaining` | Requetes restantes dans la fenetre en cours |
+| `X-RateLimit-Reset` | Horodatage Unix de la reinitialisation de la fenetre |
+
+## Depassement de la limite
+
+Lorsque vous depassez la limite de debit, l'API retourne :
+
+```
+HTTP 429 Too Many Requests
+```
+
+```json
+{
+  "statusCode": 429,
+  "message": "ThrottlerException: Too Many Requests"
+}
+```
+
+**Que faire :** Attendez que la fenetre de limite de debit se reinitialise (verifiez l'en-tete `X-RateLimit-Reset`), puis relancez votre requete.
+
+## Bonnes pratiques
+
+- **Espacez les requetes de generation IA** — limitez a 10 par minute pour la generation d'images/videos
+- **Mettez en cache les listes de modeles** — les modeles disponibles ne changent pas souvent, mettez en cache les reponses de `/image-models` et `/video-models`
+- **Interrogez le statut des taches raisonnablement** — verifiez toutes les 5-10 secondes, pas toutes les secondes
+- **Utilisez les operations par lot** — lors de la generation de plusieurs images, utilisez `generate-media` avec `quantity: 2-4` au lieu de plusieurs appels `generate-image`
+- **Gerez les 429 gracieusement** — implementez un backoff exponentiel en cas de limitation de debit
+
+## Limites par plan
+
+Les limites de debit sont identiques pour tous les plans payants. L'API n'est pas disponible sur le plan Gratuit.
+
+| Plan | Acces API | Limites de debit |
+|------|-----------|-----------------|
+| Gratuit | Non | — |
+| Standard | Oui | Limites standard |
+| Team | Oui | Limites standard |
+| Pro | Oui | Limites standard |
+| Ultimate | Oui | Limites standard |

@@ -1,0 +1,55 @@
+---
+title: TikTok
+icon: tiktok
+---
+
+Connectez votre compte TikTok a Postzee pour publier des videos directement depuis le tableau de bord. TikTok necessite des parametres specifiques de divulgation de contenu que Postzee gere pour vous.
+
+## Prerequis
+
+- Un compte **TikTok**
+- Le contenu doit etre au format video (TikTok ne prend pas en charge les posts d'images seules via l'API)
+
+## Comment connecter
+
+1. Allez dans **Canaux** dans la barre de navigation superieure
+2. Cliquez sur **Ajouter un Canal** → **TikTok**
+3. Connectez-vous avec votre compte TikTok
+4. Autorisez Postzee
+5. Configurez les parametres de divulgation de contenu requis
+6. Votre canal TikTok apparait dans la liste des canaux
+
+## Parametres de divulgation de contenu
+
+L'API de TikTok exige des parametres de divulgation specifiques pour chaque post. Ceux-ci sont configures par canal et peuvent etre remplaces par post :
+
+| Parametre | Options | Description |
+|-----------|---------|-------------|
+| **Titre** | Texte (max 90 caracteres) | Titre/description de la video |
+| **Confidentialite** | Public, Amis en commun, Abonnes uniquement, Prive | Qui peut voir votre video |
+| **Autoriser les Duos** | Active / Desactive | Si d'autres peuvent creer des duos |
+| **Autoriser les Stitches** | Active / Desactive | Si d'autres peuvent stitcher votre video |
+| **Autoriser les commentaires** | Active / Desactive | Si les spectateurs peuvent commenter |
+| **Ajouter de la musique automatiquement** | Oui / Non | Laisser TikTok ajouter une musique de fond |
+| **Contenu de marque** | Active / Desactive | Divulguer le contenu sponsorise/de marque |
+| **Fait avec l'IA** | Active / Desactive | Divulguer le contenu genere par l'IA |
+
+<Warning>
+Ces parametres de divulgation sont requis par les regles de conformite de l'API de TikTok et ne peuvent pas etre ignores. Postzee les valide avant chaque publication pour assurer la conformite.
+</Warning>
+
+## Types de contenu pris en charge
+
+| Type | Description |
+|------|-------------|
+| **Video** | Video verticale (9:16 recommande) |
+
+## Conseils
+
+- **Format d'image :** Utilisez toujours le 9:16 (portrait) pour TikTok — il est concu pour la visualisation verticale.
+- **Duree :** Les videos jusqu'a 10 minutes sont prises en charge, mais 15 a 60 secondes tend a obtenir les meilleurs resultats.
+- **Divulgation IA :** Si votre video a ete generee avec l'IA, activez le bouton "Fait avec l'IA" pour vous conformer aux politiques de TikTok.
+
+<Card title="Connecter des canaux" icon="plug" href="/channels/connecting">
+  Guide general pour connecter des comptes de reseaux sociaux.
+</Card>

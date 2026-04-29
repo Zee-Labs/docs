@@ -1,0 +1,119 @@
+---
+title: Operations n8n
+icon: list
+---
+
+Reference complete des 9 operations disponibles dans le noeud Postzee pour n8n.
+
+## Create Post
+
+Programmez, publiez immediatement ou enregistrez un brouillon de post sur un ou plusieurs canaux de reseaux sociaux.
+
+| Parametre | Type | Requis | Description |
+|-----------|------|:---:|-------------|
+| **Type** | Select | Oui | `now` (publier immediatement), `schedule` ou `draft` |
+| **Channel** | Select | Oui | Canal cible (parmi vos canaux connectes) |
+| **Content** | Text | Oui | Contenu textuel du post |
+| **Date** | DateTime | Programme uniquement | Date/heure UTC pour la programmation |
+| **Media** | String | Non | ID(s) de media depuis Upload File ou la generation IA |
+| **Tags** | String | Non | Tags de contenu |
+
+**Les parametres specifiques a la plateforme** sont disponibles pour Instagram (type de post, collaborateurs), LinkedIn (carrousel), YouTube (titre, visibilite, miniature, tags), TikTok (confidentialite, duos, stitches, commentaires, contenu de marque), et d'autres plateformes.
+
+## Delete Post
+
+Supprimez un post programme ou publie par ID.
+
+| Parametre | Type | Requis | Description |
+|-----------|------|:---:|-------------|
+| **Post ID** | String | Oui | L'ID du post a supprimer |
+
+## Generate Image
+
+Generez une image IA de maniere asynchrone. Retourne un ID de tache pour le polling.
+
+| Parametre | Type | Requis | Description |
+|-----------|------|:---:|-------------|
+| **Prompt** | Text | Oui | Description de l'image |
+| **Model** | Select | Oui | Modele IA (FLUX, GPT Image, Nano Banana, Recraft, Ideogram) |
+| **Quantity** | Number | Non | Nombre d'images (1-4, defaut : 1) |
+
+**Retourne :** `{ jobId, status: "processing" }`
+
+Utilisez l'operation **Job Status** pour interroger jusqu'a ce que l'image soit prete.
+
+## Generate Video
+
+Generez une video IA de maniere asynchrone. Retourne un ID de tache pour le polling.
+
+| Parametre | Type | Requis | Description |
+|-----------|------|:---:|-------------|
+| **Prompt** | Text | Oui | Description de la video |
+| **Model** | Select | Non | Modele video |
+| **Duration** | Number | Non | Duree en secondes |
+| **Aspect Ratio** | Select | Non | 16:9, 9:16, 1:1 |
+
+**Retourne :** `{ jobId, status: "processing" }`
+
+## Generate Avatar Video
+
+Creez une video avatar HeyGen avec un script.
+
+| Parametre | Type | Requis | Description |
+|-----------|------|:---:|-------------|
+| **Avatar ID** | String | Oui | ID de l'avatar HeyGen |
+| **Voice ID** | String | Oui | ID de la voix HeyGen |
+| **Script** | Text | Oui | Texte que l'avatar prononcera |
+
+## Get Channels
+
+Listez tous les canaux de reseaux sociaux connectes avec leurs IDs, noms et plateformes.
+
+**Parametres :** Aucun
+
+**Retourne :** Tableau de canaux, chacun avec `id`, `name`, `platform`, `picture`, `disabled`.
+
+## Get Posts
+
+Recuperez les posts programmes et publies filtres par plage de dates.
+
+| Parametre | Type | Requis | Description |
+|-----------|------|:---:|-------------|
+| **Start Date** | DateTime | Oui | Debut de la plage de dates |
+| **End Date** | DateTime | Oui | Fin de la plage de dates |
+
+## Job Status
+
+Verifiez la progression d'une tache de generation d'image ou de video asynchrone.
+
+| Parametre | Type | Requis | Description |
+|-----------|------|:---:|-------------|
+| **Job ID** | String | Oui | ID de tache depuis Generate Image ou Generate Video |
+
+**Retourne :**
+
+| Champ | Description |
+|-------|-------------|
+| `status` | `processing`, `success` ou `failed` |
+| `progress` | Pourcentage 0-100 |
+| `mediaUrl` | URL de telechargement (quand `success`) |
+| `mediaId` | ID de media a utiliser dans Create Post (quand `success`) |
+
+## Upload File
+
+Telechargez un fichier image ou video dans la mediatheque Postzee.
+
+| Parametre | Type | Requis | Description |
+|-----------|------|:---:|-------------|
+| **File** | Binary | Oui | Le fichier a telecharger |
+
+**Retourne :** `{ mediaId }` — utilisez cet ID dans Create Post pour joindre le media.
+
+<CardGroup cols={2}>
+  <Card title="Exemples de workflows" icon="diagram-project" href="/integrations/n8n/example-workflows">
+    Modeles de workflows prets a l'emploi.
+  </Card>
+  <Card title="Guide d'installation" icon="wrench" href="/integrations/n8n/setup">
+    Installer et configurer le noeud Postzee.
+  </Card>
+</CardGroup>

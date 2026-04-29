@@ -1,0 +1,102 @@
+---
+title: Paramètres de Plateforme
+icon: gear
+---
+
+Chaque plateforme a des fonctionnalités et des exigences uniques. Postzee vous permet de configurer des paramètres spécifiques à la plateforme par canal afin que votre contenu soit optimisé pour chaque plateforme sur laquelle vous publiez.
+
+## Comment y accéder
+
+1. Allez dans **Canaux** dans la barre de navigation supérieure
+2. Cliquez sur un canal pour ouvrir ses paramètres
+3. Configurez les options disponibles pour cette plateforme
+
+## Paramètres par plateforme
+
+### TikTok
+
+TikTok exige des paramètres de divulgation de contenu pour chaque vidéo publiée via son API :
+
+| Paramètre | Options | Description |
+|-----------|---------|-------------|
+| **Confidentialité** | Public, Amis mutuels, Abonnés uniquement, Privé | Qui peut voir votre vidéo |
+| **Autoriser les Duos** | Activé / Désactivé | Si d'autres peuvent créer des duos avec votre vidéo |
+| **Autoriser les Stitches** | Activé / Désactivé | Si d'autres peuvent assembler votre vidéo |
+| **Autoriser les Commentaires** | Activé / Désactivé | Si les spectateurs peuvent commenter |
+| **Ajout automatique de musique** | Oui / Non | Laisser TikTok ajouter de la musique de fond |
+| **Contenu de marque** | Activé / Désactivé | Divulguer le contenu sponsorisé/de marque |
+| **Créé avec l'IA** | Activé / Désactivé | Divulguer le contenu généré par IA |
+
+<Note>
+La conformité API de TikTok exige ces paramètres de divulgation. Ils ne peuvent pas être simplifiés ou ignorés. Postzee les valide avant chaque publication.
+</Note>
+
+### YouTube
+
+| Paramètre | Options | Description |
+|-----------|---------|-------------|
+| **Titre** | Texte (2-100 caractères) | Titre de la vidéo — obligatoire pour tous les uploads YouTube |
+| **Visibilité** | Public, Privé, Non répertorié | Qui peut voir votre vidéo |
+| **Miniature** | Upload d'image | Miniature de vidéo personnalisée |
+| **Tags** | Tags texte | Mots-clés recherchables pour la découverte |
+
+### Instagram
+
+| Paramètre | Options | Description |
+|-----------|---------|-------------|
+| **Type de post** | Post dans le fil, Story | Où le contenu apparaît |
+| **Collaborateurs** | Tags de comptes | Taguer des comptes collaborateurs sur le post |
+
+### LinkedIn
+
+| Paramètre | Options | Description |
+|-----------|---------|-------------|
+| **Carrousel d'images** | Activé / Désactivé | Afficher plusieurs images en carrousel déroulant |
+
+### Mastodon
+
+Pour les instances Mastodon auto-hébergées :
+
+| Paramètre | Description |
+|-----------|-------------|
+| **URL de l'instance** | L'adresse de votre serveur Mastodon (ex. : `mastodon.social`) |
+
+### WordPress
+
+| Paramètre | Description |
+|-----------|-------------|
+| **URL du site** | L'adresse de votre site WordPress |
+| **Authentification** | Mot de passe d'application ou identifiants OAuth |
+
+## Paramètres par post vs par canal
+
+- Les **paramètres par canal** sont configurés une fois dans la page Canaux et s'appliquent comme valeurs par défaut à tous les posts
+- Les **paramètres par post** peuvent remplacer les valeurs par défaut du canal lors de la création de posts individuels dans l'Éditeur de Post
+
+Par exemple, vous pourriez définir la confidentialité par défaut de votre canal TikTok sur "Public" mais la remplacer par "Abonnés uniquement" pour un post spécifique.
+
+## Profil du canal
+
+Certaines plateformes vous permettent de mettre à jour votre profil directement depuis Postzee :
+
+| Fonctionnalité | Description |
+|----------------|-------------|
+| **Photo de profil** | Mettez à jour l'avatar de votre canal (plateformes supportées uniquement) |
+| **Nom d'affichage** | Changez le surnom du canal dans Postzee |
+
+## Horaires de publication
+
+Configurez des horaires de publication préférés par canal :
+
+- Définissez des heures spécifiques où le contenu doit être publié
+- Utilisé par la fonctionnalité **Trouver le Meilleur Moment** lors de la programmation des posts
+- Aide à répartir votre contenu sur des créneaux horaires optimaux
+
+<CardGroup cols={2}>
+  <Card title="Connexion des Canaux" icon="plug" href="/channels/connecting">
+    Connectez de nouveaux comptes de réseaux sociaux.
+  </Card>
+  <Card title="Éditeur de Post" icon="pen-to-square" href="/calendar/post-editor">
+    Utilisez les paramètres de plateforme lors de la création de posts.
+  </Card>
+</CardGroup>

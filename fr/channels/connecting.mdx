@@ -1,0 +1,128 @@
+---
+title: Connexion des Canaux
+icon: plug
+---
+
+Connectez vos comptes de réseaux sociaux à Postzee pour publier du contenu depuis un seul tableau de bord. Chaque plateforme utilise un flux d'autorisation OAuth sécurisé — Postzee ne voit et ne stocke jamais votre mot de passe.
+
+## Comment connecter un canal
+
+1. Allez dans **Canaux** dans la barre de navigation supérieure
+2. Cliquez sur **Ajouter un Canal**
+3. Sélectionnez la plateforme que vous souhaitez connecter (ex. : Instagram, LinkedIn, TikTok)
+4. Vous serez redirigé vers la page de connexion de la plateforme
+5. Connectez-vous et **autorisez** Postzee à accéder à votre compte
+6. Vous êtes redirigé vers Postzee — votre canal est maintenant connecté
+
+<Note>
+Certaines plateformes (comme Instagram et Facebook) partagent le même flux d'autorisation via Facebook Business. Connecter l'une peut vous donner accès pour connecter l'autre.
+</Note>
+
+## Instructions par plateforme
+
+### Instagram
+
+1. Cliquez sur **Ajouter un Canal** → **Instagram**
+2. Connectez-vous avec votre compte **Facebook** (les profils business Instagram sont gérés via Facebook)
+3. Sélectionnez le profil Instagram Business ou Creator que vous souhaitez connecter
+4. Autorisez les permissions requises
+5. Votre canal Instagram apparaît dans la liste
+
+<Note>
+Instagram nécessite un profil **Business** ou **Creator** connecté à une Page Facebook. Les comptes Instagram personnels ne peuvent pas être connectés via l'API.
+</Note>
+
+### Facebook
+
+1. Cliquez sur **Ajouter un Canal** → **Facebook**
+2. Connectez-vous avec votre compte Facebook
+3. Sélectionnez la **Page** ou le **Groupe** que vous souhaitez gérer
+4. Autorisez les permissions
+5. Votre canal Facebook est prêt
+
+### TikTok
+
+1. Cliquez sur **Ajouter un Canal** → **TikTok**
+2. Connectez-vous avec votre compte TikTok
+3. Autorisez Postzee
+4. Configurez les paramètres de divulgation de contenu (requis par l'API de TikTok)
+5. Votre canal TikTok est connecté
+
+### LinkedIn
+
+1. Cliquez sur **Ajouter un Canal** → **LinkedIn**
+2. Connectez-vous avec votre compte LinkedIn
+3. Choisissez entre votre **Profil Personnel** ou une **Page Entreprise**
+4. Autorisez les permissions
+5. Votre canal LinkedIn est prêt
+
+### YouTube
+
+1. Cliquez sur **Ajouter un Canal** → **YouTube**
+2. Connectez-vous avec votre compte Google
+3. Sélectionnez la chaîne YouTube que vous souhaitez gérer
+4. Autorisez les permissions
+5. Votre canal YouTube est connecté
+
+### X (Twitter)
+
+1. Cliquez sur **Ajouter un Canal** → **X (Twitter)**
+2. Connectez-vous avec votre compte X
+3. Autorisez Postzee
+4. Votre canal X est prêt
+
+### Autres plateformes
+
+Pour les plateformes comme Pinterest, Threads, Bluesky, Discord, Telegram, Slack, Reddit, Mastodon et autres — le flux est similaire :
+
+1. Cliquez sur **Ajouter un Canal** → sélectionnez la plateforme
+2. Complétez l'autorisation de la plateforme ou fournissez les identifiants requis
+3. Le canal apparaît dans votre liste
+
+Certaines plateformes (Discord, Telegram, Slack) utilisent des connexions **basées sur les webhooks** au lieu d'OAuth — vous serez guidé à travers la configuration.
+
+Pour les plateformes auto-hébergées comme **Mastodon** ou **WordPress**, vous devrez fournir l'URL de votre instance lors de la configuration.
+
+## Comptes multiples
+
+Vous pouvez connecter plusieurs comptes de la même plateforme. Par exemple :
+
+- 2 profils Instagram Business
+- 3 Pages Entreprise LinkedIn
+- 1 compte TikTok
+
+Chaque connexion compte comme un canal dans la limite de votre plan.
+
+## Reconnecter un canal
+
+Les tokens OAuth peuvent expirer ou être révoqués. Quand cela arrive, le canal affiche un indicateur **Reconnexion nécessaire**.
+
+Pour corriger :
+
+1. Allez dans **Canaux** dans la barre de navigation supérieure
+2. Trouvez le canal avec l'avertissement de reconnexion
+3. Cliquez sur **Reconnecter**
+4. Complétez à nouveau le flux OAuth
+5. Le canal est restauré avec tous ses paramètres intacts
+
+<Note>
+Les posts programmés pour un canal déconnecté échoueront quand leur heure de publication arrivera. Reconnectez le canal avant l'heure programmée pour éviter les erreurs.
+</Note>
+
+## Dépannage
+
+| Problème | Solution |
+|----------|----------|
+| L'autorisation échoue | Assurez-vous de vous connecter au bon compte sur la plateforme |
+| Instagram n'apparaît pas | Vérifiez que votre Instagram est un profil Business ou Creator lié à une Page Facebook |
+| Le canal affiche "Reconnexion nécessaire" | Le token a expiré — cliquez sur Reconnecter pour ré-autoriser |
+| La plateforme n'est pas dans la liste | Consultez les [Plateformes Supportées](/get-started/supported-platforms) pour la liste complète, ou contactez le support |
+
+<CardGroup cols={2}>
+  <Card title="Vue d'ensemble des Canaux" icon="share-nodes" href="/channels/overview">
+    Gérez et organisez vos canaux connectés.
+  </Card>
+  <Card title="Paramètres de Plateforme" icon="gear" href="/channels/platform-settings">
+    Configurez les options par plateforme après la connexion.
+  </Card>
+</CardGroup>

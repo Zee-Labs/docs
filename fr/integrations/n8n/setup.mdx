@@ -1,0 +1,87 @@
+---
+title: Installation n8n
+icon: wrench
+---
+
+Installez le noeud personnalise Postzee dans votre instance n8n et configurez vos identifiants API.
+
+## Etape 1 : Installer le noeud Postzee
+
+### Noeud communautaire n8n
+
+1. Ouvrez votre instance n8n
+2. Allez dans **Settings** → **Community Nodes**
+3. Cliquez sur **Install a community node**
+4. Entrez : `n8n-nodes-postzee`
+5. Cliquez sur **Install**
+6. Le noeud Postzee apparait dans votre palette de noeuds
+
+### Installation manuelle (auto-heberge)
+
+```bash
+cd ~/.n8n
+npm install n8n-nodes-postzee
+```
+
+Redemarrez votre instance n8n apres l'installation.
+
+## Etape 2 : Creer une cle API Postzee
+
+1. Connectez-vous a [Postzee](https://dashboard.postzee.app)
+2. Ouvrez le panneau de compte (cliquez sur votre avatar en haut a droite)
+3. Allez dans **Parametres** → onglet **API**
+4. Cliquez sur **Creer une cle API**
+5. Copiez la cle — vous en aurez besoin a l'etape suivante
+
+<Warning>
+Stockez votre cle API de maniere securisee. Elle fournit un acces API complet a votre compte Postzee.
+</Warning>
+
+## Etape 3 : Configurer les identifiants dans n8n
+
+1. Dans n8n, allez dans **Credentials** → **New Credential**
+2. Recherchez **Postzee API**
+3. Collez votre cle API dans le champ **API Key**
+4. Cliquez sur **Save**
+5. n8n teste la connexion automatiquement — vous devriez voir un message de succes
+
+La configuration des identifiants utilise l'authentification par en-tete :
+
+| Champ | Valeur |
+|-------|--------|
+| **API Key** | Votre cle API Postzee |
+| **Base URL** | `https://api.postzee.app/public/v1` (configure automatiquement) |
+
+## Etape 4 : Ajouter le noeud Postzee a un workflow
+
+1. Creez un nouveau workflow ou ouvrez-en un existant
+2. Cliquez sur **+** pour ajouter un noeud
+3. Recherchez **Postzee**
+4. Selectionnez le noeud **Postzee**
+5. Choisissez une operation (par ex., Create Post, Generate Image)
+6. Selectionnez votre identifiant Postzee
+7. Configurez les parametres de l'operation
+8. Connectez aux autres noeuds et activez votre workflow
+
+## Verifier la connexion
+
+Le moyen le plus rapide de tester votre configuration :
+
+1. Ajoutez un noeud Postzee a un workflow
+2. Selectionnez l'operation **Get Channels**
+3. Cliquez sur **Execute Node**
+4. Vous devriez voir une liste de vos canaux connectes
+
+Si vous voyez une erreur, verifiez :
+- Votre cle API est correcte et active
+- Votre compte Postzee a un plan payant actif
+- Votre instance n8n peut atteindre `api.postzee.app`
+
+<CardGroup cols={2}>
+  <Card title="Operations" icon="list" href="/integrations/n8n/operations">
+    Reference detaillee de toutes les operations.
+  </Card>
+  <Card title="Exemples de workflows" icon="diagram-project" href="/integrations/n8n/example-workflows">
+    Modeles de workflows prets a l'emploi.
+  </Card>
+</CardGroup>

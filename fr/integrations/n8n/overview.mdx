@@ -1,0 +1,53 @@
+---
+title: Integration n8n
+icon: arrows-rotate
+---
+
+Automatisez vos workflows de reseaux sociaux avec le **noeud n8n personnalise** de Postzee. Creez des posts, generez des medias IA, gerez les canaux et construisez des pipelines d'automatisation complexes — le tout sans ecrire de code.
+
+## Qu'est-ce que n8n ?
+
+[n8n](https://n8n.io) est une plateforme d'automatisation de workflows open-source. Elle vous permet de connecter des applications et des services ensemble avec des workflows visuels. Le noeud n8n personnalise de Postzee apporte toutes les fonctionnalites de Postzee dans vos pipelines d'automatisation.
+
+## Ce que vous pouvez automatiser
+
+Avec le noeud Postzee pour n8n, vous pouvez :
+
+- **Creer et programmer des posts** sur n'importe quel canal connecte
+- **Generer des images IA** avec n'importe lequel des 16 modeles d'images de Postzee
+- **Generer des videos IA** avec plus de 30 modeles video
+- **Generer des videos avatar** avec HeyGen
+- **Telecharger des fichiers** dans votre mediatheque
+- **Lister les canaux** pour selectionner dynamiquement les cibles de publication
+- **Verifier le statut des taches** pour attendre la fin de la generation IA
+- **Recuperer les posts** pour obtenir le contenu programme ou publie existant
+- **Supprimer les posts** pour nettoyer le contenu
+
+## Operations disponibles
+
+| Operation | Description |
+|-----------|-------------|
+| **Create Post** | Programmer, publier ou enregistrer un brouillon de post sur un ou plusieurs canaux |
+| **Delete Post** | Supprimer un post programme ou publie |
+| **Generate Image** | Generer une image IA (asynchrone — retourne un ID de tache) |
+| **Generate Video** | Generer une video IA (asynchrone — retourne un ID de tache) |
+| **Generate Avatar Video** | Creer une video avatar HeyGen |
+| **Get Channels** | Lister tous les canaux de reseaux sociaux connectes |
+| **Get Posts** | Recuperer les posts programmes et publies |
+| **Job Status** | Verifier la progression des taches de generation asynchrones |
+| **Upload File** | Telecharger une image ou une video dans la mediatheque |
+
+## Prerequis
+
+- Un **compte Postzee** avec un plan payant (Standard ou superieur)
+- Une **instance n8n** (auto-hebergee ou n8n Cloud)
+- Une **cle API Postzee** (a creer dans Parametres → onglet API)
+
+<CardGroup cols={2}>
+  <Card title="Guide d'installation" icon="wrench" href="/integrations/n8n/setup">
+    Installer le noeud Postzee et configurer les identifiants.
+  </Card>
+  <Card title="Operations" icon="list" href="/integrations/n8n/operations">
+    Reference detaillee des 9 operations.
+  </Card>
+</CardGroup>

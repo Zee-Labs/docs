@@ -1,0 +1,85 @@
+---
+title: Authentification
+icon: lock
+---
+
+L'API publique de Postzee utilise l'**authentification par cle API**. Tous les endpoints necessitent une cle API valide envoyee dans l'en-tete `Authorization`.
+
+## URL de base
+
+```
+https://api.postzee.app/public/v1
+```
+
+## Authentification
+
+Incluez votre cle API dans l'en-tete `Authorization` de chaque requete :
+
+```bash
+curl -H "Authorization: YOUR_API_KEY" \
+  https://api.postzee.app/public/v1/credits
+```
+
+<Warning>
+N'utilisez **pas** le prefixe `Bearer`. Envoyez la cle API directement comme valeur de l'en-tete.
+</Warning>
+
+## Creer une cle API
+
+1. Connectez-vous a [Postzee](https://dashboard.postzee.app)
+2. Ouvrez le panneau de compte (cliquez sur votre avatar en haut a droite)
+3. Allez dans **Parametres** → onglet **API**
+4. Cliquez sur **Creer une cle API**
+5. Copiez la cle immediatement — elle ne sera affichee qu'une seule fois
+
+## Prerequis
+
+- Un **plan payant** (Standard ou superieur) — le plan Gratuit n'inclut pas l'acces API
+- Un **abonnement actif** — les abonnements expires ne peuvent pas utiliser l'API
+- Le compte ne doit **pas etre bloque**
+
+## Reponses d'erreur
+
+| Statut | Signification |
+|--------|---------------|
+| `401` | Cle API manquante ou invalide |
+| `401` | Pas d'abonnement actif |
+| `403` | Compte bloque |
+| `429` | Limite de debit depassee |
+
+Toutes les reponses d'erreur suivent ce format :
+
+```json
+{
+  "statusCode": 401,
+  "message": "Unauthorized"
+}
+```
+
+## Tester votre connexion
+
+Utilisez l'endpoint de verification de sante pour verifier que votre cle API fonctionne :
+
+```bash
+curl -H "Authorization: YOUR_API_KEY" \
+  https://api.postzee.app/public/v1/is-connected
+```
+
+**Reponse de succes :**
+```json
+{
+  "connected": true
+}
+```
+
+## Endpoints disponibles
+
+| Groupe | Endpoints |
+|--------|-----------|
+| [Posts](/api-reference/posts) | Creer, lister, supprimer des posts |
+| [Canaux](/api-reference/channels) | Lister les canaux connectes |
+| [Media](/api-reference/media) | Generer des images, videos, telecharger des fichiers |
+| [Credits](/api-reference/credits) | Verifier le solde, ameliorer les prompts |
+| [Taches](/api-reference/jobs) | Interroger les taches de generation asynchrones |
+
+Consultez [Limites de debit](/api-reference/rate-limits) pour les limites de requetes par endpoint.

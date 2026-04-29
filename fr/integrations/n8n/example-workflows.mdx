@@ -1,0 +1,92 @@
+---
+title: Exemples de workflows
+icon: diagram-project
+---
+
+Modeles de workflows prets a l'emploi pour les scenarios d'automatisation courants avec le noeud Postzee pour n8n.
+
+## 1. Generer une image IA et la publier sur Instagram
+
+Generez automatiquement une image IA et publiez-la sur Instagram.
+
+**Etapes du workflow :**
+
+1. **Trigger** — Programmation (par ex., tous les jours a 9h00) ou manuel
+2. **Postzee: Generate Image** — prompt : votre texte, model : Nano Banana Pro
+3. **Wait** — 30 secondes (pour que la generation se termine)
+4. **Postzee: Job Status** — verifier si l'image est prete
+5. **IF** — status = "success"
+6. **Postzee: Create Post** — type : "now", channel : Instagram, media : mediaId de l'etape 4
+
+**Configuration cle :**
+- Utilisez le noeud **Job Status** dans une boucle pour interroger jusqu'a `status === "success"`
+- Passez le `mediaId` de Job Status a Create Post
+
+## 2. Flux RSS vers les reseaux sociaux
+
+Publiez automatiquement les nouveaux elements de flux RSS sur plusieurs canaux sociaux.
+
+**Etapes du workflow :**
+
+1. **RSS Feed Trigger** — surveillez votre blog ou flux d'actualites
+2. **Postzee: Get Channels** — obtenir les canaux disponibles
+3. **Postzee: Create Post** — pour chaque nouvel element RSS :
+   - `type` : "now"
+   - `content` : titre RSS + lien
+   - `channel` : ID du canal cible
+
+## 3. Programmer du contenu hebdomadaire en masse
+
+Preparez et programmez le contenu d'une semaine en un seul lot.
+
+**Etapes du workflow :**
+
+1. **Google Sheets** — lire le plan de contenu (colonnes : date, heure, texte, canal, prompt d'image)
+2. **Loop** — pour chaque ligne :
+   - **Postzee: Generate Image** — utiliser le prompt d'image
+   - **Wait + Job Status** — interroger jusqu'a ce que ce soit pret
+   - **Postzee: Create Post** — type : "schedule", date : depuis la feuille de calcul, media : image generee
+
+## 4. Pipeline de generation d'images IA
+
+Generez plusieurs images IA avec differents modeles et styles pour des tests A/B.
+
+**Etapes du workflow :**
+
+1. **Trigger** — manuel ou webhook
+2. **Split in Batches** — creer des variations du meme prompt
+3. **Postzee: Generate Image** — modele different par lot (Nano Banana Pro, FLUX, Recraft)
+4. **Wait + Job Status** — interroger toutes les taches
+5. **Merge** — collecter toutes les images generees
+6. **Postzee: Create Post** — publier la meilleure, ou creer un carrousel
+
+## 5. Pipeline de reutilisation de contenu
+
+Generez une image IA, puis creez des posts pour plusieurs plateformes avec du contenu optimise par plateforme.
+
+**Etapes du workflow :**
+
+1. **Trigger** — webhook avec sujet/prompt
+2. **OpenAI Node** — generer des legendes specifiques par plateforme (courte pour X, plus longue pour LinkedIn)
+3. **Postzee: Generate Image** — generer le visuel
+4. **Wait + Job Status** — interroger jusqu'a ce que ce soit pret
+5. **Postzee: Create Post (Instagram)** — image + legende Instagram + hashtags
+6. **Postzee: Create Post (LinkedIn)** — meme image + legende LinkedIn
+7. **Postzee: Create Post (X)** — meme image + tweet court
+
+## Conseils pour creer des workflows
+
+- **Interrogez toujours Job Status** — la generation d'images et de videos est asynchrone. Ne supposez jamais que le media est pret immediatement.
+- **Utilisez le noeud Wait** — ajoutez une attente de 15-30 secondes avant la premiere verification Job Status pour eviter les interrogations inutiles.
+- **Gestion des erreurs** — ajoutez un noeud IF apres Job Status pour gerer les cas `status === "failed"`.
+- **Selection dynamique des canaux** — utilisez Get Channels pour construire des listes de canaux dynamiques au lieu de coder en dur les IDs de canaux.
+- **Limites de debit** — l'API de Postzee autorise 30 requetes/heure pour les endpoints generaux et 10 requetes/minute pour la generation IA. Espacez les operations par lots en consequence.
+
+<CardGroup cols={2}>
+  <Card title="Reference des operations" icon="list" href="/integrations/n8n/operations">
+    Reference detaillee des 9 operations.
+  </Card>
+  <Card title="Reference API" icon="code" href="/api-reference/authentication">
+    Utilisez l'API REST directement pour les integrations personnalisees.
+  </Card>
+</CardGroup>

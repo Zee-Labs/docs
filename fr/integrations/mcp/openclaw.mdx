@@ -1,0 +1,89 @@
+---
+title: OpenClaw
+icon: plug
+---
+
+Connectez Postzee a **OpenClaw** pour generer des medias IA et gerer les posts sur les reseaux sociaux via votre agent IA OpenClaw.
+
+## Installation
+
+Installez le plugin Postzee depuis ClawHub :
+
+```bash
+openclaw plugins install @zeelabs/openclaw-postzee
+openclaw gateway restart
+```
+
+## Configuration
+
+Ajoutez votre cle API Postzee a la configuration OpenClaw :
+
+```json
+{
+  "plugins": {
+    "entries": {
+      "postzee": {
+        "enabled": true,
+        "config": {
+          "apiKey": "YOUR_POSTZEE_API_KEY"
+        }
+      }
+    }
+  }
+}
+```
+
+### Obtenir votre cle API
+
+1. Connectez-vous a [Postzee](https://dashboard.postzee.app)
+2. Ouvrez le panneau de compte → **Parametres** → onglet **API**
+3. Cliquez sur **Reveal** et copiez la cle API
+4. Collez-la dans le champ `apiKey` ci-dessus
+
+<Note>
+Copiez la valeur de la **cle API**, pas l'URL MCP. Le plugin gere la configuration de la connexion automatiquement.
+</Note>
+
+## Outils disponibles
+
+Une fois installe, les outils suivants sont disponibles pour votre agent OpenClaw :
+
+| Outil | Description |
+|-------|-------------|
+| `postzee_list_channels` | Lister les canaux de reseaux sociaux connectes |
+| `postzee_get_credits` | Verifier le solde de credits IA |
+| `postzee_list_image_models` | Lister les modeles d'images disponibles |
+| `postzee_list_video_models` | Lister les modeles video disponibles |
+| `postzee_enhance_prompt` | Optimiser les prompts pour de meilleurs resultats (gratuit) |
+| `postzee_generate_image` | Generer une image IA |
+| `postzee_generate_video` | Generer une video IA |
+| `postzee_check_job` | Verifier le statut d'une tache de generation |
+| `postzee_create_post` | Creer, programmer ou publier un post |
+
+## Exemples d'utilisation
+
+Une fois configure, interagissez avec Postzee via votre agent OpenClaw :
+
+- "Liste mes canaux de reseaux sociaux connectes"
+- "Genere une photo professionnelle de produit d'une tasse de cafe"
+- "Publie une image de coucher de soleil sur mon LinkedIn avec la legende 'Une autre belle journee'"
+- "Combien de credits ai-je ?"
+- "Genere une video de 10 secondes de vagues d'ocean"
+
+## Details du plugin
+
+| Propriete | Valeur |
+|-----------|--------|
+| **Package** | `@zeelabs/openclaw-postzee` |
+| **Plugin ID** | `postzee` |
+| **Outils** | 9 |
+| **Compatibilite** | OpenClaw 2026.3.24-beta.2+ |
+
+<CardGroup cols={2}>
+  <Card title="Reference des outils" icon="wrench" href="/integrations/mcp/tools-reference">
+    Reference complete des 9 outils.
+  </Card>
+  <Card title="Claude Code" icon="terminal" href="/integrations/mcp/claude-code">
+    Connecter Postzee a Claude Code a la place.
+  </Card>
+</CardGroup>

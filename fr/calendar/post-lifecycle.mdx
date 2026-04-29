@@ -1,0 +1,125 @@
+---
+title: Cycle de Vie d'un Post
+icon: arrows-rotate
+---
+
+Chaque post dans Postzee suit un cycle de vie de la création à la publication. Comprendre ces statuts vous aide à gérer votre pipeline de contenu et à résoudre les problèmes.
+
+## Statuts d'un post
+
+Un post progresse à travers ces statuts :
+
+```
+Brouillon → Programmé → File d'attente → Publié
+                              └→ Erreur
+```
+
+| Statut | Couleur | Description |
+|--------|---------|-------------|
+| **Brouillon** | Gris | Le post est enregistré mais non programmé. Il ne sera pas publié tant que vous ne le programmez pas. |
+| **Programmé** | Bleu | Le post est prévu pour publication à une date/heure spécifique. En attente du moment programmé. |
+| **File d'attente** | Bleu | L'heure programmée est arrivée. Le post est en cours de traitement et d'envoi à l'API de la plateforme. |
+| **Publié** | Violet | Le post a été livré avec succès à la plateforme. Il est en ligne. |
+| **Erreur** | Rouge | Le post n'a pas pu être publié. Consultez les détails de l'erreur pour la raison. |
+
+## Transitions de statut
+
+### Brouillon vers Programmé
+
+Quand vous définissez une date/heure et cliquez sur **Programmer le Post**, le post passe de Brouillon à Programmé. Il apparaît sur votre Calendrier avec un indicateur bleu.
+
+Vous pouvez encore modifier le contenu et reprogrammer dans ce statut.
+
+### Programmé vers File d'attente
+
+À l'heure programmée, le post entre automatiquement dans la File d'attente. Les workers en arrière-plan de Postzee le prennent en charge et commencent le processus de publication.
+
+Cette transition est automatique — aucune action de votre part n'est nécessaire.
+
+### File d'attente vers Publié
+
+Le worker envoie votre contenu à l'API de la plateforme (Instagram, TikTok, LinkedIn, etc.). En cas de succès, le post passe à Publié et l'indicateur violet apparaît sur votre Calendrier.
+
+### File d'attente vers Erreur
+
+Si l'API de la plateforme rejette le post ou qu'un problème de connexion survient, le post passe au statut Erreur. La raison spécifique de l'erreur est enregistrée pour que vous puissiez diagnostiquer le problème.
+
+## Ce que vous pouvez faire à chaque statut
+
+| Action | Brouillon | Programmé | Publié | Erreur |
+|--------|:---:|:---:|:---:|:---:|
+| Modifier le contenu | Oui | Oui | — | — |
+| Reprogrammer | Oui | Oui | — | — |
+| Glisser sur le calendrier | Oui | Oui | — | — |
+| Supprimer | Oui | Oui | Oui | Oui |
+| Réessayer | — | — | — | Oui |
+| Voir les détails | Oui | Oui | Oui | Oui |
+
+## Gestion des erreurs
+
+Quand un post échoue, voici comment le corriger :
+
+1. Trouvez le post sur votre Calendrier (il a un indicateur rouge)
+2. Cliquez dessus pour voir les **détails de l'erreur**
+3. Corrigez le problème sous-jacent en fonction de la raison de l'erreur
+4. Cliquez sur **Réessayer** pour tenter à nouveau la publication
+
+### Raisons d'erreur courantes
+
+| Erreur | Cause | Solution |
+|--------|-------|----------|
+| **Canal déconnecté** | Token OAuth expiré ou révoqué | Allez dans **Canaux** → reconnectez le compte |
+| **Canal désactivé** | Le canal a été manuellement désactivé | Allez dans **Canaux** → activez le canal |
+| **Contenu rejeté** | La plateforme a rejeté le contenu (format, taille, politique) | Modifiez le post pour correspondre aux exigences de la plateforme |
+| **Limite de débit** | Trop de posts envoyés à la plateforme en peu de temps | Attendez quelques minutes et réessayez |
+| **Compte bloqué** | Votre compte Postzee a un problème de facturation ou de politique | Vérifiez le statut de votre compte dans **Paramètres** |
+
+## Comportement des posts multi-canaux
+
+Quand vous publiez sur plusieurs canaux simultanément :
+
+- Chaque canal est traité indépendamment
+- Si un canal échoue, les autres publient quand même avec succès
+- Les canaux en échec affichent un statut Erreur — vous pouvez les réessayer individuellement
+- Tous les posts du même groupe partagent un **identifiant de groupe** les reliant ensemble
+
+### Exemple
+
+Vous programmez un post pour Instagram, LinkedIn et X (Twitter) à 10h00 :
+
+| Canal | Résultat | Statut |
+|-------|----------|--------|
+| Instagram | Livré avec succès | Publié |
+| LinkedIn | Livré avec succès | Publié |
+| X (Twitter) | Token expiré | Erreur |
+
+Dans ce cas, vous devez uniquement reconnecter votre compte X (Twitter) et réessayer ce seul post. Instagram et LinkedIn sont déjà en ligne.
+
+## Suppression
+
+Quand vous supprimez un post :
+
+- **Brouillon / Programmé** — le post est retiré de votre Calendrier. Rien n'a été publié.
+- **Publié** — le post est retiré du Calendrier de Postzee, mais le contenu **reste en ligne sur la plateforme**. Pour le retirer de la plateforme, vous devez le supprimer directement depuis Instagram, LinkedIn, etc.
+- **Erreur** — le post est supprimé. Puisqu'il n'a jamais été publié, il n'y a rien à nettoyer.
+
+<Note>
+Supprimer un post dans Postzee ne le supprime pas de la plateforme de réseaux sociaux. Si un post a déjà été publié, vous devez le retirer directement depuis la plateforme.
+</Note>
+
+## Commentaires sur les posts
+
+Les membres de l'équipe peuvent laisser des commentaires sur n'importe quel post pour la collaboration :
+
+- Ouvrez un post depuis le Calendrier
+- Ajoutez un commentaire dans la section de commentaires
+- Les commentaires sont visibles par tous les membres de l'équipe
+
+<CardGroup cols={2}>
+  <Card title="Vue d'ensemble du Calendrier" icon="calendar" href="/calendar/overview">
+    Naviguez et gérez votre calendrier de contenu.
+  </Card>
+  <Card title="Connexion des Canaux" icon="plug" href="/channels/connecting">
+    Corrigez les problèmes de connexion des canaux.
+  </Card>
+</CardGroup>

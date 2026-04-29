@@ -1,0 +1,229 @@
+---
+title: Reference des outils MCP
+icon: wrench
+---
+
+Reference complete des 9 outils exposes par le serveur MCP de Postzee. Ces outils sont disponibles pour tout agent IA compatible MCP (Claude Code, OpenClaw ou clients MCP directs).
+
+## POSTZEE_LIST_CHANNELS
+
+Obtenir tous les canaux de reseaux sociaux connectes.
+
+**Parametres :** Aucun
+
+**Retourne :**
+```json
+[
+  {
+    "id": "channel-uuid",
+    "name": "My Instagram",
+    "platform": "instagram",
+    "picture": "https://...",
+    "disabled": false
+  }
+]
+```
+
+---
+
+## POSTZEE_GET_CREDITS
+
+Verifier le solde et l'utilisation des credits IA.
+
+**Parametres :** Aucun
+
+**Retourne :**
+```json
+{
+  "available": 4500,
+  "monthly": 5000,
+  "used": 500,
+  "purchased": 0
+}
+```
+
+Toutes les valeurs sont en credits (1 000 credits = 1 $ USD).
+
+---
+
+## POSTZEE_LIST_IMAGE_MODELS
+
+Lister les modeles de generation d'images IA disponibles avec leurs capacites.
+
+**Parametres :** Aucun
+
+**Retourne :** Tableau de modeles avec `id`, `displayName`, `supportsReferenceImages` et d'autres metadonnees.
+
+---
+
+## POSTZEE_LIST_VIDEO_MODELS
+
+Lister les modeles de generation de videos IA disponibles avec leurs capacites.
+
+**Parametres :** Aucun
+
+**Retourne :** Tableau de modeles video avec `id`, `displayName` et d'autres metadonnees.
+
+---
+
+## POSTZEE_ENHANCE_PROMPT
+
+Optimiser un prompt utilisateur pour de meilleurs resultats de generation IA. C'est gratuit — aucun cout en credits.
+
+**Parametres :**
+
+| Parametre | Type | Requis | Description |
+|-----------|------|:---:|-------------|
+| `prompt` | string | Oui | Le prompt de l'utilisateur a optimiser |
+| `mediaType` | string | Oui | `"image"` ou `"video"` |
+| `model` | string | Non | ID du modele IA cible (pour une optimisation specifique au modele) |
+
+**Retourne :**
+```json
+{
+  "success": true,
+  "enhancedPrompt": "A young woman in a tailored trench coat walks through..."
+}
+```
+
+---
+
+## POSTZEE_GENERATE_IMAGE
+
+Generer une image IA a partir d'un prompt textuel. C'est une **operation asynchrone** — elle retourne un ID de tache que vous devez interroger avec `POSTZEE_CHECK_JOB`.
+
+**Parametres :**
+
+| Parametre | Type | Requis | Description |
+|-----------|------|:---:|-------------|
+| `prompt` | string | Oui | Description detaillee de l'image |
+| `model` | string | Oui | ID du modele depuis `POSTZEE_LIST_IMAGE_MODELS` |
+
+**Retourne :**
+```json
+{
+  "jobId": "job-uuid",
+  "status": "processing",
+  "message": "Image generation started"
+}
+```
+
+---
+
+## POSTZEE_GENERATE_VIDEO
+
+Generer une video IA a partir d'un prompt textuel. C'est une **operation asynchrone** — elle retourne un ID de tache que vous devez interroger avec `POSTZEE_CHECK_JOB`.
+
+**Parametres :**
+
+| Parametre | Type | Requis | Description |
+|-----------|------|:---:|-------------|
+| `prompt` | string | Oui | Description detaillee de la video |
+| `model` | string | Oui | ID du modele depuis `POSTZEE_LIST_VIDEO_MODELS` |
+| `duration` | string | Non | Duree en secondes (par ex., `"5"`, `"10"`) |
+| `aspectRatio` | string | Non | Format d'image (par ex., `"16:9"`, `"9:16"`). Defaut : `"16:9"` |
+
+**Retourne :**
+```json
+{
+  "jobId": "job-uuid",
+  "status": "processing",
+  "message": "Video generation started"
+}
+```
+
+---
+
+## POSTZEE_CHECK_JOB
+
+Interroger le statut d'une tache de generation d'image ou de video asynchrone.
+
+**Parametres :**
+
+| Parametre | Type | Requis | Description |
+|-----------|------|:---:|-------------|
+| `jobId` | string | Oui | ID de tache depuis `POSTZEE_GENERATE_IMAGE` ou `POSTZEE_GENERATE_VIDEO` |
+
+**Retourne (en cours) :**
+```json
+{
+  "jobId": "job-uuid",
+  "status": "processing",
+  "progress": 45
+}
+```
+
+**Retourne (succes) :**
+```json
+{
+  "jobId": "job-uuid",
+  "status": "success",
+  "progress": 100,
+  "mediaUrl": "https://cdn.postzee.app/...",
+  "mediaId": "media-uuid"
+}
+```
+
+**Retourne (echec) :**
+```json
+{
+  "jobId": "job-uuid",
+  "status": "failed",
+  "error": "Generation failed: insufficient credits"
+}
+```
+
+---
+
+## POSTZEE_CREATE_POST
+
+Creer, programmer ou publier un post sur un ou plusieurs canaux de reseaux sociaux.
+
+**Parametres :**
+
+| Parametre | Type | Requis | Description |
+|-----------|------|:---:|-------------|
+| `type` | string | Oui | `"now"` (publier immediatement), `"draft"` ou `"schedule"` |
+| `date` | string | Programme uniquement | Date/heure UTC (par ex., `"2026-04-24T15:00:00Z"`) |
+| `channelId` | string | Oui | ID de canal depuis `POSTZEE_LIST_CHANNELS` |
+| `text` | string | Oui | Contenu textuel du post |
+| `mediaUrls` | string[] | Non | URLs de media depuis les resultats `POSTZEE_CHECK_JOB` |
+
+**Retourne :**
+```json
+{
+  "success": true,
+  "postId": "post-uuid",
+  "message": "Post published successfully"
+}
+```
+
+---
+
+## Pattern de workflow asynchrone
+
+La generation d'images et de videos est asynchrone. Le workflow recommande :
+
+1. Appelez `POSTZEE_GENERATE_IMAGE` ou `POSTZEE_GENERATE_VIDEO` → obtenez `jobId`
+2. Attendez quelques secondes
+3. Appelez `POSTZEE_CHECK_JOB` avec le `jobId`
+4. Si `status === "processing"`, attendez et interrogez a nouveau
+5. Si `status === "success"`, utilisez le `mediaUrl` ou `mediaId` dans `POSTZEE_CREATE_POST`
+6. Si `status === "failed"`, lisez l'erreur et reessayez ou informez l'utilisateur
+
+## Limites de debit
+
+| Endpoint | Limite |
+|----------|--------|
+| Connexion SSE | 30 requetes/minute |
+| HTTP POST | 60 requetes/minute |
+| Generation IA | 10 requetes/minute |
+
+<CardGroup cols={2}>
+  <Card title="Claude Code" icon="terminal" href="/integrations/mcp/claude-code">
+    Connecter Postzee a Claude Code.
+  </Card>
+  <Card title="OpenClaw" icon="plug" href="/integrations/mcp/openclaw">
+    Connecter Postzee a OpenClaw.
+  </Card>
+</CardGroup>

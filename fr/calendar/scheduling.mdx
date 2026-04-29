@@ -1,0 +1,107 @@
+---
+title: Programmer des Posts
+icon: clock
+---
+
+Programmez vos posts pour qu'ils soient publiés automatiquement au moment idéal. Postzee gère la conversion des fuseaux horaires, la gestion de la file d'attente et la livraison à tous vos canaux connectés.
+
+## Options de publication
+
+Lors de la création ou de la modification d'un post, vous avez trois options de publication :
+
+| Option | Ce que cela fait |
+|--------|-----------------|
+| **Publier maintenant** | Envoie le post immédiatement à vos canaux sélectionnés |
+| **Programmer** | Met le post en file d'attente pour publication à une date et heure spécifiques |
+| **Enregistrer le Brouillon** | Enregistre le post sans le programmer — vous pouvez le programmer plus tard |
+
+## Comment programmer un post
+
+1. Ouvrez l'**Éditeur de Post** (depuis le Calendrier, Zee Studio ou le bouton **Créer un Post**)
+2. Rédigez votre contenu et sélectionnez vos canaux
+3. Choisissez une date et une heure avec le **sélecteur de date/heure**
+4. Cliquez sur **Programmer le Post**
+5. Le post apparaît sur votre Calendrier avec un indicateur bleu **Programmé**
+6. À l'heure programmée, Postzee publie automatiquement sur tous les canaux sélectionnés
+
+<Note>
+L'heure de programmation minimale est le moment présent. Vous ne pouvez pas programmer de posts dans le passé.
+</Note>
+
+## Gestion des fuseaux horaires
+
+Tous les horaires programmés respectent le fuseau horaire configuré de votre équipe :
+
+- Le sélecteur de date/heure affiche les heures dans **votre fuseau horaire**
+- Lors de la publication, Postzee convertit en UTC en interne et livre au moment exact que vous avez sélectionné
+- Les membres de l'équipe dans différents fuseaux horaires voient tous la même heure locale relative au paramètre de l'équipe
+
+Pour changer le fuseau horaire de votre équipe, ouvrez le panneau de compte → **Paramètres** → onglet **Préférences** → **Fuseau horaire**.
+
+## Trouver le meilleur moment
+
+Vous ne savez pas quand publier ? Utilisez la fonctionnalité **Trouver le Meilleur Moment** :
+
+1. Dans l'éditeur de post, cliquez sur **Trouver le Meilleur Moment** (ou l'icône horloge)
+2. Postzee analyse votre calendrier et trouve les créneaux horaires les moins chargés
+3. Une date/heure suggérée est automatiquement renseignée
+4. Ajustez si nécessaire, puis cliquez sur **Programmer le Post**
+
+L'algorithme examine vos posts programmés existants sur tous les canaux et suggère des moments où votre calendrier est le moins chargé, répartissant votre contenu uniformément tout au long de la journée.
+
+## Reprogrammation
+
+Il existe deux façons de reprogrammer un post :
+
+### Glisser-déposer (Calendrier)
+
+1. Ouvrez la vue **Calendrier** (Mois, Semaine ou Jour)
+2. Cliquez et glissez le post vers une nouvelle date ou un nouveau créneau horaire
+3. Le post est instantanément reprogrammé à la nouvelle heure
+
+### Modifier le post
+
+1. Cliquez sur le post dans le Calendrier ou la liste des Posts
+2. Changez la date/heure dans l'éditeur
+3. Cliquez sur **Enregistrer** ou **Programmer le Post**
+
+<Note>
+Seuls les posts **Brouillon** et **Programmé** peuvent être reprogrammés. Une fois qu'un post est publié, sa date est verrouillée.
+</Note>
+
+## Posts récurrents
+
+Configurez des posts qui se répètent automatiquement à intervalle régulier :
+
+1. Créez votre post et programmez la première occurrence
+2. Définissez l'**intervalle de répétition** (en jours) — par exemple, tous les 7 jours pour un post hebdomadaire
+3. Cliquez sur **Programmer le Post**
+4. Postzee crée automatiquement les occurrences futures à l'intervalle spécifié
+
+Les posts récurrents sont regroupés sur le calendrier avec des indicateurs de couleur correspondants. Vous pouvez gérer la série entière ou modifier les occurrences individuelles.
+
+## Programmation multi-canaux
+
+Quand vous sélectionnez plusieurs canaux, le même post est programmé pour tous simultanément :
+
+- Tous les canaux reçoivent le post à la même heure programmée
+- Les paramètres spécifiques à la plateforme (confidentialité TikTok, visibilité YouTube, etc.) sont appliqués par canal
+- Si un canal échoue, les autres publient quand même avec succès — vous pouvez réessayer celui qui a échoué individuellement
+
+## Traitement de la file d'attente
+
+Voici ce qui se passe en coulisses quand l'heure programmée arrive :
+
+1. Le post passe du statut **Programmé** à **File d'attente**
+2. Le worker de Postzee traite la file d'attente et envoie le contenu à l'API de chaque plateforme
+3. En cas de succès, le post passe au statut **Publié**
+4. En cas d'échec, le post passe au statut **Erreur** avec un message d'erreur spécifique
+
+<CardGroup cols={2}>
+  <Card title="Éditeur de Post" icon="pen-to-square" href="/calendar/post-editor">
+    Apprenez à créer et personnaliser vos posts.
+  </Card>
+  <Card title="Cycle de Vie d'un Post" icon="arrows-rotate" href="/calendar/post-lifecycle">
+    Comprenez les statuts des posts et la récupération d'erreurs.
+  </Card>
+</CardGroup>

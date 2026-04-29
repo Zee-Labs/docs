@@ -1,0 +1,166 @@
+---
+title: Media
+icon: image
+---
+
+Generez des images et videos IA, et telechargez des fichiers dans votre mediatheque.
+
+## Generer une image
+
+```
+POST /public/v1/generate-image
+```
+
+Generez une image IA a partir d'un prompt textuel. C'est une **operation asynchrone** — elle retourne un ID de tache. Utilisez l'[endpoint Taches](/api-reference/jobs) pour interroger la progression.
+
+**Limite de debit :** 10 requetes par minute.
+
+### Requete
+
+```bash
+curl -X POST \
+  -H "Authorization: YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "model": "nano-banana-pro",
+    "prompt": "A professional headshot of a confident woman in a modern office"
+  }' \
+  https://api.postzee.app/public/v1/generate-image
+```
+
+### Parametres
+
+| Parametre | Type | Requis | Description |
+|-----------|------|:---:|-------------|
+| `model` | string | Oui | ID du modele (voir [Modeles d'images](/ai-models/image-models)) |
+| `prompt` | string | Oui | Description de l'image (5+ caracteres) |
+| `aspectRatio` | string | Non | `1:1`, `16:9`, `9:16`, `4:3`, `3:4`, `4:5`, `5:4` |
+| `imageUrls` | string[] | Non | URLs d'images de reference pour image-vers-image (max 16) |
+| `modelParams` | object | Non | Parametres specifiques au modele (par ex., `quality`, `rendering_speed`) |
+
+### IDs de modeles valides
+
+`nano-banana`, `nano-banana-2`, `nano-banana-pro`, `gpt-image-2`, `gpt-image-1.5`, `gpt-image-1`, `gpt-image-1-mini`, `flux-2-pro`, `flux-1.1-pro`, `flux-1.1-ultra`, `recraft-v3`, `recraft-v4`, `recraft-v4-pro`, `ideogram-v2`, `ideogram-v3`
+
+### Reponse
+
+```json
+{
+  "jobId": "task-uuid-here",
+  "jobType": "task",
+  "status": "processing"
+}
+```
+
+---
+
+## Generer une video
+
+```
+POST /public/v1/generate-video-ai
+```
+
+Generez une video IA a partir d'un prompt textuel. C'est une **operation asynchrone**.
+
+**Limite de debit :** 10 requetes par minute.
+
+### Requete
+
+```bash
+curl -X POST \
+  -H "Authorization: YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "model": "sora-2-t2v",
+    "prompt": "A golden sunset over a calm ocean with gentle waves",
+    "duration": 10,
+    "aspectRatio": "16:9"
+  }' \
+  https://api.postzee.app/public/v1/generate-video-ai
+```
+
+### Parametres
+
+| Parametre | Type | Requis | Description |
+|-----------|------|:---:|-------------|
+| `model` | string | Oui | ID du modele video (voir ci-dessous) |
+| `prompt` | string | Oui | Description de la video (5-10 000 caracteres) |
+| `duration` | number | Non | Duree en secondes (2-25) |
+| `aspectRatio` | string | Non | `1:1`, `16:9`, `9:16`, `4:3`, `3:4`, `4:5`, `5:4` |
+| `resolution` | string | Non | `360p`, `480p`, `540p`, `720p`, `1080p`, `4k` |
+| `generateAudio` | boolean | Non | Generer de l'audio synchronise (modeles Veo 3.1) |
+| `negativePrompt` | string | Non | Ce qu'il faut eviter (max 2 000 caracteres) |
+| `imageUrl` | string | Non | URL de l'image source pour les modeles image-vers-video |
+
+### IDs de modeles video valides
+
+**Sora 2 :** `sora-2-t2v`, `sora-2-i2v`, `sora-2-t2v-pro`, `sora-2-i2v-pro`
+
+**Veo 3.1 :** `veo3.1`, `veo3.1/fast`, `veo3.1/image-to-video`, `veo3.1/fast/image-to-video`
+
+**Kling :** `kling-3.0-pro`, `kling-2.6-pro`, `kling-2.5-turbo-pro`, `kling-o3-standard`, `kling-2.1-master`
+
+**Luma Ray :** `luma-ray-2`, `luma-ray-2-flash`
+
+**Seedance :** `seedance-2.0`, `seedance-1.0-pro`, `seedance-1.0-lite`
+
+**Wan :** `wan-2.5`, `wan-2.1-pro`, `wan-2.1`, `wan-flf2v`
+
+**Autres :** `vidu-q1`, `pixverse-v4.5`, `minimax-video-01`, `minimax-video-01-live`, `hunyuan-video`
+
+### Reponse
+
+```json
+{
+  "jobId": "task-uuid-here",
+  "jobType": "task",
+  "status": "processing"
+}
+```
+
+---
+
+## Lister les modeles d'images
+
+```
+GET /public/v1/image-models
+```
+
+Retourne tous les modeles de generation d'images disponibles avec leurs capacites.
+
+---
+
+## Lister les modeles video
+
+```
+GET /public/v1/video-models
+```
+
+Retourne tous les modeles de generation de videos disponibles avec leurs capacites.
+
+**Limite de debit :** 30 requetes par minute.
+
+---
+
+## Telecharger un fichier
+
+```
+POST /public/v1/upload
+```
+
+Telechargez un fichier image ou video dans votre mediatheque.
+
+### Requete
+
+```bash
+curl -X POST \
+  -H "Authorization: YOUR_API_KEY" \
+  -F "file=@/path/to/image.jpg" \
+  https://api.postzee.app/public/v1/upload
+```
+
+### Reponse
+
+Retourne un objet media avec `id`, `path` (URL), `type` (image/video) et `size`.
+
+Utilisez l'`id` dans l'endpoint Create Post pour joindre des medias telecharges a un post.
