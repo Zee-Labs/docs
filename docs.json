@@ -8,15 +8,6 @@
     "dark": "#7C3AED"
   },
   "favicon": "/favicon.svg",
-  "head": [
-    "<script>!function(){if(!localStorage.getItem('pz-lang')){var p=location.pathname;if(!/^\\/(pt-BR|es|fr)\\//.test(p)){var l=(navigator.language||'').toLowerCase(),r='';l.startsWith('pt')?r='/pt-BR':l.startsWith('es')?r='/es':l.startsWith('fr')&&(r='/fr'),r&&(localStorage.setItem('pz-lang','1'),location.replace(r+p))}}}()</script>"
-  ],
-  "languages": [
-    {"language": "en", "label": "English", "default": true},
-    {"language": "pt-BR", "label": "Português"},
-    {"language": "es", "label": "Español"},
-    {"language": "fr", "label": "Français"}
-  ],
   "logo": {
     "light": "/logo/light.svg",
     "dark": "/logo/dark.svg"
@@ -35,145 +26,592 @@
     }
   },
   "navigation": {
-    "tabs": [
+    "languages": [
       {
-        "tab": "Learn",
-        "groups": [
+        "language": "en",
+        "default": true,
+        "tabs": [
           {
-            "group": "Get Started",
-            "pages": [
-              "get-started/introduction",
-              "get-started/quickstart",
-              "get-started/supported-platforms"
+            "tab": "Learn",
+            "groups": [
+              {
+                "group": "Get Started",
+                "pages": [
+                  "get-started/introduction",
+                  "get-started/quickstart",
+                  "get-started/supported-platforms"
+                ]
+              },
+              {
+                "group": "Zee Studio",
+                "pages": [
+                  "zee-studio/overview",
+                  "zee-studio/image-generation",
+                  "zee-studio/video-generation",
+                  "zee-studio/heygen-avatars",
+                  "zee-studio/prompt-optimizer",
+                  "zee-studio/voice-input",
+                  "zee-studio/gallery",
+                  "zee-studio/explore",
+                  "zee-studio/upload"
+                ]
+              },
+              {
+                "group": "Calendar & Posts",
+                "pages": [
+                  "calendar/overview",
+                  "calendar/scheduling",
+                  "calendar/post-editor",
+                  "calendar/post-lifecycle"
+                ]
+              },
+              {
+                "group": "Channels",
+                "pages": [
+                  "channels/overview",
+                  "channels/connecting",
+                  "channels/platform-settings"
+                ]
+              },
+              {
+                "group": "Analytics",
+                "pages": [
+                  "analytics/overview"
+                ]
+              },
+              {
+                "group": "Billing & Credits",
+                "pages": [
+                  "billing/plans",
+                  "billing/credits",
+                  "billing/purchasing-credits",
+                  "billing/managing-subscription"
+                ]
+              },
+              {
+                "group": "Settings",
+                "pages": [
+                  "settings/account",
+                  "settings/team",
+                  "settings/api-keys",
+                  "settings/preferences"
+                ]
+              },
+              {
+                "group": "AI Models",
+                "pages": [
+                  "ai-models/image-models",
+                  "ai-models/video-models",
+                  "ai-models/pricing"
+                ]
+              },
+              {
+                "group": "FAQ",
+                "pages": [
+                  "faq"
+                ]
+              }
             ]
           },
           {
-            "group": "Zee Studio",
-            "pages": [
-              "zee-studio/overview",
-              "zee-studio/image-generation",
-              "zee-studio/video-generation",
-              "zee-studio/heygen-avatars",
-              "zee-studio/prompt-optimizer",
-              "zee-studio/voice-input",
-              "zee-studio/gallery",
-              "zee-studio/explore",
-              "zee-studio/upload"
+            "tab": "Integrations",
+            "groups": [
+              {
+                "group": "Social Channels",
+                "pages": [
+                  "integrations/channels/instagram",
+                  "integrations/channels/facebook",
+                  "integrations/channels/tiktok",
+                  "integrations/channels/linkedin",
+                  "integrations/channels/x-twitter",
+                  "integrations/channels/youtube",
+                  "integrations/channels/pinterest",
+                  "integrations/channels/threads",
+                  "integrations/channels/bluesky",
+                  "integrations/channels/other-platforms"
+                ]
+              },
+              {
+                "group": "n8n Automation",
+                "pages": [
+                  "integrations/n8n/overview",
+                  "integrations/n8n/setup",
+                  "integrations/n8n/operations",
+                  "integrations/n8n/example-workflows"
+                ]
+              },
+              {
+                "group": "AI Agents (MCP)",
+                "pages": [
+                  "integrations/mcp/overview",
+                  "integrations/mcp/claude-code",
+                  "integrations/mcp/openclaw",
+                  "integrations/mcp/tools-reference"
+                ]
+              }
             ]
           },
           {
-            "group": "Calendar & Posts",
-            "pages": [
-              "calendar/overview",
-              "calendar/scheduling",
-              "calendar/post-editor",
-              "calendar/post-lifecycle"
-            ]
-          },
-          {
-            "group": "Channels",
-            "pages": [
-              "channels/overview",
-              "channels/connecting",
-              "channels/platform-settings"
-            ]
-          },
-          {
-            "group": "Analytics",
-            "pages": [
-              "analytics/overview"
-            ]
-          },
-          {
-            "group": "Billing & Credits",
-            "pages": [
-              "billing/plans",
-              "billing/credits",
-              "billing/purchasing-credits",
-              "billing/managing-subscription"
-            ]
-          },
-          {
-            "group": "Settings",
-            "pages": [
-              "settings/account",
-              "settings/team",
-              "settings/api-keys",
-              "settings/preferences"
-            ]
-          },
-          {
-            "group": "AI Models",
-            "pages": [
-              "ai-models/image-models",
-              "ai-models/video-models",
-              "ai-models/pricing"
-            ]
-          },
-          {
-            "group": "FAQ",
-            "pages": [
-              "faq"
+            "tab": "API Reference",
+            "groups": [
+              {
+                "group": "Overview",
+                "pages": [
+                  "api-reference/authentication",
+                  "api-reference/rate-limits"
+                ]
+              },
+              {
+                "group": "Endpoints",
+                "pages": [
+                  "api-reference/posts",
+                  "api-reference/channels",
+                  "api-reference/media",
+                  "api-reference/credits",
+                  "api-reference/jobs"
+                ]
+              }
             ]
           }
         ]
       },
       {
-        "tab": "Integrations",
-        "groups": [
+        "language": "pt-BR",
+        "tabs": [
           {
-            "group": "Social Channels",
-            "pages": [
-              "integrations/channels/instagram",
-              "integrations/channels/facebook",
-              "integrations/channels/tiktok",
-              "integrations/channels/linkedin",
-              "integrations/channels/x-twitter",
-              "integrations/channels/youtube",
-              "integrations/channels/pinterest",
-              "integrations/channels/threads",
-              "integrations/channels/bluesky",
-              "integrations/channels/other-platforms"
+            "tab": "Aprender",
+            "groups": [
+              {
+                "group": "Primeiros Passos",
+                "pages": [
+                  "pt-BR/get-started/introduction",
+                  "pt-BR/get-started/quickstart",
+                  "pt-BR/get-started/supported-platforms"
+                ]
+              },
+              {
+                "group": "Zee Studio",
+                "pages": [
+                  "pt-BR/zee-studio/overview",
+                  "pt-BR/zee-studio/image-generation",
+                  "pt-BR/zee-studio/video-generation",
+                  "pt-BR/zee-studio/heygen-avatars",
+                  "pt-BR/zee-studio/prompt-optimizer",
+                  "pt-BR/zee-studio/voice-input",
+                  "pt-BR/zee-studio/gallery",
+                  "pt-BR/zee-studio/explore",
+                  "pt-BR/zee-studio/upload"
+                ]
+              },
+              {
+                "group": "Calendário e Posts",
+                "pages": [
+                  "pt-BR/calendar/overview",
+                  "pt-BR/calendar/scheduling",
+                  "pt-BR/calendar/post-editor",
+                  "pt-BR/calendar/post-lifecycle"
+                ]
+              },
+              {
+                "group": "Canais",
+                "pages": [
+                  "pt-BR/channels/overview",
+                  "pt-BR/channels/connecting",
+                  "pt-BR/channels/platform-settings"
+                ]
+              },
+              {
+                "group": "Métricas",
+                "pages": [
+                  "pt-BR/analytics/overview"
+                ]
+              },
+              {
+                "group": "Cobrança e Créditos",
+                "pages": [
+                  "pt-BR/billing/plans",
+                  "pt-BR/billing/credits",
+                  "pt-BR/billing/purchasing-credits",
+                  "pt-BR/billing/managing-subscription"
+                ]
+              },
+              {
+                "group": "Configurações",
+                "pages": [
+                  "pt-BR/settings/account",
+                  "pt-BR/settings/team",
+                  "pt-BR/settings/api-keys",
+                  "pt-BR/settings/preferences"
+                ]
+              },
+              {
+                "group": "Modelos de IA",
+                "pages": [
+                  "pt-BR/ai-models/image-models",
+                  "pt-BR/ai-models/video-models",
+                  "pt-BR/ai-models/pricing"
+                ]
+              },
+              {
+                "group": "Perguntas Frequentes",
+                "pages": [
+                  "pt-BR/faq"
+                ]
+              }
             ]
           },
           {
-            "group": "n8n Automation",
-            "pages": [
-              "integrations/n8n/overview",
-              "integrations/n8n/setup",
-              "integrations/n8n/operations",
-              "integrations/n8n/example-workflows"
+            "tab": "Integrações",
+            "groups": [
+              {
+                "group": "Canais Sociais",
+                "pages": [
+                  "pt-BR/integrations/channels/instagram",
+                  "pt-BR/integrations/channels/facebook",
+                  "pt-BR/integrations/channels/tiktok",
+                  "pt-BR/integrations/channels/linkedin",
+                  "pt-BR/integrations/channels/x-twitter",
+                  "pt-BR/integrations/channels/youtube",
+                  "pt-BR/integrations/channels/pinterest",
+                  "pt-BR/integrations/channels/threads",
+                  "pt-BR/integrations/channels/bluesky",
+                  "pt-BR/integrations/channels/other-platforms"
+                ]
+              },
+              {
+                "group": "Automação n8n",
+                "pages": [
+                  "pt-BR/integrations/n8n/overview",
+                  "pt-BR/integrations/n8n/setup",
+                  "pt-BR/integrations/n8n/operations",
+                  "pt-BR/integrations/n8n/example-workflows"
+                ]
+              },
+              {
+                "group": "Agentes IA (MCP)",
+                "pages": [
+                  "pt-BR/integrations/mcp/overview",
+                  "pt-BR/integrations/mcp/claude-code",
+                  "pt-BR/integrations/mcp/openclaw",
+                  "pt-BR/integrations/mcp/tools-reference"
+                ]
+              }
             ]
           },
           {
-            "group": "AI Agents (MCP)",
-            "pages": [
-              "integrations/mcp/overview",
-              "integrations/mcp/claude-code",
-              "integrations/mcp/openclaw",
-              "integrations/mcp/tools-reference"
+            "tab": "Referência da API",
+            "groups": [
+              {
+                "group": "Visão Geral",
+                "pages": [
+                  "pt-BR/api-reference/authentication",
+                  "pt-BR/api-reference/rate-limits"
+                ]
+              },
+              {
+                "group": "Endpoints",
+                "pages": [
+                  "pt-BR/api-reference/posts",
+                  "pt-BR/api-reference/channels",
+                  "pt-BR/api-reference/media",
+                  "pt-BR/api-reference/credits",
+                  "pt-BR/api-reference/jobs"
+                ]
+              }
             ]
           }
         ]
       },
       {
-        "tab": "API Reference",
-        "groups": [
+        "language": "es",
+        "tabs": [
           {
-            "group": "Overview",
-            "pages": [
-              "api-reference/authentication",
-              "api-reference/rate-limits"
+            "tab": "Aprender",
+            "groups": [
+              {
+                "group": "Primeros Pasos",
+                "pages": [
+                  "es/get-started/introduction",
+                  "es/get-started/quickstart",
+                  "es/get-started/supported-platforms"
+                ]
+              },
+              {
+                "group": "Zee Studio",
+                "pages": [
+                  "es/zee-studio/overview",
+                  "es/zee-studio/image-generation",
+                  "es/zee-studio/video-generation",
+                  "es/zee-studio/heygen-avatars",
+                  "es/zee-studio/prompt-optimizer",
+                  "es/zee-studio/voice-input",
+                  "es/zee-studio/gallery",
+                  "es/zee-studio/explore",
+                  "es/zee-studio/upload"
+                ]
+              },
+              {
+                "group": "Calendario y Posts",
+                "pages": [
+                  "es/calendar/overview",
+                  "es/calendar/scheduling",
+                  "es/calendar/post-editor",
+                  "es/calendar/post-lifecycle"
+                ]
+              },
+              {
+                "group": "Canales",
+                "pages": [
+                  "es/channels/overview",
+                  "es/channels/connecting",
+                  "es/channels/platform-settings"
+                ]
+              },
+              {
+                "group": "Métricas",
+                "pages": [
+                  "es/analytics/overview"
+                ]
+              },
+              {
+                "group": "Facturación y Créditos",
+                "pages": [
+                  "es/billing/plans",
+                  "es/billing/credits",
+                  "es/billing/purchasing-credits",
+                  "es/billing/managing-subscription"
+                ]
+              },
+              {
+                "group": "Configuración",
+                "pages": [
+                  "es/settings/account",
+                  "es/settings/team",
+                  "es/settings/api-keys",
+                  "es/settings/preferences"
+                ]
+              },
+              {
+                "group": "Modelos de IA",
+                "pages": [
+                  "es/ai-models/image-models",
+                  "es/ai-models/video-models",
+                  "es/ai-models/pricing"
+                ]
+              },
+              {
+                "group": "Preguntas Frecuentes",
+                "pages": [
+                  "es/faq"
+                ]
+              }
             ]
           },
           {
-            "group": "Endpoints",
-            "pages": [
-              "api-reference/posts",
-              "api-reference/channels",
-              "api-reference/media",
-              "api-reference/credits",
-              "api-reference/jobs"
+            "tab": "Integraciones",
+            "groups": [
+              {
+                "group": "Canales Sociales",
+                "pages": [
+                  "es/integrations/channels/instagram",
+                  "es/integrations/channels/facebook",
+                  "es/integrations/channels/tiktok",
+                  "es/integrations/channels/linkedin",
+                  "es/integrations/channels/x-twitter",
+                  "es/integrations/channels/youtube",
+                  "es/integrations/channels/pinterest",
+                  "es/integrations/channels/threads",
+                  "es/integrations/channels/bluesky",
+                  "es/integrations/channels/other-platforms"
+                ]
+              },
+              {
+                "group": "Automatización n8n",
+                "pages": [
+                  "es/integrations/n8n/overview",
+                  "es/integrations/n8n/setup",
+                  "es/integrations/n8n/operations",
+                  "es/integrations/n8n/example-workflows"
+                ]
+              },
+              {
+                "group": "Agentes IA (MCP)",
+                "pages": [
+                  "es/integrations/mcp/overview",
+                  "es/integrations/mcp/claude-code",
+                  "es/integrations/mcp/openclaw",
+                  "es/integrations/mcp/tools-reference"
+                ]
+              }
+            ]
+          },
+          {
+            "tab": "Referencia de API",
+            "groups": [
+              {
+                "group": "Resumen",
+                "pages": [
+                  "es/api-reference/authentication",
+                  "es/api-reference/rate-limits"
+                ]
+              },
+              {
+                "group": "Endpoints",
+                "pages": [
+                  "es/api-reference/posts",
+                  "es/api-reference/channels",
+                  "es/api-reference/media",
+                  "es/api-reference/credits",
+                  "es/api-reference/jobs"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "language": "fr",
+        "tabs": [
+          {
+            "tab": "Apprendre",
+            "groups": [
+              {
+                "group": "Premiers Pas",
+                "pages": [
+                  "fr/get-started/introduction",
+                  "fr/get-started/quickstart",
+                  "fr/get-started/supported-platforms"
+                ]
+              },
+              {
+                "group": "Zee Studio",
+                "pages": [
+                  "fr/zee-studio/overview",
+                  "fr/zee-studio/image-generation",
+                  "fr/zee-studio/video-generation",
+                  "fr/zee-studio/heygen-avatars",
+                  "fr/zee-studio/prompt-optimizer",
+                  "fr/zee-studio/voice-input",
+                  "fr/zee-studio/gallery",
+                  "fr/zee-studio/explore",
+                  "fr/zee-studio/upload"
+                ]
+              },
+              {
+                "group": "Calendrier et Posts",
+                "pages": [
+                  "fr/calendar/overview",
+                  "fr/calendar/scheduling",
+                  "fr/calendar/post-editor",
+                  "fr/calendar/post-lifecycle"
+                ]
+              },
+              {
+                "group": "Canaux",
+                "pages": [
+                  "fr/channels/overview",
+                  "fr/channels/connecting",
+                  "fr/channels/platform-settings"
+                ]
+              },
+              {
+                "group": "Métriques",
+                "pages": [
+                  "fr/analytics/overview"
+                ]
+              },
+              {
+                "group": "Facturation et Crédits",
+                "pages": [
+                  "fr/billing/plans",
+                  "fr/billing/credits",
+                  "fr/billing/purchasing-credits",
+                  "fr/billing/managing-subscription"
+                ]
+              },
+              {
+                "group": "Paramètres",
+                "pages": [
+                  "fr/settings/account",
+                  "fr/settings/team",
+                  "fr/settings/api-keys",
+                  "fr/settings/preferences"
+                ]
+              },
+              {
+                "group": "Modèles d'IA",
+                "pages": [
+                  "fr/ai-models/image-models",
+                  "fr/ai-models/video-models",
+                  "fr/ai-models/pricing"
+                ]
+              },
+              {
+                "group": "Questions Fréquentes",
+                "pages": [
+                  "fr/faq"
+                ]
+              }
+            ]
+          },
+          {
+            "tab": "Intégrations",
+            "groups": [
+              {
+                "group": "Canaux Sociaux",
+                "pages": [
+                  "fr/integrations/channels/instagram",
+                  "fr/integrations/channels/facebook",
+                  "fr/integrations/channels/tiktok",
+                  "fr/integrations/channels/linkedin",
+                  "fr/integrations/channels/x-twitter",
+                  "fr/integrations/channels/youtube",
+                  "fr/integrations/channels/pinterest",
+                  "fr/integrations/channels/threads",
+                  "fr/integrations/channels/bluesky",
+                  "fr/integrations/channels/other-platforms"
+                ]
+              },
+              {
+                "group": "Automatisation n8n",
+                "pages": [
+                  "fr/integrations/n8n/overview",
+                  "fr/integrations/n8n/setup",
+                  "fr/integrations/n8n/operations",
+                  "fr/integrations/n8n/example-workflows"
+                ]
+              },
+              {
+                "group": "Agents IA (MCP)",
+                "pages": [
+                  "fr/integrations/mcp/overview",
+                  "fr/integrations/mcp/claude-code",
+                  "fr/integrations/mcp/openclaw",
+                  "fr/integrations/mcp/tools-reference"
+                ]
+              }
+            ]
+          },
+          {
+            "tab": "Référence API",
+            "groups": [
+              {
+                "group": "Aperçu",
+                "pages": [
+                  "fr/api-reference/authentication",
+                  "fr/api-reference/rate-limits"
+                ]
+              },
+              {
+                "group": "Endpoints",
+                "pages": [
+                  "fr/api-reference/posts",
+                  "fr/api-reference/channels",
+                  "fr/api-reference/media",
+                  "fr/api-reference/credits",
+                  "fr/api-reference/jobs"
+                ]
+              }
             ]
           }
         ]
