@@ -1,0 +1,78 @@
+---
+title: Limites de Taxa
+icon: gauge-high
+---
+
+A API do Postzee aplica limites de taxa para garantir uso justo e estabilidade da plataforma. Os limites variam por tipo de endpoint.
+
+## Limites de taxa por endpoint
+
+| Endpoint | Limite | Janela |
+|----------|--------|--------|
+| **Padrão global** | 30 requisições | por hora |
+| `POST /generate-image` | 10 requisições | por minuto |
+| `POST /generate-video-ai` | 10 requisições | por minuto |
+| `POST /generate-heygen-video` | 10 requisições | por minuto |
+| `POST /enhance-prompt` | 10 requisições | por minuto |
+| `GET /video-models` | 30 requisições | por minuto |
+| `GET /image-models` | 30 requisições | por minuto |
+| `GET /heygen-avatars` | 30 requisições | por minuto |
+| `GET /heygen-voices` | 30 requisições | por minuto |
+
+<Note>
+Endpoints com limites explícitos por minuto sobrepõem o padrão global. A maioria dos endpoints de leitura (canais, créditos, posts, jobs) seguem o limite global de 30/hora. Endpoints de geração com IA possuem seus próprios limites de maior frequência.
+</Note>
+
+## Limites de taxa do servidor MCP
+
+| Transporte | Limite | Janela |
+|------------|--------|--------|
+| **SSE** (Server-Sent Events) | 30 requisições | por minuto |
+| **HTTP POST** | 60 requisições | por minuto |
+
+## Headers de limite de taxa
+
+Quando você se aproxima ou excede um limite de taxa, a API retorna headers padrão de limite de taxa:
+
+| Header | Descrição |
+|--------|-----------|
+| `X-RateLimit-Limit` | Máximo de requisições permitidas na janela |
+| `X-RateLimit-Remaining` | Requisições restantes na janela atual |
+| `X-RateLimit-Reset` | Timestamp Unix de quando a janela é resetada |
+
+## Excedendo o limite
+
+Quando você excede o limite de taxa, a API retorna:
+
+```
+HTTP 429 Too Many Requests
+```
+
+```json
+{
+  "statusCode": 429,
+  "message": "ThrottlerException: Too Many Requests"
+}
+```
+
+**O que fazer:** Aguarde a janela de limite de taxa ser resetada (verifique o header `X-RateLimit-Reset`), então tente sua requisição novamente.
+
+## Boas práticas
+
+- **Espace requisições de geração com IA** — limite a 10 por minuto para geração de imagem/vídeo
+- **Faça cache das listas de modelos** — os modelos disponíveis não mudam frequentemente, então faça cache das respostas de `/image-models` e `/video-models`
+- **Consulte status de jobs razoavelmente** — verifique a cada 5-10 segundos, não a cada segundo
+- **Use operações em lote** — ao gerar múltiplas imagens, use `generate-media` com `quantity: 2-4` em vez de múltiplas chamadas `generate-image`
+- **Trate 429 graciosamente** — implemente backoff exponencial quando estiver com taxa limitada
+
+## Limites por plano
+
+Os limites de taxa são os mesmos para todos os planos pagos. A API não está disponível no plano Free.
+
+| Plano | Acesso à API | Limites de taxa |
+|-------|-------------|-----------------|
+| Free | Não | — |
+| Standard | Sim | Limites padrão |
+| Team | Sim | Limites padrão |
+| Pro | Sim | Limites padrão |
+| Ultimate | Sim | Limites padrão |

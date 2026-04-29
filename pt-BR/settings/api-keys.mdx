@@ -1,0 +1,100 @@
+---
+title: Chaves de API
+icon: key
+---
+
+Crie e gerencie chaves de API para acessar a API REST publica do Postzee de forma programatica. Use chaves de API para automatizar a criacao de conteudo, integrar com ferramentas externas ou criar workflows personalizados.
+
+## Como acessar
+
+Abra o painel da conta (clique no seu avatar no canto superior direito) → **Configuracoes** → aba **API**.
+
+<Note>
+O gerenciamento de chaves de API requer a funcao **Admin** ou **Super Admin**. Membros da equipe com a funcao User nao podem visualizar ou criar chaves de API.
+</Note>
+
+## Criando uma chave de API
+
+1. Va para **Configuracoes** → **Chaves de API**
+2. Clique em **Criar Chave de API**
+3. Digite um nome para sua chave (minimo 4 caracteres) — use um nome descritivo como "automacao n8n" ou "script personalizado"
+4. Clique em **Criar**
+5. **Copie a chave imediatamente** — ela so sera exibida uma vez
+
+<Warning>
+Armazene sua chave de API com seguranca. Ela fornece acesso completo a API da sua conta. Nunca compartilhe publicamente ou inclua no controle de versao.
+</Warning>
+
+## Usando sua chave de API
+
+Inclua a chave de API no header `Authorization` das suas requisicoes de API:
+
+```bash
+curl -H "Authorization: YOUR_API_KEY" \
+  https://api.postzee.app/public/v1/credits
+```
+
+<Note>
+Nao use o prefixo `Bearer` — passe a chave de API diretamente como valor do header Authorization.
+</Note>
+
+## O que voce pode fazer com a API
+
+A API publica oferece acesso programatico a:
+
+| Endpoint | Descricao |
+|----------|-----------|
+| **Create Post** | Agende ou publique posts nos seus canais |
+| **Generate Image** | Gere imagens com IA usando qualquer modelo disponivel |
+| **Generate Video** | Gere videos com IA |
+| **List Channels** | Obtenha todos os canais conectados |
+| **Get Credits** | Verifique seu saldo atual de creditos |
+| **Enhance Prompt** | Otimize prompts com o Otimizador de Prompts |
+| **Check Job Status** | Monitore tarefas de geracao assincronas |
+
+Veja a [Referencia da API](/api-reference/authentication) completa para todos os endpoints.
+
+## Gerenciando chaves de API
+
+- **Visualizar** — veja todas as chaves de API ativas e seus nomes
+- **Excluir** — revogue uma chave de API permanentemente (qualquer integracao que a utilize deixara de funcionar)
+- **Regenerar** — exclua a chave antiga e crie uma nova
+
+## Planos com acesso a API
+
+| Plano | Acesso a API |
+|-------|-------------|
+| **Free** | — |
+| **Standard** | Sim |
+| **Team** | Sim |
+| **Pro** | Sim |
+| **Ultimate** | Sim |
+
+## Limites de requisicoes
+
+As requisicoes de API tem limites para proteger a plataforma:
+
+| Tipo de endpoint | Limite |
+|-----------------|-------|
+| **Requisicoes gerais** | 30 requisicoes/hora |
+| **Geracao com IA** | 10 requisicoes/minuto |
+| **Otimizacao de prompt** | 10 requisicoes/minuto |
+
+Veja [Limites de Requisicoes](/api-reference/rate-limits) para detalhes.
+
+## Integracoes que usam chaves de API
+
+As chaves de API do Postzee sao usadas por:
+
+- **[Integracao n8n](/integrations/n8n/overview)** — automatize workflows com o node personalizado do Postzee
+- **[Agentes de IA (MCP)](/integrations/mcp/overview)** — conecte Claude Code, OpenClaw e outros agentes de IA
+- **Scripts personalizados** — crie suas proprias automacoes com a API REST
+
+<CardGroup cols={2}>
+  <Card title="Referencia da API" icon="code" href="/api-reference/authentication">
+    Documentacao completa da API e endpoints.
+  </Card>
+  <Card title="Integracao n8n" icon="arrows-rotate" href="/integrations/n8n/overview">
+    Automatize o Postzee com workflows do n8n.
+  </Card>
+</CardGroup>

@@ -1,0 +1,209 @@
+---
+title: Posts
+icon: paper-plane
+---
+
+Crie, liste e exclua posts de redes sociais via API.
+
+## Criar post
+
+```
+POST /public/v1/posts
+```
+
+Crie um novo post como rascunho, agende para depois ou publique imediatamente.
+
+### Requisição
+
+```bash
+curl -X POST \
+  -H "Authorization: YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "type": "schedule",
+    "date": "2026-05-01T14:00:00Z",
+    "posts": [
+      {
+        "integration": { "id": "channel-uuid" },
+        "value": [
+          {
+            "content": "Check out our latest product launch!",
+            "id": "unique-uuid",
+            "image": []
+          }
+        ]
+      }
+    ]
+  }' \
+  https://api.postzee.app/public/v1/posts
+```
+
+### Parâmetros
+
+| Parâmetro | Tipo | Obrigatório | Descrição |
+|-----------|------|:---:|-----------|
+| `type` | string | Sim | `"now"` (publicar imediatamente), `"schedule"` ou `"draft"` |
+| `date` | string | Apenas agendamento | Data e hora UTC no formato ISO 8601 (ex.: `"2026-05-01T14:00:00Z"`) |
+| `posts` | array | Sim | Array de objetos de post (um por canal) |
+| `posts[].integration.id` | string | Sim | ID do canal do [endpoint de Canais](/api-reference/channels) |
+| `posts[].value[].content` | string | Sim | Conteúdo de texto do post |
+| `posts[].value[].id` | string | Sim | Identificador único (UUID) para este bloco de conteúdo |
+| `posts[].value[].image` | array | Não | Array de objetos de mídia para anexar |
+| `posts[].settings` | object | Não | Configurações específicas da plataforma (veja abaixo) |
+| `tags` | array | Não | Tags de conteúdo (`[{ "value": "id", "label": "name" }]`) |
+| `shortLink` | boolean | Não | Habilitar encurtamento de URL e rastreamento de cliques |
+
+### Configurações específicas por plataforma
+
+Inclua estas em `posts[].settings` para recursos específicos de cada plataforma:
+
+**TikTok:**
+```json
+{
+  "tiktok": {
+    "title": "Video title",
+    "privacy_level": "PUBLIC_TO_EVERYONE",
+    "duet": true,
+    "stitch": true,
+    "comment": true
+  }
+}
+```
+
+**YouTube:**
+```json
+{
+  "youtube": {
+    "title": "Video title",
+    "type": "public",
+    "tags": [{ "value": "tag1", "label": "Tag 1" }]
+  }
+}
+```
+
+**Instagram:**
+```json
+{
+  "instagram": {
+    "post_type": "post",
+    "collaborators": [{ "label": "@username" }]
+  }
+}
+```
+
+**LinkedIn:**
+```json
+{
+  "linkedin": {
+    "post_as_images_carousel": true
+  }
+}
+```
+
+### Resposta
+
+Retorna o objeto do post criado com `id`, `status` e data agendada.
+
+---
+
+## Listar posts
+
+```
+GET /public/v1/posts
+```
+
+Recupere posts dentro de um intervalo de datas.
+
+### Requisição
+
+```bash
+curl -H "Authorization: YOUR_API_KEY" \
+  "https://api.postzee.app/public/v1/posts?startDate=2026-04-01T00:00:00Z&endDate=2026-04-30T23:59:59Z"
+```
+
+### Parâmetros de consulta
+
+| Parâmetro | Tipo | Obrigatório | Descrição |
+|-----------|------|:---:|-----------|
+| `startDate` | string | Sim | Data de início (ISO 8601) |
+| `endDate` | string | Sim | Data de fim (ISO 8601) |
+| `customer` | string | Não | Filtrar por ID de cliente/grupo |
+
+### Resposta
+
+```json
+{
+  "posts": [
+    {
+      "id": "post-uuid",
+      "content": "Post text content...",
+      "status": "published",
+      "publishDate": "2026-04-15T14:00:00Z",
+      "integration": {
+        "id": "channel-uuid",
+        "name": "My Instagram",
+        "identifier": "instagram"
+      }
+    }
+  ]
+}
+```
+
+---
+
+## Excluir post
+
+```
+DELETE /public/v1/posts/:id
+```
+
+Exclua um post pelo ID.
+
+### Requisição
+
+```bash
+curl -X DELETE \
+  -H "Authorization: YOUR_API_KEY" \
+  https://api.postzee.app/public/v1/posts/post-uuid-here
+```
+
+### Parâmetros
+
+| Parâmetro | Tipo | Obrigatório | Descrição |
+|-----------|------|:---:|-----------|
+| `id` | string (path) | Sim | O ID do post a ser excluído |
+
+### Resposta
+
+Retorna `200 OK` em caso de sucesso.
+
+<Note>
+Excluir um post publicado o remove do Postzee, mas **não** o remove da plataforma de rede social. Para remover conteúdo publicado, você deve excluí-lo diretamente na plataforma.
+</Note>
+
+---
+
+## Encontrar melhor horário
+
+```
+GET /public/v1/find-slot/:id
+```
+
+Encontre o horário menos congestionado para publicação.
+
+### Requisição
+
+```bash
+curl -H "Authorization: YOUR_API_KEY" \
+  https://api.postzee.app/public/v1/find-slot/channel-uuid
+```
+
+### Resposta
+
+```json
+{
+  "date": "2026-05-01T10:00:00Z"
+}
+```
+
+Retorna uma sugestão de data e hora UTC quando seu calendário está menos ocupado.

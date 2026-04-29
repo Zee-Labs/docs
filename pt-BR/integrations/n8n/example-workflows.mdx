@@ -1,0 +1,92 @@
+---
+title: Exemplos de Workflows
+icon: diagram-project
+---
+
+Padrões de workflow prontos para uso em cenários comuns de automação com o node do Postzee para n8n.
+
+## 1. Gerar imagem com IA e postar no Instagram
+
+Gere automaticamente uma imagem com IA e publique no Instagram.
+
+**Passos do workflow:**
+
+1. **Trigger** — Agendamento (ex.: todo dia às 9:00) ou manual
+2. **Postzee: Generate Image** — prompt: seu texto, model: Nano Banana Pro
+3. **Wait** — 30 segundos (para a geração ser concluída)
+4. **Postzee: Job Status** — verificar se a imagem está pronta
+5. **IF** — status = "success"
+6. **Postzee: Create Post** — type: "now", channel: Instagram, media: mediaId do passo 4
+
+**Configuração principal:**
+- Use o node **Job Status** em um loop para consultar até `status === "success"`
+- Passe o `mediaId` do Job Status para o Create Post
+
+## 2. Feed RSS para redes sociais
+
+Publique automaticamente novos itens de feed RSS em múltiplos canais sociais.
+
+**Passos do workflow:**
+
+1. **RSS Feed Trigger** — monitore seu blog ou feed de notícias
+2. **Postzee: Get Channels** — obtenha os canais disponíveis
+3. **Postzee: Create Post** — para cada novo item RSS:
+   - `type`: "now"
+   - `content`: título RSS + link
+   - `channel`: ID do canal de destino
+
+## 3. Agendamento em lote de conteúdo semanal
+
+Prepare e agende o conteúdo de uma semana inteira em um único lote.
+
+**Passos do workflow:**
+
+1. **Google Sheets** — leia o plano de conteúdo (colunas: data, hora, texto, canal, prompt de imagem)
+2. **Loop** — para cada linha:
+   - **Postzee: Generate Image** — use o prompt de imagem
+   - **Wait + Job Status** — consulte até estar pronto
+   - **Postzee: Create Post** — type: "schedule", date: da planilha, media: imagem gerada
+
+## 4. Pipeline de geração de imagens com IA
+
+Gere múltiplas imagens com IA usando diferentes modelos e estilos para teste A/B.
+
+**Passos do workflow:**
+
+1. **Trigger** — manual ou webhook
+2. **Split in Batches** — crie variações do mesmo prompt
+3. **Postzee: Generate Image** — modelo diferente por lote (Nano Banana Pro, FLUX, Recraft)
+4. **Wait + Job Status** — consulte todos os jobs
+5. **Merge** — colete todas as imagens geradas
+6. **Postzee: Create Post** — publique a melhor, ou crie um carrossel
+
+## 5. Pipeline de reaproveitamento de conteúdo
+
+Gere uma imagem com IA, depois crie posts para múltiplas plataformas com conteúdo otimizado para cada uma.
+
+**Passos do workflow:**
+
+1. **Trigger** — webhook com tópico/prompt
+2. **OpenAI Node** — gere legendas específicas por plataforma (curta para X, mais longa para LinkedIn)
+3. **Postzee: Generate Image** — gere o visual
+4. **Wait + Job Status** — consulte até estar pronto
+5. **Postzee: Create Post (Instagram)** — imagem + legenda do Instagram + hashtags
+6. **Postzee: Create Post (LinkedIn)** — mesma imagem + legenda do LinkedIn
+7. **Postzee: Create Post (X)** — mesma imagem + tweet curto
+
+## Dicas para criar workflows
+
+- **Sempre consulte o Job Status** — geração de imagem e vídeo é assíncrona. Nunca presuma que a mídia está pronta imediatamente.
+- **Use o node Wait** — adicione uma espera de 15-30 segundos antes da primeira verificação de Job Status para evitar consultas desnecessárias.
+- **Tratamento de erros** — adicione um node IF após o Job Status para lidar com casos de `status === "failed"`.
+- **Seleção dinâmica de canais** — use Get Channels para construir listas dinâmicas de canais em vez de codificar IDs de canais fixos.
+- **Limites de taxa** — a API do Postzee permite 30 requisições/hora para endpoints gerais e 10 requisições/minuto para geração com IA. Espalhe operações em lote de acordo.
+
+<CardGroup cols={2}>
+  <Card title="Referência de Operações" icon="list" href="/integrations/n8n/operations">
+    Referência detalhada para todas as 9 operações.
+  </Card>
+  <Card title="Referência da API" icon="code" href="/api-reference/authentication">
+    Use a API REST diretamente para integrações personalizadas.
+  </Card>
+</CardGroup>

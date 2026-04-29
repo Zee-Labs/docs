@@ -1,0 +1,107 @@
+---
+title: Agendamento de Posts
+icon: clock
+---
+
+Agende seus posts para publicar automaticamente no momento perfeito. O Postzee cuida da conversão de fuso horário, gerenciamento de fila e entrega para todos os seus canais conectados.
+
+## Opções de publicação
+
+Ao criar ou editar um post, você tem três opções de publicação:
+
+| Opção | O que faz |
+|-------|-----------|
+| **Publicar agora** | Envia o post imediatamente para os canais selecionados |
+| **Agendar** | Coloca o post na fila para publicar em uma data e hora específicas |
+| **Salvar Rascunho** | Salva o post sem agendar — você pode agendá-lo depois |
+
+## Como agendar um post
+
+1. Abra o **Editor de Post** (a partir do Calendário, Zee Studio ou do botão **Criar Post**)
+2. Escreva seu conteúdo e selecione seus canais
+3. Escolha uma data e hora usando o **seletor de data/hora**
+4. Clique em **Agendar Post**
+5. O post aparece no seu Calendário com um indicador azul de **Agendado**
+6. No horário agendado, o Postzee publica automaticamente em todos os canais selecionados
+
+<Note>
+O horário mínimo de agendamento é o momento atual. Você não pode agendar posts no passado.
+</Note>
+
+## Tratamento de fuso horário
+
+Todos os horários agendados respeitam o fuso horário configurado da sua equipe:
+
+- O seletor de data/hora mostra horários no **seu fuso horário**
+- Ao publicar, o Postzee converte internamente para UTC e entrega no momento exato que você selecionou
+- Membros da equipe em fusos horários diferentes todos veem o mesmo horário local relativo à configuração da equipe
+
+Para alterar o fuso horário da sua equipe, abra o menu da conta → **Configurações** → aba **Preferências** → **Fuso horário**.
+
+## Encontrar o melhor horário
+
+Não sabe quando postar? Use o recurso **Encontrar Melhor Horário**:
+
+1. No editor de post, clique em **Encontrar Melhor Horário** (ou no ícone de relógio)
+2. O Postzee analisa seu calendário e encontra os slots de horário menos congestionados
+3. Uma data/hora sugerida é preenchida automaticamente
+4. Ajuste se necessário e clique em **Agendar Post**
+
+O algoritmo analisa seus posts agendados existentes em todos os canais e sugere horários quando seu calendário está menos ocupado, distribuindo seu conteúdo uniformemente ao longo do dia.
+
+## Reagendamento
+
+Existem duas formas de reagendar um post:
+
+### Arrastar e soltar (Calendário)
+
+1. Abra a visualização do **Calendário** (Mês, Semana ou Dia)
+2. Clique e arraste o post para uma nova data ou slot de horário
+3. O post é reagendado instantaneamente para o novo horário
+
+### Editar o post
+
+1. Clique no post no Calendário ou na lista de Posts
+2. Altere a data/hora no editor
+3. Clique em **Salvar** ou **Agendar Post**
+
+<Note>
+Apenas posts com status **Rascunho** e **Agendado** podem ser reagendados. Uma vez que um post é publicado, sua data fica fixa.
+</Note>
+
+## Posts recorrentes
+
+Configure posts que se repetem automaticamente em um intervalo regular:
+
+1. Crie seu post e agende a primeira ocorrência
+2. Defina o **intervalo de repetição** (em dias) — por exemplo, a cada 7 dias para semanal
+3. Clique em **Agendar Post**
+4. O Postzee cria automaticamente ocorrências futuras no intervalo especificado
+
+Posts recorrentes são agrupados no calendário com indicadores de cor correspondentes. Você pode gerenciar a série inteira ou editar ocorrências individuais.
+
+## Agendamento multicanal
+
+Quando você seleciona múltiplos canais, o mesmo post é agendado para todos simultaneamente:
+
+- Todos os canais recebem o post no mesmo horário agendado
+- Configurações específicas de plataforma (privacidade do TikTok, visibilidade do YouTube, etc.) são aplicadas por canal
+- Se um canal falhar, os outros ainda publicam com sucesso — você pode retentar o que falhou individualmente
+
+## Processamento da fila
+
+Veja o que acontece nos bastidores quando o horário agendado chega:
+
+1. O post muda do status **Agendado** para **Fila**
+2. O worker do Postzee processa a fila e envia o conteúdo para a API de cada plataforma
+3. Em caso de sucesso, o post muda para o status **Publicado**
+4. Em caso de falha, o post muda para o status **Erro** com uma mensagem de erro específica
+
+<CardGroup cols={2}>
+  <Card title="Editor de Post" icon="pen-to-square" href="/calendar/post-editor">
+    Saiba como criar e personalizar seus posts.
+  </Card>
+  <Card title="Ciclo de Vida do Post" icon="arrows-rotate" href="/calendar/post-lifecycle">
+    Entenda os status de post e recuperação de erros.
+  </Card>
+</CardGroup>

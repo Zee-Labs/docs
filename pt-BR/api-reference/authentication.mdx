@@ -1,0 +1,85 @@
+---
+title: Autenticação
+icon: lock
+---
+
+A API pública do Postzee usa **autenticação por chave de API**. Todos os endpoints requerem uma chave de API válida enviada no header `Authorization`.
+
+## URL Base
+
+```
+https://api.postzee.app/public/v1
+```
+
+## Autenticação
+
+Inclua sua chave de API no header `Authorization` de cada requisição:
+
+```bash
+curl -H "Authorization: YOUR_API_KEY" \
+  https://api.postzee.app/public/v1/credits
+```
+
+<Warning>
+**Não** use o prefixo `Bearer`. Envie a chave de API diretamente como valor do header.
+</Warning>
+
+## Criando uma chave de API
+
+1. Faça login no [Postzee](https://dashboard.postzee.app)
+2. Abra o painel da conta (clique no seu avatar no canto superior direito)
+3. Vá em **Configurações** → aba **API**
+4. Clique em **Criar Chave de API**
+5. Copie a chave imediatamente — ela será exibida apenas uma vez
+
+## Requisitos
+
+- Um **plano pago** (Standard ou superior) — o plano Free não inclui acesso à API
+- Uma **assinatura ativa** — assinaturas expiradas não podem usar a API
+- A conta **não deve estar bloqueada**
+
+## Respostas de erro
+
+| Status | Significado |
+|--------|------------|
+| `401` | Chave de API ausente ou inválida |
+| `401` | Sem assinatura ativa |
+| `403` | Conta bloqueada |
+| `429` | Limite de taxa excedido |
+
+Todas as respostas de erro seguem este formato:
+
+```json
+{
+  "statusCode": 401,
+  "message": "Unauthorized"
+}
+```
+
+## Testando sua conexão
+
+Use o endpoint de health check para verificar se sua chave de API funciona:
+
+```bash
+curl -H "Authorization: YOUR_API_KEY" \
+  https://api.postzee.app/public/v1/is-connected
+```
+
+**Resposta de sucesso:**
+```json
+{
+  "connected": true
+}
+```
+
+## Endpoints disponíveis
+
+| Grupo | Endpoints |
+|-------|-----------|
+| [Posts](/api-reference/posts) | Criar, listar, excluir posts |
+| [Canais](/api-reference/channels) | Listar canais conectados |
+| [Mídia](/api-reference/media) | Gerar imagens, vídeos, fazer upload de arquivos |
+| [Créditos](/api-reference/credits) | Verificar saldo, aprimorar prompts |
+| [Jobs](/api-reference/jobs) | Consultar tarefas de geração assíncronas |
+
+Consulte [Limites de Taxa](/api-reference/rate-limits) para os limites de requisição por endpoint.

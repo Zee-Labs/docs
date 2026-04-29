@@ -1,0 +1,103 @@
+---
+title: Claude Code
+icon: terminal
+---
+
+Conecte o Postzee ao **Claude Code** para gerar mídia com IA e publicar posts em redes sociais através de conversa em linguagem natural.
+
+## Opção 1: Plugin (Marketplace)
+
+A maneira mais rápida de conectar — instale pelo marketplace de plugins do Claude Code.
+
+### Instalação
+
+```bash
+/plugin marketplace add Zee-Labs/postzee-claude-plugin
+/plugin install postzee@zee-labs-plugins
+```
+
+### Configuração
+
+Quando solicitado, insira sua chave de API do Postzee:
+
+1. Faça login no [Postzee](https://dashboard.postzee.app)
+2. Abra o painel da conta → **Configurações** → aba **API**
+3. Clique em **Revelar** e copie a chave de API
+4. Cole no Claude Code quando solicitado
+
+<Note>
+Copie o valor da **Chave de API**, não a URL do MCP. O plugin configura a URL de conexão automaticamente.
+</Note>
+
+## Opção 2: Conexão MCP direta
+
+Conecte-se diretamente ao servidor MCP do Postzee sem o plugin.
+
+### Adicionar o servidor MCP
+
+```bash
+claude mcp add postzee --transport http https://api.postzee.app/mcp/YOUR_API_KEY/messages
+```
+
+Substitua `YOUR_API_KEY` pela sua chave de API real do Postzee.
+
+### Verificar a conexão
+
+Após adicionar, teste a conexão:
+
+```
+List my Postzee channels
+```
+
+O Claude Code deve chamar a ferramenta `POSTZEE_LIST_CHANNELS` e mostrar suas contas de redes sociais conectadas.
+
+## Exemplos de uso
+
+Uma vez conectado, você pode usar linguagem natural para interagir com o Postzee:
+
+### Gerar uma imagem
+
+> "Gere uma foto profissional de uma mulher em um escritório moderno usando Nano Banana Pro"
+
+O Claude Code irá:
+1. Chamar `POSTZEE_GENERATE_IMAGE` com seu prompt
+2. Consultar `POSTZEE_CHECK_JOB` até que a imagem esteja pronta
+3. Mostrar o resultado com a URL da mídia
+
+### Gerar e publicar
+
+> "Gere uma foto de praia ao pôr do sol e poste no meu Instagram com a legenda 'Hora dourada'"
+
+O Claude Code irá:
+1. Gerar a imagem
+2. Aguardar a conclusão
+3. Criar um post com sua legenda e mídia
+4. Publicar no seu canal do Instagram
+
+### Verificar seus créditos
+
+> "Quantos créditos de IA eu ainda tenho?"
+
+### Aprimorar um prompt
+
+> "Aprimore este prompt para melhores resultados: 'um gato sentado no parapeito da janela'"
+
+## Workflow recomendado
+
+Para melhores resultados com o Claude Code:
+
+1. **Verificar créditos** — confirme que você tem créditos suficientes antes de gerar
+2. **Listar modelos** — pergunte quais modelos estão disponíveis para seu caso de uso
+3. **Aprimorar prompt** — use o otimizador de prompts para melhores resultados (gratuito)
+4. **Gerar** — crie a imagem ou vídeo
+5. **Listar canais** — veja onde você pode publicar
+6. **Criar post** — publique ou agende nos seus canais
+
+<CardGroup cols={2}>
+  <Card title="Referência de Ferramentas" icon="wrench" href="/integrations/mcp/tools-reference">
+    Referência completa para todas as 9 ferramentas MCP.
+  </Card>
+  <Card title="OpenClaw" icon="plug" href="/integrations/mcp/openclaw">
+    Conecte o Postzee ao OpenClaw como alternativa.
+  </Card>
+</CardGroup>

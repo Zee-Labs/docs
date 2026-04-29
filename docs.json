@@ -8,6 +8,9 @@
     "dark": "#7C3AED"
   },
   "favicon": "/favicon.svg",
+  "head": [
+    "<script>!function(){if(!localStorage.getItem('pz-lang')){var p=location.pathname;if(!/^\\/(pt-BR|es|fr)\\//.test(p)){var l=(navigator.language||'').toLowerCase(),r='';l.startsWith('pt')?r='/pt-BR':l.startsWith('es')?r='/es':l.startsWith('fr')&&(r='/fr'),r&&(localStorage.setItem('pz-lang','1'),location.replace(r+p))}}}()</script>"
+  ],
   "languages": [
     {"language": "en", "label": "English", "default": true},
     {"language": "pt-BR", "label": "Português"},

@@ -1,0 +1,125 @@
+---
+title: Ciclo de Vida do Post
+icon: arrows-rotate
+---
+
+Todo post no Postzee segue um ciclo de vida desde a criação até a publicação. Entender esses status ajuda a gerenciar seu pipeline de conteúdo e solucionar problemas.
+
+## Status dos posts
+
+Um post progride por esses status:
+
+```
+Rascunho → Agendado → Fila → Publicado
+                          └→ Erro
+```
+
+| Status | Cor | Descrição |
+|--------|-----|-----------|
+| **Rascunho** | Cinza | Post salvo mas não agendado. Não será publicado até que você o agende. |
+| **Agendado** | Azul | Post definido para publicar em uma data/hora específica. Aguardando o momento agendado. |
+| **Fila** | Azul | O horário agendado chegou. O post está sendo processado e enviado para a API da plataforma. |
+| **Publicado** | Roxo | Post entregue com sucesso à plataforma. Está no ar. |
+| **Erro** | Vermelho | Post falhou ao publicar. Verifique os detalhes do erro para saber o motivo. |
+
+## Transições de status
+
+### Rascunho para Agendado
+
+Quando você define uma data/hora e clica em **Agendar Post**, o post muda de Rascunho para Agendado. Ele aparece no seu Calendário com um indicador azul.
+
+Você ainda pode editar o conteúdo e reagendar enquanto estiver neste status.
+
+### Agendado para Fila
+
+No horário agendado, o post entra automaticamente na Fila. Os workers em segundo plano do Postzee o processam e iniciam o processo de publicação.
+
+Essa transição é automática — nenhuma ação necessária da sua parte.
+
+### Fila para Publicado
+
+O worker envia seu conteúdo para a API da plataforma (Instagram, TikTok, LinkedIn, etc.). Em caso de sucesso, o post muda para Publicado e o indicador roxo aparece no seu Calendário.
+
+### Fila para Erro
+
+Se a API da plataforma rejeitar o post ou ocorrer um problema de conexão, o post muda para o status de Erro. O motivo específico do erro é salvo para que você possa diagnosticar o problema.
+
+## O que você pode fazer em cada status
+
+| Ação | Rascunho | Agendado | Publicado | Erro |
+|------|:---:|:---:|:---:|:---:|
+| Editar conteúdo | Sim | Sim | — | — |
+| Reagendar | Sim | Sim | — | — |
+| Arrastar no calendário | Sim | Sim | — | — |
+| Excluir | Sim | Sim | Sim | Sim |
+| Retentar | — | — | — | Sim |
+| Ver detalhes | Sim | Sim | Sim | Sim |
+
+## Tratamento de erros
+
+Quando um post falha, veja como corrigir:
+
+1. Encontre o post no seu Calendário (ele tem um indicador vermelho)
+2. Clique nele para ver os **detalhes do erro**
+3. Corrija o problema subjacente com base no motivo do erro
+4. Clique em **Retentar** para tentar publicar novamente
+
+### Motivos de erro comuns
+
+| Erro | Causa | Solução |
+|------|-------|---------|
+| **Canal desconectado** | Token OAuth expirou ou foi revogado | Vá para **Canais** → reconecte a conta |
+| **Canal desabilitado** | O canal foi desabilitado manualmente | Vá para **Canais** → habilite o canal |
+| **Conteúdo rejeitado** | A plataforma rejeitou o conteúdo (formato, tamanho, política) | Edite o post para atender aos requisitos da plataforma |
+| **Limite de taxa** | Muitos posts enviados para a plataforma em pouco tempo | Aguarde alguns minutos e tente novamente |
+| **Conta bloqueada** | Sua conta Postzee tem um problema de cobrança ou política | Verifique o status da sua conta em **Configurações** |
+
+## Comportamento de post multicanal
+
+Quando você publica em múltiplos canais simultaneamente:
+
+- Cada canal é processado independentemente
+- Se um canal falhar, os outros ainda publicam com sucesso
+- Canais com falha mostram status de Erro — você pode retentá-los individualmente
+- Todos os posts no mesmo grupo compartilham um **ID de grupo** que os vincula
+
+### Exemplo
+
+Você agenda um post para Instagram, LinkedIn e X (Twitter) às 10:00:
+
+| Canal | Resultado | Status |
+|-------|-----------|--------|
+| Instagram | Entregue com sucesso | Publicado |
+| LinkedIn | Entregue com sucesso | Publicado |
+| X (Twitter) | Token expirado | Erro |
+
+Neste caso, você só precisa reconectar sua conta do X (Twitter) e retentar aquele único post. Instagram e LinkedIn já estão no ar.
+
+## Exclusão
+
+Quando você exclui um post:
+
+- **Rascunho / Agendado** — o post é removido do seu Calendário. Nada foi publicado.
+- **Publicado** — o post é removido do Calendário do Postzee, mas o conteúdo **permanece no ar na plataforma**. Para removê-lo da plataforma, você precisa excluí-lo diretamente no Instagram, LinkedIn, etc.
+- **Erro** — o post é removido. Como nunca foi publicado, não há nada para limpar.
+
+<Note>
+Excluir um post no Postzee não o exclui da plataforma de redes sociais. Se um post já foi publicado, você deve removê-lo diretamente da plataforma.
+</Note>
+
+## Comentários em posts
+
+Membros da equipe podem deixar comentários em qualquer post para colaboração:
+
+- Abra um post a partir do Calendário
+- Adicione um comentário na seção de comentários
+- Os comentários são visíveis para todos os membros da equipe
+
+<CardGroup cols={2}>
+  <Card title="Visão Geral do Calendário" icon="calendar" href="/calendar/overview">
+    Navegue e gerencie seu calendário de conteúdo.
+  </Card>
+  <Card title="Conectando Canais" icon="plug" href="/channels/connecting">
+    Corrija problemas de conexão de canais.
+  </Card>
+</CardGroup>

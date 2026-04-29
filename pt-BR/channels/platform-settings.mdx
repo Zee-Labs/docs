@@ -1,0 +1,102 @@
+---
+title: Configurações de Plataforma
+icon: gear
+---
+
+Cada plataforma tem recursos e requisitos únicos. O Postzee permite configurar opções específicas de plataforma por canal para que seu conteúdo seja otimizado para cada plataforma em que você publica.
+
+## Como acessar
+
+1. Vá para **Canais** na barra de navegação superior
+2. Clique em um canal para abrir suas configurações
+3. Configure as opções disponíveis para aquela plataforma
+
+## Configurações por plataforma
+
+### TikTok
+
+O TikTok requer configurações de divulgação de conteúdo para todo vídeo publicado pela sua API:
+
+| Configuração | Opções | Descrição |
+|--------------|--------|-----------|
+| **Privacidade** | Público, Amigos Mútuos, Apenas Seguidores, Privado | Quem pode ver seu vídeo |
+| **Permitir Duetos** | Ligado / Desligado | Se outros podem criar duetos com seu vídeo |
+| **Permitir Stitches** | Ligado / Desligado | Se outros podem fazer stitch do seu vídeo |
+| **Permitir Comentários** | Ligado / Desligado | Se os espectadores podem comentar |
+| **Adicionar Música Automaticamente** | Sim / Não | Deixar o TikTok adicionar música de fundo |
+| **Conteúdo de Marca** | Ligado / Desligado | Divulgar conteúdo patrocinado |
+| **Feito com IA** | Ligado / Desligado | Divulgar conteúdo gerado por IA |
+
+<Note>
+A conformidade com a API do TikTok exige essas configurações de divulgação. Elas não podem ser simplificadas ou ignoradas. O Postzee as valida antes de cada publicação.
+</Note>
+
+### YouTube
+
+| Configuração | Opções | Descrição |
+|--------------|--------|-----------|
+| **Título** | Texto (2-100 caracteres) | Título do vídeo — obrigatório para todos os uploads no YouTube |
+| **Visibilidade** | Público, Privado, Não listado | Quem pode ver seu vídeo |
+| **Miniatura** | Upload de imagem | Miniatura personalizada do vídeo |
+| **Tags** | Tags de texto | Palavras-chave pesquisáveis para descoberta |
+
+### Instagram
+
+| Configuração | Opções | Descrição |
+|--------------|--------|-----------|
+| **Tipo de Post** | Post no Feed, Story | Onde o conteúdo aparece |
+| **Colaboradores** | Tags de contas | Marcar contas de colaboradores no post |
+
+### LinkedIn
+
+| Configuração | Opções | Descrição |
+|--------------|--------|-----------|
+| **Carrossel de Imagens** | Ligado / Desligado | Exibir múltiplas imagens como um carrossel deslizável |
+
+### Mastodon
+
+Para instâncias auto-hospedadas de Mastodon:
+
+| Configuração | Descrição |
+|--------------|-----------|
+| **URL da Instância** | O endereço do seu servidor Mastodon (ex.: `mastodon.social`) |
+
+### WordPress
+
+| Configuração | Descrição |
+|--------------|-----------|
+| **URL do Site** | O endereço do seu site WordPress |
+| **Autenticação** | Senha de aplicação ou credenciais OAuth |
+
+## Configurações por post vs por canal
+
+- **Configurações por canal** são definidas uma vez na página de Canais e se aplicam como padrão a todos os posts
+- **Configurações por post** podem sobrescrever os padrões do canal ao criar posts individuais no Editor de Post
+
+Por exemplo, você pode definir a privacidade padrão do seu canal TikTok como "Público" mas alterá-la para "Apenas Seguidores" para um post específico.
+
+## Perfil do canal
+
+Algumas plataformas permitem atualizar seu perfil diretamente do Postzee:
+
+| Recurso | Descrição |
+|---------|-----------|
+| **Foto de perfil** | Atualizar o avatar do seu canal (plataformas suportadas apenas) |
+| **Nome de exibição** | Alterar o apelido do canal no Postzee |
+
+## Horários de publicação
+
+Configure horários preferidos de publicação por canal:
+
+- Defina horários específicos em que o conteúdo deve ser publicado
+- Usado pelo recurso **Encontrar Melhor Horário** ao agendar posts
+- Ajuda a distribuir seu conteúdo nos horários ideais
+
+<CardGroup cols={2}>
+  <Card title="Conectando Canais" icon="plug" href="/channels/connecting">
+    Conecte novas contas de redes sociais.
+  </Card>
+  <Card title="Editor de Post" icon="pen-to-square" href="/calendar/post-editor">
+    Use configurações de plataforma ao criar posts.
+  </Card>
+</CardGroup>

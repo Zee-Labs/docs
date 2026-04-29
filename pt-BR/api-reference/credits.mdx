@@ -1,0 +1,95 @@
+---
+title: Créditos
+icon: coins
+---
+
+Verifique seu saldo de créditos de IA e aprimore prompts via API.
+
+## Obter saldo de créditos
+
+```
+GET /public/v1/credits
+```
+
+Retorna seu saldo atual de créditos.
+
+### Requisição
+
+```bash
+curl -H "Authorization: YOUR_API_KEY" \
+  https://api.postzee.app/public/v1/credits
+```
+
+### Resposta
+
+```json
+{
+  "monthlyCredits": 5.0,
+  "purchasedCredits": 2.0,
+  "usedCredits": 0.5,
+  "availableCredits": 6.5,
+  "lastReset": "2026-04-01T00:00:00.000Z"
+}
+```
+
+| Campo | Tipo | Descrição |
+|-------|------|-----------|
+| `monthlyCredits` | number | Créditos mensais do seu plano (em USD) |
+| `purchasedCredits` | number | Créditos comprados que nunca expiram (em USD) |
+| `usedCredits` | number | Créditos usados no ciclo de cobrança atual (em USD) |
+| `availableCredits` | number | Total de créditos disponíveis — mensais + comprados - usados (em USD) |
+| `lastReset` | string | Timestamp ISO do último reset mensal de créditos |
+
+<Note>
+Todos os valores de créditos estão em USD. Para converter em contagem de créditos: `valor × 1.000`. Por exemplo, `availableCredits: 6.5` = `6.500` créditos disponíveis.
+</Note>
+
+---
+
+## Aprimorar prompt
+
+```
+POST /public/v1/enhance-prompt
+```
+
+Otimize um prompt para melhores resultados de geração com IA. Este endpoint é **gratuito** — nenhum crédito é consumido.
+
+**Limite de taxa:** 10 requisições por minuto.
+
+### Requisição
+
+```bash
+curl -X POST \
+  -H "Authorization: YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "prompt": "a cat on a windowsill",
+    "mediaType": "image"
+  }' \
+  https://api.postzee.app/public/v1/enhance-prompt
+```
+
+### Parâmetros
+
+| Parâmetro | Tipo | Obrigatório | Descrição |
+|-----------|------|:---:|-----------|
+| `prompt` | string | Sim | O prompt para aprimorar (máx. 2.000 caracteres) |
+| `mediaType` | string | Sim | `"image"` ou `"video"` |
+| `model` | string | Não | ID do modelo de IA alvo para otimização específica do modelo |
+| `stylePreferences` | string | Não | Dicas de estilo (máx. 500 caracteres) |
+| `sourceImageUrls` | string[] | Não | URLs de imagens de referência (máx. 5) |
+
+### Resposta
+
+```json
+{
+  "enhancedPrompt": "A fluffy ginger cat perched on a sunlit windowsill, warm afternoon light casting soft shadows through lace curtains...",
+  "success": true
+}
+```
+
+| Campo | Tipo | Descrição |
+|-------|------|-----------|
+| `enhancedPrompt` | string | O prompt otimizado |
+| `success` | boolean | Se o aprimoramento foi bem-sucedido |
+| `error` | string | Mensagem de erro (apenas se `success` for `false`) |
