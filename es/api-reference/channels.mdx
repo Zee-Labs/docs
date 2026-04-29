@@ -1,0 +1,65 @@
+---
+title: Canales
+icon: share-nodes
+---
+
+Recupera tus canales de redes sociales conectados.
+
+## Listar canales
+
+```
+GET /public/v1/integrations
+```
+
+Devuelve todos los canales de redes sociales conectados de tu cuenta.
+
+### Solicitud
+
+```bash
+curl -H "Authorization: YOUR_API_KEY" \
+  https://api.postzee.app/public/v1/integrations
+```
+
+### Respuesta
+
+```json
+[
+  {
+    "id": "abc123-def456",
+    "name": "My Instagram",
+    "identifier": "instagram",
+    "picture": "https://...",
+    "disabled": false,
+    "profile": "username",
+    "customer": {
+      "id": "cust-123",
+      "name": "Client A"
+    }
+  },
+  {
+    "id": "ghi789-jkl012",
+    "name": "Company LinkedIn",
+    "identifier": "linkedin-page",
+    "picture": "https://...",
+    "disabled": false,
+    "profile": "Company Name",
+    "customer": null
+  }
+]
+```
+
+### Campos de respuesta
+
+| Campo | Tipo | Descripción |
+|-------|------|-------------|
+| `id` | string | ID único del canal — úsalo en Create Post |
+| `name` | string | Nombre de visualización del canal |
+| `identifier` | string | Identificador de plataforma (ej., `instagram`, `linkedin-page`, `tiktok`, `x`) |
+| `picture` | string | URL de la foto de perfil |
+| `disabled` | boolean | Si el canal está deshabilitado |
+| `profile` | string | Nombre de usuario o nombre de página de la plataforma |
+| `customer` | object/null | Agrupación de cliente (si está asignado) |
+
+<Note>
+El campo `id` es lo que pasas como `channelId` al crear posts. El campo `identifier` te indica a qué plataforma pertenece este canal.
+</Note>

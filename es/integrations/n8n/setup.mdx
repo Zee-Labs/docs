@@ -1,0 +1,87 @@
+---
+title: Configuración de n8n
+icon: wrench
+---
+
+Instala el nodo personalizado de Postzee en tu instancia de n8n y configura tus credenciales API.
+
+## Paso 1: Instalar el nodo de Postzee
+
+### Nodo de comunidad n8n
+
+1. Abre tu instancia de n8n
+2. Ve a **Settings** → **Community Nodes**
+3. Haz clic en **Install a community node**
+4. Ingresa: `n8n-nodes-postzee`
+5. Haz clic en **Install**
+6. El nodo de Postzee aparece en tu paleta de nodos
+
+### Instalación manual (autoalojado)
+
+```bash
+cd ~/.n8n
+npm install n8n-nodes-postzee
+```
+
+Reinicia tu instancia de n8n después de la instalación.
+
+## Paso 2: Crear una clave API de Postzee
+
+1. Inicia sesión en [Postzee](https://dashboard.postzee.app)
+2. Abre el panel de cuenta (haz clic en tu avatar en la esquina superior derecha)
+3. Ve a **Configuración** → pestaña **API**
+4. Haz clic en **Crear Clave API**
+5. Copia la clave — la necesitarás en el siguiente paso
+
+<Warning>
+Almacena tu clave API de forma segura. Proporciona acceso completo a la API de tu cuenta de Postzee.
+</Warning>
+
+## Paso 3: Configurar credenciales en n8n
+
+1. En n8n, ve a **Credentials** → **New Credential**
+2. Busca **Postzee API**
+3. Pega tu clave API en el campo **API Key**
+4. Haz clic en **Save**
+5. n8n prueba la conexión automáticamente — deberías ver un mensaje de éxito
+
+La configuración de credenciales usa autenticación basada en encabezados:
+
+| Campo | Valor |
+|-------|-------|
+| **API Key** | Tu clave API de Postzee |
+| **Base URL** | `https://api.postzee.app/public/v1` (configurado automáticamente) |
+
+## Paso 4: Agregar el nodo de Postzee a un flujo de trabajo
+
+1. Crea un nuevo flujo de trabajo o abre uno existente
+2. Haz clic en **+** para agregar un nodo
+3. Busca **Postzee**
+4. Selecciona el nodo **Postzee**
+5. Elige una operación (ej., Create Post, Generate Image)
+6. Selecciona tu credencial de Postzee
+7. Configura los parámetros de la operación
+8. Conecta con otros nodos y activa tu flujo de trabajo
+
+## Verificar la conexión
+
+La forma más rápida de probar tu configuración:
+
+1. Agrega un nodo de Postzee a un flujo de trabajo
+2. Selecciona la operación **Get Channels**
+3. Haz clic en **Execute Node**
+4. Deberías ver una lista de tus canales conectados
+
+Si ves un error, verifica:
+- Tu clave API es correcta y está activa
+- Tu cuenta de Postzee tiene un plan de pago activo
+- Tu instancia de n8n puede acceder a `api.postzee.app`
+
+<CardGroup cols={2}>
+  <Card title="Operaciones" icon="list" href="/integrations/n8n/operations">
+    Referencia detallada de todas las operaciones.
+  </Card>
+  <Card title="Flujos de Trabajo de Ejemplo" icon="diagram-project" href="/integrations/n8n/example-workflows">
+    Plantillas de flujos de trabajo listas para usar.
+  </Card>
+</CardGroup>

@@ -1,0 +1,102 @@
+---
+title: Configuración de Plataforma
+icon: gear
+---
+
+Cada plataforma tiene características y requisitos únicos. Postzee te permite configurar ajustes específicos de plataforma por canal para que tu contenido esté optimizado en cada plataforma donde publiques.
+
+## Cómo acceder
+
+1. Ve a **Canales** en la barra de navegación superior
+2. Haz clic en un canal para abrir su configuración
+3. Configura las opciones disponibles para esa plataforma
+
+## Configuración por plataforma
+
+### TikTok
+
+TikTok requiere ajustes de divulgación de contenido para cada video publicado a través de su API:
+
+| Configuración | Opciones | Descripción |
+|---------|---------|-------------|
+| **Privacidad** | Público, Amigos Mutuos, Solo Seguidores, Privado | Quién puede ver tu video |
+| **Permitir Duets** | Activado / Desactivado | Si otros pueden crear duets con tu video |
+| **Permitir Stitches** | Activado / Desactivado | Si otros pueden hacer stitch de tu video |
+| **Permitir Comentarios** | Activado / Desactivado | Si los espectadores pueden comentar |
+| **Agregar Música Auto** | Sí / No | Dejar que TikTok agregue música de fondo |
+| **Contenido de Marca** | Activado / Desactivado | Divulgar contenido patrocinado/de marca |
+| **Hecho con IA** | Activado / Desactivado | Divulgar contenido generado con IA |
+
+<Note>
+El cumplimiento de la API de TikTok requiere estos ajustes de divulgación. No pueden simplificarse ni omitirse. Postzee los valida antes de cada publicación.
+</Note>
+
+### YouTube
+
+| Configuración | Opciones | Descripción |
+|---------|---------|-------------|
+| **Título** | Texto (2-100 caracteres) | Título del video — obligatorio para todas las subidas a YouTube |
+| **Visibilidad** | Público, Privado, No Listado | Quién puede ver tu video |
+| **Miniatura** | Subida de imagen | Miniatura personalizada del video |
+| **Etiquetas** | Etiquetas de texto | Palabras clave buscables para descubrimiento |
+
+### Instagram
+
+| Configuración | Opciones | Descripción |
+|---------|---------|-------------|
+| **Tipo de Post** | Post de Feed, Story | Dónde aparece el contenido |
+| **Colaboradores** | Etiquetas de cuenta | Etiquetar cuentas de colaboradores en el post |
+
+### LinkedIn
+
+| Configuración | Opciones | Descripción |
+|---------|---------|-------------|
+| **Carrusel de Imágenes** | Activado / Desactivado | Mostrar múltiples imágenes como carrusel deslizable |
+
+### Mastodon
+
+Para instancias autoalojadas de Mastodon:
+
+| Configuración | Descripción |
+|---------|-------------|
+| **URL de la Instancia** | La dirección de tu servidor Mastodon (ej., `mastodon.social`) |
+
+### WordPress
+
+| Configuración | Descripción |
+|---------|-------------|
+| **URL del Sitio** | La dirección de tu sitio WordPress |
+| **Autenticación** | Contraseña de aplicación o credenciales OAuth |
+
+## Configuración por post vs por canal
+
+- **Configuración por canal** se establece una vez en la página de Canales y se aplica como valores predeterminados a todos los posts
+- **Configuración por post** puede anular los valores predeterminados del canal al crear posts individuales en el Editor de Posts
+
+Por ejemplo, podrías configurar la privacidad predeterminada de tu canal de TikTok como "Público" pero anularla a "Solo Seguidores" para un post específico.
+
+## Perfil del canal
+
+Algunas plataformas te permiten actualizar tu perfil directamente desde Postzee:
+
+| Función | Descripción |
+|---------|-------------|
+| **Foto de perfil** | Actualizar el avatar de tu canal (solo plataformas compatibles) |
+| **Nombre para mostrar** | Cambiar el apodo del canal en Postzee |
+
+## Horarios de publicación
+
+Configura horarios de publicación preferidos por canal:
+
+- Establece horas específicas en las que el contenido debe publicarse
+- Utilizado por la función **Encontrar Mejor Horario** al programar posts
+- Ayuda a distribuir tu contenido en franjas horarias óptimas
+
+<CardGroup cols={2}>
+  <Card title="Conectar Canales" icon="plug" href="/channels/connecting">
+    Conecta nuevas cuentas de redes sociales.
+  </Card>
+  <Card title="Editor de Posts" icon="pen-to-square" href="/calendar/post-editor">
+    Usa la configuración de plataforma al crear posts.
+  </Card>
+</CardGroup>

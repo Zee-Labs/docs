@@ -1,0 +1,100 @@
+---
+title: Claves API
+icon: key
+---
+
+Crea y gestiona claves API para acceder a la API REST pública de Postzee de forma programática. Usa claves API para automatizar la creación de contenido, integrar con herramientas externas o construir flujos de trabajo personalizados.
+
+## Cómo acceder
+
+Abre el panel de cuenta (haz clic en tu avatar en la esquina superior derecha) → **Configuración** → pestaña **API**.
+
+<Note>
+La gestión de claves API requiere el rol de **Admin** o **Super Admin**. Los miembros del equipo con el rol User no pueden ver ni crear claves API.
+</Note>
+
+## Crear una clave API
+
+1. Ve a **Configuración** → **Claves API**
+2. Haz clic en **Crear Clave API**
+3. Ingresa un nombre para tu clave (mínimo 4 caracteres) — usa un nombre descriptivo como "automatización n8n" o "script personalizado"
+4. Haz clic en **Crear**
+5. **Copia la clave inmediatamente** — solo se mostrará una vez
+
+<Warning>
+Almacena tu clave API de forma segura. Proporciona acceso completo a la API de tu cuenta. Nunca la compartas públicamente ni la incluyas en control de versiones.
+</Warning>
+
+## Usar tu clave API
+
+Incluye la clave API en el encabezado `Authorization` de tus solicitudes API:
+
+```bash
+curl -H "Authorization: YOUR_API_KEY" \
+  https://api.postzee.app/public/v1/credits
+```
+
+<Note>
+No uses el prefijo `Bearer` — pasa la clave API directamente como valor del encabezado Authorization.
+</Note>
+
+## Qué puedes hacer con la API
+
+La API pública te da acceso programático a:
+
+| Endpoint | Descripción |
+|----------|-------------|
+| **Create Post** | Programa o publica posts en tus canales |
+| **Generate Image** | Genera imágenes con IA con cualquier modelo disponible |
+| **Generate Video** | Genera videos con IA |
+| **List Channels** | Obtiene todos los canales conectados |
+| **Get Credits** | Consulta tu saldo actual de créditos |
+| **Enhance Prompt** | Optimiza prompts con el Optimizador de Prompts |
+| **Check Job Status** | Monitorea tareas de generación asíncronas |
+
+Consulta la [Referencia de API](/api-reference/authentication) completa para todos los endpoints.
+
+## Gestionar claves API
+
+- **Ver** — consulta todas las claves API activas y sus nombres
+- **Eliminar** — revoca una clave API permanentemente (cualquier integración que la use dejará de funcionar)
+- **Regenerar** — elimina la clave anterior y crea una nueva
+
+## Planes con acceso API
+
+| Plan | Acceso API |
+|------|-----------|
+| **Free** | — |
+| **Standard** | Sí |
+| **Team** | Sí |
+| **Pro** | Sí |
+| **Ultimate** | Sí |
+
+## Límites de tasa
+
+Las solicitudes API tienen límites de tasa para proteger la plataforma:
+
+| Tipo de endpoint | Límite |
+|-----------------|-------|
+| **Solicitudes generales** | 30 solicitudes/hora |
+| **Generación IA** | 10 solicitudes/minuto |
+| **Mejora de prompts** | 10 solicitudes/minuto |
+
+Consulta [Límites de Tasa](/api-reference/rate-limits) para más detalles.
+
+## Integraciones que usan claves API
+
+Las claves API de Postzee son utilizadas por:
+
+- **[Integración n8n](/integrations/n8n/overview)** — automatiza flujos de trabajo con el nodo personalizado de Postzee
+- **[Agentes de IA (MCP)](/integrations/mcp/overview)** — conecta Claude Code, OpenClaw y otros agentes de IA
+- **Scripts personalizados** — construye tus propias automatizaciones con la API REST
+
+<CardGroup cols={2}>
+  <Card title="Referencia de API" icon="code" href="/api-reference/authentication">
+    Documentación completa de la API y endpoints.
+  </Card>
+  <Card title="Integración n8n" icon="arrows-rotate" href="/integrations/n8n/overview">
+    Automatiza Postzee con flujos de trabajo de n8n.
+  </Card>
+</CardGroup>

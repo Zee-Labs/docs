@@ -1,0 +1,78 @@
+---
+title: Límites de Tasa
+icon: gauge-high
+---
+
+La API de Postzee aplica límites de tasa para garantizar un uso justo y la estabilidad de la plataforma. Los límites varían según el tipo de endpoint.
+
+## Límites de tasa por endpoint
+
+| Endpoint | Límite | Ventana |
+|----------|-------|---------|
+| **Global por defecto** | 30 solicitudes | por hora |
+| `POST /generate-image` | 10 solicitudes | por minuto |
+| `POST /generate-video-ai` | 10 solicitudes | por minuto |
+| `POST /generate-heygen-video` | 10 solicitudes | por minuto |
+| `POST /enhance-prompt` | 10 solicitudes | por minuto |
+| `GET /video-models` | 30 solicitudes | por minuto |
+| `GET /image-models` | 30 solicitudes | por minuto |
+| `GET /heygen-avatars` | 30 solicitudes | por minuto |
+| `GET /heygen-voices` | 30 solicitudes | por minuto |
+
+<Note>
+Los endpoints con límites explícitos por minuto anulan el valor global por defecto. La mayoría de los endpoints de lectura (canales, créditos, posts, trabajos) caen bajo el límite global de 30/hora. Los endpoints de generación IA tienen sus propios límites de mayor frecuencia.
+</Note>
+
+## Límites de tasa del servidor MCP
+
+| Transporte | Límite | Ventana |
+|-----------|-------|---------|
+| **SSE** (Server-Sent Events) | 30 solicitudes | por minuto |
+| **HTTP POST** | 60 solicitudes | por minuto |
+
+## Encabezados de límite de tasa
+
+Cuando te acercas o excedes un límite de tasa, la API devuelve encabezados estándar de límite de tasa:
+
+| Encabezado | Descripción |
+|-----------|-------------|
+| `X-RateLimit-Limit` | Máximo de solicitudes permitidas en la ventana |
+| `X-RateLimit-Remaining` | Solicitudes restantes en la ventana actual |
+| `X-RateLimit-Reset` | Timestamp Unix cuando la ventana se reinicia |
+
+## Exceder el límite
+
+Cuando excedes el límite de tasa, la API devuelve:
+
+```
+HTTP 429 Too Many Requests
+```
+
+```json
+{
+  "statusCode": 429,
+  "message": "ThrottlerException: Too Many Requests"
+}
+```
+
+**Qué hacer:** Espera a que la ventana del límite de tasa se reinicie (consulta el encabezado `X-RateLimit-Reset`), luego reintenta tu solicitud.
+
+## Mejores prácticas
+
+- **Espacia las solicitudes de generación IA** — limita a 10 por minuto para generación de imagen/video
+- **Cachea listas de modelos** — los modelos disponibles no cambian frecuentemente, así que cachea las respuestas de `/image-models` y `/video-models`
+- **Consulta el estado de trabajos razonablemente** — verifica cada 5-10 segundos, no cada segundo
+- **Usa operaciones en lote** — al generar múltiples imágenes, usa `generate-media` con `quantity: 2-4` en lugar de múltiples llamadas a `generate-image`
+- **Maneja el 429 con gracia** — implementa retroceso exponencial cuando seas limitado
+
+## Límites por plan
+
+Los límites de tasa son los mismos en todos los planes de pago. La API no está disponible en el plan Free.
+
+| Plan | Acceso API | Límites de tasa |
+|------|-----------|----------------|
+| Free | No | — |
+| Standard | Sí | Límites estándar |
+| Team | Sí | Límites estándar |
+| Pro | Sí | Límites estándar |
+| Ultimate | Sí | Límites estándar |

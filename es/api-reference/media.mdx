@@ -1,0 +1,166 @@
+---
+title: Medios
+icon: image
+---
+
+Genera imágenes y videos con IA, y sube archivos a tu biblioteca de medios.
+
+## Generar imagen
+
+```
+POST /public/v1/generate-image
+```
+
+Genera una imagen con IA a partir de un prompt de texto. Esta es una **operación asíncrona** — devuelve un ID de trabajo. Usa el [endpoint de Trabajos](/api-reference/jobs) para consultar el estado de finalización.
+
+**Límite de tasa:** 10 solicitudes por minuto.
+
+### Solicitud
+
+```bash
+curl -X POST \
+  -H "Authorization: YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "model": "nano-banana-pro",
+    "prompt": "A professional headshot of a confident woman in a modern office"
+  }' \
+  https://api.postzee.app/public/v1/generate-image
+```
+
+### Parámetros
+
+| Parámetro | Tipo | Obligatorio | Descripción |
+|-----------|------|:---:|-------------|
+| `model` | string | Sí | ID del modelo (ver [Modelos de Imagen](/ai-models/image-models)) |
+| `prompt` | string | Sí | Descripción de la imagen (5+ caracteres) |
+| `aspectRatio` | string | No | `1:1`, `16:9`, `9:16`, `4:3`, `3:4`, `4:5`, `5:4` |
+| `imageUrls` | string[] | No | URLs de imágenes de referencia para imagen a imagen (máx. 16) |
+| `modelParams` | object | No | Parámetros específicos del modelo (ej., `quality`, `rendering_speed`) |
+
+### IDs de modelo válidos
+
+`nano-banana`, `nano-banana-2`, `nano-banana-pro`, `gpt-image-2`, `gpt-image-1.5`, `gpt-image-1`, `gpt-image-1-mini`, `flux-2-pro`, `flux-1.1-pro`, `flux-1.1-ultra`, `recraft-v3`, `recraft-v4`, `recraft-v4-pro`, `ideogram-v2`, `ideogram-v3`
+
+### Respuesta
+
+```json
+{
+  "jobId": "task-uuid-here",
+  "jobType": "task",
+  "status": "processing"
+}
+```
+
+---
+
+## Generar video
+
+```
+POST /public/v1/generate-video-ai
+```
+
+Genera un video con IA a partir de un prompt de texto. Esta es una **operación asíncrona**.
+
+**Límite de tasa:** 10 solicitudes por minuto.
+
+### Solicitud
+
+```bash
+curl -X POST \
+  -H "Authorization: YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "model": "sora-2-t2v",
+    "prompt": "A golden sunset over a calm ocean with gentle waves",
+    "duration": 10,
+    "aspectRatio": "16:9"
+  }' \
+  https://api.postzee.app/public/v1/generate-video-ai
+```
+
+### Parámetros
+
+| Parámetro | Tipo | Obligatorio | Descripción |
+|-----------|------|:---:|-------------|
+| `model` | string | Sí | ID del modelo de video (ver abajo) |
+| `prompt` | string | Sí | Descripción del video (5-10,000 caracteres) |
+| `duration` | number | No | Duración en segundos (2-25) |
+| `aspectRatio` | string | No | `1:1`, `16:9`, `9:16`, `4:3`, `3:4`, `4:5`, `5:4` |
+| `resolution` | string | No | `360p`, `480p`, `540p`, `720p`, `1080p`, `4k` |
+| `generateAudio` | boolean | No | Generar audio sincronizado (modelos Veo 3.1) |
+| `negativePrompt` | string | No | Qué evitar (máx. 2,000 caracteres) |
+| `imageUrl` | string | No | URL de imagen fuente para modelos imagen a video |
+
+### IDs de modelo de video válidos
+
+**Sora 2:** `sora-2-t2v`, `sora-2-i2v`, `sora-2-t2v-pro`, `sora-2-i2v-pro`
+
+**Veo 3.1:** `veo3.1`, `veo3.1/fast`, `veo3.1/image-to-video`, `veo3.1/fast/image-to-video`
+
+**Kling:** `kling-3.0-pro`, `kling-2.6-pro`, `kling-2.5-turbo-pro`, `kling-o3-standard`, `kling-2.1-master`
+
+**Luma Ray:** `luma-ray-2`, `luma-ray-2-flash`
+
+**Seedance:** `seedance-2.0`, `seedance-1.0-pro`, `seedance-1.0-lite`
+
+**Wan:** `wan-2.5`, `wan-2.1-pro`, `wan-2.1`, `wan-flf2v`
+
+**Otros:** `vidu-q1`, `pixverse-v4.5`, `minimax-video-01`, `minimax-video-01-live`, `hunyuan-video`
+
+### Respuesta
+
+```json
+{
+  "jobId": "task-uuid-here",
+  "jobType": "task",
+  "status": "processing"
+}
+```
+
+---
+
+## Listar modelos de imagen
+
+```
+GET /public/v1/image-models
+```
+
+Devuelve todos los modelos de generación de imágenes disponibles con sus capacidades.
+
+---
+
+## Listar modelos de video
+
+```
+GET /public/v1/video-models
+```
+
+Devuelve todos los modelos de generación de videos disponibles con sus capacidades.
+
+**Límite de tasa:** 30 solicitudes por minuto.
+
+---
+
+## Subir archivo
+
+```
+POST /public/v1/upload
+```
+
+Sube un archivo de imagen o video a tu biblioteca de medios.
+
+### Solicitud
+
+```bash
+curl -X POST \
+  -H "Authorization: YOUR_API_KEY" \
+  -F "file=@/path/to/image.jpg" \
+  https://api.postzee.app/public/v1/upload
+```
+
+### Respuesta
+
+Devuelve un objeto de medio con `id`, `path` (URL), `type` (image/video) y `size`.
+
+Usa el `id` en el endpoint Create Post para adjuntar medios subidos a un post.

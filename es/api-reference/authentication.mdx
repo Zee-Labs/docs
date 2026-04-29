@@ -1,0 +1,85 @@
+---
+title: Autenticación
+icon: lock
+---
+
+La API pública de Postzee usa **autenticación por clave API**. Todos los endpoints requieren una clave API válida enviada en el encabezado `Authorization`.
+
+## URL base
+
+```
+https://api.postzee.app/public/v1
+```
+
+## Autenticación
+
+Incluye tu clave API en el encabezado `Authorization` de cada solicitud:
+
+```bash
+curl -H "Authorization: YOUR_API_KEY" \
+  https://api.postzee.app/public/v1/credits
+```
+
+<Warning>
+**No** uses el prefijo `Bearer`. Envía la clave API directamente como valor del encabezado.
+</Warning>
+
+## Crear una clave API
+
+1. Inicia sesión en [Postzee](https://dashboard.postzee.app)
+2. Abre el panel de cuenta (haz clic en tu avatar en la esquina superior derecha)
+3. Ve a **Configuración** → pestaña **API**
+4. Haz clic en **Crear Clave API**
+5. Copia la clave inmediatamente — solo se mostrará una vez
+
+## Requisitos
+
+- Un **plan de pago** (Standard o superior) — el plan Free no incluye acceso a la API
+- Una **suscripción activa** — las suscripciones vencidas no pueden usar la API
+- La cuenta **no debe estar bloqueada**
+
+## Respuestas de error
+
+| Estado | Significado |
+|--------|------------|
+| `401` | Clave API faltante o inválida |
+| `401` | Sin suscripción activa |
+| `403` | Cuenta bloqueada |
+| `429` | Límite de tasa excedido |
+
+Todas las respuestas de error siguen este formato:
+
+```json
+{
+  "statusCode": 401,
+  "message": "Unauthorized"
+}
+```
+
+## Probar tu conexión
+
+Usa el endpoint de verificación de salud para confirmar que tu clave API funciona:
+
+```bash
+curl -H "Authorization: YOUR_API_KEY" \
+  https://api.postzee.app/public/v1/is-connected
+```
+
+**Respuesta exitosa:**
+```json
+{
+  "connected": true
+}
+```
+
+## Endpoints disponibles
+
+| Grupo | Endpoints |
+|-------|-----------|
+| [Posts](/api-reference/posts) | Crear, listar, eliminar posts |
+| [Canales](/api-reference/channels) | Listar canales conectados |
+| [Medios](/api-reference/media) | Generar imágenes, videos, subir archivos |
+| [Créditos](/api-reference/credits) | Consultar saldo, mejorar prompts |
+| [Trabajos](/api-reference/jobs) | Consultar tareas de generación asíncronas |
+
+Consulta [Límites de Tasa](/api-reference/rate-limits) para los límites de solicitudes por endpoint.

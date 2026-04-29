@@ -1,0 +1,125 @@
+---
+title: Ciclo de Vida del Post
+icon: arrows-rotate
+---
+
+Cada post en Postzee sigue un ciclo de vida desde la creación hasta la publicación. Comprender estos estados te ayuda a gestionar tu flujo de contenido y resolver problemas.
+
+## Estados del post
+
+Un post progresa a través de estos estados:
+
+```
+Borrador → Programado → Cola → Publicado
+                           └→ Error
+```
+
+| Estado | Color | Descripción |
+|--------|-------|-------------|
+| **Borrador** | Gris | El post está guardado pero no programado. No se publicará hasta que lo programes. |
+| **Programado** | Azul | El post está configurado para publicarse en una fecha/hora específica. Esperando el momento programado. |
+| **Cola** | Azul | La hora programada ha llegado. El post está siendo procesado y enviado a la API de la plataforma. |
+| **Publicado** | Morado | El post fue entregado exitosamente a la plataforma. Está en línea. |
+| **Error** | Rojo | El post falló al publicarse. Revisa los detalles del error para conocer la razón. |
+
+## Transiciones de estado
+
+### De Borrador a Programado
+
+Cuando estableces una fecha/hora y haces clic en **Programar**, el post pasa de Borrador a Programado. Aparece en tu Calendario con un indicador azul.
+
+Aún puedes editar el contenido y reprogramar mientras esté en este estado.
+
+### De Programado a Cola
+
+A la hora programada, el post entra automáticamente en la Cola. Los workers en segundo plano de Postzee lo recogen e inician el proceso de publicación.
+
+Esta transición es automática — no se requiere acción de tu parte.
+
+### De Cola a Publicado
+
+El worker envía tu contenido a la API de la plataforma (Instagram, TikTok, LinkedIn, etc.). Si tiene éxito, el post pasa a Publicado y el indicador morado aparece en tu Calendario.
+
+### De Cola a Error
+
+Si la API de la plataforma rechaza el post o hay un problema de conexión, el post pasa al estado Error. La razón específica del error se guarda para que puedas diagnosticar el problema.
+
+## Qué puedes hacer en cada estado
+
+| Acción | Borrador | Programado | Publicado | Error |
+|--------|:---:|:---:|:---:|:---:|
+| Editar contenido | Sí | Sí | — | — |
+| Reprogramar | Sí | Sí | — | — |
+| Arrastrar en calendario | Sí | Sí | — | — |
+| Eliminar | Sí | Sí | Sí | Sí |
+| Reintentar | — | — | — | Sí |
+| Ver detalles | Sí | Sí | Sí | Sí |
+
+## Manejar errores
+
+Cuando un post falla, así es como puedes solucionarlo:
+
+1. Encuentra el post en tu Calendario (tiene un indicador rojo)
+2. Haz clic en él para ver los **detalles del error**
+3. Corrige el problema subyacente según la razón del error
+4. Haz clic en **Reintentar** para intentar publicar nuevamente
+
+### Razones de error comunes
+
+| Error | Causa | Solución |
+|-------|-------|----------|
+| **Canal desconectado** | Token OAuth expirado o revocado | Ve a **Canales** → reconecta la cuenta |
+| **Canal deshabilitado** | El canal fue deshabilitado manualmente | Ve a **Canales** → habilita el canal |
+| **Contenido rechazado** | La plataforma rechazó el contenido (formato, tamaño, política) | Edita el post para cumplir con los requisitos de la plataforma |
+| **Límite de tasa** | Demasiados posts enviados a la plataforma en poco tiempo | Espera unos minutos y reintenta |
+| **Cuenta bloqueada** | Tu cuenta de Postzee tiene un problema de facturación o política | Revisa el estado de tu cuenta en **Configuración** |
+
+## Comportamiento de posts multicanal
+
+Cuando publicas en múltiples canales simultáneamente:
+
+- Cada canal se procesa de forma independiente
+- Si un canal falla, los demás se publican exitosamente
+- Los canales fallidos muestran un estado de Error — puedes reintentarlos individualmente
+- Todos los posts del mismo grupo comparten un **ID de grupo** que los vincula
+
+### Ejemplo
+
+Programas un post para Instagram, LinkedIn y X (Twitter) a las 10:00 AM:
+
+| Canal | Resultado | Estado |
+|---------|--------|--------|
+| Instagram | Entregado exitosamente | Publicado |
+| LinkedIn | Entregado exitosamente | Publicado |
+| X (Twitter) | Token expirado | Error |
+
+En este caso, solo necesitas reconectar tu cuenta de X (Twitter) y reintentar ese único post. Instagram y LinkedIn ya están en línea.
+
+## Eliminación
+
+Cuando eliminas un post:
+
+- **Borrador / Programado** — el post se elimina de tu Calendario. Nada fue publicado.
+- **Publicado** — el post se elimina del Calendario de Postzee, pero el contenido **permanece en línea en la plataforma**. Para eliminarlo de la plataforma, necesitas borrarlo directamente desde Instagram, LinkedIn, etc.
+- **Error** — el post se elimina. Como nunca fue publicado, no hay nada que limpiar.
+
+<Note>
+Eliminar un post en Postzee no lo elimina de la plataforma de redes sociales. Si un post ya fue publicado, debes eliminarlo directamente desde la plataforma.
+</Note>
+
+## Comentarios en posts
+
+Los miembros del equipo pueden dejar comentarios en cualquier post para colaborar:
+
+- Abre un post desde el Calendario
+- Agrega un comentario en la sección de comentarios
+- Los comentarios son visibles para todos los miembros del equipo
+
+<CardGroup cols={2}>
+  <Card title="Resumen del Calendario" icon="calendar" href="/calendar/overview">
+    Navega y gestiona tu calendario de contenido.
+  </Card>
+  <Card title="Conectar Canales" icon="plug" href="/channels/connecting">
+    Soluciona problemas de conexión de canales.
+  </Card>
+</CardGroup>

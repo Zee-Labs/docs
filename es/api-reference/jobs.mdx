@@ -1,0 +1,133 @@
+---
+title: Trabajos
+icon: spinner
+---
+
+Consulta el estado de tareas de generación IA asíncronas. La generación de imágenes y videos es asíncrona — devuelven un `jobId` inmediatamente, y consultas este endpoint para verificar cuándo el resultado está listo.
+
+## Obtener estado del trabajo
+
+```
+GET /public/v1/jobs/:jobId/status
+```
+
+Consulta el progreso de un trabajo de generación de imagen o video.
+
+### Solicitud
+
+```bash
+curl -H "Authorization: YOUR_API_KEY" \
+  https://api.postzee.app/public/v1/jobs/task-uuid-here/status
+```
+
+### Parámetros
+
+| Parámetro | Tipo | Obligatorio | Descripción |
+|-----------|------|:---:|-------------|
+| `jobId` | string (path) | Sí | ID de trabajo de Generate Image o Generate Video |
+
+### Respuesta — Procesando
+
+```json
+{
+  "jobId": "task-uuid-here",
+  "jobType": "task",
+  "status": "processing",
+  "progress": 45
+}
+```
+
+### Respuesta — Exitoso (imagen/video individual)
+
+```json
+{
+  "jobId": "task-uuid-here",
+  "jobType": "task",
+  "status": "success",
+  "progress": 100,
+  "medias": [
+    {
+      "id": "media-uuid",
+      "path": "https://cdn.postzee.app/generated/image.jpg",
+      "type": "image"
+    }
+  ]
+}
+```
+
+### Respuesta — Exitoso (lote)
+
+Al generar múltiples imágenes (vía `generate-media` con `quantity > 1`):
+
+```json
+{
+  "jobId": "group-uuid-here",
+  "jobType": "group",
+  "status": "complete",
+  "completed": 4,
+  "total": 4,
+  "medias": [
+    {
+      "id": "media-uuid-1",
+      "path": "https://cdn.postzee.app/generated/image1.jpg",
+      "type": "image",
+      "order": 0
+    },
+    {
+      "id": "media-uuid-2",
+      "path": "https://cdn.postzee.app/generated/image2.jpg",
+      "type": "image",
+      "order": 1
+    }
+  ]
+}
+```
+
+### Respuesta — Fallido
+
+```json
+{
+  "jobId": "task-uuid-here",
+  "jobType": "task",
+  "status": "failed",
+  "error": "Generation failed: insufficient credits"
+}
+```
+
+### Campos de respuesta
+
+| Campo | Tipo | Descripción |
+|-------|------|-------------|
+| `jobId` | string | El identificador del trabajo |
+| `jobType` | string | `"task"` (individual) o `"group"` (lote) |
+| `status` | string | `"processing"`, `"success"`, `"complete"` o `"failed"` |
+| `progress` | number | Porcentaje de progreso (0-100), para tareas individuales |
+| `completed` | number | Número de elementos completados, para trabajos en lote |
+| `total` | number | Total de elementos en el lote |
+| `medias` | array | Objetos de medios generados (solo cuando está listo) |
+| `medias[].id` | string | ID del medio — úsalo en Create Post para adjuntar |
+| `medias[].path` | string | URL del CDN para descargar el medio |
+| `medias[].type` | string | `"image"` o `"video"` |
+| `error` | string | Descripción del error (solo cuando falló) |
+
+## Patrón de consulta recomendado
+
+```
+1. Llama a generate-image o generate-video-ai → obtén jobId
+2. Espera 5-10 segundos
+3. Llama a GET /jobs/{jobId}/status
+4. Si status === "processing" → espera 5 segundos, consulta de nuevo
+5. Si status === "success" → usa medias[].path o medias[].id
+6. Si status === "failed" → lee el error, reintenta o cancela
+```
+
+<Note>
+La generación de imágenes típicamente toma 10-30 segundos. La generación de videos toma 1-5 minutos dependiendo del modelo y la duración. Evita consultar más rápido que cada 5 segundos para mantenerte dentro de los límites de tasa.
+</Note>
+
+### Códigos de error
+
+| Estado | Significado |
+|--------|------------|
+| `200` | Trabajo encontrado, estado devuelto |
+| `404` | Trabajo no encontrado (ID inválido o expirado) |

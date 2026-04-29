@@ -1,0 +1,107 @@
+---
+title: Programar Posts
+icon: clock
+---
+
+Programa tus posts para publicarse automáticamente en el momento perfecto. Postzee se encarga de la conversión de zona horaria, la gestión de la cola y la entrega a todos tus canales conectados.
+
+## Opciones de publicación
+
+Al crear o editar un post, tienes tres opciones de publicación:
+
+| Opción | Qué hace |
+|--------|-------------|
+| **Publicar ahora** | Envía el post inmediatamente a tus canales seleccionados |
+| **Programar** | Pone el post en cola para publicarse en una fecha y hora específicas |
+| **Guardar como Borrador** | Guarda el post sin programar — puedes programarlo después |
+
+## Cómo programar un post
+
+1. Abre el **Editor de Posts** (desde el Calendario, Zee Studio o el botón **Crear Post**)
+2. Escribe tu contenido y selecciona tus canales
+3. Elige una fecha y hora usando el **selector de fecha/hora**
+4. Haz clic en **Programar Post**
+5. El post aparece en tu Calendario con un indicador azul de **Programado**
+6. A la hora programada, Postzee publica automáticamente en todos los canales seleccionados
+
+<Note>
+El tiempo mínimo de programación es el momento actual. No puedes programar posts en el pasado.
+</Note>
+
+## Manejo de zona horaria
+
+Todos los horarios programados respetan la zona horaria configurada de tu equipo:
+
+- El selector de fecha/hora muestra los horarios en **tu zona horaria**
+- Al publicar, Postzee convierte a UTC internamente y entrega en el momento exacto que seleccionaste
+- Los miembros del equipo en diferentes zonas horarias ven la misma hora local relativa a la configuración del equipo
+
+Para cambiar la zona horaria de tu equipo, abre el panel de cuenta → **Configuración** → pestaña **Preferencias** → **Zona Horaria**.
+
+## Encontrar el mejor horario
+
+¿No sabes cuándo publicar? Usa la función **Encontrar Mejor Horario**:
+
+1. En el editor de posts, haz clic en **Encontrar Mejor Horario** (o el icono de reloj)
+2. Postzee analiza tu calendario y encuentra las franjas horarias menos congestionadas
+3. Una fecha/hora sugerida se completa automáticamente
+4. Ajusta si es necesario, luego haz clic en **Programar**
+
+El algoritmo examina tus posts programados existentes en todos los canales y sugiere horarios cuando tu calendario está menos ocupado, distribuyendo tu contenido de manera uniforme a lo largo del día.
+
+## Reprogramar
+
+Hay dos formas de reprogramar un post:
+
+### Arrastrar y soltar (Calendario)
+
+1. Abre la vista de **Calendario** (Mes, Semana o Día)
+2. Haz clic y arrastra el post a una nueva fecha o franja horaria
+3. El post se reprograma instantáneamente a la nueva hora
+
+### Editar el post
+
+1. Haz clic en el post en el Calendario o lista de Posts
+2. Cambia la fecha/hora en el editor
+3. Haz clic en **Guardar** o **Programar**
+
+<Note>
+Solo los posts en estado **Borrador** y **Programado** pueden reprogramarse. Una vez que un post está publicado, su fecha queda fija.
+</Note>
+
+## Posts recurrentes
+
+Configura posts que se repiten automáticamente en un intervalo regular:
+
+1. Crea tu post y programa la primera ocurrencia
+2. Establece el **Intervalo de repetición** (en días) — por ejemplo, cada 7 días para semanal
+3. Haz clic en **Programar**
+4. Postzee crea automáticamente las ocurrencias futuras en el intervalo especificado
+
+Los posts recurrentes se agrupan en el calendario con indicadores de color coincidentes. Puedes gestionar la serie completa o editar ocurrencias individuales.
+
+## Programación multicanal
+
+Cuando seleccionas múltiples canales, el mismo post se programa para todos simultáneamente:
+
+- Todos los canales reciben el post a la misma hora programada
+- Las configuraciones específicas de plataforma (privacidad de TikTok, visibilidad de YouTube, etc.) se aplican por canal
+- Si un canal falla, los demás se publican exitosamente — puedes reintentar el fallido individualmente
+
+## Procesamiento de la cola
+
+Esto es lo que sucede detrás de escena cuando llega tu hora programada:
+
+1. El post pasa del estado **Programado** al estado **Cola**
+2. El worker de Postzee procesa la cola y envía el contenido a la API de cada plataforma
+3. Si tiene éxito, el post pasa al estado **Publicado**
+4. Si falla, el post pasa al estado **Error** con un mensaje de error específico
+
+<CardGroup cols={2}>
+  <Card title="Editor de Posts" icon="pen-to-square" href="/calendar/post-editor">
+    Aprende a crear y personalizar tus posts.
+  </Card>
+  <Card title="Ciclo de Vida del Post" icon="arrows-rotate" href="/calendar/post-lifecycle">
+    Comprende los estados de los posts y la recuperación de errores.
+  </Card>
+</CardGroup>

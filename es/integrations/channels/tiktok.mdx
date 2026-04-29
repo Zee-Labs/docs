@@ -1,0 +1,55 @@
+---
+title: TikTok
+icon: tiktok
+---
+
+Conecta tu cuenta de TikTok a Postzee para publicar videos directamente desde el panel. TikTok requiere configuraciones específicas de divulgación de contenido que Postzee gestiona por ti.
+
+## Requisitos
+
+- Una cuenta de **TikTok**
+- El contenido debe estar en formato de video (TikTok no soporta posts solo de imagen vía API)
+
+## Cómo conectar
+
+1. Ve a **Canales** en la barra de navegación superior
+2. Haz clic en **Agregar Canal** → **TikTok**
+3. Inicia sesión con tu cuenta de TikTok
+4. Autoriza Postzee
+5. Configura las opciones requeridas de divulgación de contenido
+6. Tu canal de TikTok aparece en la lista de canales
+
+## Configuración de divulgación de contenido
+
+La API de TikTok requiere configuraciones específicas de divulgación en cada post. Estas se configuran por canal y pueden anularse por post:
+
+| Configuración | Opciones | Descripción |
+|--------------|----------|-------------|
+| **Título** | Texto (máx. 90 caracteres) | Título/descripción del video |
+| **Privacidad** | Público, Amigos que se siguen mutuamente, Solo seguidores, Privado | Quién puede ver tu video |
+| **Permitir Duetos** | Sí / No | Si otros pueden crear duetos |
+| **Permitir Stitches** | Sí / No | Si otros pueden hacer stitch de tu video |
+| **Permitir Comentarios** | Sí / No | Si los espectadores pueden comentar |
+| **Añadir Música automáticamente** | Sí / No | Dejar que TikTok añada música de fondo |
+| **Contenido de Marca** | Sí / No | Divulgar contenido de marca/patrocinado |
+| **Hecho con IA** | Sí / No | Divulgar contenido generado con IA |
+
+<Warning>
+Estas configuraciones de divulgación son requeridas por las reglas de cumplimiento de la API de TikTok y no se pueden omitir. Postzee las valida antes de cada publicación para garantizar el cumplimiento.
+</Warning>
+
+## Tipos de contenido soportados
+
+| Tipo | Descripción |
+|------|-------------|
+| **Video** | Video vertical (9:16 recomendado) |
+
+## Consejos
+
+- **Relación de aspecto:** Siempre usa 9:16 (retrato) para TikTok — está diseñado para visualización vertical.
+- **Duración:** Se soportan videos de hasta 10 minutos, pero 15-60 segundos tiende a tener mejor rendimiento.
+- **Divulgación de IA:** Si tu video fue generado con IA, activa el toggle "Hecho con IA" para cumplir con las políticas de TikTok.
+
+<Card title="Conectar Canales" icon="plug" href="/channels/connecting">
+  Guía general para conectar cuentas de redes sociales.
+</Card>

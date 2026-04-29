@@ -1,0 +1,53 @@
+---
+title: Integración n8n
+icon: arrows-rotate
+---
+
+Automatiza tus flujos de trabajo de redes sociales con el **nodo personalizado de n8n** de Postzee. Crea posts, genera medios con IA, gestiona canales y construye pipelines de automatización complejos — todo sin escribir código.
+
+## ¿Qué es n8n?
+
+[n8n](https://n8n.io) es una plataforma de automatización de flujos de trabajo de código abierto. Te permite conectar aplicaciones y servicios con flujos de trabajo visuales. El nodo personalizado de n8n de Postzee lleva todas las funciones de Postzee a tus pipelines de automatización.
+
+## Qué puedes automatizar
+
+Con el nodo de Postzee para n8n, puedes:
+
+- **Crear y programar posts** en cualquier canal conectado
+- **Generar imágenes con IA** con cualquiera de los 16 modelos de imagen de Postzee
+- **Generar videos con IA** con más de 30 modelos de video
+- **Generar videos de avatar** con HeyGen
+- **Subir archivos** a tu biblioteca de medios
+- **Listar canales** para seleccionar destinos de publicación dinámicamente
+- **Consultar estado de trabajos** para esperar a que la generación IA se complete
+- **Obtener posts** para recuperar contenido programado o publicado existente
+- **Eliminar posts** para limpiar contenido
+
+## Operaciones disponibles
+
+| Operación | Descripción |
+|-----------|-------------|
+| **Create Post** | Programa, publica o guarda como borrador un post en uno o más canales |
+| **Delete Post** | Elimina un post programado o publicado |
+| **Generate Image** | Genera una imagen con IA (asíncrono — devuelve ID de trabajo) |
+| **Generate Video** | Genera un video con IA (asíncrono — devuelve ID de trabajo) |
+| **Generate Avatar Video** | Crea un video de avatar con HeyGen |
+| **Get Channels** | Lista todos los canales de redes sociales conectados |
+| **Get Posts** | Recupera posts programados y publicados |
+| **Job Status** | Consulta el progreso de trabajos de generación asíncronos |
+| **Upload File** | Sube una imagen o video a la biblioteca de medios |
+
+## Requisitos
+
+- Una **cuenta de Postzee** con un plan de pago (Standard o superior)
+- Una **instancia de n8n** (autoalojada o n8n Cloud)
+- Una **clave API de Postzee** (créala en Configuración → pestaña API)
+
+<CardGroup cols={2}>
+  <Card title="Guía de Configuración" icon="wrench" href="/integrations/n8n/setup">
+    Instala el nodo de Postzee y configura las credenciales.
+  </Card>
+  <Card title="Operaciones" icon="list" href="/integrations/n8n/operations">
+    Referencia detallada de las 9 operaciones.
+  </Card>
+</CardGroup>

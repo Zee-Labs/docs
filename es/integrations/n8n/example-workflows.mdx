@@ -1,0 +1,92 @@
+---
+title: Flujos de Trabajo de Ejemplo
+icon: diagram-project
+---
+
+Patrones de flujos de trabajo listos para usar para escenarios comunes de automatización con el nodo de Postzee para n8n.
+
+## 1. Generar imagen con IA y publicar en Instagram
+
+Genera automáticamente una imagen con IA y publícala en Instagram.
+
+**Pasos del flujo de trabajo:**
+
+1. **Trigger** — Programación (ej., cada día a las 9:00 AM) o manual
+2. **Postzee: Generate Image** — prompt: tu texto, model: Nano Banana Pro
+3. **Wait** — 30 segundos (para que se complete la generación)
+4. **Postzee: Job Status** — verificar si la imagen está lista
+5. **IF** — status = "success"
+6. **Postzee: Create Post** — type: "now", channel: Instagram, media: mediaId del paso 4
+
+**Configuración clave:**
+- Usa el nodo **Job Status** en un bucle para consultar hasta que `status === "success"`
+- Pasa el `mediaId` de Job Status a Create Post
+
+## 2. Feed RSS a redes sociales
+
+Publica automáticamente nuevos elementos de un feed RSS en múltiples canales sociales.
+
+**Pasos del flujo de trabajo:**
+
+1. **RSS Feed Trigger** — monitorea tu blog o feed de noticias
+2. **Postzee: Get Channels** — obtiene los canales disponibles
+3. **Postzee: Create Post** — para cada nuevo elemento RSS:
+   - `type`: "now"
+   - `content`: título RSS + enlace
+   - `channel`: ID del canal de destino
+
+## 3. Programar contenido semanal en lote
+
+Prepara y programa el contenido de una semana en un solo lote.
+
+**Pasos del flujo de trabajo:**
+
+1. **Google Sheets** — leer plan de contenido (columnas: fecha, hora, texto, canal, prompt de imagen)
+2. **Loop** — para cada fila:
+   - **Postzee: Generate Image** — usar el prompt de imagen
+   - **Wait + Job Status** — consultar hasta que esté listo
+   - **Postzee: Create Post** — type: "schedule", date: de la hoja de cálculo, media: imagen generada
+
+## 4. Pipeline de generación de imágenes con IA
+
+Genera múltiples imágenes con IA con diferentes modelos y estilos para pruebas A/B.
+
+**Pasos del flujo de trabajo:**
+
+1. **Trigger** — manual o webhook
+2. **Split in Batches** — crear variaciones del mismo prompt
+3. **Postzee: Generate Image** — modelo diferente por lote (Nano Banana Pro, FLUX, Recraft)
+4. **Wait + Job Status** — consultar todos los trabajos
+5. **Merge** — recopilar todas las imágenes generadas
+6. **Postzee: Create Post** — publicar la mejor, o crear un carrusel
+
+## 5. Pipeline de reutilización de contenido
+
+Genera una imagen con IA, luego crea posts para múltiples plataformas con contenido optimizado por plataforma.
+
+**Pasos del flujo de trabajo:**
+
+1. **Trigger** — webhook con tema/prompt
+2. **OpenAI Node** — generar captions específicos por plataforma (corto para X, más largo para LinkedIn)
+3. **Postzee: Generate Image** — generar el visual
+4. **Wait + Job Status** — consultar hasta que esté listo
+5. **Postzee: Create Post (Instagram)** — imagen + caption de Instagram + hashtags
+6. **Postzee: Create Post (LinkedIn)** — misma imagen + caption de LinkedIn
+7. **Postzee: Create Post (X)** — misma imagen + tweet corto
+
+## Consejos para construir flujos de trabajo
+
+- **Siempre consulta Job Status** — la generación de imágenes y videos es asíncrona. Nunca asumas que el medio está listo inmediatamente.
+- **Usa el nodo Wait** — añade una espera de 15-30 segundos antes de la primera consulta de Job Status para evitar consultas innecesarias.
+- **Manejo de errores** — añade un nodo IF después de Job Status para manejar casos de `status === "failed"`.
+- **Selección dinámica de canales** — usa Get Channels para construir listas de canales dinámicas en lugar de codificar IDs de canales.
+- **Límites de tasa** — la API de Postzee permite 30 solicitudes/hora para endpoints generales y 10 solicitudes/minuto para generación IA. Espacia las operaciones en lote de acuerdo.
+
+<CardGroup cols={2}>
+  <Card title="Referencia de Operaciones" icon="list" href="/integrations/n8n/operations">
+    Referencia detallada de las 9 operaciones.
+  </Card>
+  <Card title="Referencia de API" icon="code" href="/api-reference/authentication">
+    Usa la API REST directamente para integraciones personalizadas.
+  </Card>
+</CardGroup>
