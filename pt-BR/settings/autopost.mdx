@@ -11,96 +11,78 @@ Abra o drawer da conta (clique no seu avatar no canto superior direito) → **Co
 
 ## O que é o Autopost?
 
-O Autopost monitora feeds RSS que você configurar e cria posts automaticamente no Postzee sempre que um novo item é publicado no feed. Você decide para quais canais cada feed publica e como os posts são formatados.
+O Autopost monitora os feeds RSS que você configura e cria automaticamente posts no Postzee sempre que um novo item é publicado no feed. Você decide para quais canais cada feed publica e como os posts são formatados.
 
 Casos de uso comuns:
 
-- **Compartilhar posts de blog automaticamente** em todos os seus canais sociais quando publicados
-- **Cross-postar episódios de podcast** no LinkedIn e X
+- **Compartilhar automaticamente posts de blog** nos seus canais sociais ao publicar
+- **Cross-postar episódios de podcast** no LinkedIn e no X
 - **Distribuir notícias** de feeds externos para a sua comunidade
 - **Republicar seu próprio conteúdo** de uma plataforma para outra
 
 ## Como configurar
 
-1. Vá em **Configurações** → **Autopost**
-2. Clique em **Adicionar Feed**
-3. Preencha:
-   - **URL do RSS** — o feed a ser monitorado
-   - **Canais** — para quais canais publicar
-   - **Template do post** — como formatar o post (ex.: título + link, ou texto personalizado)
-   - **Intervalo de verificação** — com que frequência o Postzee verifica o feed em busca de novos itens
-4. Clique em **Salvar**
+1. Acesse **Configurações** → **Autopost**
+2. Clique em **Adicionar Autopost**
+3. Informe:
+   - **Título** — um nome amigável para este autopost
+   - **URL** RSS — o feed a ser monitorado (o Postzee valida a URL antes de salvar)
+   - **Canais** — escolha **Todos os canais** ou selecione canais específicos
+4. Configure as opções de publicação:
+   - **Publicar no horário programado** — publica nos horários configurados pelo seu time (ou imediatamente, se desativado)
+   - **Sincronizar últimas entradas** — também importa itens recentes que já existem no feed (padrão: apenas itens novos a partir de agora)
+   - **Gerar conteúdo com IA** — deixa a IA escrever a legenda da rede social a partir do item do feed
+   - **Adicionar imagem** — anexa uma imagem extraída do item do feed
+5. *(Opcional)* **Conteúdo personalizado** — forneça um template caso não queira usar conteúdo gerado por IA
+6. Clique em **Salvar**
 
-## Templates de post
+## Filtragem por canal
 
-Use placeholders para construir posts dinamicamente a partir de itens do feed:
+Você pode restringir cada feed de autopost a canais específicos:
 
-| Placeholder | Substituído por |
-|-------------|--------------|
-| `{title}` | O título do item do feed |
-| `{description}` | A descrição/resumo do item |
-| `{link}` | A URL do item |
-| `{author}` | O autor do item |
-| `{pubDate}` | A data de publicação |
+- **Todos os canais** — publica cada novo item em todos os canais conectados
+- **Canais específicos** — publica apenas nos canais selecionados (útil para alinhar conteúdo à plataforma)
 
-### Exemplo de template
+## Conteúdo gerado por IA vs. conteúdo personalizado
 
-```
-🚀 New post: {title}
+Por padrão, o Autopost usa IA para gerar a legenda de rede social a partir de cada item do feed, otimizando-a para o estilo e os limites de caracteres de cada plataforma.
 
-{description}
+Se você prefere controle manual:
 
-Read more: {link}
-```
+- Desative **Gerar conteúdo com IA**
+- Forneça seu próprio template no campo **Conteúdo personalizado**
+- Use o título e o link do item do feed no seu template
 
-## Intervalos de verificação
+## Validando o feed
 
-Configure com que frequência o Postzee consulta o feed:
+Antes de salvar, clique em **Testar** para verificar se o Postzee consegue ler o seu feed RSS. A validação confere:
 
-- **15 minutos** — para feeds de alta frequência (notícias, conteúdo urgente)
-- **1 hora** — para blogs típicos (padrão recomendado)
-- **6 horas** — para feeds de baixa frequência (newsletters semanais, podcasts)
-- **24 horas** — para feeds muito lentos
-
-Verificações mais frequentes consomem mais recursos, mas detectam novo conteúdo mais rapidamente.
-
-## Filtrando itens
-
-Você pode filtrar quais itens são autopostados:
-
-- **Filtros por palavra-chave** — apenas postar itens que contenham palavras-chave específicas
-- **Filtros por categoria** — apenas postar itens em categorias específicas do feed
-- **Filtros por data** — ignorar itens mais antigos que X dias ao conectar um feed pela primeira vez
-
-## Configurações por canal
-
-Cada feed pode publicar em múltiplos canais com configurações diferentes. Por exemplo:
-
-- LinkedIn: post completo com descrição
-- X (Twitter): truncado para 280 caracteres
-- Instagram: apenas o título com imagem do feed
+- Se a URL está acessível
+- Se o feed está em formato RSS/Atom válido
+- Se os itens contêm os campos obrigatórios
 
 ## Disponibilidade por plano
 
 O Autopost está disponível nos planos **Team**, **Pro** e **Ultimate**.
 
 <Note>
-O Autopost utiliza sua cota mensal de posts. Cada item publicado a partir de um feed conta como um post, então um feed com 30 novos itens por mês usa 30 dos seus slots de post.
+O Autopost consome a sua cota mensal de posts. Cada item publicado a partir de um feed conta como um post. Conteúdo gerado por IA consome créditos — veja [Créditos](/billing/credits) para mais detalhes.
 </Note>
 
-## Desativando um feed
+## Desativando ou excluindo um feed
 
-Para parar o autopost:
+Para pausar o autoposting:
 
 1. Abra o feed em **Configurações** → **Autopost**
-2. Alterne **Ativo** para desligado (ou exclua o feed completamente)
-3. Posts já na fila ainda serão publicados, mas nenhum novo item será detectado
+2. Clique em **Editar** → desative o toggle, ou clique em **Excluir** para remover permanentemente
+
+Posts já enfileirados continuarão sendo publicados, mas nenhum novo item será detectado após a desativação.
 
 <CardGroup cols={2}>
-  <Card title="Visão Geral dos Canais" icon="share-nodes" href="/channels/overview">
-    Conecte canais para autopost.
+  <Card title="Visão geral dos canais" icon="share-nodes" href="/channels/overview">
+    Conecte canais para autoposting.
   </Card>
-  <Card title="Visão Geral do Calendário" icon="calendar" href="/calendar/overview">
+  <Card title="Visão geral do calendário" icon="calendar" href="/calendar/overview">
     Veja o conteúdo autopostado no seu calendário.
   </Card>
 </CardGroup>

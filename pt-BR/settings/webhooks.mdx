@@ -3,7 +3,7 @@ title: Webhooks
 icon: webhook
 ---
 
-Webhooks permitem que você receba notificações em tempo real do Postzee sempre que algo acontecer na sua conta — um post é publicado, uma geração é concluída, um pagamento é processado e muito mais. Crie integrações e automações personalizadas conectando o Postzee aos seus próprios sistemas.
+Webhooks permitem que você receba notificações em tempo real do Postzee sempre que um post for publicado. Crie integrações e automações personalizadas conectando o Postzee aos seus próprios sistemas.
 
 ## Como acessar
 
@@ -11,107 +11,63 @@ Abra o drawer da conta (clique no seu avatar no canto superior direito) → **Co
 
 ## O que é um webhook?
 
-Um webhook é uma URL que o Postzee chama (HTTP POST) sempre que um evento específico acontece na sua conta. O Postzee envia um payload JSON com detalhes sobre o evento, e seu servidor pode reagir a ele da forma que quiser.
+Um webhook é uma URL que o Postzee chama (HTTP POST) quando posts são publicados na sua conta. O Postzee envia um payload JSON com os detalhes do post, e o seu servidor pode reagir a ele da forma que desejar.
 
 Casos de uso comuns:
 
-- **Notificar seu time no Slack/Discord** quando um post é publicado
-- **Atualizar um CRM** quando o conteúdo de um cliente vai ao ar
-- **Acionar um deploy** quando uma nova geração de IA termina
+- **Notificar seu time no Slack/Discord** quando um post for publicado
+- **Atualizar um CRM** quando o conteúdo de um cliente entrar no ar
 - **Registrar eventos** no seu sistema de analytics ou monitoramento
 - **Sincronizar dados** com um banco de dados personalizado
 
 ## Como configurar
 
-1. Vá em **Configurações** → **Webhooks**
+1. Acesse **Configurações** → **Webhooks**
 2. Clique em **Adicionar Webhook**
-3. Preencha:
-   - **URL** — o endpoint que seu servidor expõe para receber eventos
-   - **Eventos** — quais eventos assinar
+3. Informe:
+   - **URL** — o endpoint que seu servidor expõe para receber os eventos
    - **Nome** — um rótulo amigável para este webhook
+   - **Canais** — escolha **Todos os canais** ou selecione canais específicos para monitorar
 4. Clique em **Salvar**
 
-O Postzee começará a enviar eventos para a sua URL imediatamente.
+O Postzee começará a enviar os posts publicados para a sua URL.
 
-## Eventos disponíveis
+## Filtragem por canal
 
-| Evento | Quando dispara |
-|-------|------------------|
-| `post.published` | Um post é publicado com sucesso em um canal social |
-| `post.failed` | Um post falha ao ser publicado |
-| `post.scheduled` | Um post é agendado para publicação futura |
-| `media.completed` | Uma geração de imagem ou vídeo por IA é concluída com sucesso |
-| `media.failed` | Uma geração de IA falha |
-| `credits.low` | Seu saldo de créditos cai abaixo do limite configurado |
-| `subscription.updated` | Sua assinatura é alterada (upgrade, downgrade, mudança de período) |
-| `subscription.canceled` | Sua assinatura é cancelada |
-| `channel.disconnected` | Um canal conectado precisa ser reconectado |
+Você pode restringir cada webhook a canais específicos:
+
+- **Todos os canais** — receba eventos de todos os canais conectados
+- **Canais específicos** — dispare apenas quando posts forem publicados nos canais selecionados
+
+Isso é útil quando você quer webhooks diferentes para plataformas ou clientes diferentes.
 
 ## Formato do payload
 
-Toda entrega de webhook é um HTTP POST com esta estrutura:
+Toda entrega de webhook é um HTTP POST com o cabeçalho `Content-Type: application/json`. O corpo é um array JSON com os posts publicados recentemente:
 
 ```json
-{
-  "event": "post.published",
-  "timestamp": "2026-04-29T15:00:00Z",
-  "data": {
-    "postId": "uuid",
-    "channelId": "uuid",
-    "platform": "instagram",
-    "publishedAt": "2026-04-29T15:00:00Z",
-    "postUrl": "https://instagram.com/p/..."
+[
+  {
+    "id": "post-uuid",
+    "content": "Post text content...",
+    "publishDate": "2026-04-29T15:00:00Z",
+    "integration": {
+      "id": "channel-uuid",
+      "name": "My Instagram",
+      "providerIdentifier": "instagram"
+    }
   }
-}
+]
 ```
 
-O campo `data` varia conforme o tipo de evento. Veja a [Referência da API](/api-reference/posts) para os schemas completos.
-
-## Segurança — verificação de assinatura HMAC
-
-Toda requisição de webhook inclui um header `X-Postzee-Signature` contendo uma assinatura HMAC-SHA256 do payload, assinada com o seu segredo de webhook.
-
-### Verificando assinaturas (exemplo em Node.js)
-
-```javascript
-const crypto = require('crypto');
-
-function verifyWebhook(payload, signature, secret) {
-  const computed = crypto
-    .createHmac('sha256', secret)
-    .update(JSON.stringify(payload))
-    .digest('hex');
-  return crypto.timingSafeEqual(
-    Buffer.from(computed),
-    Buffer.from(signature)
-  );
-}
-```
-
-Sempre verifique as assinaturas antes de processar payloads de webhook. Assinaturas inválidas devem retornar HTTP 401.
-
-## Retentativas e confiabilidade
-
-Se o seu endpoint retornar um status diferente de 2xx, o Postzee tenta entregar novamente:
-
-- Tentativa 1: após 1 minuto
-- Tentativa 2: após 5 minutos
-- Tentativa 3: após 30 minutos
-- Tentativa 4: após 2 horas
-- Tentativa 5: após 6 horas
-
-Após 5 tentativas falhas, o evento é marcado como falho e não será mais reenviado.
-
-## Testando webhooks
-
-Use um serviço como [webhook.site](https://webhook.site) ou [ngrok](https://ngrok.com) durante o desenvolvimento para inspecionar payloads sem precisar configurar seu próprio servidor.
+Webhooks são entregues em lote: se vários posts forem publicados aproximadamente ao mesmo tempo, eles podem ser enviados juntos em uma única requisição.
 
 ## Disponibilidade por plano
 
 O suporte a webhooks varia conforme o plano:
 
 | Plano | Webhooks |
-|------|----------|
+|-------|----------|
 | Free | Não disponível |
 | Standard | 2 |
 | Team | 10 |
@@ -119,7 +75,7 @@ O suporte a webhooks varia conforme o plano:
 | Ultimate | 10.000 |
 
 <CardGroup cols={2}>
-  <Card title="Chaves de API" icon="key" href="/settings/api-keys">
+  <Card title="API Keys" icon="key" href="/settings/api-keys">
     Gerencie suas chaves de API para requisições autenticadas.
   </Card>
   <Card title="Referência da API" icon="code" href="/api-reference/authentication">

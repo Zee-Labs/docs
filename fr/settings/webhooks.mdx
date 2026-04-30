@@ -3,7 +3,7 @@ title: Webhooks
 icon: webhook
 ---
 
-Les Webhooks vous permettent de recevoir des notifications en temps réel de Postzee chaque fois que quelque chose se produit dans votre compte — une publication est publiée, une génération se termine, un paiement est traité, et plus encore. Créez des intégrations et des automatisations personnalisées en connectant Postzee à vos propres systèmes.
+Les webhooks vous permettent de recevoir des notifications en temps réel de Postzee chaque fois qu'une publication est diffusée. Créez des intégrations et des automatisations personnalisées en connectant Postzee à vos propres systèmes.
 
 ## Comment y accéder
 
@@ -11,102 +11,58 @@ Ouvrez le tiroir du compte (cliquez sur votre avatar en haut à droite) → **Pa
 
 ## Qu'est-ce qu'un webhook ?
 
-Un webhook est une URL que Postzee appelle (HTTP POST) chaque fois qu'un événement spécifique se produit dans votre compte. Postzee envoie une charge utile JSON avec les détails de l'événement, et votre serveur peut y réagir comme bon vous semble.
+Un webhook est une URL que Postzee appelle (HTTP POST) lorsque des publications sont diffusées dans votre compte. Postzee envoie une charge utile JSON contenant les détails de la publication, et votre serveur peut y réagir comme bon vous semble.
 
-Cas d'utilisation courants :
+Cas d'usage courants :
 
-- **Notifier votre équipe sur Slack/Discord** lorsqu'une publication est publiée
+- **Notifier votre équipe sur Slack/Discord** lorsqu'une publication est diffusée
 - **Mettre à jour un CRM** lorsque le contenu d'un client est mis en ligne
-- **Déclencher un déploiement** lorsqu'une nouvelle génération IA est terminée
-- **Enregistrer les événements** dans votre système d'analyse ou de surveillance
-- **Synchroniser les données** vers une base de données personnalisée
+- **Journaliser des événements** dans votre système d'analyse ou de surveillance
+- **Synchroniser des données** vers une base de données personnalisée
 
 ## Comment configurer
 
-1. Allez dans **Paramètres** → **Webhooks**
+1. Accédez à **Paramètres** → **Webhooks**
 2. Cliquez sur **Ajouter un Webhook**
 3. Saisissez :
    - **URL** — le point de terminaison que votre serveur expose pour recevoir les événements
-   - **Events** — les événements auxquels s'abonner
-   - **Name** — un libellé convivial pour ce webhook
+   - **Nom** — une étiquette conviviale pour ce webhook
+   - **Canaux** — choisissez **Tous les canaux** ou sélectionnez des canaux spécifiques à surveiller
 4. Cliquez sur **Enregistrer**
 
-Postzee commencera à envoyer des événements à votre URL immédiatement.
+Postzee commencera à envoyer les publications diffusées vers votre URL.
 
-## Événements disponibles
+## Filtrage par canal
 
-| Événement | Quand il se déclenche |
-|-----------|----------------------|
-| `post.published` | Une publication est publiée avec succès sur un canal social |
-| `post.failed` | Une publication échoue |
-| `post.scheduled` | Une publication est programmée pour une publication future |
-| `media.completed` | Une génération d'image ou de vidéo IA se termine avec succès |
-| `media.failed` | Une génération IA échoue |
-| `credits.low` | Votre solde de crédits passe sous le seuil configuré |
-| `subscription.updated` | Votre abonnement est modifié (mise à niveau, rétrogradation, changement de période) |
-| `subscription.canceled` | Votre abonnement est annulé |
-| `channel.disconnected` | Un canal connecté nécessite une reconnexion |
+Vous pouvez limiter chaque webhook à des canaux spécifiques :
+
+- **Tous les canaux** — recevez les événements pour chaque canal connecté
+- **Canaux spécifiques** — ne se déclenche que lorsque des publications sont diffusées sur les canaux sélectionnés
+
+Ceci est utile lorsque vous souhaitez avoir des webhooks différents pour différentes plateformes ou clients.
 
 ## Format de la charge utile
 
-Chaque livraison de webhook est un HTTP POST avec cette structure :
+Chaque livraison de webhook est une requête HTTP POST avec un en-tête `Content-Type: application/json`. Le corps est un tableau JSON des publications récemment diffusées :
 
 ```json
-{
-  "event": "post.published",
-  "timestamp": "2026-04-29T15:00:00Z",
-  "data": {
-    "postId": "uuid",
-    "channelId": "uuid",
-    "platform": "instagram",
-    "publishedAt": "2026-04-29T15:00:00Z",
-    "postUrl": "https://instagram.com/p/..."
+[
+  {
+    "id": "post-uuid",
+    "content": "Post text content...",
+    "publishDate": "2026-04-29T15:00:00Z",
+    "integration": {
+      "id": "channel-uuid",
+      "name": "My Instagram",
+      "providerIdentifier": "instagram"
+    }
   }
-}
+]
 ```
 
-Le champ `data` varie selon le type d'événement. Consultez la [Référence API](/api-reference/posts) pour les schémas complets.
+Les webhooks sont regroupés par lots : si plusieurs publications sont diffusées à peu près au même moment, elles peuvent être livrées ensemble dans une seule requête.
 
-## Sécurité — Vérification de signature HMAC
-
-Chaque requête webhook inclut un en-tête `X-Postzee-Signature` contenant une signature HMAC-SHA256 de la charge utile, signée avec votre secret de webhook.
-
-### Vérification des signatures (exemple Node.js)
-
-```javascript
-const crypto = require('crypto');
-
-function verifyWebhook(payload, signature, secret) {
-  const computed = crypto
-    .createHmac('sha256', secret)
-    .update(JSON.stringify(payload))
-    .digest('hex');
-  return crypto.timingSafeEqual(
-    Buffer.from(computed),
-    Buffer.from(signature)
-  );
-}
-```
-
-Vérifiez toujours les signatures avant de traiter les charges utiles des webhooks. Les signatures invalides doivent renvoyer un HTTP 401.
-
-## Nouvelles tentatives et fiabilité
-
-Si votre point de terminaison renvoie un code de statut autre que 2xx, Postzee renvoie la livraison :
-
-- Tentative 1 : après 1 minute
-- Tentative 2 : après 5 minutes
-- Tentative 3 : après 30 minutes
-- Tentative 4 : après 2 heures
-- Tentative 5 : après 6 heures
-
-Après 5 tentatives échouées, l'événement est marqué comme échoué et ne sera plus retenté.
-
-## Tester les webhooks
-
-Utilisez un service comme [webhook.site](https://webhook.site) ou [ngrok](https://ngrok.com) pendant le développement pour inspecter les charges utiles sans avoir à configurer votre propre serveur.
-
-## Disponibilité par plan
+## Disponibilité selon le plan
 
 La prise en charge des webhooks varie selon le plan :
 

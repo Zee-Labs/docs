@@ -15,7 +15,7 @@ Autopost monitors RSS feeds you configure and automatically creates posts in Pos
 
 Common use cases:
 
-- **Auto-share blog posts** to all your social channels when published
+- **Auto-share blog posts** to your social channels when published
 - **Cross-post podcast episodes** to LinkedIn and X
 - **Distribute news** from external feeds to your community
 - **Republish your own content** from one platform to another
@@ -23,78 +23,60 @@ Common use cases:
 ## How to configure
 
 1. Go to **Settings** → **Autopost**
-2. Click **Add Feed**
+2. Click **Add Autopost**
 3. Enter:
-   - **RSS URL** — the feed to monitor
-   - **Channels** — which channels to publish to
-   - **Post template** — how to format the post (e.g., title + link, or custom text)
-   - **Check interval** — how often Postzee checks the feed for new items
-4. Click **Save**
+   - **Title** — a friendly name for this autopost
+   - **RSS URL** — the feed to monitor (Postzee validates the URL before saving)
+   - **Channels** — choose **All channels** or select specific channels
+4. Configure publishing options:
+   - **Publish on slot** — publish at your team's configured posting times (or immediately if disabled)
+   - **Sync last entries** — also import recent items already in the feed (default: only new items going forward)
+   - **Generate content with AI** — let AI write the social media caption from the feed item
+   - **Add picture** — attach an image extracted from the feed item
+5. *(Optional)* **Custom content** — provide a template if you don't want AI-generated content
+6. Click **Save**
 
-## Post templates
+## Channel filtering
 
-Use placeholders to dynamically build posts from feed items:
+You can scope each autopost feed to specific channels:
 
-| Placeholder | Replaced with |
-|-------------|--------------|
-| `{title}` | The title of the feed item |
-| `{description}` | The item description/summary |
-| `{link}` | The URL of the item |
-| `{author}` | The item's author |
-| `{pubDate}` | The publication date |
+- **All channels** — publish every new item to every connected channel
+- **Specific channels** — only publish to selected channels (useful for matching content to platform)
 
-### Example template
+## AI-generated content vs custom content
 
-```
-🚀 New post: {title}
+By default, Autopost uses AI to generate the social media caption from each feed item, optimizing it for each platform's style and character limits.
 
-{description}
+If you prefer manual control:
 
-Read more: {link}
-```
+- Disable **Generate content with AI**
+- Provide your own template in the **Custom content** field
+- Use the feed item's title and link in your template
 
-## Check intervals
+## Validating the feed
 
-Configure how often Postzee polls the feed:
+Before saving, click **Test** to verify Postzee can read your RSS feed. The validation checks:
 
-- **15 minutes** — for high-frequency feeds (news, breaking content)
-- **1 hour** — for typical blogs (recommended default)
-- **6 hours** — for low-frequency feeds (weekly newsletters, podcasts)
-- **24 hours** — for very slow feeds
-
-More frequent checks consume more resources but detect new content faster.
-
-## Filtering items
-
-You can filter which items are autoposted:
-
-- **Keyword filters** — only post items matching specific keywords
-- **Category filters** — only post items in specific feed categories
-- **Date filters** — ignore items older than X days when first connecting a feed
-
-## Per-channel settings
-
-Each feed can publish to multiple channels with different settings. For example:
-
-- LinkedIn: full post with description
-- X (Twitter): truncated to 280 chars
-- Instagram: title only with image from feed
+- The URL is reachable
+- The feed is valid RSS/Atom format
+- Items have the required fields
 
 ## Plan availability
 
 Autopost is available on **Team**, **Pro**, and **Ultimate** plans.
 
 <Note>
-Autopost uses your monthly post quota. Each item published from a feed counts as one post, so a feed with 30 new items per month uses 30 of your post slots.
+Autopost uses your monthly post quota. Each item published from a feed counts as one post. AI-generated content uses credits — see [Credits](/billing/credits) for details.
 </Note>
 
-## Disabling a feed
+## Disabling or deleting a feed
 
-To stop autoposting:
+To pause autoposting:
 
 1. Open the feed in **Settings** → **Autopost**
-2. Toggle **Active** to off (or delete the feed entirely)
-3. Posts already in the queue are still published, but no new items will be detected
+2. Click **Edit** → toggle off, or click **Delete** to remove permanently
+
+Posts already in the queue are still published, but no new items will be detected after disabling.
 
 <CardGroup cols={2}>
   <Card title="Channels Overview" icon="share-nodes" href="/channels/overview">

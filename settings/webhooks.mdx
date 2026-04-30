@@ -3,7 +3,7 @@ title: Webhooks
 icon: webhook
 ---
 
-Webhooks let you receive real-time notifications from Postzee whenever something happens in your account — a post is published, a generation completes, a payment is processed, and more. Build custom integrations and automations by connecting Postzee to your own systems.
+Webhooks let you receive real-time notifications from Postzee whenever a post is published. Build custom integrations and automations by connecting Postzee to your own systems.
 
 ## How to access
 
@@ -11,13 +11,12 @@ Open the account drawer (click your avatar in the top-right) → **Settings** �
 
 ## What is a webhook?
 
-A webhook is a URL that Postzee calls (HTTP POST) whenever a specific event happens in your account. Postzee sends a JSON payload with details about the event, and your server can react to it however you want.
+A webhook is a URL that Postzee calls (HTTP POST) when posts are published in your account. Postzee sends a JSON payload with the post details, and your server can react to it however you want.
 
 Common use cases:
 
 - **Notify your team in Slack/Discord** when a post is published
 - **Update a CRM** when a customer's content goes live
-- **Trigger a deployment** when a new AI generation finishes
 - **Log events** to your analytics or monitoring system
 - **Sync data** to a custom database
 
@@ -27,84 +26,41 @@ Common use cases:
 2. Click **Add Webhook**
 3. Enter:
    - **URL** — the endpoint your server exposes to receive events
-   - **Events** — which events to subscribe to
    - **Name** — a friendly label for this webhook
+   - **Channels** — choose **All channels** or select specific channels to monitor
 4. Click **Save**
 
-Postzee will start sending events to your URL immediately.
+Postzee will start sending published posts to your URL.
 
-## Available events
+## Channel filtering
 
-| Event | When it triggers |
-|-------|------------------|
-| `post.published` | A post is successfully published to a social channel |
-| `post.failed` | A post fails to publish |
-| `post.scheduled` | A post is scheduled for future publication |
-| `media.completed` | An AI image or video generation finishes successfully |
-| `media.failed` | An AI generation fails |
-| `credits.low` | Your credit balance falls below the configured threshold |
-| `subscription.updated` | Your subscription is changed (upgrade, downgrade, period change) |
-| `subscription.canceled` | Your subscription is canceled |
-| `channel.disconnected` | A connected channel needs reconnection |
+You can scope each webhook to specific channels:
+
+- **All channels** — receive events for every connected channel
+- **Specific channels** — only fire when posts are published to selected channels
+
+This is useful when you want different webhooks for different platforms or clients.
 
 ## Payload format
 
-Every webhook delivery is an HTTP POST with this structure:
+Every webhook delivery is an HTTP POST with a `Content-Type: application/json` header. The body is a JSON array of recently published posts:
 
 ```json
-{
-  "event": "post.published",
-  "timestamp": "2026-04-29T15:00:00Z",
-  "data": {
-    "postId": "uuid",
-    "channelId": "uuid",
-    "platform": "instagram",
-    "publishedAt": "2026-04-29T15:00:00Z",
-    "postUrl": "https://instagram.com/p/..."
+[
+  {
+    "id": "post-uuid",
+    "content": "Post text content...",
+    "publishDate": "2026-04-29T15:00:00Z",
+    "integration": {
+      "id": "channel-uuid",
+      "name": "My Instagram",
+      "providerIdentifier": "instagram"
+    }
   }
-}
+]
 ```
 
-The `data` field varies by event type. See the [API Reference](/api-reference/posts) for full schemas.
-
-## Security — HMAC signature verification
-
-Every webhook request includes an `X-Postzee-Signature` header containing an HMAC-SHA256 signature of the payload, signed with your webhook secret.
-
-### Verifying signatures (Node.js example)
-
-```javascript
-const crypto = require('crypto');
-
-function verifyWebhook(payload, signature, secret) {
-  const computed = crypto
-    .createHmac('sha256', secret)
-    .update(JSON.stringify(payload))
-    .digest('hex');
-  return crypto.timingSafeEqual(
-    Buffer.from(computed),
-    Buffer.from(signature)
-  );
-}
-```
-
-Always verify signatures before processing webhook payloads. Invalid signatures should return HTTP 401.
-
-## Retries and reliability
-
-If your endpoint returns a non-2xx status code, Postzee retries the delivery:
-
-- Retry 1: after 1 minute
-- Retry 2: after 5 minutes
-- Retry 3: after 30 minutes
-- Retry 4: after 2 hours
-- Retry 5: after 6 hours
-
-After 5 failed attempts, the event is marked as failed and won't be retried.
-
-## Testing webhooks
-
-Use a service like [webhook.site](https://webhook.site) or [ngrok](https://ngrok.com) during development to inspect payloads without setting up your own server.
+Webhooks are batched: if multiple posts publish around the same time, they may be delivered together in a single request.
 
 ## Plan availability
 

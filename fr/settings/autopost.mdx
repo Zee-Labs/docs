@@ -3,7 +3,7 @@ title: Autopost (RSS)
 icon: rss
 ---
 
-Autopost vous permet d'importer automatiquement du contenu depuis des flux RSS et de le publier sur vos canaux sociaux. Connectez un blog, un podcast ou toute source compatible RSS, et Postzee créera des publications chaque fois que de nouveaux éléments seront détectés.
+Autopost vous permet d'importer automatiquement du contenu depuis des flux RSS et de le publier sur vos canaux sociaux. Connectez un blog, un podcast ou toute source compatible RSS, et Postzee créera des publications dès que de nouveaux éléments seront détectés.
 
 ## Comment y accéder
 
@@ -11,96 +11,78 @@ Ouvrez le tiroir du compte (cliquez sur votre avatar en haut à droite) → **Pa
 
 ## Qu'est-ce qu'Autopost ?
 
-Autopost surveille les flux RSS que vous configurez et crée automatiquement des publications dans Postzee chaque fois qu'un nouvel élément est publié dans le flux. Vous décidez sur quels canaux chaque flux publie et comment les publications sont formatées.
+Autopost surveille les flux RSS que vous configurez et crée automatiquement des publications dans Postzee dès qu'un nouvel élément est diffusé dans le flux. Vous décidez sur quels canaux chaque flux est publié et comment les publications sont mises en forme.
 
-Cas d'utilisation courants :
+Cas d'usage courants :
 
-- **Partager automatiquement les articles de blog** sur tous vos canaux sociaux dès la publication
-- **Publier en cross-posting des épisodes de podcast** sur LinkedIn et X
-- **Distribuer des actualités** depuis des flux externes vers votre communauté
+- **Partager automatiquement les articles de blog** sur vos canaux sociaux dès leur publication
+- **Diffuser en cross-posting des épisodes de podcast** sur LinkedIn et X
+- **Distribuer des actualités** issues de flux externes vers votre communauté
 - **Republier votre propre contenu** d'une plateforme à une autre
 
 ## Comment configurer
 
-1. Allez dans **Paramètres** → **Autopost**
-2. Cliquez sur **Ajouter un Flux**
+1. Accédez à **Paramètres** → **Autopost**
+2. Cliquez sur **Ajouter un Autopost**
 3. Saisissez :
-   - **RSS URL** — le flux à surveiller
-   - **Channels** — les canaux sur lesquels publier
-   - **Post template** — comment formater la publication (ex. : titre + lien, ou texte personnalisé)
-   - **Check interval** — la fréquence à laquelle Postzee vérifie le flux pour de nouveaux éléments
-4. Cliquez sur **Enregistrer**
+   - **Titre** — un nom convivial pour cet autopost
+   - **URL RSS** — le flux à surveiller (Postzee valide l'URL avant l'enregistrement)
+   - **Canaux** — choisissez **Tous les canaux** ou sélectionnez des canaux spécifiques
+4. Configurez les options de publication :
+   - **Publier au créneau programmé** — publiez aux horaires de publication configurés par votre équipe (ou immédiatement si désactivé)
+   - **Synchroniser les dernières entrées** — importez également les éléments récents déjà présents dans le flux (par défaut : uniquement les nouveaux éléments à venir)
+   - **Générer le contenu avec l'IA** — laissez l'IA rédiger la légende des réseaux sociaux à partir de l'élément du flux
+   - **Ajouter une image** — joignez une image extraite de l'élément du flux
+5. *(Facultatif)* **Contenu personnalisé** — fournissez un modèle si vous ne souhaitez pas de contenu généré par l'IA
+6. Cliquez sur **Enregistrer**
 
-## Modèles de publication
+## Filtrage par canal
 
-Utilisez des espaces réservés pour construire dynamiquement des publications à partir des éléments du flux :
+Vous pouvez limiter chaque flux Autopost à des canaux spécifiques :
 
-| Espace réservé | Remplacé par |
-|----------------|--------------|
-| `{title}` | Le titre de l'élément du flux |
-| `{description}` | La description/le résumé de l'élément |
-| `{link}` | L'URL de l'élément |
-| `{author}` | L'auteur de l'élément |
-| `{pubDate}` | La date de publication |
+- **Tous les canaux** — publiez chaque nouvel élément sur chaque canal connecté
+- **Canaux spécifiques** — publiez uniquement sur les canaux sélectionnés (utile pour adapter le contenu à la plateforme)
 
-### Exemple de modèle
+## Contenu généré par l'IA vs contenu personnalisé
 
-```
-🚀 New post: {title}
+Par défaut, Autopost utilise l'IA pour générer la légende des réseaux sociaux à partir de chaque élément du flux, en l'optimisant selon le style et les limites de caractères de chaque plateforme.
 
-{description}
+Si vous préférez un contrôle manuel :
 
-Read more: {link}
-```
+- Désactivez **Générer le contenu avec l'IA**
+- Fournissez votre propre modèle dans le champ **Contenu personnalisé**
+- Utilisez le titre et le lien de l'élément du flux dans votre modèle
 
-## Intervalles de vérification
+## Validation du flux
 
-Configurez la fréquence à laquelle Postzee interroge le flux :
+Avant l'enregistrement, cliquez sur **Tester** pour vérifier que Postzee peut lire votre flux RSS. La validation contrôle :
 
-- **15 minutes** — pour les flux à haute fréquence (actualités, contenu de dernière minute)
-- **1 heure** — pour les blogs typiques (valeur par défaut recommandée)
-- **6 heures** — pour les flux à faible fréquence (newsletters hebdomadaires, podcasts)
-- **24 heures** — pour les flux très lents
+- Que l'URL est accessible
+- Que le flux est au format RSS/Atom valide
+- Que les éléments contiennent les champs requis
 
-Des vérifications plus fréquentes consomment plus de ressources mais détectent les nouveaux contenus plus rapidement.
+## Disponibilité selon le plan
 
-## Filtrage des éléments
-
-Vous pouvez filtrer les éléments à publier automatiquement :
-
-- **Filtres par mot-clé** — ne publier que les éléments correspondant à des mots-clés spécifiques
-- **Filtres par catégorie** — ne publier que les éléments dans des catégories de flux spécifiques
-- **Filtres par date** — ignorer les éléments plus anciens que X jours lors de la première connexion d'un flux
-
-## Paramètres par canal
-
-Chaque flux peut publier sur plusieurs canaux avec des paramètres différents. Par exemple :
-
-- LinkedIn : publication complète avec description
-- X (Twitter) : tronquée à 280 caractères
-- Instagram : titre uniquement avec image du flux
-
-## Disponibilité par plan
-
-Autopost est disponible sur les plans **Team**, **Pro** et **Ultimate**.
+Autopost est disponible avec les plans **Team**, **Pro** et **Ultimate**.
 
 <Note>
-Autopost utilise votre quota mensuel de publications. Chaque élément publié à partir d'un flux compte comme une publication, donc un flux contenant 30 nouveaux éléments par mois utilise 30 de vos emplacements de publication.
+Autopost utilise votre quota mensuel de publications. Chaque élément publié à partir d'un flux compte comme une publication. Le contenu généré par l'IA consomme des crédits — voir [Crédits](/billing/credits) pour plus de détails.
 </Note>
 
-## Désactivation d'un flux
+## Désactiver ou supprimer un flux
 
-Pour arrêter l'autopost :
+Pour mettre en pause l'autoposting :
 
 1. Ouvrez le flux dans **Paramètres** → **Autopost**
-2. Basculez **Active** sur off (ou supprimez complètement le flux)
-3. Les publications déjà dans la file d'attente sont toujours publiées, mais aucun nouvel élément ne sera détecté
+2. Cliquez sur **Modifier** → désactivez l'option, ou cliquez sur **Supprimer** pour le retirer définitivement
+
+Les publications déjà dans la file d'attente sont tout de même diffusées, mais aucun nouvel élément ne sera détecté après la désactivation.
 
 <CardGroup cols={2}>
-  <Card title="Vue d'ensemble des Canaux" icon="share-nodes" href="/channels/overview">
-    Connectez des canaux pour l'autopost.
+  <Card title="Vue d'ensemble des canaux" icon="share-nodes" href="/channels/overview">
+    Connectez des canaux pour l'autoposting.
   </Card>
-  <Card title="Vue d'ensemble du Calendrier" icon="calendar" href="/calendar/overview">
-    Voyez le contenu autoposté sur votre calendrier.
+  <Card title="Vue d'ensemble du calendrier" icon="calendar" href="/calendar/overview">
+    Visualisez le contenu autoposté sur votre calendrier.
   </Card>
 </CardGroup>
