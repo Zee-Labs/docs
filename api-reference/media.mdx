@@ -120,6 +120,69 @@ curl -X POST \
 
 ---
 
+## Generate batch (1-4 images)
+
+```
+POST /public/v1/generate-media
+```
+
+Generate multiple AI images in a single request. Use this for batch generation instead of multiple `generate-image` calls.
+
+**Rate limit:** 10 requests per minute.
+
+### Request
+
+```bash
+curl -X POST \
+  -H "Authorization: YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "model": "nano-banana-pro",
+    "prompt": "A professional headshot of a confident woman",
+    "quantity": 4,
+    "aspectRatio": "1:1"
+  }' \
+  https://api.postzee.app/public/v1/generate-media
+```
+
+### Parameters
+
+| Parameter | Type | Required | Description |
+|-----------|------|:---:|-------------|
+| `model` | string | Yes | Image model ID (see [Image Models](/ai-models/image-models)) |
+| `prompt` | string | Yes | Image description |
+| `quantity` | number | No | Number of images (1-4, default: 1) |
+| `aspectRatio` | string | No | `1:1`, `16:9`, `9:16`, `4:3`, `3:4`, `4:5`, `5:4` |
+| `imageUrls` | string[] | No | Reference image URLs (max 5) |
+| `modelParams` | object | No | Model-specific parameters |
+
+### Response
+
+For `quantity > 1`, returns a group job ID:
+
+```json
+{
+  "jobId": "group-uuid-here",
+  "jobType": "group",
+  "totalImages": 4,
+  "status": "processing"
+}
+```
+
+For `quantity === 1`, returns a regular task:
+
+```json
+{
+  "jobId": "task-uuid-here",
+  "jobType": "task",
+  "status": "processing"
+}
+```
+
+Use the [Jobs endpoint](/api-reference/jobs) to poll for completion. For group jobs, the response includes a `medias` array with all generated images and their `order` field.
+
+---
+
 ## List image models
 
 ```
