@@ -1,0 +1,106 @@
+---
+title: Autopost (RSS)
+icon: rss
+---
+
+Autopost vous permet d'importer automatiquement du contenu depuis des flux RSS et de le publier sur vos canaux sociaux. Connectez un blog, un podcast ou toute source compatible RSS, et Postzee créera des publications chaque fois que de nouveaux éléments seront détectés.
+
+## Comment y accéder
+
+Ouvrez le tiroir du compte (cliquez sur votre avatar en haut à droite) → **Paramètres** → onglet **Autopost**.
+
+## Qu'est-ce qu'Autopost ?
+
+Autopost surveille les flux RSS que vous configurez et crée automatiquement des publications dans Postzee chaque fois qu'un nouvel élément est publié dans le flux. Vous décidez sur quels canaux chaque flux publie et comment les publications sont formatées.
+
+Cas d'utilisation courants :
+
+- **Partager automatiquement les articles de blog** sur tous vos canaux sociaux dès la publication
+- **Publier en cross-posting des épisodes de podcast** sur LinkedIn et X
+- **Distribuer des actualités** depuis des flux externes vers votre communauté
+- **Republier votre propre contenu** d'une plateforme à une autre
+
+## Comment configurer
+
+1. Allez dans **Paramètres** → **Autopost**
+2. Cliquez sur **Ajouter un Flux**
+3. Saisissez :
+   - **RSS URL** — le flux à surveiller
+   - **Channels** — les canaux sur lesquels publier
+   - **Post template** — comment formater la publication (ex. : titre + lien, ou texte personnalisé)
+   - **Check interval** — la fréquence à laquelle Postzee vérifie le flux pour de nouveaux éléments
+4. Cliquez sur **Enregistrer**
+
+## Modèles de publication
+
+Utilisez des espaces réservés pour construire dynamiquement des publications à partir des éléments du flux :
+
+| Espace réservé | Remplacé par |
+|----------------|--------------|
+| `{title}` | Le titre de l'élément du flux |
+| `{description}` | La description/le résumé de l'élément |
+| `{link}` | L'URL de l'élément |
+| `{author}` | L'auteur de l'élément |
+| `{pubDate}` | La date de publication |
+
+### Exemple de modèle
+
+```
+🚀 New post: {title}
+
+{description}
+
+Read more: {link}
+```
+
+## Intervalles de vérification
+
+Configurez la fréquence à laquelle Postzee interroge le flux :
+
+- **15 minutes** — pour les flux à haute fréquence (actualités, contenu de dernière minute)
+- **1 heure** — pour les blogs typiques (valeur par défaut recommandée)
+- **6 heures** — pour les flux à faible fréquence (newsletters hebdomadaires, podcasts)
+- **24 heures** — pour les flux très lents
+
+Des vérifications plus fréquentes consomment plus de ressources mais détectent les nouveaux contenus plus rapidement.
+
+## Filtrage des éléments
+
+Vous pouvez filtrer les éléments à publier automatiquement :
+
+- **Filtres par mot-clé** — ne publier que les éléments correspondant à des mots-clés spécifiques
+- **Filtres par catégorie** — ne publier que les éléments dans des catégories de flux spécifiques
+- **Filtres par date** — ignorer les éléments plus anciens que X jours lors de la première connexion d'un flux
+
+## Paramètres par canal
+
+Chaque flux peut publier sur plusieurs canaux avec des paramètres différents. Par exemple :
+
+- LinkedIn : publication complète avec description
+- X (Twitter) : tronquée à 280 caractères
+- Instagram : titre uniquement avec image du flux
+
+## Disponibilité par plan
+
+Autopost est disponible sur les plans **Team**, **Pro** et **Ultimate**.
+
+<Note>
+Autopost utilise votre quota mensuel de publications. Chaque élément publié à partir d'un flux compte comme une publication, donc un flux contenant 30 nouveaux éléments par mois utilise 30 de vos emplacements de publication.
+</Note>
+
+## Désactivation d'un flux
+
+Pour arrêter l'autopost :
+
+1. Ouvrez le flux dans **Paramètres** → **Autopost**
+2. Basculez **Active** sur off (ou supprimez complètement le flux)
+3. Les publications déjà dans la file d'attente sont toujours publiées, mais aucun nouvel élément ne sera détecté
+
+<CardGroup cols={2}>
+  <Card title="Vue d'ensemble des Canaux" icon="share-nodes" href="/channels/overview">
+    Connectez des canaux pour l'autopost.
+  </Card>
+  <Card title="Vue d'ensemble du Calendrier" icon="calendar" href="/calendar/overview">
+    Voyez le contenu autoposté sur votre calendrier.
+  </Card>
+</CardGroup>

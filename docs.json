@@ -70,7 +70,8 @@
                 "pages": [
                   "channels/overview",
                   "channels/connecting",
-                  "channels/platform-settings"
+                  "channels/platform-settings",
+                  "channels/customers"
                 ]
               },
               {
@@ -94,7 +95,9 @@
                   "settings/account",
                   "settings/team",
                   "settings/api-keys",
-                  "settings/preferences"
+                  "settings/preferences",
+                  "settings/webhooks",
+                  "settings/autopost"
                 ]
               },
               {
@@ -217,7 +220,8 @@
                 "pages": [
                   "pt-BR/channels/overview",
                   "pt-BR/channels/connecting",
-                  "pt-BR/channels/platform-settings"
+                  "pt-BR/channels/platform-settings",
+                  "pt-BR/channels/customers"
                 ]
               },
               {
@@ -241,7 +245,9 @@
                   "pt-BR/settings/account",
                   "pt-BR/settings/team",
                   "pt-BR/settings/api-keys",
-                  "pt-BR/settings/preferences"
+                  "pt-BR/settings/preferences",
+                  "pt-BR/settings/webhooks",
+                  "pt-BR/settings/autopost"
                 ]
               },
               {
@@ -364,7 +370,8 @@
                 "pages": [
                   "es/channels/overview",
                   "es/channels/connecting",
-                  "es/channels/platform-settings"
+                  "es/channels/platform-settings",
+                  "es/channels/customers"
                 ]
               },
               {
@@ -388,7 +395,9 @@
                   "es/settings/account",
                   "es/settings/team",
                   "es/settings/api-keys",
-                  "es/settings/preferences"
+                  "es/settings/preferences",
+                  "es/settings/webhooks",
+                  "es/settings/autopost"
                 ]
               },
               {
@@ -511,7 +520,8 @@
                 "pages": [
                   "fr/channels/overview",
                   "fr/channels/connecting",
-                  "fr/channels/platform-settings"
+                  "fr/channels/platform-settings",
+                  "fr/channels/customers"
                 ]
               },
               {
@@ -535,7 +545,9 @@
                   "fr/settings/account",
                   "fr/settings/team",
                   "fr/settings/api-keys",
-                  "fr/settings/preferences"
+                  "fr/settings/preferences",
+                  "fr/settings/webhooks",
+                  "fr/settings/autopost"
                 ]
               },
               {

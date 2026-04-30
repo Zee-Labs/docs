@@ -1,0 +1,106 @@
+---
+title: Autopost (RSS)
+icon: rss
+---
+
+Autopost lets you automatically import content from RSS feeds and publish it to your social channels. Connect a blog, podcast, or any RSS-compatible source, and Postzee will create posts whenever new items are detected.
+
+## How to access
+
+Open the account drawer (click your avatar in the top-right) → **Settings** → **Autopost** tab.
+
+## What is Autopost?
+
+Autopost monitors RSS feeds you configure and automatically creates posts in Postzee whenever a new item is published in the feed. You decide which channels each feed publishes to and how the posts are formatted.
+
+Common use cases:
+
+- **Auto-share blog posts** to all your social channels when published
+- **Cross-post podcast episodes** to LinkedIn and X
+- **Distribute news** from external feeds to your community
+- **Republish your own content** from one platform to another
+
+## How to configure
+
+1. Go to **Settings** → **Autopost**
+2. Click **Add Feed**
+3. Enter:
+   - **RSS URL** — the feed to monitor
+   - **Channels** — which channels to publish to
+   - **Post template** — how to format the post (e.g., title + link, or custom text)
+   - **Check interval** — how often Postzee checks the feed for new items
+4. Click **Save**
+
+## Post templates
+
+Use placeholders to dynamically build posts from feed items:
+
+| Placeholder | Replaced with |
+|-------------|--------------|
+| `{title}` | The title of the feed item |
+| `{description}` | The item description/summary |
+| `{link}` | The URL of the item |
+| `{author}` | The item's author |
+| `{pubDate}` | The publication date |
+
+### Example template
+
+```
+🚀 New post: {title}
+
+{description}
+
+Read more: {link}
+```
+
+## Check intervals
+
+Configure how often Postzee polls the feed:
+
+- **15 minutes** — for high-frequency feeds (news, breaking content)
+- **1 hour** — for typical blogs (recommended default)
+- **6 hours** — for low-frequency feeds (weekly newsletters, podcasts)
+- **24 hours** — for very slow feeds
+
+More frequent checks consume more resources but detect new content faster.
+
+## Filtering items
+
+You can filter which items are autoposted:
+
+- **Keyword filters** — only post items matching specific keywords
+- **Category filters** — only post items in specific feed categories
+- **Date filters** — ignore items older than X days when first connecting a feed
+
+## Per-channel settings
+
+Each feed can publish to multiple channels with different settings. For example:
+
+- LinkedIn: full post with description
+- X (Twitter): truncated to 280 chars
+- Instagram: title only with image from feed
+
+## Plan availability
+
+Autopost is available on **Team**, **Pro**, and **Ultimate** plans.
+
+<Note>
+Autopost uses your monthly post quota. Each item published from a feed counts as one post, so a feed with 30 new items per month uses 30 of your post slots.
+</Note>
+
+## Disabling a feed
+
+To stop autoposting:
+
+1. Open the feed in **Settings** → **Autopost**
+2. Toggle **Active** to off (or delete the feed entirely)
+3. Posts already in the queue are still published, but no new items will be detected
+
+<CardGroup cols={2}>
+  <Card title="Channels Overview" icon="share-nodes" href="/channels/overview">
+    Connect channels for autoposting.
+  </Card>
+  <Card title="Calendar Overview" icon="calendar" href="/calendar/overview">
+    See autoposted content on your calendar.
+  </Card>
+</CardGroup>

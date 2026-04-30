@@ -1,0 +1,128 @@
+---
+title: Webhooks
+icon: webhook
+---
+
+Les Webhooks vous permettent de recevoir des notifications en temps réel de Postzee chaque fois que quelque chose se produit dans votre compte — une publication est publiée, une génération se termine, un paiement est traité, et plus encore. Créez des intégrations et des automatisations personnalisées en connectant Postzee à vos propres systèmes.
+
+## Comment y accéder
+
+Ouvrez le tiroir du compte (cliquez sur votre avatar en haut à droite) → **Paramètres** → onglet **Webhooks**.
+
+## Qu'est-ce qu'un webhook ?
+
+Un webhook est une URL que Postzee appelle (HTTP POST) chaque fois qu'un événement spécifique se produit dans votre compte. Postzee envoie une charge utile JSON avec les détails de l'événement, et votre serveur peut y réagir comme bon vous semble.
+
+Cas d'utilisation courants :
+
+- **Notifier votre équipe sur Slack/Discord** lorsqu'une publication est publiée
+- **Mettre à jour un CRM** lorsque le contenu d'un client est mis en ligne
+- **Déclencher un déploiement** lorsqu'une nouvelle génération IA est terminée
+- **Enregistrer les événements** dans votre système d'analyse ou de surveillance
+- **Synchroniser les données** vers une base de données personnalisée
+
+## Comment configurer
+
+1. Allez dans **Paramètres** → **Webhooks**
+2. Cliquez sur **Ajouter un Webhook**
+3. Saisissez :
+   - **URL** — le point de terminaison que votre serveur expose pour recevoir les événements
+   - **Events** — les événements auxquels s'abonner
+   - **Name** — un libellé convivial pour ce webhook
+4. Cliquez sur **Enregistrer**
+
+Postzee commencera à envoyer des événements à votre URL immédiatement.
+
+## Événements disponibles
+
+| Événement | Quand il se déclenche |
+|-----------|----------------------|
+| `post.published` | Une publication est publiée avec succès sur un canal social |
+| `post.failed` | Une publication échoue |
+| `post.scheduled` | Une publication est programmée pour une publication future |
+| `media.completed` | Une génération d'image ou de vidéo IA se termine avec succès |
+| `media.failed` | Une génération IA échoue |
+| `credits.low` | Votre solde de crédits passe sous le seuil configuré |
+| `subscription.updated` | Votre abonnement est modifié (mise à niveau, rétrogradation, changement de période) |
+| `subscription.canceled` | Votre abonnement est annulé |
+| `channel.disconnected` | Un canal connecté nécessite une reconnexion |
+
+## Format de la charge utile
+
+Chaque livraison de webhook est un HTTP POST avec cette structure :
+
+```json
+{
+  "event": "post.published",
+  "timestamp": "2026-04-29T15:00:00Z",
+  "data": {
+    "postId": "uuid",
+    "channelId": "uuid",
+    "platform": "instagram",
+    "publishedAt": "2026-04-29T15:00:00Z",
+    "postUrl": "https://instagram.com/p/..."
+  }
+}
+```
+
+Le champ `data` varie selon le type d'événement. Consultez la [Référence API](/api-reference/posts) pour les schémas complets.
+
+## Sécurité — Vérification de signature HMAC
+
+Chaque requête webhook inclut un en-tête `X-Postzee-Signature` contenant une signature HMAC-SHA256 de la charge utile, signée avec votre secret de webhook.
+
+### Vérification des signatures (exemple Node.js)
+
+```javascript
+const crypto = require('crypto');
+
+function verifyWebhook(payload, signature, secret) {
+  const computed = crypto
+    .createHmac('sha256', secret)
+    .update(JSON.stringify(payload))
+    .digest('hex');
+  return crypto.timingSafeEqual(
+    Buffer.from(computed),
+    Buffer.from(signature)
+  );
+}
+```
+
+Vérifiez toujours les signatures avant de traiter les charges utiles des webhooks. Les signatures invalides doivent renvoyer un HTTP 401.
+
+## Nouvelles tentatives et fiabilité
+
+Si votre point de terminaison renvoie un code de statut autre que 2xx, Postzee renvoie la livraison :
+
+- Tentative 1 : après 1 minute
+- Tentative 2 : après 5 minutes
+- Tentative 3 : après 30 minutes
+- Tentative 4 : après 2 heures
+- Tentative 5 : après 6 heures
+
+Après 5 tentatives échouées, l'événement est marqué comme échoué et ne sera plus retenté.
+
+## Tester les webhooks
+
+Utilisez un service comme [webhook.site](https://webhook.site) ou [ngrok](https://ngrok.com) pendant le développement pour inspecter les charges utiles sans avoir à configurer votre propre serveur.
+
+## Disponibilité par plan
+
+La prise en charge des webhooks varie selon le plan :
+
+| Plan | Webhooks |
+|------|----------|
+| Gratuit | Non disponible |
+| Standard | 2 |
+| Team | 10 |
+| Pro | 30 |
+| Ultimate | 10 000 |
+
+<CardGroup cols={2}>
+  <Card title="Clés API" icon="key" href="/settings/api-keys">
+    Gérez vos clés API pour les requêtes authentifiées.
+  </Card>
+  <Card title="Référence API" icon="code" href="/api-reference/authentication">
+    Créez des intégrations personnalisées avec l'API REST publique.
+  </Card>
+</CardGroup>

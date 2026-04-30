@@ -1,0 +1,106 @@
+---
+title: Autopost (RSS)
+icon: rss
+---
+
+Autopost te permite importar contenido automáticamente desde feeds RSS y publicarlo en tus canales sociales. Conecta un blog, un podcast o cualquier fuente compatible con RSS, y Postzee creará publicaciones cada vez que se detecten nuevos elementos.
+
+## Cómo acceder
+
+Abre el panel de la cuenta (haz clic en tu avatar en la esquina superior derecha) → **Configuración** → pestaña **Autopost**.
+
+## ¿Qué es Autopost?
+
+Autopost monitorea los feeds RSS que configures y crea automáticamente publicaciones en Postzee cada vez que se publica un nuevo elemento en el feed. Tú decides en qué canales se publica cada feed y cómo se formatean las publicaciones.
+
+Casos de uso comunes:
+
+- **Auto-compartir publicaciones del blog** en todos tus canales sociales cuando se publican
+- **Cross-postear episodios de podcast** en LinkedIn y X
+- **Distribuir noticias** desde feeds externos a tu comunidad
+- **Republicar tu propio contenido** de una plataforma a otra
+
+## Cómo configurar
+
+1. Ve a **Configuración** → **Autopost**
+2. Haz clic en **Agregar Feed**
+3. Ingresa:
+   - **RSS URL** — el feed a monitorear
+   - **Channels** — en qué canales publicar
+   - **Post template** — cómo formatear la publicación (por ejemplo, título + enlace, o texto personalizado)
+   - **Check interval** — con qué frecuencia Postzee revisa el feed en busca de nuevos elementos
+4. Haz clic en **Guardar**
+
+## Plantillas de publicación
+
+Usa placeholders para construir publicaciones dinámicamente a partir de los elementos del feed:
+
+| Placeholder | Reemplazado por |
+|-------------|--------------|
+| `{title}` | El título del elemento del feed |
+| `{description}` | La descripción/resumen del elemento |
+| `{link}` | La URL del elemento |
+| `{author}` | El autor del elemento |
+| `{pubDate}` | La fecha de publicación |
+
+### Ejemplo de plantilla
+
+```
+🚀 New post: {title}
+
+{description}
+
+Read more: {link}
+```
+
+## Intervalos de verificación
+
+Configura con qué frecuencia Postzee consulta el feed:
+
+- **15 minutos** — para feeds de alta frecuencia (noticias, contenido de última hora)
+- **1 hora** — para blogs típicos (predeterminado recomendado)
+- **6 horas** — para feeds de baja frecuencia (newsletters semanales, podcasts)
+- **24 horas** — para feeds muy lentos
+
+Las verificaciones más frecuentes consumen más recursos pero detectan contenido nuevo más rápido.
+
+## Filtrado de elementos
+
+Puedes filtrar qué elementos se autopostean:
+
+- **Filtros por palabra clave** — solo publica elementos que coincidan con palabras clave específicas
+- **Filtros por categoría** — solo publica elementos en categorías específicas del feed
+- **Filtros por fecha** — ignora elementos más antiguos que X días al conectar un feed por primera vez
+
+## Configuración por canal
+
+Cada feed puede publicar en varios canales con diferentes configuraciones. Por ejemplo:
+
+- LinkedIn: publicación completa con descripción
+- X (Twitter): truncada a 280 caracteres
+- Instagram: solo el título con la imagen del feed
+
+## Disponibilidad por plan
+
+Autopost está disponible en los planes **Team**, **Pro** y **Ultimate**.
+
+<Note>
+Autopost utiliza tu cuota mensual de publicaciones. Cada elemento publicado desde un feed cuenta como una publicación, por lo que un feed con 30 nuevos elementos al mes utiliza 30 de tus cupos de publicaciones.
+</Note>
+
+## Desactivando un feed
+
+Para detener el autoposteo:
+
+1. Abre el feed en **Configuración** → **Autopost**
+2. Cambia **Active** a apagado (o elimina el feed por completo)
+3. Las publicaciones que ya estén en la cola se publican igualmente, pero no se detectarán nuevos elementos
+
+<CardGroup cols={2}>
+  <Card title="Resumen de Canales" icon="share-nodes" href="/channels/overview">
+    Conecta canales para autoposteo.
+  </Card>
+  <Card title="Resumen del Calendario" icon="calendar" href="/calendar/overview">
+    Visualiza el contenido autoposteado en tu calendario.
+  </Card>
+</CardGroup>

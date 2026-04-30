@@ -1,0 +1,106 @@
+---
+title: Autopost (RSS)
+icon: rss
+---
+
+O Autopost permite importar conteúdo automaticamente de feeds RSS e publicá-lo nos seus canais sociais. Conecte um blog, podcast ou qualquer fonte compatível com RSS, e o Postzee criará posts sempre que novos itens forem detectados.
+
+## Como acessar
+
+Abra o drawer da conta (clique no seu avatar no canto superior direito) → **Configurações** → aba **Autopost**.
+
+## O que é o Autopost?
+
+O Autopost monitora feeds RSS que você configurar e cria posts automaticamente no Postzee sempre que um novo item é publicado no feed. Você decide para quais canais cada feed publica e como os posts são formatados.
+
+Casos de uso comuns:
+
+- **Compartilhar posts de blog automaticamente** em todos os seus canais sociais quando publicados
+- **Cross-postar episódios de podcast** no LinkedIn e X
+- **Distribuir notícias** de feeds externos para a sua comunidade
+- **Republicar seu próprio conteúdo** de uma plataforma para outra
+
+## Como configurar
+
+1. Vá em **Configurações** → **Autopost**
+2. Clique em **Adicionar Feed**
+3. Preencha:
+   - **URL do RSS** — o feed a ser monitorado
+   - **Canais** — para quais canais publicar
+   - **Template do post** — como formatar o post (ex.: título + link, ou texto personalizado)
+   - **Intervalo de verificação** — com que frequência o Postzee verifica o feed em busca de novos itens
+4. Clique em **Salvar**
+
+## Templates de post
+
+Use placeholders para construir posts dinamicamente a partir de itens do feed:
+
+| Placeholder | Substituído por |
+|-------------|--------------|
+| `{title}` | O título do item do feed |
+| `{description}` | A descrição/resumo do item |
+| `{link}` | A URL do item |
+| `{author}` | O autor do item |
+| `{pubDate}` | A data de publicação |
+
+### Exemplo de template
+
+```
+🚀 New post: {title}
+
+{description}
+
+Read more: {link}
+```
+
+## Intervalos de verificação
+
+Configure com que frequência o Postzee consulta o feed:
+
+- **15 minutos** — para feeds de alta frequência (notícias, conteúdo urgente)
+- **1 hora** — para blogs típicos (padrão recomendado)
+- **6 horas** — para feeds de baixa frequência (newsletters semanais, podcasts)
+- **24 horas** — para feeds muito lentos
+
+Verificações mais frequentes consomem mais recursos, mas detectam novo conteúdo mais rapidamente.
+
+## Filtrando itens
+
+Você pode filtrar quais itens são autopostados:
+
+- **Filtros por palavra-chave** — apenas postar itens que contenham palavras-chave específicas
+- **Filtros por categoria** — apenas postar itens em categorias específicas do feed
+- **Filtros por data** — ignorar itens mais antigos que X dias ao conectar um feed pela primeira vez
+
+## Configurações por canal
+
+Cada feed pode publicar em múltiplos canais com configurações diferentes. Por exemplo:
+
+- LinkedIn: post completo com descrição
+- X (Twitter): truncado para 280 caracteres
+- Instagram: apenas o título com imagem do feed
+
+## Disponibilidade por plano
+
+O Autopost está disponível nos planos **Team**, **Pro** e **Ultimate**.
+
+<Note>
+O Autopost utiliza sua cota mensal de posts. Cada item publicado a partir de um feed conta como um post, então um feed com 30 novos itens por mês usa 30 dos seus slots de post.
+</Note>
+
+## Desativando um feed
+
+Para parar o autopost:
+
+1. Abra o feed em **Configurações** → **Autopost**
+2. Alterne **Ativo** para desligado (ou exclua o feed completamente)
+3. Posts já na fila ainda serão publicados, mas nenhum novo item será detectado
+
+<CardGroup cols={2}>
+  <Card title="Visão Geral dos Canais" icon="share-nodes" href="/channels/overview">
+    Conecte canais para autopost.
+  </Card>
+  <Card title="Visão Geral do Calendário" icon="calendar" href="/calendar/overview">
+    Veja o conteúdo autopostado no seu calendário.
+  </Card>
+</CardGroup>

@@ -1,0 +1,128 @@
+---
+title: Webhooks
+icon: webhook
+---
+
+Los Webhooks te permiten recibir notificaciones en tiempo real de Postzee cada vez que algo sucede en tu cuenta — se publica una publicación, se completa una generación, se procesa un pago y mucho más. Crea integraciones y automatizaciones personalizadas conectando Postzee a tus propios sistemas.
+
+## Cómo acceder
+
+Abre el panel de la cuenta (haz clic en tu avatar en la esquina superior derecha) → **Configuración** → pestaña **Webhooks**.
+
+## ¿Qué es un webhook?
+
+Un webhook es una URL a la que Postzee llama (HTTP POST) cada vez que ocurre un evento específico en tu cuenta. Postzee envía un payload JSON con los detalles del evento y tu servidor puede reaccionar como prefieras.
+
+Casos de uso comunes:
+
+- **Notificar a tu equipo en Slack/Discord** cuando se publica una publicación
+- **Actualizar un CRM** cuando el contenido de un cliente se publica
+- **Disparar un despliegue** cuando finaliza una nueva generación de IA
+- **Registrar eventos** en tu sistema de analítica o monitoreo
+- **Sincronizar datos** con una base de datos personalizada
+
+## Cómo configurar
+
+1. Ve a **Configuración** → **Webhooks**
+2. Haz clic en **Agregar Webhook**
+3. Ingresa:
+   - **URL** — el endpoint que tu servidor expone para recibir los eventos
+   - **Events** — a qué eventos suscribirse
+   - **Name** — una etiqueta amigable para este webhook
+4. Haz clic en **Guardar**
+
+Postzee comenzará a enviar eventos a tu URL de inmediato.
+
+## Eventos disponibles
+
+| Evento | Cuándo se dispara |
+|-------|------------------|
+| `post.published` | Una publicación se publica con éxito en un canal social |
+| `post.failed` | Una publicación falla al publicarse |
+| `post.scheduled` | Una publicación se programa para una publicación futura |
+| `media.completed` | Una generación de imagen o video con IA finaliza con éxito |
+| `media.failed` | Una generación de IA falla |
+| `credits.low` | Tu saldo de créditos cae por debajo del umbral configurado |
+| `subscription.updated` | Tu suscripción cambia (upgrade, downgrade, cambio de período) |
+| `subscription.canceled` | Tu suscripción se cancela |
+| `channel.disconnected` | Un canal conectado necesita reconexión |
+
+## Formato del payload
+
+Cada entrega de webhook es un HTTP POST con esta estructura:
+
+```json
+{
+  "event": "post.published",
+  "timestamp": "2026-04-29T15:00:00Z",
+  "data": {
+    "postId": "uuid",
+    "channelId": "uuid",
+    "platform": "instagram",
+    "publishedAt": "2026-04-29T15:00:00Z",
+    "postUrl": "https://instagram.com/p/..."
+  }
+}
+```
+
+El campo `data` varía según el tipo de evento. Consulta la [API Reference](/api-reference/posts) para ver los esquemas completos.
+
+## Seguridad — Verificación de firma HMAC
+
+Cada solicitud de webhook incluye un header `X-Postzee-Signature` que contiene una firma HMAC-SHA256 del payload, firmada con tu secret de webhook.
+
+### Verificando firmas (ejemplo en Node.js)
+
+```javascript
+const crypto = require('crypto');
+
+function verifyWebhook(payload, signature, secret) {
+  const computed = crypto
+    .createHmac('sha256', secret)
+    .update(JSON.stringify(payload))
+    .digest('hex');
+  return crypto.timingSafeEqual(
+    Buffer.from(computed),
+    Buffer.from(signature)
+  );
+}
+```
+
+Verifica siempre las firmas antes de procesar los payloads de webhook. Las firmas inválidas deben devolver HTTP 401.
+
+## Reintentos y confiabilidad
+
+Si tu endpoint devuelve un código de estado distinto a 2xx, Postzee reintenta la entrega:
+
+- Reintento 1: después de 1 minuto
+- Reintento 2: después de 5 minutos
+- Reintento 3: después de 30 minutos
+- Reintento 4: después de 2 horas
+- Reintento 5: después de 6 horas
+
+Tras 5 intentos fallidos, el evento se marca como fallido y no se reintentará.
+
+## Probando webhooks
+
+Usa un servicio como [webhook.site](https://webhook.site) o [ngrok](https://ngrok.com) durante el desarrollo para inspeccionar los payloads sin tener que montar tu propio servidor.
+
+## Disponibilidad por plan
+
+El soporte de Webhooks varía según el plan:
+
+| Plan | Webhooks |
+|------|----------|
+| Free | No disponible |
+| Standard | 2 |
+| Team | 10 |
+| Pro | 30 |
+| Ultimate | 10,000 |
+
+<CardGroup cols={2}>
+  <Card title="API Keys" icon="key" href="/settings/api-keys">
+    Gestiona tus API keys para solicitudes autenticadas.
+  </Card>
+  <Card title="API Reference" icon="code" href="/api-reference/authentication">
+    Crea integraciones personalizadas con la API REST pública.
+  </Card>
+</CardGroup>
