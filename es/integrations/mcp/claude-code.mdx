@@ -3,101 +3,89 @@ title: Claude Code
 icon: terminal
 ---
 
-Conecta Postzee a **Claude Code** para generar medios con IA y publicar posts en redes sociales a través de conversación en lenguaje natural.
+Conecta Postzee a **Claude Code** para generar imágenes/videos con IA, crear videos con avatar HeyGen y publicar en más de 30 redes sociales — todo a través de conversación en lenguaje natural.
 
-## Opción 1: Plugin (Marketplace)
+## Instalar la Skill de Postzee
 
-La forma más rápida de conectar — instala desde el marketplace de plugins de Claude Code.
+La forma más fácil de conectar — instala la skill desde GitHub.
 
-### Instalación
-
-```bash
-/plugin marketplace add Zee-Labs/postzee-claude-plugin
-/plugin install postzee@zee-labs-plugins
-```
-
-### Configuración
-
-Cuando se te solicite, ingresa tu clave API de Postzee:
-
-1. Inicia sesión en [Postzee](https://dashboard.postzee.app)
-2. Abre el panel de cuenta → **Configuración** → pestaña **API**
-3. Haz clic en **Reveal** y copia la clave API
-4. Pégala en Claude Code cuando se te solicite
-
-<Note>
-Copia el valor de la **clave API**, no la URL MCP. El plugin configura la URL de conexión automáticamente.
-</Note>
-
-## Opción 2: Conexión MCP directa
-
-Conéctate directamente al servidor MCP de Postzee sin el plugin.
-
-### Agregar el servidor MCP
+### Opción 1: GitHub CLI
 
 ```bash
-claude mcp add postzee --transport http https://api.postzee.app/mcp/YOUR_API_KEY/messages
+gh skill install Zee-Labs/postzee-skill
 ```
 
-Reemplaza `YOUR_API_KEY` con tu clave API real de Postzee.
+### Opción 2: Instalación manual
+
+```bash
+mkdir -p ~/.claude/skills/postzee
+curl -o ~/.claude/skills/postzee/SKILL.md https://raw.githubusercontent.com/Zee-Labs/postzee-skill/main/SKILL.md
+```
+
+## Configurar la Conexión MCP
+
+Después de instalar la skill, conecta tu cuenta Postzee:
+
+1. Ve a [Configuración de Postzee](https://dashboard.postzee.app/settings) → pestaña **API Pública**
+2. Copia la **URL del MCP** en la sección "MCP (Model Context Protocol)"
+3. Ejecuta el siguiente comando en Claude Code:
+
+```bash
+claude mcp add --transport sse postzee TU_URL_MCP
+```
+
+Reemplaza `TU_URL_MCP` con la URL completa copiada (se ve como `https://api.postzee.app/mcp/.../sse`).
 
 ### Verificar la conexión
 
-Después de agregar, prueba la conexión:
-
 ```
-List my Postzee channels
+Lista mis canales de Postzee
 ```
 
 Claude Code debería llamar a la herramienta `POSTZEE_LIST_CHANNELS` y mostrar tus cuentas de redes sociales conectadas.
 
 ## Ejemplos de uso
 
-Una vez conectado, puedes usar lenguaje natural para interactuar con Postzee:
+Una vez conectado, usa lenguaje natural para interactuar con Postzee:
 
 ### Generar una imagen
 
-> "Genera un retrato profesional de una mujer en una oficina moderna usando Nano Banana Pro"
+> "Genera una foto profesional de una mujer en una oficina moderna"
 
-Claude Code:
-1. Llamará a `POSTZEE_GENERATE_IMAGE` con tu prompt
-2. Consultará `POSTZEE_CHECK_JOB` hasta que la imagen esté lista
-3. Te mostrará el resultado con una URL del medio
+### Transformar una foto (imagen a imagen)
+
+> "Transforma esta foto en estilo anime" (proporciona una URL de imagen)
+
+### Animar una foto en video
+
+> "Anima esta foto en un video cinematográfico para Reels de Instagram"
+
+### Crear un video con avatar HeyGen
+
+> "Crea un video HeyGen de un avatar presentando nuestro nuevo producto"
 
 ### Generar y publicar
 
-> "Genera una foto de atardecer en la playa y publícala en mi Instagram con el caption 'Vibraciones de hora dorada'"
+> "Genera una foto de playa al atardecer y publícala en mi Instagram con el texto 'Hora dorada'"
 
-Claude Code:
-1. Generará la imagen
-2. Esperará a que se complete
-3. Creará un post con tu caption y medio
-4. Publicará en tu canal de Instagram
+### Verificar créditos
 
-### Consultar tus créditos
+> "¿Cuántos créditos de IA tengo?"
 
-> "¿Cuántos créditos de IA me quedan?"
+## Workflow recomendado
 
-### Mejorar un prompt
+Para mejores resultados:
 
-> "Mejora este prompt para mejores resultados: 'un gato sentado en el alféizar de una ventana'"
-
-## Flujo de trabajo recomendado
-
-Para mejores resultados con Claude Code:
-
-1. **Consultar créditos** — verifica que tienes suficientes créditos antes de generar
-2. **Listar modelos** — pregunta qué modelos están disponibles para tu caso de uso
-3. **Mejorar prompt** — usa el optimizador de prompts para mejores resultados (gratis)
-4. **Generar** — crea la imagen o video
-5. **Listar canales** — ve dónde puedes publicar
-6. **Crear post** — publica o programa en tus canales
+1. **Verificar créditos** — confirma que tienes créditos suficientes
+2. **Optimizar prompt** — usa el optimizador para mejores resultados (gratis)
+3. **Generar** — crea la imagen o video
+4. **Publicar** — publica o programa en tus canales
 
 <CardGroup cols={2}>
-  <Card title="Referencia de Herramientas" icon="wrench" href="/integrations/mcp/tools-reference">
-    Referencia completa de las 9 herramientas MCP.
+  <Card title="Referencia de Tools" icon="wrench" href="/es/integrations/mcp/tools-reference">
+    Referencia completa de las 12 herramientas MCP.
   </Card>
-  <Card title="OpenClaw" icon="plug" href="/integrations/mcp/openclaw">
-    Conecta Postzee a OpenClaw en su lugar.
+  <Card title="OpenClaw" icon="plug" href="/es/integrations/mcp/openclaw">
+    Conecta Postzee a OpenClaw.
   </Card>
 </CardGroup>

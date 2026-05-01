@@ -3,87 +3,76 @@ title: OpenClaw
 icon: plug
 ---
 
-Conecta Postzee a **OpenClaw** para generar medios con IA y gestionar posts en redes sociales a través de tu agente de IA de OpenClaw.
+Conecta Postzee a **OpenClaw** para generar imágenes/videos con IA, crear videos con avatar HeyGen y gestionar publicaciones en redes sociales a través de tu agente OpenClaw.
 
-## Instalación
+## Instalar la Skill de Postzee
 
-Instala el plugin de Postzee desde ClawHub:
+Instala la skill desde ClawHub:
 
 ```bash
-openclaw plugins install @zeelabs/openclaw-postzee
-openclaw gateway restart
+clawhub install postzee
 ```
 
-## Configuración
+O dile directamente a tu agente OpenClaw:
 
-Añade tu clave API de Postzee a la configuración de OpenClaw:
+> "Instala la skill de Postzee"
 
-```json
-{
-  "plugins": {
-    "entries": {
-      "postzee": {
-        "enabled": true,
-        "config": {
-          "apiKey": "YOUR_POSTZEE_API_KEY"
-        }
-      }
-    }
-  }
-}
-```
+## Configurar la Conexión MCP
 
-### Obtener tu clave API
+1. Ve a [Configuración de Postzee](https://dashboard.postzee.app/settings) → pestaña **API Pública**
+2. Copia la **URL del MCP** en la sección "MCP (Model Context Protocol)"
+3. Dile a tu agente: "Configura Postzee con esta URL MCP: `TU_URL_MCP`"
 
-1. Inicia sesión en [Postzee](https://dashboard.postzee.app)
-2. Abre el panel de cuenta → **Configuración** → pestaña **API**
-3. Haz clic en **Reveal** y copia la clave API
-4. Pégala en el campo `apiKey` de arriba
+### Verificar la conexión
 
-<Note>
-Copia el valor de la **clave API**, no la URL MCP. El plugin maneja la configuración de conexión automáticamente.
-</Note>
+> "Lista mis canales de Postzee"
 
 ## Herramientas disponibles
 
-Una vez instalado, las siguientes herramientas están disponibles para tu agente de OpenClaw:
+12 herramientas disponibles para tu agente:
 
 | Herramienta | Descripción |
-|------------|-------------|
-| `postzee_list_channels` | Listar canales de redes sociales conectados |
-| `postzee_get_credits` | Consultar saldo de créditos de IA |
-| `postzee_list_image_models` | Listar modelos de imagen disponibles |
-| `postzee_list_video_models` | Listar modelos de video disponibles |
-| `postzee_enhance_prompt` | Optimizar prompts para mejores resultados (gratis) |
-| `postzee_generate_image` | Generar una imagen con IA |
-| `postzee_generate_video` | Generar un video con IA |
-| `postzee_check_job` | Consultar estado de trabajo de generación |
-| `postzee_create_post` | Crear, programar o publicar un post |
+|-------------|-------------|
+| `POSTZEE_LIST_CHANNELS` | Listar canales de redes sociales |
+| `POSTZEE_GET_CREDITS` | Verificar saldo de créditos |
+| `POSTZEE_LIST_IMAGE_MODELS` | Listar modelos de imagen con costos |
+| `POSTZEE_LIST_VIDEO_MODELS` | Listar modelos de video con costos |
+| `POSTZEE_ENHANCE_PROMPT` | Optimizar prompts (gratis) |
+| `POSTZEE_GENERATE_IMAGE` | Generar imagen con IA (soporta imágenes de referencia, aspect ratio, calidad, estilo) |
+| `POSTZEE_GENERATE_VIDEO` | Generar video con IA (soporta imagen a video, duración, aspect ratio) |
+| `POSTZEE_GENERATE_HEYGEN_VIDEO` | Crear video con avatar HeyGen |
+| `POSTZEE_LIST_HEYGEN_AVATARS` | Listar avatares HeyGen |
+| `POSTZEE_LIST_HEYGEN_VOICES` | Listar voces HeyGen |
+| `POSTZEE_CHECK_JOB` | Verificar estado de generación |
+| `POSTZEE_CREATE_POST` | Crear, programar o publicar post |
 
 ## Ejemplos de uso
 
-Una vez configurado, interactúa con Postzee a través de tu agente de OpenClaw:
-
-- "Lista mis canales de redes sociales conectados"
-- "Genera una foto profesional de producto de una taza de café"
-- "Publica una imagen de atardecer en mi LinkedIn con el caption 'Otro hermoso día'"
+- "Genera una foto profesional de un producto"
+- "Transforma esta foto en pintura al óleo" (envía foto por Telegram)
+- "Anima mi foto en un video para TikTok" (envía foto por Telegram)
+- "Crea un video HeyGen presentando nuestra empresa"
+- "Publica una imagen en LinkedIn con el texto 'Otro día productivo'"
 - "¿Cuántos créditos tengo?"
-- "Genera un video de 10 segundos de olas del océano"
 
-## Detalles del plugin
+### Enviar imágenes de referencia por Telegram
+
+Puedes enviar una foto directamente en el chat de Telegram. El agente la usará automáticamente como referencia.
+
+## Detalles de la skill
 
 | Propiedad | Valor |
 |-----------|-------|
-| **Package** | `@zeelabs/openclaw-postzee` |
-| **Plugin ID** | `postzee` |
-| **Herramientas** | 9 |
-| **Compatibilidad** | OpenClaw 2026.3.24-beta.2+ |
+| **Slug** | `postzee` |
+| **Registro** | ClawHub |
+| **Herramientas** | 12 |
+| **Instalar** | `clawhub install postzee` |
 
 <CardGroup cols={2}>
-  <Card title="Referencia de Herramientas" icon="wrench" href="/integrations/mcp/tools-reference">
-    Referencia completa de las 9 herramientas.
+  <Card title="Referencia de Tools" icon="wrench" href="/es/integrations/mcp/tools-reference">
+    Referencia completa de las 12 herramientas.
   </Card>
-  <Card title="Claude Code" icon="terminal" href="/integrations/mcp/claude-code">
-    Conecta Postzee a Claude Code en su lugar.
+  <Card title="Claude Code" icon="terminal" href="/es/integrations/mcp/claude-code">
+    Conecta Postzee a Claude Code.
   </Card>
 </CardGroup>
