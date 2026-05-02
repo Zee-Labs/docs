@@ -3,42 +3,71 @@ title: Hermes Agent
 icon: brain
 ---
 
-Conecte o Postzee ao **Hermes Agent** da Nous Research para gerar imagens/vídeos com IA, criar vídeos com avatar HeyGen e publicar em mais de 30 redes sociais.
+Conecte o Postzee ao **Hermes Agent** da Nous Research para gerar imagens/vídeos com IA, criar vídeos com avatar HeyGen e publicar em mais de 30 redes sociais — tudo via conversa no Telegram.
 
-## Instalar a Skill do Postzee
+## Passo 1: Obtenha sua URL MCP
 
-```bash
-hermes skills install Zee-Labs/postzee-skill
+1. Acesse [Configurações do Postzee](https://dashboard.postzee.app/settings) → aba **API Pública**
+2. Copie a **URL MCP (HTTP Streamable)** na seção "MCP (Model Context Protocol)"
+
+A URL tem o formato `https://api.postzee.app/mcp/SUA_API_KEY/http`.
+
+## Passo 2: Configurar o servidor MCP
+
+Adicione o servidor MCP do Postzee no arquivo de configuração do Hermes (`~/.hermes/config.yaml`):
+
+```yaml
+mcp_servers:
+  postzee:
+    url: "https://api.postzee.app/mcp/SUA_API_KEY/http"
+    timeout: 120
 ```
 
-Ou via URL direta:
+Substitua `SUA_API_KEY` pela chave da sua URL MCP.
+
+Após salvar, recarregue os servidores MCP:
+
+```bash
+hermes reload-mcp
+```
+
+Isso registra todas as 12 ferramentas do Postzee (geração de imagem, vídeo, avatares HeyGen, publicação, etc.) como tools `mcp_postzee_*` no seu agente.
+
+## Passo 3: Instalar a Skill do Postzee
+
+A skill ensina ao agente **como** usar as ferramentas do Postzee de forma eficiente — recomendações de modelo, aspect ratios por plataforma, workflows e boas práticas.
 
 ```bash
 hermes skills install https://raw.githubusercontent.com/Zee-Labs/postzee-skill/main/SKILL.md
 ```
 
-## Configurar a Conexão MCP
+<Note>
+O servidor MCP fornece as **ferramentas** (o que o agente pode fazer). A skill fornece o **conhecimento** (como usá-las bem). Ambos são recomendados para a melhor experiência.
+</Note>
 
-1. Acesse [Configurações do Postzee](https://dashboard.postzee.app/settings) → aba **API Pública**
-2. Copie a **URL do MCP** na seção "MCP (Model Context Protocol)"
-3. Configure no Hermes:
+## Verificar a conexão
 
-```bash
-hermes mcporter add postzee --transport http SUA_URL_MCP
-```
-
-### Verificar a conexão
+Diga ao seu agente:
 
 > "Liste meus canais do Postzee"
+
+O Hermes deve chamar a tool `POSTZEE_LIST_CHANNELS` e mostrar suas contas conectadas.
 
 ## Exemplos de uso
 
 - "Gere uma foto profissional em um escritório moderno"
-- "Transforme essa foto em estilo anime" (forneça URL)
+- "Transforme essa foto em estilo anime" (forneça uma URL de imagem)
 - "Anime essa foto em um vídeo para Reels"
 - "Crie um vídeo HeyGen apresentando nosso produto"
 - "Gere uma foto de praia e poste no Instagram"
 - "Quantos créditos eu tenho?"
+
+## Fluxo recomendado
+
+1. **Verificar créditos** — confirme que tem saldo suficiente
+2. **Otimizar prompt** — use o otimizador para melhores resultados (gratuito)
+3. **Gerar** — crie a imagem ou vídeo
+4. **Publicar** — poste ou agende nos seus canais
 
 <CardGroup cols={2}>
   <Card title="Referência de Tools" icon="wrench" href="/pt-BR/integrations/mcp/tools-reference">

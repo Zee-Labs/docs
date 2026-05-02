@@ -3,37 +3,49 @@ title: Hermes Agent
 icon: brain
 ---
 
-Connect Postzee to **Hermes Agent** by Nous Research to generate AI images/videos, create HeyGen avatar videos, and publish to 30+ social media platforms — all through natural language conversation.
+Connect Postzee to **Hermes Agent** by Nous Research to generate AI images/videos, create HeyGen avatar videos, and publish to 30+ social media platforms — all through natural language conversation on Telegram.
 
-## Install the Postzee Skill
+## Step 1: Get your MCP URL
 
-Install directly from GitHub:
+1. Go to [Postzee Settings](https://dashboard.postzee.app/settings) → **API Pública** tab
+2. Copy the **MCP URL (HTTP Streamable)** from the "MCP (Model Context Protocol)" section
 
-```bash
-hermes skills install Zee-Labs/postzee-skill
+The URL looks like `https://api.postzee.app/mcp/YOUR_API_KEY/http`.
+
+## Step 2: Configure the MCP server
+
+Add the Postzee MCP server to your Hermes config file (`~/.hermes/config.yaml`):
+
+```yaml
+mcp_servers:
+  postzee:
+    url: "https://api.postzee.app/mcp/YOUR_API_KEY/http"
+    timeout: 120
 ```
 
-Or install from a direct URL:
+Replace `YOUR_API_KEY` with the key from your MCP URL.
+
+After saving, reload the MCP servers:
+
+```bash
+hermes reload-mcp
+```
+
+This registers all 12 Postzee tools (image generation, video generation, HeyGen avatars, posting, etc.) as `mcp_postzee_*` tools in your agent.
+
+## Step 3: Install the Postzee Skill
+
+The skill teaches your agent **how** to use Postzee tools effectively — model recommendations, platform-aware aspect ratios, workflows, and best practices.
 
 ```bash
 hermes skills install https://raw.githubusercontent.com/Zee-Labs/postzee-skill/main/SKILL.md
 ```
 
-## Configure the MCP Connection
+<Note>
+The MCP server provides the **tools** (what the agent can do). The skill provides the **knowledge** (how to use them well). Both are recommended for the best experience.
+</Note>
 
-After installing the skill, connect to your Postzee account:
-
-1. Go to [Postzee Settings](https://dashboard.postzee.app/settings) → **API Pública** tab
-2. Copy the **MCP URL** from the "MCP (Model Context Protocol)" section
-3. Configure MCP in Hermes using mcporter:
-
-```bash
-hermes mcporter add postzee --transport http YOUR_MCP_URL
-```
-
-Replace `YOUR_MCP_URL` with the full URL you copied (it looks like `https://api.postzee.app/mcp/.../http`).
-
-### Verify the connection
+## Verify the connection
 
 Tell your agent:
 

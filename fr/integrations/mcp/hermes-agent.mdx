@@ -3,35 +3,71 @@ title: Hermes Agent
 icon: brain
 ---
 
-Connectez Postzee à **Hermes Agent** de Nous Research pour générer des images/vidéos avec l'IA, créer des vidéos avatar HeyGen et publier sur plus de 30 réseaux sociaux.
+Connectez Postzee à **Hermes Agent** de Nous Research pour générer des images/vidéos avec l'IA, créer des vidéos avatar HeyGen et publier sur plus de 30 réseaux sociaux — le tout via conversation sur Telegram.
 
-## Installer la Skill Postzee
-
-```bash
-hermes skills install Zee-Labs/postzee-skill
-```
-
-## Configurer la Connexion MCP
+## Étape 1 : Obtenez votre URL MCP
 
 1. Allez dans [Paramètres Postzee](https://dashboard.postzee.app/settings) → onglet **API Pública**
-2. Copiez l'**URL MCP**
-3. Configurez dans Hermes :
+2. Copiez l'**URL MCP (HTTP Streamable)** dans la section "MCP (Model Context Protocol)"
 
-```bash
-hermes mcporter add postzee --transport http VOTRE_URL_MCP
+L'URL a le format `https://api.postzee.app/mcp/VOTRE_CLE_API/http`.
+
+## Étape 2 : Configurer le serveur MCP
+
+Ajoutez le serveur MCP Postzee dans le fichier de configuration de Hermes (`~/.hermes/config.yaml`) :
+
+```yaml
+mcp_servers:
+  postzee:
+    url: "https://api.postzee.app/mcp/VOTRE_CLE_API/http"
+    timeout: 120
 ```
 
-### Vérifier la connexion
+Remplacez `VOTRE_CLE_API` par la clé de votre URL MCP.
+
+Après avoir sauvegardé, rechargez les serveurs MCP :
+
+```bash
+hermes reload-mcp
+```
+
+Cela enregistre les 12 outils Postzee (génération d'images, vidéos, avatars HeyGen, publication, etc.) comme outils `mcp_postzee_*` dans votre agent.
+
+## Étape 3 : Installer la Skill Postzee
+
+La skill enseigne à l'agent **comment** utiliser les outils Postzee efficacement — recommandations de modèles, ratios d'aspect par plateforme, workflows et bonnes pratiques.
+
+```bash
+hermes skills install https://raw.githubusercontent.com/Zee-Labs/postzee-skill/main/SKILL.md
+```
+
+<Note>
+Le serveur MCP fournit les **outils** (ce que l'agent peut faire). La skill fournit la **connaissance** (comment bien les utiliser). Les deux sont recommandés pour la meilleure expérience.
+</Note>
+
+## Vérifier la connexion
+
+Dites à votre agent :
 
 > "Liste mes canaux Postzee"
+
+Hermes devrait appeler l'outil `POSTZEE_LIST_CHANNELS` et afficher vos comptes connectés.
 
 ## Exemples d'utilisation
 
 - "Génère une photo professionnelle dans un bureau moderne"
-- "Transforme cette photo en style anime"
+- "Transforme cette photo en style anime" (fournir une URL d'image)
 - "Anime cette photo en vidéo pour les Reels"
 - "Crée une vidéo HeyGen présentant notre produit"
 - "Génère une photo de plage et publie-la sur Instagram"
+- "Combien de crédits me reste-t-il ?"
+
+## Flux recommandé
+
+1. **Vérifier les crédits** — confirmez que vous avez un solde suffisant
+2. **Optimiser le prompt** — utilisez l'optimiseur pour de meilleurs résultats (gratuit)
+3. **Générer** — créez l'image ou la vidéo
+4. **Publier** — publiez ou programmez sur vos canaux
 
 <CardGroup cols={2}>
   <Card title="Référence des Tools" icon="wrench" href="/fr/integrations/mcp/tools-reference">
