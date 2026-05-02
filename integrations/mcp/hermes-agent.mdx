@@ -1,0 +1,88 @@
+---
+title: Hermes Agent
+icon: brain
+---
+
+Connect Postzee to **Hermes Agent** by Nous Research to generate AI images/videos, create HeyGen avatar videos, and publish to 30+ social media platforms — all through natural language conversation.
+
+## Install the Postzee Skill
+
+Install directly from GitHub:
+
+```bash
+hermes skills install Zee-Labs/postzee-skill
+```
+
+Or install from a direct URL:
+
+```bash
+hermes skills install https://raw.githubusercontent.com/Zee-Labs/postzee-skill/main/SKILL.md
+```
+
+## Configure the MCP Connection
+
+After installing the skill, connect to your Postzee account:
+
+1. Go to [Postzee Settings](https://dashboard.postzee.app/settings) → **API Pública** tab
+2. Copy the **MCP URL** from the "MCP (Model Context Protocol)" section
+3. Configure MCP in Hermes using mcporter:
+
+```bash
+hermes mcporter add postzee --transport http YOUR_MCP_URL
+```
+
+Replace `YOUR_MCP_URL` with the full URL you copied (it looks like `https://api.postzee.app/mcp/.../http`).
+
+### Verify the connection
+
+Tell your agent:
+
+```
+List my Postzee channels
+```
+
+Hermes should call the `POSTZEE_LIST_CHANNELS` tool and show your connected accounts.
+
+## Usage examples
+
+Once connected, use natural language:
+
+### Generate an image
+
+> "Generate a professional headshot in a modern office"
+
+### Transform a photo
+
+> "Transform this photo into anime style" (provide an image URL)
+
+### Animate a photo into video
+
+> "Animate this photo into a cinematic video for Instagram Reels"
+
+### Create a HeyGen avatar video
+
+> "Create a HeyGen video of an avatar presenting our new product"
+
+### Generate and post
+
+> "Generate a sunset beach photo and post it to my Instagram"
+
+### Check your credits
+
+> "How many AI credits do I have left?"
+
+## Recommended workflow
+
+1. **Check credits** — verify you have enough credits
+2. **Enhance prompt** — use the prompt optimizer for better results (free)
+3. **Generate** — create the image or video
+4. **Post** — publish or schedule to your channels
+
+<CardGroup cols={2}>
+  <Card title="Tools Reference" icon="wrench" href="/integrations/mcp/tools-reference">
+    Complete reference for all 12 MCP tools.
+  </Card>
+  <Card title="Claude Code" icon="terminal" href="/integrations/mcp/claude-code">
+    Connect Postzee to Claude Code instead.
+  </Card>
+</CardGroup>

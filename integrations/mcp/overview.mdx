@@ -3,31 +3,32 @@ title: AI Agents (MCP)
 icon: robot
 ---
 
-Postzee includes a built-in **MCP server** (Model Context Protocol) that lets AI agents interact with your Postzee account. Generate images, create videos, publish posts, and manage your social media — all through natural language conversation with your AI agent.
+Postzee includes a built-in **MCP server** (Model Context Protocol) that lets AI agents interact with your Postzee account. Generate images, create videos, create HeyGen avatar videos, publish posts, and manage your social media — all through natural language conversation with your AI agent.
 
 ## What is MCP?
 
-The [Model Context Protocol](https://modelcontextprotocol.io) is an open standard for connecting AI models to external tools and data sources. Postzee's MCP server exposes 9 tools that any MCP-compatible AI agent can use.
+The [Model Context Protocol](https://modelcontextprotocol.io) is an open standard for connecting AI models to external tools and data sources. Postzee's MCP server exposes **12 tools** that any MCP-compatible AI agent can use.
 
 ## Supported AI agents
 
 | Agent | Integration type | Setup time |
 |-------|-----------------|------------|
-| **Claude Code** | Plugin (marketplace) | < 1 minute |
-| **OpenClaw** | Plugin (ClawHub) | ~ 2 minutes |
+| **Claude Code** | Skill (GitHub) | < 1 minute |
+| **OpenClaw** | Skill (ClawHub) | < 1 minute |
+| **Hermes Agent** | Skill (GitHub) | < 1 minute |
 | **Any MCP client** | Direct HTTP connection | ~ 1 minute |
 
 ## What agents can do
 
 With Postzee's MCP tools, an AI agent can:
 
-- **List your channels** — see all connected social media accounts
+- **Generate images** — with reference photos, aspect ratio, quality, and style controls
+- **Generate videos** — from text or by animating a photo (image-to-video)
+- **Create HeyGen avatar videos** — AI avatars speaking your script
+- **Enhance prompts** — optimize prompts for better AI generation (free)
+- **List AI models** — browse available image and video models with costs
 - **Check credit balance** — view available AI credits
-- **Browse AI models** — list available image and video models
-- **Enhance prompts** — optimize prompts for better AI generation
-- **Generate images** — create AI images with any model
-- **Generate videos** — create AI videos with any model
-- **Check job status** — poll async generation tasks
+- **List channels** — see all connected social media accounts
 - **Create posts** — publish, schedule, or draft posts to any channel
 
 ## How it works
@@ -46,17 +47,18 @@ You (conversation) → AI Agent → MCP Protocol → Postzee API → Social Plat
 | Property | Value |
 |----------|-------|
 | **Server name** | Postzee |
-| **Version** | 3.0.0 |
-| **Transport** | Streamable HTTP (with SSE fallback) |
-| **Endpoint** | `https://api.postzee.app/mcp/{apiKey}/messages` |
+| **Version** | 3.1.0 |
+| **Transport** | HTTP Streamable (recommended) + SSE (legacy) |
+| **HTTP Endpoint** | `https://api.postzee.app/mcp/{apiKey}/http` |
+| **SSE Endpoint** | `https://api.postzee.app/mcp/{apiKey}/sse` (legacy) |
 | **Authentication** | API key (embedded in URL) |
-| **Tools** | 9 |
+| **Tools** | 12 |
 
 ## Requirements
 
-- A **Postzee account** with a paid plan (Standard or higher)
-- A **Postzee API key** (create one in Settings → API tab)
-- An **MCP-compatible AI agent** (Claude Code, OpenClaw, or any MCP client)
+- A **Postzee account** (free or paid — free users can buy AI credits)
+- A **Postzee MCP URL** (copy from Settings → API Pública → MCP section)
+- An **MCP-compatible AI agent** (Claude Code, OpenClaw, Hermes Agent, or any MCP client)
 
 <CardGroup cols={2}>
   <Card title="Claude Code" icon="terminal" href="/integrations/mcp/claude-code">
@@ -65,10 +67,10 @@ You (conversation) → AI Agent → MCP Protocol → Postzee API → Social Plat
   <Card title="OpenClaw" icon="plug" href="/integrations/mcp/openclaw">
     Connect Postzee to OpenClaw.
   </Card>
-  <Card title="Tools Reference" icon="wrench" href="/integrations/mcp/tools-reference">
-    Complete reference for all 9 MCP tools.
+  <Card title="Hermes Agent" icon="brain" href="/integrations/mcp/hermes-agent">
+    Connect Postzee to Hermes Agent.
   </Card>
-  <Card title="API Keys" icon="key" href="/settings/api-keys">
-    Create and manage your API keys.
+  <Card title="Tools Reference" icon="wrench" href="/integrations/mcp/tools-reference">
+    Complete reference for all 12 MCP tools.
   </Card>
 </CardGroup>

@@ -1,0 +1,50 @@
+---
+title: Hermes Agent
+icon: brain
+---
+
+Conecte o Postzee ao **Hermes Agent** da Nous Research para gerar imagens/vídeos com IA, criar vídeos com avatar HeyGen e publicar em mais de 30 redes sociais.
+
+## Instalar a Skill do Postzee
+
+```bash
+hermes skills install Zee-Labs/postzee-skill
+```
+
+Ou via URL direta:
+
+```bash
+hermes skills install https://raw.githubusercontent.com/Zee-Labs/postzee-skill/main/SKILL.md
+```
+
+## Configurar a Conexão MCP
+
+1. Acesse [Configurações do Postzee](https://dashboard.postzee.app/settings) → aba **API Pública**
+2. Copie a **URL do MCP** na seção "MCP (Model Context Protocol)"
+3. Configure no Hermes:
+
+```bash
+hermes mcporter add postzee --transport http SUA_URL_MCP
+```
+
+### Verificar a conexão
+
+> "Liste meus canais do Postzee"
+
+## Exemplos de uso
+
+- "Gere uma foto profissional em um escritório moderno"
+- "Transforme essa foto em estilo anime" (forneça URL)
+- "Anime essa foto em um vídeo para Reels"
+- "Crie um vídeo HeyGen apresentando nosso produto"
+- "Gere uma foto de praia e poste no Instagram"
+- "Quantos créditos eu tenho?"
+
+<CardGroup cols={2}>
+  <Card title="Referência de Tools" icon="wrench" href="/pt-BR/integrations/mcp/tools-reference">
+    Referência completa das 12 ferramentas MCP.
+  </Card>
+  <Card title="Claude Code" icon="terminal" href="/pt-BR/integrations/mcp/claude-code">
+    Conecte o Postzee ao Claude Code.
+  </Card>
+</CardGroup>

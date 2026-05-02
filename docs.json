@@ -149,6 +149,7 @@
                   "integrations/mcp/overview",
                   "integrations/mcp/claude-code",
                   "integrations/mcp/openclaw",
+                  "integrations/mcp/hermes-agent",
                   "integrations/mcp/tools-reference"
                 ]
               }
@@ -299,6 +300,7 @@
                   "pt-BR/integrations/mcp/overview",
                   "pt-BR/integrations/mcp/claude-code",
                   "pt-BR/integrations/mcp/openclaw",
+                  "pt-BR/integrations/mcp/hermes-agent",
                   "pt-BR/integrations/mcp/tools-reference"
                 ]
               }
@@ -449,6 +451,7 @@
                   "es/integrations/mcp/overview",
                   "es/integrations/mcp/claude-code",
                   "es/integrations/mcp/openclaw",
+                  "es/integrations/mcp/hermes-agent",
                   "es/integrations/mcp/tools-reference"
                 ]
               }
@@ -599,6 +602,7 @@
                   "fr/integrations/mcp/overview",
                   "fr/integrations/mcp/claude-code",
                   "fr/integrations/mcp/openclaw",
+                  "fr/integrations/mcp/hermes-agent",
                   "fr/integrations/mcp/tools-reference"
                 ]
               }

@@ -3,72 +3,67 @@ title: Agentes de IA (MCP)
 icon: robot
 ---
 
-O Postzee inclui um **servidor MCP** integrado (Model Context Protocol) que permite que agentes de IA interajam com sua conta Postzee. Gere imagens, crie vídeos, publique posts e gerencie suas redes sociais — tudo através de conversa em linguagem natural com seu agente de IA.
+O Postzee inclui um **servidor MCP** (Model Context Protocol) integrado que permite agentes de IA interagirem com sua conta. Gere imagens, crie vídeos, crie vídeos com avatar HeyGen, publique posts e gerencie suas redes sociais — tudo por conversa em linguagem natural.
 
 ## O que é MCP?
 
-O [Model Context Protocol](https://modelcontextprotocol.io) é um padrão aberto para conectar modelos de IA a ferramentas e fontes de dados externas. O servidor MCP do Postzee expõe 9 ferramentas que qualquer agente de IA compatível com MCP pode usar.
+O [Model Context Protocol](https://modelcontextprotocol.io) é um padrão aberto para conectar modelos de IA a ferramentas e fontes de dados externas. O servidor MCP do Postzee expõe **12 ferramentas** que qualquer agente de IA compatível pode usar.
 
 ## Agentes de IA suportados
 
-| Agente | Tipo de integração | Tempo de configuração |
-|--------|-------------------|----------------------|
-| **Claude Code** | Plugin (marketplace) | < 1 minuto |
-| **OpenClaw** | Plugin (ClawHub) | ~ 2 minutos |
+| Agente | Tipo de integração | Tempo de setup |
+|--------|-------------------|----------------|
+| **Claude Code** | Skill (GitHub) | < 1 minuto |
+| **OpenClaw** | Skill (ClawHub) | < 1 minuto |
+| **Hermes Agent** | Skill (GitHub) | < 1 minuto |
 | **Qualquer cliente MCP** | Conexão HTTP direta | ~ 1 minuto |
 
 ## O que os agentes podem fazer
 
-Com as ferramentas MCP do Postzee, um agente de IA pode:
-
-- **Listar seus canais** — ver todas as contas de redes sociais conectadas
-- **Verificar saldo de créditos** — visualizar créditos de IA disponíveis
-- **Explorar modelos de IA** — listar modelos de imagem e vídeo disponíveis
-- **Aprimorar prompts** — otimizar prompts para melhor geração com IA
-- **Gerar imagens** — criar imagens com IA usando qualquer modelo
-- **Gerar vídeos** — criar vídeos com IA usando qualquer modelo
-- **Verificar status de jobs** — consultar tarefas de geração assíncronas
-- **Criar posts** — publicar, agendar ou salvar rascunhos de posts em qualquer canal
+- **Gerar imagens** — com fotos de referência, aspect ratio, qualidade e estilo
+- **Gerar vídeos** — de texto ou animando uma foto (imagem-para-vídeo)
+- **Criar vídeos com avatar HeyGen** — avatares de IA falando seu roteiro
+- **Otimizar prompts** — para melhores resultados (grátis)
+- **Listar modelos de IA** — com custos em créditos
+- **Verificar saldo** — créditos disponíveis
+- **Listar canais** — contas de redes sociais conectadas
+- **Criar posts** — publicar, agendar ou salvar como rascunho
 
 ## Como funciona
 
 ```
-Você (conversa) → Agente de IA → Protocolo MCP → API do Postzee → Plataformas Sociais
+Você (conversa) → Agente de IA → Protocolo MCP → API Postzee → Redes Sociais
 ```
-
-1. Você descreve o que deseja em linguagem natural (ex.: "Gere uma foto de pôr do sol e poste no Instagram")
-2. O agente de IA usa as ferramentas MCP do Postzee para executar a tarefa
-3. O Postzee cuida da geração com IA, agendamento e publicação
-4. O agente reporta os resultados
 
 ## Detalhes da conexão
 
 | Propriedade | Valor |
 |-------------|-------|
-| **Nome do servidor** | Postzee |
-| **Versão** | 3.0.0 |
-| **Transporte** | Streamable HTTP (com fallback SSE) |
-| **Endpoint** | `https://api.postzee.app/mcp/{apiKey}/messages` |
-| **Autenticação** | Chave de API (embutida na URL) |
-| **Ferramentas** | 9 |
+| **Nome** | Postzee |
+| **Versão** | 3.1.0 |
+| **Transporte** | HTTP Streamable (recomendado) + SSE (legacy) |
+| **Endpoint HTTP** | `https://api.postzee.app/mcp/{apiKey}/http` |
+| **Endpoint SSE** | `https://api.postzee.app/mcp/{apiKey}/sse` (legacy) |
+| **Autenticação** | API key (embutida na URL) |
+| **Ferramentas** | 12 |
 
 ## Requisitos
 
-- Uma **conta Postzee** com plano pago (Standard ou superior)
-- Uma **chave de API do Postzee** (crie uma em Configurações → aba API)
-- Um **agente de IA compatível com MCP** (Claude Code, OpenClaw ou qualquer cliente MCP)
+- Uma **conta Postzee** (gratuita ou paga)
+- A **URL do MCP** (copie em Configurações → API Pública → seção MCP)
+- Um **agente de IA compatível** (Claude Code, OpenClaw, Hermes Agent ou qualquer cliente MCP)
 
 <CardGroup cols={2}>
-  <Card title="Claude Code" icon="terminal" href="/integrations/mcp/claude-code">
+  <Card title="Claude Code" icon="terminal" href="/pt-BR/integrations/mcp/claude-code">
     Conecte o Postzee ao Claude Code.
   </Card>
-  <Card title="OpenClaw" icon="plug" href="/integrations/mcp/openclaw">
+  <Card title="OpenClaw" icon="plug" href="/pt-BR/integrations/mcp/openclaw">
     Conecte o Postzee ao OpenClaw.
   </Card>
-  <Card title="Referência de Ferramentas" icon="wrench" href="/integrations/mcp/tools-reference">
-    Referência completa para todas as 9 ferramentas MCP.
+  <Card title="Hermes Agent" icon="brain" href="/pt-BR/integrations/mcp/hermes-agent">
+    Conecte o Postzee ao Hermes Agent.
   </Card>
-  <Card title="Chaves de API" icon="key" href="/settings/api-keys">
-    Crie e gerencie suas chaves de API.
+  <Card title="Referência de Tools" icon="wrench" href="/pt-BR/integrations/mcp/tools-reference">
+    Referência completa das 12 ferramentas MCP.
   </Card>
 </CardGroup>
