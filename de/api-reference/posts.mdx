@@ -1,0 +1,209 @@
+---
+title: Posts
+icon: paper-plane
+---
+
+Erstellen, auflisten und loeschen Sie Social-Media-Posts ueber die API.
+
+## Post erstellen
+
+```
+POST /public/v1/posts
+```
+
+Erstellen Sie einen neuen Post als Entwurf, planen Sie ihn fuer spaeter oder veroeffentlichen Sie ihn sofort.
+
+### Anfrage
+
+```bash
+curl -X POST \
+  -H "Authorization: YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "type": "schedule",
+    "date": "2026-05-01T14:00:00Z",
+    "posts": [
+      {
+        "integration": { "id": "channel-uuid" },
+        "value": [
+          {
+            "content": "Check out our latest product launch!",
+            "id": "unique-uuid",
+            "image": []
+          }
+        ]
+      }
+    ]
+  }' \
+  https://api.postzee.app/public/v1/posts
+```
+
+### Parameter
+
+| Parameter | Typ | Erforderlich | Beschreibung |
+|-----------|-----|:---:|--------------|
+| `type` | string | Ja | `"now"` (sofort veroeffentlichen), `"schedule"` oder `"draft"` |
+| `date` | string | Nur bei Schedule | UTC-Datum im ISO-8601-Format (z.B. `"2026-05-01T14:00:00Z"`) |
+| `posts` | array | Ja | Array von Post-Objekten (eines pro Kanal) |
+| `posts[].integration.id` | string | Ja | Kanal-ID vom [Kanaele-Endpunkt](/api-reference/channels) |
+| `posts[].value[].content` | string | Ja | Textinhalt des Posts |
+| `posts[].value[].id` | string | Ja | Eindeutiger Bezeichner (UUID) fuer diesen Inhaltsblock |
+| `posts[].value[].image` | array | Nein | Array von Medienobjekten zum Anfuegen |
+| `posts[].settings` | object | Nein | Plattformspezifische Einstellungen (siehe unten) |
+| `tags` | array | Nein | Inhalts-Tags (`[{ "value": "id", "label": "name" }]`) |
+| `shortLink` | boolean | Nein | URL-Kuerzung und Klick-Tracking aktivieren |
+
+### Plattformspezifische Einstellungen
+
+Fuegen Sie diese in `posts[].settings` fuer plattformspezifische Funktionen ein:
+
+**TikTok:**
+```json
+{
+  "tiktok": {
+    "title": "Video title",
+    "privacy_level": "PUBLIC_TO_EVERYONE",
+    "duet": true,
+    "stitch": true,
+    "comment": true
+  }
+}
+```
+
+**YouTube:**
+```json
+{
+  "youtube": {
+    "title": "Video title",
+    "type": "public",
+    "tags": [{ "value": "tag1", "label": "Tag 1" }]
+  }
+}
+```
+
+**Instagram:**
+```json
+{
+  "instagram": {
+    "post_type": "post",
+    "collaborators": [{ "label": "@username" }]
+  }
+}
+```
+
+**LinkedIn:**
+```json
+{
+  "linkedin": {
+    "post_as_images_carousel": true
+  }
+}
+```
+
+### Antwort
+
+Gibt das erstellte Post-Objekt mit `id`, `status` und geplantem Datum zurueck.
+
+---
+
+## Posts auflisten
+
+```
+GET /public/v1/posts
+```
+
+Rufen Sie Posts innerhalb eines Datumsbereichs ab.
+
+### Anfrage
+
+```bash
+curl -H "Authorization: YOUR_API_KEY" \
+  "https://api.postzee.app/public/v1/posts?startDate=2026-04-01T00:00:00Z&endDate=2026-04-30T23:59:59Z"
+```
+
+### Abfrageparameter
+
+| Parameter | Typ | Erforderlich | Beschreibung |
+|-----------|-----|:---:|--------------|
+| `startDate` | string | Ja | Startdatum (ISO 8601) |
+| `endDate` | string | Ja | Enddatum (ISO 8601) |
+| `customer` | string | Nein | Nach Kunden-/Gruppen-ID filtern |
+
+### Antwort
+
+```json
+{
+  "posts": [
+    {
+      "id": "post-uuid",
+      "content": "Post text content...",
+      "status": "published",
+      "publishDate": "2026-04-15T14:00:00Z",
+      "integration": {
+        "id": "channel-uuid",
+        "name": "My Instagram",
+        "identifier": "instagram"
+      }
+    }
+  ]
+}
+```
+
+---
+
+## Post loeschen
+
+```
+DELETE /public/v1/posts/:id
+```
+
+Loeschen Sie einen Post anhand seiner ID.
+
+### Anfrage
+
+```bash
+curl -X DELETE \
+  -H "Authorization: YOUR_API_KEY" \
+  https://api.postzee.app/public/v1/posts/post-uuid-here
+```
+
+### Parameter
+
+| Parameter | Typ | Erforderlich | Beschreibung |
+|-----------|-----|:---:|--------------|
+| `id` | string (path) | Ja | Die zu loeschende Post-ID |
+
+### Antwort
+
+Gibt bei Erfolg `200 OK` zurueck.
+
+<Note>
+Das Loeschen eines veroeffentlichten Posts entfernt ihn aus Postzee, aber **nicht** von der Social-Media-Plattform. Um veroeffentlichte Inhalte zu entfernen, muessen Sie diese direkt auf der Plattform loeschen.
+</Note>
+
+---
+
+## Beste Zeit finden
+
+```
+GET /public/v1/find-slot/:id
+```
+
+Finden Sie den am wenigsten belegten Zeitslot fuer die Veroeffentlichung.
+
+### Anfrage
+
+```bash
+curl -H "Authorization: YOUR_API_KEY" \
+  https://api.postzee.app/public/v1/find-slot/channel-uuid
+```
+
+### Antwort
+
+```json
+{
+  "date": "2026-05-01T10:00:00Z"
+}
+```
+
+Gibt einen vorgeschlagenen UTC-Zeitpunkt zurueck, zu dem Ihr Kalender am wenigsten belegt ist.

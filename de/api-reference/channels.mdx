@@ -1,0 +1,65 @@
+---
+title: Kanaele
+icon: share-nodes
+---
+
+Rufen Sie Ihre verbundenen Social-Media-Kanaele ab.
+
+## Kanaele auflisten
+
+```
+GET /public/v1/integrations
+```
+
+Gibt alle verbundenen Social-Media-Kanaele Ihres Kontos zurueck.
+
+### Anfrage
+
+```bash
+curl -H "Authorization: YOUR_API_KEY" \
+  https://api.postzee.app/public/v1/integrations
+```
+
+### Antwort
+
+```json
+[
+  {
+    "id": "abc123-def456",
+    "name": "My Instagram",
+    "identifier": "instagram",
+    "picture": "https://...",
+    "disabled": false,
+    "profile": "username",
+    "customer": {
+      "id": "cust-123",
+      "name": "Client A"
+    }
+  },
+  {
+    "id": "ghi789-jkl012",
+    "name": "Company LinkedIn",
+    "identifier": "linkedin-page",
+    "picture": "https://...",
+    "disabled": false,
+    "profile": "Company Name",
+    "customer": null
+  }
+]
+```
+
+### Antwortfelder
+
+| Feld | Typ | Beschreibung |
+|------|-----|--------------|
+| `id` | string | Eindeutige Kanal-ID — verwenden Sie diese bei Post erstellen |
+| `name` | string | Anzeigename des Kanals |
+| `identifier` | string | Plattform-Kennung (z.B. `instagram`, `linkedin-page`, `tiktok`, `x`) |
+| `picture` | string | Profilbild-URL |
+| `disabled` | boolean | Ob der Kanal deaktiviert ist |
+| `profile` | string | Plattform-Benutzername oder Seitenname |
+| `customer` | object/null | Kundengruppierung (falls zugewiesen) |
+
+<Note>
+Das Feld `id` ist der Wert, den Sie als `channelId` beim Erstellen von Posts uebergeben. Das Feld `identifier` gibt an, zu welcher Plattform dieser Kanal gehoert.
+</Note>

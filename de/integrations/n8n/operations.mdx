@@ -1,0 +1,119 @@
+---
+title: n8n-Operationen
+icon: list
+---
+
+Vollstaendige Referenz fuer alle 9 Operationen, die im Postzee n8n-Node verfuegbar sind.
+
+## Create Post
+
+Einen Beitrag auf einem oder mehreren Social-Media-Kanaelen planen, sofort veroeffentlichen oder als Entwurf speichern.
+
+| Parameter | Typ | Erforderlich | Beschreibung |
+|-----------|-----|:---:|-------------|
+| **Type** | Select | Ja | `now` (sofort veroeffentlichen), `schedule` oder `draft` |
+| **Channel** | Select | Ja | Zielkanal (aus Ihren verbundenen Kanaelen) |
+| **Content** | Text | Ja | Textinhalt des Beitrags |
+| **Date** | DateTime | Nur bei Planung | UTC-Datum/Uhrzeit fuer die Planung |
+| **Media** | String | Nein | Medien-ID(s) von Upload File oder KI-Generierung |
+| **Tags** | String | Nein | Inhalts-Tags |
+
+**Plattformspezifische Einstellungen** sind verfuegbar fuer Instagram (Beitragstyp, Mitarbeiter), LinkedIn (Karussell), YouTube (Titel, Sichtbarkeit, Thumbnail, Tags), TikTok (Datenschutz, Duette, Stitches, Kommentare, Markeninhalte) und andere Plattformen.
+
+## Delete Post
+
+Einen geplanten oder veroeffentlichten Beitrag anhand der ID loeschen.
+
+| Parameter | Typ | Erforderlich | Beschreibung |
+|-----------|-----|:---:|-------------|
+| **Post ID** | String | Ja | Die ID des zu loeschenden Beitrags |
+
+## Generate Image
+
+Ein KI-Bild asynchron generieren. Gibt eine Job-ID zum Abfragen zurueck.
+
+| Parameter | Typ | Erforderlich | Beschreibung |
+|-----------|-----|:---:|-------------|
+| **Prompt** | Text | Ja | Bildbeschreibung |
+| **Model** | Select | Ja | KI-Modell (FLUX, GPT Image, Nano Banana, Recraft, Ideogram) |
+| **Quantity** | Number | Nein | Anzahl der Bilder (1-4, Standard: 1) |
+
+**Rueckgabe:** `{ jobId, status: "processing" }`
+
+Verwenden Sie die Operation **Job Status**, um den Fortschritt abzufragen, bis das Bild fertig ist.
+
+## Generate Video
+
+Ein KI-Video asynchron generieren. Gibt eine Job-ID zum Abfragen zurueck.
+
+| Parameter | Typ | Erforderlich | Beschreibung |
+|-----------|-----|:---:|-------------|
+| **Prompt** | Text | Ja | Videobeschreibung |
+| **Model** | Select | Nein | Videomodell |
+| **Duration** | Number | Nein | Dauer in Sekunden |
+| **Aspect Ratio** | Select | Nein | 16:9, 9:16, 1:1 |
+
+**Rueckgabe:** `{ jobId, status: "processing" }`
+
+## Generate Avatar Video
+
+Ein HeyGen-Avatar-Video mit einem Skript erstellen.
+
+| Parameter | Typ | Erforderlich | Beschreibung |
+|-----------|-----|:---:|-------------|
+| **Avatar ID** | String | Ja | HeyGen-Avatar-ID |
+| **Voice ID** | String | Ja | HeyGen-Stimmen-ID |
+| **Script** | Text | Ja | Text, den der Avatar sprechen soll |
+
+## Get Channels
+
+Alle verbundenen Social-Media-Kanaele mit IDs, Namen und Plattformen auflisten.
+
+**Parameter:** Keine
+
+**Rueckgabe:** Array von Kanaelen, jeweils mit `id`, `name`, `platform`, `picture`, `disabled`.
+
+## Get Posts
+
+Geplante und veroeffentlichte Beitraege nach Datumsbereich gefiltert abrufen.
+
+| Parameter | Typ | Erforderlich | Beschreibung |
+|-----------|-----|:---:|-------------|
+| **Start Date** | DateTime | Ja | Beginn des Datumsbereichs |
+| **End Date** | DateTime | Ja | Ende des Datumsbereichs |
+
+## Job Status
+
+Den Fortschritt eines asynchronen Bild- oder Videogenerierungsauftrags pruefen.
+
+| Parameter | Typ | Erforderlich | Beschreibung |
+|-----------|-----|:---:|-------------|
+| **Job ID** | String | Ja | Job-ID von Generate Image oder Generate Video |
+
+**Rueckgabe:**
+
+| Feld | Beschreibung |
+|------|-------------|
+| `status` | `processing`, `success` oder `failed` |
+| `progress` | 0-100 Prozent |
+| `mediaUrl` | Download-URL (bei `success`) |
+| `mediaId` | Medien-ID fuer Create Post (bei `success`) |
+
+## Upload File
+
+Eine Bild- oder Videodatei in die Postzee-Medienbibliothek hochladen.
+
+| Parameter | Typ | Erforderlich | Beschreibung |
+|-----------|-----|:---:|-------------|
+| **File** | Binary | Ja | Die hochzuladende Datei |
+
+**Rueckgabe:** `{ mediaId }` -- verwenden Sie diese ID in Create Post, um die Medien anzuhaengen.
+
+<CardGroup cols={2}>
+  <Card title="Beispiel-Workflows" icon="diagram-project" href="/integrations/n8n/example-workflows">
+    Sofort einsetzbare Workflow-Vorlagen.
+  </Card>
+  <Card title="Einrichtungsanleitung" icon="wrench" href="/integrations/n8n/setup">
+    Den Postzee-Node installieren und konfigurieren.
+  </Card>
+</CardGroup>

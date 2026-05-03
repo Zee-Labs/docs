@@ -1,0 +1,89 @@
+---
+title: OpenClaw
+icon: plug
+---
+
+Verbinden Sie Postzee mit **OpenClaw**, um KI-Bilder/Videos zu generieren, HeyGen-Avatar-Videos zu erstellen und Social-Media-Beitraege ueber Ihren OpenClaw-KI-Agenten zu verwalten.
+
+## Postzee Skill installieren
+
+Installieren Sie den Postzee Skill von ClawHub:
+
+```bash
+clawhub install postzee
+```
+
+Oder sagen Sie es Ihrem OpenClaw-Agenten direkt:
+
+> "Install the Postzee skill"
+
+## MCP-Verbindung konfigurieren
+
+Nach der Installation des Skills verbinden Sie sich mit Ihrem Postzee-Konto:
+
+1. Gehen Sie zu [Postzee-Einstellungen](https://dashboard.postzee.app/settings) → Registerkarte **API Publica**
+2. Kopieren Sie die **MCP-URL** aus dem Abschnitt "MCP (Model Context Protocol)"
+3. Sagen Sie Ihrem OpenClaw-Agenten: "Configure Postzee with this MCP URL: `YOUR_MCP_URL`"
+
+Der Agent speichert die Konfiguration automatisch.
+
+### Verbindung ueberpruefen
+
+Sagen Sie Ihrem Agenten:
+
+> "List my Postzee channels"
+
+Er sollte Ihre verbundenen Social-Media-Konten anzeigen.
+
+## Verfuegbare Tools
+
+Nach der Installation stehen Ihrem OpenClaw-Agenten 12 Tools zur Verfuegung:
+
+| Tool | Beschreibung |
+|------|-------------|
+| `POSTZEE_LIST_CHANNELS` | Verbundene Social-Media-Kanaele auflisten |
+| `POSTZEE_GET_CREDITS` | KI-Credit-Guthaben pruefen |
+| `POSTZEE_LIST_IMAGE_MODELS` | Verfuegbare Bildmodelle mit Kosten auflisten |
+| `POSTZEE_LIST_VIDEO_MODELS` | Verfuegbare Videomodelle mit Kosten auflisten |
+| `POSTZEE_ENHANCE_PROMPT` | Prompts fuer bessere Ergebnisse optimieren (kostenlos) |
+| `POSTZEE_GENERATE_IMAGE` | Ein KI-Bild generieren (unterstuetzt Referenzbilder, Seitenverhaeltnis, Qualitaet, Stil) |
+| `POSTZEE_GENERATE_VIDEO` | Ein KI-Video generieren (unterstuetzt Bild-zu-Video, Dauer, Seitenverhaeltnis) |
+| `POSTZEE_GENERATE_HEYGEN_VIDEO` | Ein Avatar-Video mit HeyGen AI erstellen |
+| `POSTZEE_LIST_HEYGEN_AVATARS` | Verfuegbare HeyGen-Avatare auflisten |
+| `POSTZEE_LIST_HEYGEN_VOICES` | Verfuegbare HeyGen-Stimmen auflisten |
+| `POSTZEE_CHECK_JOB` | Generierungsauftragsstatus pruefen |
+| `POSTZEE_CREATE_POST` | Einen Beitrag erstellen, planen oder veroeffentlichen |
+
+## Anwendungsbeispiele
+
+Nach der Konfiguration interagieren Sie ueber Ihren OpenClaw-Agenten mit Postzee:
+
+- "Generate a professional product photo of a coffee cup"
+- "Transform this photo into an oil painting" (Foto per Telegram senden)
+- "Animate my photo into a video for TikTok" (Foto per Telegram senden)
+- "Create a HeyGen avatar video presenting our company"
+- "Post a sunset image to my LinkedIn with the caption 'Another beautiful day'"
+- "How many credits do I have?"
+- "Generate a 10-second video of ocean waves and post to YouTube"
+
+### Referenzbilder per Telegram senden
+
+Sie koennen ein Foto direkt im Telegram-Chat senden. Der Agent verwendet es automatisch als Referenz fuer die Bild-zu-Bild- oder Bild-zu-Video-Generierung.
+
+## Skill-Details
+
+| Eigenschaft | Wert |
+|-------------|------|
+| **Slug** | `postzee` |
+| **Registry** | ClawHub |
+| **Tools** | 12 |
+| **Installation** | `clawhub install postzee` |
+
+<CardGroup cols={2}>
+  <Card title="Tools-Referenz" icon="wrench" href="/integrations/mcp/tools-reference">
+    Vollstaendige Referenz fuer alle 12 Tools.
+  </Card>
+  <Card title="Claude Code" icon="terminal" href="/integrations/mcp/claude-code">
+    Postzee stattdessen mit Claude Code verbinden.
+  </Card>
+</CardGroup>

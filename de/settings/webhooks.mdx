@@ -1,0 +1,84 @@
+---
+title: Webhooks
+icon: webhook
+---
+
+Mit Webhooks erhalten Sie Echtzeit-Benachrichtigungen von Postzee, sobald ein Post veroeffentlicht wird. Erstellen Sie benutzerdefinierte Integrationen und Automatisierungen, indem Sie Postzee mit Ihren eigenen Systemen verbinden.
+
+## Zugriff
+
+Oeffnen Sie das Konto-Menue (klicken Sie auf Ihren Avatar oben rechts) → **Settings** → **Webhooks**-Tab.
+
+## Was ist ein Webhook?
+
+Ein Webhook ist eine URL, die Postzee aufruft (HTTP POST), wenn Posts in Ihrem Konto veroeffentlicht werden. Postzee sendet einen JSON-Payload mit den Post-Details, und Ihr Server kann darauf beliebig reagieren.
+
+Haeufige Anwendungsfaelle:
+
+- **Ihr Team in Slack/Discord benachrichtigen**, wenn ein Post veroeffentlicht wird
+- **Ein CRM aktualisieren**, wenn Kundeninhalte live gehen
+- **Ereignisse protokollieren** in Ihrem Analyse- oder Monitoring-System
+- **Daten synchronisieren** mit einer benutzerdefinierten Datenbank
+
+## Konfiguration
+
+1. Gehen Sie zu **Settings** → **Webhooks**
+2. Klicken Sie auf **Add Webhook**
+3. Geben Sie ein:
+   - **URL** — der Endpunkt, den Ihr Server zum Empfang von Ereignissen bereitstellt
+   - **Name** — eine aussagekraeftige Bezeichnung fuer diesen Webhook
+   - **Channels** — waehlen Sie **All channels** oder bestimmte Kanaele zur Ueberwachung
+4. Klicken Sie auf **Save**
+
+Postzee beginnt, veroeffentlichte Posts an Ihre URL zu senden.
+
+## Kanalfilterung
+
+Sie koennen jeden Webhook auf bestimmte Kanaele beschraenken:
+
+- **All channels** — Ereignisse fuer jeden verbundenen Kanal empfangen
+- **Bestimmte Kanaele** — nur ausloesen, wenn Posts auf ausgewaehlten Kanaelen veroeffentlicht werden
+
+Dies ist nuetzlich, wenn Sie verschiedene Webhooks fuer verschiedene Plattformen oder Kunden verwenden moechten.
+
+## Payload-Format
+
+Jede Webhook-Zustellung ist ein HTTP POST mit einem `Content-Type: application/json`-Header. Der Body ist ein JSON-Array kuerzlich veroeffentlichter Posts:
+
+```json
+[
+  {
+    "id": "post-uuid",
+    "content": "Post text content...",
+    "publishDate": "2026-04-29T15:00:00Z",
+    "integration": {
+      "id": "channel-uuid",
+      "name": "My Instagram",
+      "providerIdentifier": "instagram"
+    }
+  }
+]
+```
+
+Webhooks werden gebuendelt: Wenn mehrere Posts ungefaehr zur gleichen Zeit veroeffentlicht werden, koennen sie zusammen in einer einzigen Anfrage zugestellt werden.
+
+## Verfuegbarkeit nach Plan
+
+Die Webhook-Unterstuetzung variiert je nach Plan:
+
+| Plan | Webhooks |
+|------|----------|
+| Free | Nicht verfuegbar |
+| Standard | 2 |
+| Team | 10 |
+| Pro | 30 |
+| Ultimate | 10.000 |
+
+<CardGroup cols={2}>
+  <Card title="API-Keys" icon="key" href="/settings/api-keys">
+    Verwalten Sie Ihre API-Keys fuer authentifizierte Anfragen.
+  </Card>
+  <Card title="API-Referenz" icon="code" href="/api-reference/authentication">
+    Erstellen Sie benutzerdefinierte Integrationen mit der oeffentlichen REST API.
+  </Card>
+</CardGroup>

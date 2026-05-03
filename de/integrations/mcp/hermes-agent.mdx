@@ -1,0 +1,100 @@
+---
+title: Hermes Agent
+icon: brain
+---
+
+Verbinden Sie Postzee mit **Hermes Agent** von Nous Research, um KI-Bilder/Videos zu generieren, HeyGen-Avatar-Videos zu erstellen und auf 30+ Social-Media-Plattformen zu veroeffentlichen -- alles durch natuerlichsprachliche Konversation auf Telegram.
+
+## Schritt 1: MCP-URL abrufen
+
+1. Gehen Sie zu [Postzee-Einstellungen](https://dashboard.postzee.app/settings) → Registerkarte **API Publica**
+2. Kopieren Sie die **MCP-URL (HTTP Streamable)** aus dem Abschnitt "MCP (Model Context Protocol)"
+
+Die URL sieht aus wie `https://api.postzee.app/mcp/YOUR_API_KEY/http`.
+
+## Schritt 2: MCP-Server konfigurieren
+
+Fuegen Sie den Postzee MCP-Server zu Ihrer Hermes-Konfigurationsdatei (`~/.hermes/config.yaml`) hinzu:
+
+```yaml
+mcp_servers:
+  postzee:
+    url: "https://api.postzee.app/mcp/YOUR_API_KEY/http"
+    timeout: 120
+```
+
+Ersetzen Sie `YOUR_API_KEY` durch den Schluessel aus Ihrer MCP-URL.
+
+Laden Sie nach dem Speichern die MCP-Server neu:
+
+```bash
+hermes reload-mcp
+```
+
+Dies registriert alle 12 Postzee-Tools (Bildgenerierung, Videogenerierung, HeyGen-Avatare, Veroeffentlichung usw.) als `mcp_postzee_*`-Tools in Ihrem Agenten.
+
+## Schritt 3: Postzee Skill installieren
+
+Der Skill lehrt Ihren Agenten, **wie** er Postzee-Tools effektiv nutzt -- Modellempfehlungen, plattformgerechte Seitenverhaeltnisse, Workflows und Best Practices.
+
+```bash
+hermes skills install https://raw.githubusercontent.com/Zee-Labs/postzee-skill/main/SKILL.md
+```
+
+<Note>
+Der MCP-Server stellt die **Tools** bereit (was der Agent tun kann). Der Skill liefert das **Wissen** (wie er sie gut einsetzt). Beides wird fuer das beste Erlebnis empfohlen.
+</Note>
+
+## Verbindung ueberpruefen
+
+Sagen Sie Ihrem Agenten:
+
+```
+List my Postzee channels
+```
+
+Hermes sollte das Tool `POSTZEE_LIST_CHANNELS` aufrufen und Ihre verbundenen Konten anzeigen.
+
+## Anwendungsbeispiele
+
+Nach der Verbindung verwenden Sie natuerliche Sprache:
+
+### Ein Bild generieren
+
+> "Generate a professional headshot in a modern office"
+
+### Ein Foto transformieren
+
+> "Transform this photo into anime style" (Bild-URL bereitstellen)
+
+### Ein Foto als Video animieren
+
+> "Animate this photo into a cinematic video for Instagram Reels"
+
+### Ein HeyGen-Avatar-Video erstellen
+
+> "Create a HeyGen video of an avatar presenting our new product"
+
+### Generieren und posten
+
+> "Generate a sunset beach photo and post it to my Instagram"
+
+### Credits pruefen
+
+> "How many AI credits do I have left?"
+
+## Empfohlener Workflow
+
+1. **Credits pruefen** -- stellen Sie sicher, dass Sie genuegend Credits haben
+2. **Prompt verbessern** -- nutzen Sie den Prompt Optimizer fuer bessere Ergebnisse (kostenlos)
+3. **Generieren** -- erstellen Sie das Bild oder Video
+4. **Posten** -- veroeffentlichen oder planen Sie auf Ihren Kanaelen
+
+<CardGroup cols={2}>
+  <Card title="Tools-Referenz" icon="wrench" href="/integrations/mcp/tools-reference">
+    Vollstaendige Referenz fuer alle 12 MCP-Tools.
+  </Card>
+  <Card title="Claude Code" icon="terminal" href="/integrations/mcp/claude-code">
+    Postzee stattdessen mit Claude Code verbinden.
+  </Card>
+</CardGroup>

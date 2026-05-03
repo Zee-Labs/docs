@@ -1,0 +1,229 @@
+---
+title: MCP Tools-Referenz
+icon: wrench
+---
+
+Vollstaendige Referenz fuer alle 9 Tools, die von Postzees MCP-Server bereitgestellt werden. Diese Tools stehen jedem MCP-kompatiblen KI-Agenten zur Verfuegung (Claude Code, OpenClaw oder direkte MCP-Clients).
+
+## POSTZEE_LIST_CHANNELS
+
+Alle verbundenen Social-Media-Kanaele abrufen.
+
+**Parameter:** Keine
+
+**Rueckgabe:**
+```json
+[
+  {
+    "id": "channel-uuid",
+    "name": "My Instagram",
+    "platform": "instagram",
+    "picture": "https://...",
+    "disabled": false
+  }
+]
+```
+
+---
+
+## POSTZEE_GET_CREDITS
+
+KI-Credit-Guthaben und -Verbrauch pruefen.
+
+**Parameter:** Keine
+
+**Rueckgabe:**
+```json
+{
+  "available": 4500,
+  "monthly": 5000,
+  "used": 500,
+  "purchased": 0
+}
+```
+
+Alle Werte sind in Credits angegeben (1.000 Credits = 1 $ USD).
+
+---
+
+## POSTZEE_LIST_IMAGE_MODELS
+
+Verfuegbare KI-Bildgenerierungsmodelle mit ihren Faehigkeiten auflisten.
+
+**Parameter:** Keine
+
+**Rueckgabe:** Array von Modellen mit `id`, `displayName`, `supportsReferenceImages` und weiteren Metadaten.
+
+---
+
+## POSTZEE_LIST_VIDEO_MODELS
+
+Verfuegbare KI-Videogenerierungsmodelle mit ihren Faehigkeiten auflisten.
+
+**Parameter:** Keine
+
+**Rueckgabe:** Array von Videomodellen mit `id`, `displayName` und weiteren Metadaten.
+
+---
+
+## POSTZEE_ENHANCE_PROMPT
+
+Einen Benutzer-Prompt fuer bessere KI-Generierungsergebnisse optimieren. Dies ist kostenlos -- keine Credit-Kosten.
+
+**Parameter:**
+
+| Parameter | Typ | Erforderlich | Beschreibung |
+|-----------|-----|:---:|-------------|
+| `prompt` | string | Ja | Der zu optimierende Benutzer-Prompt |
+| `mediaType` | string | Ja | `"image"` oder `"video"` |
+| `model` | string | Nein | Ziel-KI-Modell-ID (fuer modellspezifische Optimierung) |
+
+**Rueckgabe:**
+```json
+{
+  "success": true,
+  "enhancedPrompt": "A young woman in a tailored trench coat walks through..."
+}
+```
+
+---
+
+## POSTZEE_GENERATE_IMAGE
+
+Ein KI-Bild aus einem Text-Prompt generieren. Dies ist eine **asynchrone Operation** -- sie gibt eine Job-ID zurueck, die Sie mit `POSTZEE_CHECK_JOB` abfragen muessen.
+
+**Parameter:**
+
+| Parameter | Typ | Erforderlich | Beschreibung |
+|-----------|-----|:---:|-------------|
+| `prompt` | string | Ja | Detaillierte Bildbeschreibung |
+| `model` | string | Ja | Modell-ID von `POSTZEE_LIST_IMAGE_MODELS` |
+
+**Rueckgabe:**
+```json
+{
+  "jobId": "job-uuid",
+  "status": "processing",
+  "message": "Image generation started"
+}
+```
+
+---
+
+## POSTZEE_GENERATE_VIDEO
+
+Ein KI-Video aus einem Text-Prompt generieren. Dies ist eine **asynchrone Operation** -- sie gibt eine Job-ID zurueck, die Sie mit `POSTZEE_CHECK_JOB` abfragen muessen.
+
+**Parameter:**
+
+| Parameter | Typ | Erforderlich | Beschreibung |
+|-----------|-----|:---:|-------------|
+| `prompt` | string | Ja | Detaillierte Videobeschreibung |
+| `model` | string | Ja | Modell-ID von `POSTZEE_LIST_VIDEO_MODELS` |
+| `duration` | number | Nein | Dauer in Sekunden (z. B. `5`, `10`) |
+| `aspectRatio` | string | Nein | Seitenverhaeltnis (z. B. `"16:9"`, `"9:16"`). Standard: `"16:9"` |
+
+**Rueckgabe:**
+```json
+{
+  "jobId": "job-uuid",
+  "status": "processing",
+  "message": "Video generation started"
+}
+```
+
+---
+
+## POSTZEE_CHECK_JOB
+
+Den Status eines asynchronen Bild- oder Videogenerierungsauftrags abfragen.
+
+**Parameter:**
+
+| Parameter | Typ | Erforderlich | Beschreibung |
+|-----------|-----|:---:|-------------|
+| `jobId` | string | Ja | Job-ID von `POSTZEE_GENERATE_IMAGE` oder `POSTZEE_GENERATE_VIDEO` |
+
+**Rueckgabe (in Bearbeitung):**
+```json
+{
+  "jobId": "job-uuid",
+  "status": "processing",
+  "progress": 45
+}
+```
+
+**Rueckgabe (erfolgreich):**
+```json
+{
+  "jobId": "job-uuid",
+  "status": "success",
+  "progress": 100,
+  "mediaUrl": "https://cdn.postzee.app/...",
+  "mediaId": "media-uuid"
+}
+```
+
+**Rueckgabe (fehlgeschlagen):**
+```json
+{
+  "jobId": "job-uuid",
+  "status": "failed",
+  "error": "Generation failed: insufficient credits"
+}
+```
+
+---
+
+## POSTZEE_CREATE_POST
+
+Einen Beitrag auf einem oder mehreren Social-Media-Kanaelen erstellen, planen oder veroeffentlichen.
+
+**Parameter:**
+
+| Parameter | Typ | Erforderlich | Beschreibung |
+|-----------|-----|:---:|-------------|
+| `type` | string | Ja | `"now"` (sofort veroeffentlichen), `"draft"` oder `"schedule"` |
+| `date` | string | Nur bei Planung | UTC-Datum/Uhrzeit (z. B. `"2026-04-24T15:00:00Z"`) |
+| `channelId` | string | Ja | Kanal-ID von `POSTZEE_LIST_CHANNELS` |
+| `text` | string | Ja | Textinhalt des Beitrags |
+| `mediaUrls` | string[] | Nein | Medien-URLs aus `POSTZEE_CHECK_JOB`-Ergebnissen |
+
+**Rueckgabe:**
+```json
+{
+  "success": true,
+  "postId": "post-uuid",
+  "message": "Post published successfully"
+}
+```
+
+---
+
+## Asynchrones Workflow-Muster
+
+Bild- und Videogenerierung sind asynchron. Der empfohlene Workflow:
+
+1. `POSTZEE_GENERATE_IMAGE` oder `POSTZEE_GENERATE_VIDEO` aufrufen → `jobId` erhalten
+2. Einige Sekunden warten
+3. `POSTZEE_CHECK_JOB` mit der `jobId` aufrufen
+4. Wenn `status === "processing"`, warten und erneut abfragen
+5. Wenn `status === "success"`, die `mediaUrl` oder `mediaId` in `POSTZEE_CREATE_POST` verwenden
+6. Wenn `status === "failed"`, den Fehler lesen und erneut versuchen oder den Benutzer informieren
+
+## Ratenbegrenzungen
+
+| Endpunkt | Limit |
+|----------|-------|
+| SSE-Verbindung | 30 Anfragen/Minute |
+| HTTP POST | 60 Anfragen/Minute |
+| KI-Generierung | 10 Anfragen/Minute |
+
+<CardGroup cols={2}>
+  <Card title="Claude Code" icon="terminal" href="/integrations/mcp/claude-code">
+    Postzee mit Claude Code verbinden.
+  </Card>
+  <Card title="OpenClaw" icon="plug" href="/integrations/mcp/openclaw">
+    Postzee mit OpenClaw verbinden.
+  </Card>
+</CardGroup>

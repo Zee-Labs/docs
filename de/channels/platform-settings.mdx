@@ -1,0 +1,102 @@
+---
+title: Plattform-Einstellungen
+icon: gear
+---
+
+Jede Plattform hat einzigartige Funktionen und Anforderungen. Postzee ermoeglicht es Ihnen, plattformspezifische Einstellungen pro Channel zu konfigurieren, damit Ihre Inhalte fuer jede Plattform, auf der Sie veroeffentlichen, optimiert sind.
+
+## So greifen Sie darauf zu
+
+1. Gehen Sie zu **Channels** in der oberen Navigationsleiste
+2. Klicken Sie auf einen Channel, um seine Einstellungen zu oeffnen
+3. Konfigurieren Sie die verfuegbaren Optionen fuer diese Plattform
+
+## Einstellungen nach Plattform
+
+### TikTok
+
+TikTok erfordert Einstellungen zur Inhaltsoffenlegung fuer jedes Video, das ueber seine API gepostet wird:
+
+| Einstellung | Optionen | Beschreibung |
+|-------------|----------|--------------|
+| **Privatsphaere** | Oeffentlich, Gemeinsame Follower, Nur Follower, Privat | Wer Ihr Video sehen kann |
+| **Duette erlauben** | An / Aus | Ob andere Duette mit Ihrem Video erstellen koennen |
+| **Stitches erlauben** | An / Aus | Ob andere Ihr Video stitchen koennen |
+| **Kommentare erlauben** | An / Aus | Ob Zuschauer kommentieren koennen |
+| **Musik automatisch hinzufuegen** | Ja / Nein | TikTok Hintergrundmusik hinzufuegen lassen |
+| **Markeninhalt** | An / Aus | Marken-/Werbeinhalt offenlegen |
+| **Mit KI erstellt** | An / Aus | KI-generierten Inhalt offenlegen |
+
+<Note>
+Die API-Compliance von TikTok erfordert diese Offenlegungseinstellungen. Sie koennen nicht vereinfacht oder uebersprungen werden. Postzee validiert sie vor jeder Veroeffentlichung.
+</Note>
+
+### YouTube
+
+| Einstellung | Optionen | Beschreibung |
+|-------------|----------|--------------|
+| **Titel** | Text (2-100 Zeichen) | Videotitel — erforderlich fuer alle YouTube-Uploads |
+| **Sichtbarkeit** | Oeffentlich, Privat, Nicht gelistet | Wer Ihr Video sehen kann |
+| **Vorschaubild** | Bild-Upload | Benutzerdefiniertes Video-Vorschaubild |
+| **Tags** | Text-Tags | Durchsuchbare Schluesselwoerter fuer die Auffindbarkeit |
+
+### Instagram
+
+| Einstellung | Optionen | Beschreibung |
+|-------------|----------|--------------|
+| **Beitragstyp** | Feed-Beitrag, Story | Wo der Inhalt erscheint |
+| **Mitwirkende** | Konto-Tags | Mitwirkende-Konten im Beitrag markieren |
+
+### LinkedIn
+
+| Einstellung | Optionen | Beschreibung |
+|-------------|----------|--------------|
+| **Bilderkarussell** | An / Aus | Mehrere Bilder als wischbares Karussell anzeigen |
+
+### Mastodon
+
+Fuer selbst gehostete Mastodon-Instanzen:
+
+| Einstellung | Beschreibung |
+|-------------|--------------|
+| **Instanz-URL** | Ihre Mastodon-Serveradresse (z. B. `mastodon.social`) |
+
+### WordPress
+
+| Einstellung | Beschreibung |
+|-------------|--------------|
+| **Website-URL** | Ihre WordPress-Webadresse |
+| **Authentifizierung** | Anwendungspasswort oder OAuth-Anmeldedaten |
+
+## Einstellungen pro Beitrag vs. pro Channel
+
+- **Pro-Channel-Einstellungen** werden einmalig auf der Channels-Seite konfiguriert und gelten als Standard fuer alle Beitraege
+- **Pro-Beitrag-Einstellungen** koennen die Channel-Standards beim Erstellen einzelner Beitraege im Beitragseditor ueberschreiben
+
+Zum Beispiel koennten Sie die Standard-Privatsphaere Ihres TikTok-Channels auf "Oeffentlich" setzen, diese aber fuer einen bestimmten Beitrag auf "Nur Follower" ueberschreiben.
+
+## Channel-Profil
+
+Einige Plattformen erlauben es Ihnen, Ihr Profil direkt ueber Postzee zu aktualisieren:
+
+| Funktion | Beschreibung |
+|----------|--------------|
+| **Profilbild** | Avatar Ihres Channels aktualisieren (nur unterstuetzte Plattformen) |
+| **Anzeigename** | Spitzname des Channels in Postzee aendern |
+
+## Veroeffentlichungszeiten
+
+Konfigurieren Sie bevorzugte Veroeffentlichungszeiten pro Channel:
+
+- Legen Sie bestimmte Uhrzeiten fest, zu denen Inhalte veroeffentlicht werden sollen
+- Wird von der Funktion **Beste Zeit finden** bei der Beitragsplanung verwendet
+- Hilft, Ihre Inhalte auf optimale Zeitfenster zu verteilen
+
+<CardGroup cols={2}>
+  <Card title="Channels verbinden" icon="plug" href="/channels/connecting">
+    Neue Social-Media-Konten verbinden.
+  </Card>
+  <Card title="Beitragseditor" icon="pen-to-square" href="/calendar/post-editor">
+    Plattform-Einstellungen beim Erstellen von Beitraegen verwenden.
+  </Card>
+</CardGroup>

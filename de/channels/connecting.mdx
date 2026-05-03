@@ -1,0 +1,128 @@
+---
+title: Channels verbinden
+icon: plug
+---
+
+Verbinden Sie Ihre Social-Media-Konten mit Postzee, damit Sie Inhalte von einem Dashboard aus veroeffentlichen koennen. Jede Plattform verwendet einen sicheren OAuth-Autorisierungsfluss — Postzee sieht oder speichert niemals Ihr Passwort.
+
+## So verbinden Sie einen Channel
+
+1. Gehen Sie zu **Channels** in der oberen Navigationsleiste
+2. Klicken Sie auf **Channel hinzufuegen**
+3. Waehlen Sie die Plattform, die Sie verbinden moechten (z. B. Instagram, LinkedIn, TikTok)
+4. Sie werden zur Anmeldeseite der Plattform weitergeleitet
+5. Melden Sie sich an und **autorisieren** Sie Postzee fuer den Zugriff auf Ihr Konto
+6. Sie werden zurueck zu Postzee weitergeleitet — Ihr Channel ist jetzt verbunden
+
+<Note>
+Einige Plattformen (wie Instagram und Facebook) teilen denselben Autorisierungsfluss ueber Facebook Business. Das Verbinden einer Plattform kann Ihnen den Zugang zur Verbindung der anderen ermoeglichen.
+</Note>
+
+## Plattformspezifische Anleitungen
+
+### Instagram
+
+1. Klicken Sie auf **Channel hinzufuegen** → **Instagram**
+2. Melden Sie sich mit Ihrem **Facebook**-Konto an (Instagram-Business-Profile werden ueber Facebook verwaltet)
+3. Waehlen Sie das Instagram Business- oder Creator-Profil, das Sie verbinden moechten
+4. Autorisieren Sie die erforderlichen Berechtigungen
+5. Ihr Instagram-Channel erscheint in der Liste
+
+<Note>
+Instagram erfordert ein **Business**- oder **Creator**-Profil, das mit einer Facebook-Seite verbunden ist. Persoenliche Instagram-Konten koennen nicht ueber die API verbunden werden.
+</Note>
+
+### Facebook
+
+1. Klicken Sie auf **Channel hinzufuegen** → **Facebook**
+2. Melden Sie sich mit Ihrem Facebook-Konto an
+3. Waehlen Sie die **Seite** oder **Gruppe**, die Sie verwalten moechten
+4. Autorisieren Sie die Berechtigungen
+5. Ihr Facebook-Channel ist bereit
+
+### TikTok
+
+1. Klicken Sie auf **Channel hinzufuegen** → **TikTok**
+2. Melden Sie sich mit Ihrem TikTok-Konto an
+3. Autorisieren Sie Postzee
+4. Konfigurieren Sie die Einstellungen zur Inhaltsoffenlegung (von der TikTok-API vorgeschrieben)
+5. Ihr TikTok-Channel ist verbunden
+
+### LinkedIn
+
+1. Klicken Sie auf **Channel hinzufuegen** → **LinkedIn**
+2. Melden Sie sich mit Ihrem LinkedIn-Konto an
+3. Waehlen Sie zwischen Ihrem **Persoenlichen Profil** oder einer **Unternehmensseite**
+4. Autorisieren Sie die Berechtigungen
+5. Ihr LinkedIn-Channel ist bereit
+
+### YouTube
+
+1. Klicken Sie auf **Channel hinzufuegen** → **YouTube**
+2. Melden Sie sich mit Ihrem Google-Konto an
+3. Waehlen Sie den YouTube-Channel, den Sie verwalten moechten
+4. Autorisieren Sie die Berechtigungen
+5. Ihr YouTube-Channel ist verbunden
+
+### X (Twitter)
+
+1. Klicken Sie auf **Channel hinzufuegen** → **X (Twitter)**
+2. Melden Sie sich mit Ihrem X-Konto an
+3. Autorisieren Sie Postzee
+4. Ihr X-Channel ist bereit
+
+### Andere Plattformen
+
+Fuer Plattformen wie Pinterest, Threads, Bluesky, Discord, Telegram, Slack, Reddit, Mastodon und andere ist der Ablauf aehnlich:
+
+1. Klicken Sie auf **Channel hinzufuegen** → waehlen Sie die Plattform
+2. Schliessen Sie die Autorisierung der Plattform ab oder geben Sie die erforderlichen Anmeldedaten ein
+3. Der Channel erscheint in Ihrer Liste
+
+Einige Plattformen (Discord, Telegram, Slack) verwenden **Webhook-basierte** Verbindungen anstelle von OAuth — Sie werden durch die Einrichtung gefuehrt.
+
+Fuer selbst gehostete Plattformen wie **Mastodon** oder **WordPress** muessen Sie waehrend der Einrichtung Ihre Instanz-URL angeben.
+
+## Mehrere Konten
+
+Sie koennen mehrere Konten derselben Plattform verbinden. Zum Beispiel:
+
+- 2 Instagram-Business-Profile
+- 3 LinkedIn-Unternehmensseiten
+- 1 TikTok-Konto
+
+Jede Verbindung zaehlt als ein Channel innerhalb des Limits Ihres Tarifs.
+
+## Einen Channel neu verbinden
+
+OAuth-Token koennen ablaufen oder widerrufen werden. In diesem Fall zeigt der Channel einen **Neuverbindung erforderlich**-Indikator an.
+
+So beheben Sie es:
+
+1. Gehen Sie zu **Channels** in der oberen Navigationsleiste
+2. Finden Sie den Channel mit der Neuverbindungswarnung
+3. Klicken Sie auf **Neu verbinden**
+4. Durchlaufen Sie den OAuth-Fluss erneut
+5. Der Channel wird mit allen Einstellungen wiederhergestellt
+
+<Note>
+Geplante Beitraege fuer einen getrennten Channel schlagen fehl, wenn ihr Veroeffentlichungszeitpunkt erreicht ist. Verbinden Sie den Channel vor der geplanten Zeit neu, um Fehler zu vermeiden.
+</Note>
+
+## Fehlerbehebung
+
+| Problem | Loesung |
+|---------|---------|
+| Autorisierung schlaegt fehl | Stellen Sie sicher, dass Sie sich auf der Plattform beim richtigen Konto anmelden |
+| Instagram wird nicht angezeigt | Stellen Sie sicher, dass Ihr Instagram ein Business- oder Creator-Profil ist, das mit einer Facebook-Seite verknuepft ist |
+| Channel zeigt "Neuverbindung erforderlich" | Das Token ist abgelaufen — klicken Sie auf Neu verbinden zur erneuten Autorisierung |
+| Plattform nicht in der Liste | Pruefen Sie die [Unterstuetzten Plattformen](/get-started/supported-platforms) fuer die vollstaendige Liste oder kontaktieren Sie den Support |
+
+<CardGroup cols={2}>
+  <Card title="Channels-Uebersicht" icon="share-nodes" href="/channels/overview">
+    Verwalten und organisieren Sie Ihre verbundenen Channels.
+  </Card>
+  <Card title="Plattform-Einstellungen" icon="gear" href="/channels/platform-settings">
+    Konfigurieren Sie plattformspezifische Optionen nach dem Verbinden.
+  </Card>
+</CardGroup>

@@ -644,6 +644,157 @@
             ]
           }
         ]
+      },
+      {
+        "language": "de",
+        "tabs": [
+          {
+            "tab": "Lernen",
+            "groups": [
+              {
+                "group": "Erste Schritte",
+                "pages": [
+                  "de/get-started/introduction",
+                  "de/get-started/quickstart",
+                  "de/get-started/supported-platforms"
+                ]
+              },
+              {
+                "group": "Zee Studio",
+                "pages": [
+                  "de/zee-studio/overview",
+                  "de/zee-studio/image-generation",
+                  "de/zee-studio/video-generation",
+                  "de/zee-studio/heygen-avatars",
+                  "de/zee-studio/prompt-optimizer",
+                  "de/zee-studio/voice-input",
+                  "de/zee-studio/gallery",
+                  "de/zee-studio/explore",
+                  "de/zee-studio/upload"
+                ]
+              },
+              {
+                "group": "Kalender & Beiträge",
+                "pages": [
+                  "de/calendar/overview",
+                  "de/calendar/scheduling",
+                  "de/calendar/post-editor",
+                  "de/calendar/post-lifecycle"
+                ]
+              },
+              {
+                "group": "Kanäle",
+                "pages": [
+                  "de/channels/overview",
+                  "de/channels/connecting",
+                  "de/channels/platform-settings",
+                  "de/channels/customers"
+                ]
+              },
+              {
+                "group": "Analysen",
+                "pages": [
+                  "de/analytics/overview"
+                ]
+              },
+              {
+                "group": "Abrechnung & Credits",
+                "pages": [
+                  "de/billing/plans",
+                  "de/billing/credits",
+                  "de/billing/purchasing-credits",
+                  "de/billing/managing-subscription"
+                ]
+              },
+              {
+                "group": "Einstellungen",
+                "pages": [
+                  "de/settings/account",
+                  "de/settings/team",
+                  "de/settings/api-keys",
+                  "de/settings/preferences",
+                  "de/settings/webhooks",
+                  "de/settings/autopost"
+                ]
+              },
+              {
+                "group": "KI-Modelle",
+                "pages": [
+                  "de/ai-models/image-models",
+                  "de/ai-models/video-models",
+                  "de/ai-models/pricing"
+                ]
+              },
+              {
+                "group": "FAQ",
+                "pages": [
+                  "de/faq"
+                ]
+              }
+            ]
+          },
+          {
+            "tab": "Integrationen",
+            "groups": [
+              {
+                "group": "Soziale Kanäle",
+                "pages": [
+                  "de/integrations/channels/instagram",
+                  "de/integrations/channels/facebook",
+                  "de/integrations/channels/tiktok",
+                  "de/integrations/channels/linkedin",
+                  "de/integrations/channels/x-twitter",
+                  "de/integrations/channels/youtube",
+                  "de/integrations/channels/pinterest",
+                  "de/integrations/channels/threads",
+                  "de/integrations/channels/bluesky",
+                  "de/integrations/channels/other-platforms"
+                ]
+              },
+              {
+                "group": "n8n-Automatisierung",
+                "pages": [
+                  "de/integrations/n8n/overview",
+                  "de/integrations/n8n/setup",
+                  "de/integrations/n8n/operations",
+                  "de/integrations/n8n/example-workflows"
+                ]
+              },
+              {
+                "group": "KI-Agenten (MCP)",
+                "pages": [
+                  "de/integrations/mcp/overview",
+                  "de/integrations/mcp/claude-code",
+                  "de/integrations/mcp/openclaw",
+                  "de/integrations/mcp/hermes-agent",
+                  "de/integrations/mcp/tools-reference"
+                ]
+              }
+            ]
+          },
+          {
+            "tab": "API-Referenz",
+            "groups": [
+              {
+                "group": "Übersicht",
+                "pages": [
+                  "de/api-reference/authentication",
+                  "de/api-reference/rate-limits"
+                ]
+              },
+              {
+                "group": "Endpunkte",
+                "pages": [
+                  "de/api-reference/posts",
+                  "de/api-reference/channels",
+                  "de/api-reference/media",
+                  "de/api-reference/credits",
+                  "de/api-reference/jobs"
+                ]
+              }
+            ]
+          }
+        ]
       }
     ],
     "global": {

@@ -1,0 +1,77 @@
+---
+title: KI-Agenten (MCP)
+description: "Verbinden Sie Postzee mit KI-Agenten wie Claude Code, OpenClaw und Hermes Agent ueber MCP (Model Context Protocol). Generieren Sie Bilder, Videos und posten Sie in sozialen Medien per natuerlicher Sprache."
+icon: robot
+---
+
+Postzee enthaelt einen integrierten **MCP-Server** (Model Context Protocol), der KI-Agenten die Interaktion mit Ihrem Postzee-Konto ermoeglicht. Generieren Sie Bilder, erstellen Sie Videos, erstellen Sie HeyGen-Avatar-Videos, veroeffentlichen Sie Beitraege und verwalten Sie Ihre sozialen Medien -- alles durch natuerlichsprachliche Konversation mit Ihrem KI-Agenten.
+
+## Was ist MCP?
+
+Das [Model Context Protocol](https://modelcontextprotocol.io) ist ein offener Standard zur Verbindung von KI-Modellen mit externen Tools und Datenquellen. Postzees MCP-Server stellt **12 Tools** bereit, die jeder MCP-kompatible KI-Agent nutzen kann.
+
+## Unterstuetzte KI-Agenten
+
+| Agent | Integrationstyp | Einrichtungszeit |
+|-------|----------------|-----------------|
+| **Claude Code** | Skill (GitHub) | < 1 Minute |
+| **OpenClaw** | Skill (ClawHub) | < 1 Minute |
+| **Hermes Agent** | Skill (GitHub) | < 1 Minute |
+| **Jeder MCP-Client** | Direkte HTTP-Verbindung | ~ 1 Minute |
+
+## Was Agenten tun koennen
+
+Mit Postzees MCP-Tools kann ein KI-Agent:
+
+- **Bilder generieren** -- mit Referenzfotos, Seitenverhaeltnis, Qualitaets- und Stiloptionen
+- **Videos generieren** -- aus Text oder durch Animation eines Fotos (Bild-zu-Video)
+- **HeyGen-Avatar-Videos erstellen** -- KI-Avatare, die Ihr Skript sprechen
+- **Prompts verbessern** -- Prompts fuer bessere KI-Generierung optimieren (kostenlos)
+- **KI-Modelle auflisten** -- verfuegbare Bild- und Videomodelle mit Kosten durchsuchen
+- **Credit-Guthaben pruefen** -- verfuegbare KI-Credits einsehen
+- **Kanaele auflisten** -- alle verbundenen Social-Media-Konten anzeigen
+- **Beitraege erstellen** -- Beitraege auf jedem Kanal veroeffentlichen, planen oder als Entwurf speichern
+
+## So funktioniert es
+
+```
+Sie (Konversation) → KI-Agent → MCP Protocol → Postzee API → Soziale Plattformen
+```
+
+1. Sie beschreiben in natuerlicher Sprache, was Sie moechten (z. B. "Generiere ein Sonnenuntergangsfoto und poste es auf Instagram")
+2. Der KI-Agent nutzt Postzees MCP-Tools, um die Aufgabe auszufuehren
+3. Postzee uebernimmt die KI-Generierung, Planung und Veroeffentlichung
+4. Der Agent berichtet Ihnen die Ergebnisse
+
+## Verbindungsdetails
+
+| Eigenschaft | Wert |
+|-------------|------|
+| **Servername** | Postzee |
+| **Version** | 3.1.0 |
+| **Transport** | HTTP Streamable (empfohlen) + SSE (veraltet) |
+| **HTTP-Endpunkt** | `https://api.postzee.app/mcp/{apiKey}/http` |
+| **SSE-Endpunkt** | `https://api.postzee.app/mcp/{apiKey}/sse` (veraltet) |
+| **Authentifizierung** | API-Schluessel (in URL eingebettet) |
+| **Tools** | 12 |
+
+## Voraussetzungen
+
+- Ein **Postzee-Konto** (kostenlos oder bezahlt -- kostenlose Nutzer koennen KI-Credits kaufen)
+- Eine **Postzee MCP-URL** (kopieren unter Einstellungen → API Publica → MCP-Abschnitt)
+- Ein **MCP-kompatibler KI-Agent** (Claude Code, OpenClaw, Hermes Agent oder jeder MCP-Client)
+
+<CardGroup cols={2}>
+  <Card title="Claude Code" icon="terminal" href="/integrations/mcp/claude-code">
+    Postzee mit Claude Code verbinden.
+  </Card>
+  <Card title="OpenClaw" icon="plug" href="/integrations/mcp/openclaw">
+    Postzee mit OpenClaw verbinden.
+  </Card>
+  <Card title="Hermes Agent" icon="brain" href="/integrations/mcp/hermes-agent">
+    Postzee mit Hermes Agent verbinden.
+  </Card>
+  <Card title="Tools-Referenz" icon="wrench" href="/integrations/mcp/tools-reference">
+    Vollstaendige Referenz fuer alle 12 MCP-Tools.
+  </Card>
+</CardGroup>

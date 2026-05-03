@@ -1,0 +1,88 @@
+---
+title: Autopost (RSS)
+icon: rss
+---
+
+Mit Autopost koennen Sie automatisch Inhalte aus RSS-Feeds importieren und auf Ihren Social-Media-Kanaelen veroeffentlichen. Verbinden Sie einen Blog, Podcast oder eine andere RSS-kompatible Quelle, und Postzee erstellt Posts, sobald neue Eintraege erkannt werden.
+
+## Zugriff
+
+Oeffnen Sie das Konto-Menue (klicken Sie auf Ihren Avatar oben rechts) → **Settings** → **Autopost**-Tab.
+
+## Was ist Autopost?
+
+Autopost ueberwacht RSS-Feeds, die Sie konfigurieren, und erstellt automatisch Posts in Postzee, sobald ein neuer Eintrag im Feed veroeffentlicht wird. Sie entscheiden, auf welchen Kanaelen jeder Feed veroeffentlicht wird und wie die Posts formatiert werden.
+
+Haeufige Anwendungsfaelle:
+
+- **Blog-Beitraege automatisch teilen** auf Ihren Social-Media-Kanaelen bei Veroeffentlichung
+- **Podcast-Episoden cross-posten** auf LinkedIn und X
+- **Nachrichten verbreiten** von externen Feeds an Ihre Community
+- **Eigene Inhalte erneut veroeffentlichen** von einer Plattform auf eine andere
+
+## Konfiguration
+
+1. Gehen Sie zu **Settings** → **Autopost**
+2. Klicken Sie auf **Add Autopost**
+3. Geben Sie ein:
+   - **Title** — ein aussagekraeftiger Name fuer diesen Autopost
+   - **RSS URL** — der zu ueberwachende Feed (Postzee validiert die URL vor dem Speichern)
+   - **Channels** — waehlen Sie **All channels** oder bestimmte Kanaele
+4. Konfigurieren Sie die Veroeffentlichungsoptionen:
+   - **Publish on slot** — zu den konfigurierten Posting-Zeiten Ihres Teams veroeffentlichen (oder sofort, wenn deaktiviert)
+   - **Sync last entries** — auch aktuelle Eintraege importieren, die bereits im Feed vorhanden sind (Standard: nur neue Eintraege ab sofort)
+   - **Generate content with AI** — KI die Social-Media-Beschriftung aus dem Feed-Eintrag schreiben lassen
+   - **Add picture** — ein aus dem Feed-Eintrag extrahiertes Bild anfuegen
+5. *(Optional)* **Custom content** — geben Sie eine Vorlage an, wenn Sie keinen KI-generierten Inhalt wuenschen
+6. Klicken Sie auf **Save**
+
+## Kanalfilterung
+
+Sie koennen jeden Autopost-Feed auf bestimmte Kanaele beschraenken:
+
+- **All channels** — jeden neuen Eintrag auf jedem verbundenen Kanal veroeffentlichen
+- **Bestimmte Kanaele** — nur auf ausgewaehlten Kanaelen veroeffentlichen (nuetzlich, um Inhalte auf Plattformen abzustimmen)
+
+## KI-generierter Inhalt vs. benutzerdefinierter Inhalt
+
+Standardmaessig verwendet Autopost KI, um die Social-Media-Beschriftung aus jedem Feed-Eintrag zu generieren und fuer den Stil und die Zeichenlimits jeder Plattform zu optimieren.
+
+Wenn Sie manuelle Kontrolle bevorzugen:
+
+- Deaktivieren Sie **Generate content with AI**
+- Geben Sie Ihre eigene Vorlage im Feld **Custom content** an
+- Verwenden Sie den Titel und Link des Feed-Eintrags in Ihrer Vorlage
+
+## Feed validieren
+
+Klicken Sie vor dem Speichern auf **Test**, um zu ueberpruefen, ob Postzee Ihren RSS-Feed lesen kann. Die Validierung prueft:
+
+- Die URL ist erreichbar
+- Der Feed hat ein gueltiges RSS/Atom-Format
+- Eintraege enthalten die erforderlichen Felder
+
+## Verfuegbarkeit nach Plan
+
+Autopost ist in den Plaenen **Team**, **Pro** und **Ultimate** verfuegbar.
+
+<Note>
+Autopost verwendet Ihr monatliches Post-Kontingent. Jeder aus einem Feed veroeffentlichte Eintrag zaehlt als ein Post. KI-generierter Inhalt verbraucht Credits — siehe [Credits](/billing/credits) fuer Details.
+</Note>
+
+## Einen Feed deaktivieren oder loeschen
+
+Um das automatische Posten zu pausieren:
+
+1. Oeffnen Sie den Feed unter **Settings** → **Autopost**
+2. Klicken Sie auf **Edit** → schalten Sie ihn aus, oder klicken Sie auf **Delete**, um ihn dauerhaft zu entfernen
+
+Posts, die sich bereits in der Warteschlange befinden, werden weiterhin veroeffentlicht, aber nach der Deaktivierung werden keine neuen Eintraege mehr erkannt.
+
+<CardGroup cols={2}>
+  <Card title="Kanaele-Uebersicht" icon="share-nodes" href="/channels/overview">
+    Verbinden Sie Kanaele fuer das automatische Posten.
+  </Card>
+  <Card title="Kalender-Uebersicht" icon="calendar" href="/calendar/overview">
+    Sehen Sie automatisch gepostete Inhalte in Ihrem Kalender.
+  </Card>
+</CardGroup>

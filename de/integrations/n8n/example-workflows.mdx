@@ -1,0 +1,92 @@
+---
+title: Beispiel-Workflows
+icon: diagram-project
+---
+
+Sofort einsetzbare Workflow-Muster fuer gaengige Automatisierungsszenarien mit dem Postzee n8n-Node.
+
+## 1. KI-Bild generieren und auf Instagram posten
+
+Automatisch ein KI-Bild generieren und auf Instagram veroeffentlichen.
+
+**Workflow-Schritte:**
+
+1. **Trigger** -- Zeitplan (z. B. taeglich um 9:00 Uhr) oder manuell
+2. **Postzee: Generate Image** -- Prompt: Ihr Text, Modell: Nano Banana Pro
+3. **Wait** -- 30 Sekunden (fuer den Abschluss der Generierung)
+4. **Postzee: Job Status** -- pruefen, ob das Bild fertig ist
+5. **IF** -- Status = "success"
+6. **Postzee: Create Post** -- Typ: "now", Kanal: Instagram, Medien: mediaId aus Schritt 4
+
+**Wichtige Konfiguration:**
+- Verwenden Sie den **Job Status**-Node in einer Schleife, um abzufragen, bis `status === "success"`
+- Uebergeben Sie die `mediaId` von Job Status an Create Post
+
+## 2. RSS-Feed an soziale Medien
+
+Neue RSS-Feed-Eintraege automatisch auf mehreren sozialen Kanaelen veroeffentlichen.
+
+**Workflow-Schritte:**
+
+1. **RSS Feed Trigger** -- Ihren Blog- oder News-Feed ueberwachen
+2. **Postzee: Get Channels** -- verfuegbare Kanaele abrufen
+3. **Postzee: Create Post** -- fuer jeden neuen RSS-Eintrag:
+   - `type`: "now"
+   - `content`: RSS-Titel + Link
+   - `channel`: Zielkanal-ID
+
+## 3. Woechenliche Inhalte im Stapel planen
+
+Eine Woche an Inhalten in einem Durchgang vorbereiten und planen.
+
+**Workflow-Schritte:**
+
+1. **Google Sheets** -- Inhaltsplan lesen (Spalten: Datum, Uhrzeit, Text, Kanal, Bild-Prompt)
+2. **Loop** -- fuer jede Zeile:
+   - **Postzee: Generate Image** -- den Bild-Prompt verwenden
+   - **Wait + Job Status** -- abfragen, bis fertig
+   - **Postzee: Create Post** -- Typ: "schedule", Datum: aus Tabelle, Medien: generiertes Bild
+
+## 4. KI-Bildgenerierungs-Pipeline
+
+Mehrere KI-Bilder mit verschiedenen Modellen und Stilen fuer A/B-Tests generieren.
+
+**Workflow-Schritte:**
+
+1. **Trigger** -- manuell oder Webhook
+2. **Split in Batches** -- Variationen desselben Prompts erstellen
+3. **Postzee: Generate Image** -- unterschiedliches Modell pro Stapel (Nano Banana Pro, FLUX, Recraft)
+4. **Wait + Job Status** -- alle Auftraege abfragen
+5. **Merge** -- alle generierten Bilder zusammenfuehren
+6. **Postzee: Create Post** -- das beste posten oder ein Karussell erstellen
+
+## 5. Content-Wiederverwendungs-Pipeline
+
+Ein KI-Bild generieren und dann Beitraege fuer mehrere Plattformen mit plattformoptimiertem Inhalt erstellen.
+
+**Workflow-Schritte:**
+
+1. **Trigger** -- Webhook mit Thema/Prompt
+2. **OpenAI Node** -- plattformspezifische Bildunterschriften generieren (kurz fuer X, laenger fuer LinkedIn)
+3. **Postzee: Generate Image** -- das Bild generieren
+4. **Wait + Job Status** -- abfragen, bis fertig
+5. **Postzee: Create Post (Instagram)** -- Bild + Instagram-Bildunterschrift + Hashtags
+6. **Postzee: Create Post (LinkedIn)** -- gleiches Bild + LinkedIn-Bildunterschrift
+7. **Postzee: Create Post (X)** -- gleiches Bild + kurzer Tweet
+
+## Tipps fuer die Workflow-Erstellung
+
+- **Immer Job Status abfragen** -- Bild- und Videogenerierung ist asynchron. Gehen Sie niemals davon aus, dass die Medien sofort bereit sind.
+- **Wait-Node verwenden** -- fuegen Sie eine Wartezeit von 15-30 Sekunden vor der ersten Job-Status-Abfrage hinzu, um unnoetige Abfragen zu vermeiden.
+- **Fehlerbehandlung** -- fuegen Sie einen IF-Node nach Job Status hinzu, um `status === "failed"` Faelle zu behandeln.
+- **Dynamische Kanalauswahl** -- verwenden Sie Get Channels, um dynamische Kanallisten zu erstellen, anstatt Kanal-IDs fest zu codieren.
+- **Ratenbegrenzungen** -- Postzees API erlaubt 30 Anfragen/Stunde fuer allgemeine Endpunkte und 10 Anfragen/Minute fuer KI-Generierung. Planen Sie Stapeloperationen entsprechend.
+
+<CardGroup cols={2}>
+  <Card title="Operationen-Referenz" icon="list" href="/integrations/n8n/operations">
+    Detaillierte Referenz fuer alle 9 Operationen.
+  </Card>
+  <Card title="API-Referenz" icon="code" href="/api-reference/authentication">
+    Die REST API direkt fuer benutzerdefinierte Integrationen verwenden.
+  </Card>
+</CardGroup>

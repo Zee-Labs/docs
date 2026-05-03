@@ -1,0 +1,87 @@
+---
+title: n8n-Einrichtung
+icon: wrench
+---
+
+Installieren Sie den benutzerdefinierten Postzee-Node in Ihrer n8n-Instanz und konfigurieren Sie Ihre API-Anmeldedaten.
+
+## Schritt 1: Postzee-Node installieren
+
+### n8n Community Node
+
+1. Oeffnen Sie Ihre n8n-Instanz
+2. Gehen Sie zu **Settings** → **Community Nodes**
+3. Klicken Sie auf **Install a community node**
+4. Geben Sie ein: `n8n-nodes-postzee`
+5. Klicken Sie auf **Install**
+6. Der Postzee-Node erscheint in Ihrer Node-Palette
+
+### Manuelle Installation (selbst gehostet)
+
+```bash
+cd ~/.n8n
+npm install n8n-nodes-postzee
+```
+
+Starten Sie Ihre n8n-Instanz nach der Installation neu.
+
+## Schritt 2: Postzee API-Schluessel erstellen
+
+1. Melden Sie sich bei [Postzee](https://dashboard.postzee.app) an
+2. Oeffnen Sie die Kontoleiste (klicken Sie auf Ihren Avatar oben rechts)
+3. Gehen Sie zu **Settings** → Registerkarte **API**
+4. Klicken Sie auf **Create API Key**
+5. Kopieren Sie den Schluessel -- Sie benoetigen ihn im naechsten Schritt
+
+<Warning>
+Bewahren Sie Ihren API-Schluessel sicher auf. Er bietet vollen API-Zugriff auf Ihr Postzee-Konto.
+</Warning>
+
+## Schritt 3: Anmeldedaten in n8n konfigurieren
+
+1. Gehen Sie in n8n zu **Credentials** → **New Credential**
+2. Suchen Sie nach **Postzee API**
+3. Fuegen Sie Ihren API-Schluessel in das Feld **API Key** ein
+4. Klicken Sie auf **Save**
+5. n8n testet die Verbindung automatisch -- Sie sollten eine Erfolgsmeldung sehen
+
+Die Anmeldedaten-Konfiguration verwendet Header-basierte Authentifizierung:
+
+| Feld | Wert |
+|------|------|
+| **API Key** | Ihr Postzee API-Schluessel |
+| **Base URL** | `https://api.postzee.app/public/v1` (automatisch konfiguriert) |
+
+## Schritt 4: Postzee-Node zu einem Workflow hinzufuegen
+
+1. Erstellen Sie einen neuen Workflow oder oeffnen Sie einen vorhandenen
+2. Klicken Sie auf **+**, um einen Node hinzuzufuegen
+3. Suchen Sie nach **Postzee**
+4. Waehlen Sie den **Postzee**-Node
+5. Waehlen Sie eine Operation (z. B. Create Post, Generate Image)
+6. Waehlen Sie Ihre Postzee-Anmeldedaten
+7. Konfigurieren Sie die Operationsparameter
+8. Verbinden Sie mit anderen Nodes und aktivieren Sie Ihren Workflow
+
+## Verbindung ueberpruefen
+
+Der schnellste Weg, Ihre Einrichtung zu testen:
+
+1. Fuegen Sie einen Postzee-Node zu einem Workflow hinzu
+2. Waehlen Sie die Operation **Get Channels**
+3. Klicken Sie auf **Execute Node**
+4. Sie sollten eine Liste Ihrer verbundenen Kanaele sehen
+
+Falls ein Fehler angezeigt wird, ueberpruefen Sie:
+- Ob Ihr API-Schluessel korrekt und aktiv ist
+- Ob Ihr Postzee-Konto einen aktiven bezahlten Plan hat
+- Ob Ihre n8n-Instanz `api.postzee.app` erreichen kann
+
+<CardGroup cols={2}>
+  <Card title="Operationen" icon="list" href="/integrations/n8n/operations">
+    Detaillierte Referenz fuer alle Operationen.
+  </Card>
+  <Card title="Beispiel-Workflows" icon="diagram-project" href="/integrations/n8n/example-workflows">
+    Sofort einsetzbare Workflow-Vorlagen.
+  </Card>
+</CardGroup>

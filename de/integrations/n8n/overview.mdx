@@ -1,0 +1,54 @@
+---
+title: n8n-Integration
+description: "Automatisieren Sie Ihre Social-Media-Workflows mit Postzees benutzerdefiniertem n8n-Node. Erstellen Sie Beitraege, generieren Sie KI-Medien, verwalten Sie Kanaele und bauen Sie komplexe Automatisierungspipelines -- ganz ohne Code."
+icon: arrows-rotate
+---
+
+Automatisieren Sie Ihre Social-Media-Workflows mit Postzees benutzerdefiniertem **n8n-Node**. Erstellen Sie Beitraege, generieren Sie KI-Medien, verwalten Sie Kanaele und bauen Sie komplexe Automatisierungspipelines -- ganz ohne Code.
+
+## Was ist n8n?
+
+[n8n](https://n8n.io) ist eine Open-Source-Plattform fuer Workflow-Automatisierung. Sie ermoeglicht es Ihnen, Apps und Dienste mit visuellen Workflows zu verbinden. Postzees benutzerdefinierter n8n-Node bringt alle Postzee-Funktionen in Ihre Automatisierungspipelines.
+
+## Was Sie automatisieren koennen
+
+Mit dem Postzee n8n-Node koennen Sie:
+
+- **Beitraege erstellen und planen** auf jedem verbundenen Kanal
+- **KI-Bilder generieren** mit jedem der 16 Bildmodelle von Postzee
+- **KI-Videos generieren** mit 30+ Videomodellen
+- **Avatar-Videos generieren** mit HeyGen
+- **Dateien hochladen** in Ihre Medienbibliothek
+- **Kanaele auflisten**, um Veroeffentlichungsziele dynamisch auszuwaehlen
+- **Auftragsstatus pruefen**, um auf den Abschluss der KI-Generierung zu warten
+- **Beitraege abrufen**, um vorhandene geplante oder veroeffentlichte Inhalte abzurufen
+- **Beitraege loeschen**, um Inhalte aufzuraeumen
+
+## Verfuegbare Operationen
+
+| Operation | Beschreibung |
+|-----------|-------------|
+| **Create Post** | Einen Beitrag auf einem oder mehreren Kanaelen planen, veroeffentlichen oder als Entwurf speichern |
+| **Delete Post** | Einen geplanten oder veroeffentlichten Beitrag loeschen |
+| **Generate Image** | Ein KI-Bild generieren (asynchron -- gibt Job-ID zurueck) |
+| **Generate Video** | Ein KI-Video generieren (asynchron -- gibt Job-ID zurueck) |
+| **Generate Avatar Video** | Ein HeyGen-Avatar-Video erstellen |
+| **Get Channels** | Alle verbundenen Social-Media-Kanaele auflisten |
+| **Get Posts** | Geplante und veroeffentlichte Beitraege abrufen |
+| **Job Status** | Fortschritt eines asynchronen Generierungsauftrags pruefen |
+| **Upload File** | Ein Bild oder Video in die Medienbibliothek hochladen |
+
+## Voraussetzungen
+
+- Ein **Postzee-Konto** mit einem bezahlten Plan (Standard oder hoeher)
+- Eine **n8n-Instanz** (selbst gehostet oder n8n Cloud)
+- Ein **Postzee API-Schluessel** (erstellen unter Einstellungen → API-Registerkarte)
+
+<CardGroup cols={2}>
+  <Card title="Einrichtungsanleitung" icon="wrench" href="/integrations/n8n/setup">
+    Den Postzee-Node installieren und Anmeldedaten konfigurieren.
+  </Card>
+  <Card title="Operationen" icon="list" href="/integrations/n8n/operations">
+    Detaillierte Referenz fuer alle 9 Operationen.
+  </Card>
+</CardGroup>

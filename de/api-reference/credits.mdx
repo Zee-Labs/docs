@@ -1,0 +1,95 @@
+---
+title: Credits
+icon: coins
+---
+
+Pruefen Sie Ihr KI-Guthaben und verbessern Sie Prompts ueber die API.
+
+## Guthaben abfragen
+
+```
+GET /public/v1/credits
+```
+
+Gibt Ihr aktuelles Guthaben zurueck.
+
+### Anfrage
+
+```bash
+curl -H "Authorization: YOUR_API_KEY" \
+  https://api.postzee.app/public/v1/credits
+```
+
+### Antwort
+
+```json
+{
+  "monthlyCredits": 5.0,
+  "purchasedCredits": 2.0,
+  "usedCredits": 0.5,
+  "availableCredits": 6.5,
+  "lastReset": "2026-04-01T00:00:00.000Z"
+}
+```
+
+| Feld | Typ | Beschreibung |
+|------|-----|--------------|
+| `monthlyCredits` | number | Monatliche Credits aus Ihrem Plan (in USD) |
+| `purchasedCredits` | number | Gekaufte Credits, die nie ablaufen (in USD) |
+| `usedCredits` | number | Im aktuellen Abrechnungszeitraum verbrauchte Credits (in USD) |
+| `availableCredits` | number | Insgesamt verfuegbare Credits — monatlich + gekauft - verbraucht (in USD) |
+| `lastReset` | string | ISO-Zeitstempel der letzten monatlichen Credit-Zuruecksetzung |
+
+<Note>
+Alle Credit-Werte sind in USD angegeben. Zur Umrechnung in die Credit-Anzahl: `Wert × 1.000`. Beispiel: `availableCredits: 6.5` = `6.500` verfuegbare Credits.
+</Note>
+
+---
+
+## Prompt verbessern
+
+```
+POST /public/v1/enhance-prompt
+```
+
+Optimieren Sie einen Prompt fuer bessere KI-Generierungsergebnisse. Dieser Endpunkt ist **kostenlos** — es werden keine Credits verbraucht.
+
+**Rate-Limit:** 10 Anfragen pro Minute.
+
+### Anfrage
+
+```bash
+curl -X POST \
+  -H "Authorization: YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "prompt": "a cat on a windowsill",
+    "mediaType": "image"
+  }' \
+  https://api.postzee.app/public/v1/enhance-prompt
+```
+
+### Parameter
+
+| Parameter | Typ | Erforderlich | Beschreibung |
+|-----------|-----|:---:|--------------|
+| `prompt` | string | Ja | Der zu verbessernde Prompt (max. 2.000 Zeichen) |
+| `mediaType` | string | Ja | `"image"` oder `"video"` |
+| `model` | string | Nein | Ziel-KI-Modell-ID fuer modellspezifische Optimierung |
+| `stylePreferences` | string | Nein | Stil-Hinweise (max. 500 Zeichen) |
+| `sourceImageUrls` | string[] | Nein | Referenzbild-URLs (max. 5) |
+
+### Antwort
+
+```json
+{
+  "enhancedPrompt": "A fluffy ginger cat perched on a sunlit windowsill, warm afternoon light casting soft shadows through lace curtains...",
+  "success": true
+}
+```
+
+| Feld | Typ | Beschreibung |
+|------|-----|--------------|
+| `enhancedPrompt` | string | Der optimierte Prompt |
+| `success` | boolean | Ob die Verbesserung erfolgreich war |
+| `error` | string | Fehlermeldung (nur wenn `success` `false` ist) |

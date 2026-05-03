@@ -1,0 +1,85 @@
+---
+title: Authentifizierung
+icon: lock
+---
+
+Die oeffentliche Postzee API verwendet **API-Key-Authentifizierung**. Alle Endpunkte erfordern einen gueltigen API-Key im `Authorization`-Header.
+
+## Basis-URL
+
+```
+https://api.postzee.app/public/v1
+```
+
+## Authentifizierung
+
+Fuegen Sie Ihren API-Key in den `Authorization`-Header jeder Anfrage ein:
+
+```bash
+curl -H "Authorization: YOUR_API_KEY" \
+  https://api.postzee.app/public/v1/credits
+```
+
+<Warning>
+Verwenden Sie **nicht** das `Bearer`-Praefix. Senden Sie den API-Key direkt als Header-Wert.
+</Warning>
+
+## Einen API-Key erstellen
+
+1. Melden Sie sich bei [Postzee](https://dashboard.postzee.app) an
+2. Oeffnen Sie das Konto-Menue (klicken Sie auf Ihren Avatar oben rechts)
+3. Gehen Sie zu **Settings** → **API**-Tab
+4. Klicken Sie auf **Create API Key**
+5. Kopieren Sie den Key sofort — er wird nur einmal angezeigt
+
+## Voraussetzungen
+
+- Ein **kostenpflichtiger Plan** (Standard oder hoeher) — der Free-Plan beinhaltet keinen API-Zugang
+- Ein **aktives Abonnement** — abgelaufene Abonnements koennen die API nicht nutzen
+- Das Konto darf **nicht gesperrt** sein
+
+## Fehlerantworten
+
+| Status | Bedeutung |
+|--------|-----------|
+| `401` | Fehlender oder ungueltiger API-Key |
+| `401` | Kein aktives Abonnement |
+| `403` | Konto gesperrt |
+| `429` | Rate-Limit ueberschritten |
+
+Alle Fehlerantworten folgen diesem Format:
+
+```json
+{
+  "statusCode": 401,
+  "message": "Unauthorized"
+}
+```
+
+## Verbindung testen
+
+Verwenden Sie den Health-Check-Endpunkt, um zu pruefen, ob Ihr API-Key funktioniert:
+
+```bash
+curl -H "Authorization: YOUR_API_KEY" \
+  https://api.postzee.app/public/v1/is-connected
+```
+
+**Erfolgreiche Antwort:**
+```json
+{
+  "connected": true
+}
+```
+
+## Verfuegbare Endpunkte
+
+| Gruppe | Endpunkte |
+|--------|-----------|
+| [Posts](/api-reference/posts) | Posts erstellen, auflisten, loeschen |
+| [Channels](/api-reference/channels) | Verbundene Kanaele auflisten |
+| [Media](/api-reference/media) | Bilder, Videos generieren, Dateien hochladen |
+| [Credits](/api-reference/credits) | Guthaben pruefen, Prompts verbessern |
+| [Jobs](/api-reference/jobs) | Asynchrone Generierungsaufgaben abfragen |
+
+Siehe [Rate-Limits](/api-reference/rate-limits) fuer Anfragelimits pro Endpunkt.

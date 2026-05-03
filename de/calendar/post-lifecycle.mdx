@@ -1,0 +1,125 @@
+---
+title: Beitrags-Lebenszyklus
+icon: arrows-rotate
+---
+
+Jeder Beitrag in Postzee durchlaeuft einen Lebenszyklus von der Erstellung bis zur Veroeffentlichung. Das Verstaendnis dieser Status hilft Ihnen, Ihre Content-Pipeline zu verwalten und Probleme zu beheben.
+
+## Beitragsstatus
+
+Ein Beitrag durchlaeuft folgende Status:
+
+```
+Entwurf → Geplant → Warteschlange → Veroeffentlicht
+                                └→ Fehler
+```
+
+| Status | Farbe | Beschreibung |
+|--------|-------|--------------|
+| **Entwurf** | Grau | Beitrag ist gespeichert, aber nicht geplant. Er wird erst veroeffentlicht, wenn Sie ihn planen. |
+| **Geplant** | Blau | Beitrag ist zur Veroeffentlichung zu einem bestimmten Datum/Uhrzeit eingestellt. Wartet auf den geplanten Zeitpunkt. |
+| **Warteschlange** | Blau | Der geplante Zeitpunkt ist erreicht. Der Beitrag wird verarbeitet und an die API der Plattform gesendet. |
+| **Veroeffentlicht** | Lila | Beitrag wurde erfolgreich an die Plattform zugestellt. Er ist live. |
+| **Fehler** | Rot | Beitrag konnte nicht veroeffentlicht werden. Pruefen Sie die Fehlerdetails fuer den Grund. |
+
+## Statusuebergaenge
+
+### Entwurf zu Geplant
+
+Wenn Sie Datum/Uhrzeit festlegen und auf **Planen** klicken, wechselt der Beitrag von Entwurf zu Geplant. Er erscheint in Ihrem Kalender mit einem blauen Indikator.
+
+Sie koennen den Inhalt in diesem Status weiterhin bearbeiten und neu planen.
+
+### Geplant zu Warteschlange
+
+Zum geplanten Zeitpunkt tritt der Beitrag automatisch in die Warteschlange ein. Postzees Hintergrund-Worker uebernehmen ihn und beginnen den Veroeffentlichungsprozess.
+
+Dieser Uebergang erfolgt automatisch — es ist keine Aktion Ihrerseits erforderlich.
+
+### Warteschlange zu Veroeffentlicht
+
+Der Worker sendet Ihren Inhalt an die API der Plattform (Instagram, TikTok, LinkedIn usw.). Bei Erfolg wechselt der Beitrag zu Veroeffentlicht und der lila Indikator erscheint in Ihrem Kalender.
+
+### Warteschlange zu Fehler
+
+Wenn die API der Plattform den Beitrag ablehnt oder ein Verbindungsproblem auftritt, wechselt der Beitrag zum Fehlerstatus. Der spezifische Fehlergrund wird gespeichert, damit Sie das Problem diagnostizieren koennen.
+
+## Was Sie bei jedem Status tun koennen
+
+| Aktion | Entwurf | Geplant | Veroeffentlicht | Fehler |
+|--------|:---:|:---:|:---:|:---:|
+| Inhalt bearbeiten | Ja | Ja | — | — |
+| Neu planen | Ja | Ja | — | — |
+| Im Kalender ziehen | Ja | Ja | — | — |
+| Loeschen | Ja | Ja | Ja | Ja |
+| Wiederholen | — | — | — | Ja |
+| Details anzeigen | Ja | Ja | Ja | Ja |
+
+## Fehlerbehandlung
+
+Wenn ein Beitrag fehlschlaegt, gehen Sie wie folgt vor:
+
+1. Finden Sie den Beitrag in Ihrem Kalender (er hat einen roten Indikator)
+2. Klicken Sie darauf, um die **Fehlerdetails** zu sehen
+3. Beheben Sie das zugrunde liegende Problem basierend auf dem Fehlergrund
+4. Klicken Sie auf **Wiederholen**, um die Veroeffentlichung erneut zu versuchen
+
+### Haeufige Fehlergruende
+
+| Fehler | Ursache | Loesung |
+|--------|---------|---------|
+| **Channel getrennt** | OAuth-Token abgelaufen oder widerrufen | Gehen Sie zu **Channels** → Konto neu verbinden |
+| **Channel deaktiviert** | Der Channel wurde manuell deaktiviert | Gehen Sie zu **Channels** → Channel aktivieren |
+| **Inhalt abgelehnt** | Plattform hat den Inhalt abgelehnt (Format, Groesse, Richtlinie) | Bearbeiten Sie den Beitrag, um den Anforderungen der Plattform zu entsprechen |
+| **Rate-Limit erreicht** | Zu viele Beitraege in kurzer Zeit an die Plattform gesendet | Warten Sie einige Minuten und versuchen Sie es erneut |
+| **Konto blockiert** | Ihr Postzee-Konto hat ein Abrechnungs- oder Richtlinienproblem | Pruefen Sie Ihren Kontostatus in den **Einstellungen** |
+
+## Multi-Channel-Beitragsverhalten
+
+Wenn Sie auf mehreren Channels gleichzeitig veroeffentlichen:
+
+- Jeder Channel wird unabhaengig verarbeitet
+- Wenn ein Channel fehlschlaegt, werden die anderen trotzdem erfolgreich veroeffentlicht
+- Fehlgeschlagene Channels zeigen einen Fehlerstatus — Sie koennen diese einzeln wiederholen
+- Alle Beitraege derselben Gruppe teilen eine **Gruppen-ID**, die sie miteinander verknuepft
+
+### Beispiel
+
+Sie planen einen Beitrag fuer Instagram, LinkedIn und X (Twitter) um 10:00 Uhr:
+
+| Channel | Ergebnis | Status |
+|---------|----------|--------|
+| Instagram | Erfolgreich zugestellt | Veroeffentlicht |
+| LinkedIn | Erfolgreich zugestellt | Veroeffentlicht |
+| X (Twitter) | Token abgelaufen | Fehler |
+
+In diesem Fall muessen Sie nur Ihr X (Twitter)-Konto neu verbinden und diesen einzelnen Beitrag wiederholen. Instagram und LinkedIn sind bereits live.
+
+## Loeschung
+
+Wenn Sie einen Beitrag loeschen:
+
+- **Entwurf / Geplant** — der Beitrag wird aus Ihrem Kalender entfernt. Es wurde nichts veroeffentlicht.
+- **Veroeffentlicht** — der Beitrag wird aus dem Postzee-Kalender entfernt, aber der Inhalt **bleibt auf der Plattform live**. Um ihn von der Plattform zu entfernen, muessen Sie ihn direkt bei Instagram, LinkedIn usw. loeschen.
+- **Fehler** — der Beitrag wird entfernt. Da er nie veroeffentlicht wurde, gibt es nichts aufzuraeumen.
+
+<Note>
+Das Loeschen eines Beitrags in Postzee loescht ihn nicht von der Social-Media-Plattform. Wenn ein Beitrag bereits veroeffentlicht wurde, muessen Sie ihn direkt auf der Plattform entfernen.
+</Note>
+
+## Beitragskommentare
+
+Teammitglieder koennen Kommentare zu jedem Beitrag hinterlassen, um die Zusammenarbeit zu foerdern:
+
+- Oeffnen Sie einen Beitrag ueber den Kalender
+- Fuegen Sie einen Kommentar im Kommentarbereich hinzu
+- Kommentare sind fuer alle Teammitglieder sichtbar
+
+<CardGroup cols={2}>
+  <Card title="Kalender-Uebersicht" icon="calendar" href="/calendar/overview">
+    Navigieren und verwalten Sie Ihren Content-Kalender.
+  </Card>
+  <Card title="Channels verbinden" icon="plug" href="/channels/connecting">
+    Beheben Sie Channel-Verbindungsprobleme.
+  </Card>
+</CardGroup>

@@ -1,0 +1,55 @@
+---
+title: TikTok
+icon: tiktok
+---
+
+Verbinden Sie Ihr TikTok-Konto mit Postzee, um Videos direkt vom Dashboard aus zu veroeffentlichen. TikTok erfordert spezifische Inhaltsoffenlegungseinstellungen, die Postzee fuer Sie verwaltet.
+
+## Voraussetzungen
+
+- Ein **TikTok**-Konto
+- Inhalte muessen im Videoformat vorliegen (TikTok unterstuetzt keine reinen Bildbeitraege ueber die API)
+
+## Verbindung herstellen
+
+1. Gehen Sie zu **Channels** in der oberen Navigationsleiste
+2. Klicken Sie auf **Add Channel** → **TikTok**
+3. Melden Sie sich mit Ihrem TikTok-Konto an
+4. Autorisieren Sie Postzee
+5. Konfigurieren Sie die erforderlichen Inhaltsoffenlegungseinstellungen
+6. Ihr TikTok-Kanal erscheint in der Kanalliste
+
+## Inhaltsoffenlegungseinstellungen
+
+TikToks API erfordert spezifische Offenlegungseinstellungen fuer jeden Beitrag. Diese werden pro Kanal konfiguriert und koennen pro Beitrag ueberschrieben werden:
+
+| Einstellung | Optionen | Beschreibung |
+|-------------|---------|-------------|
+| **Title** | Text (max. 90 Zeichen) | Videotitel/-beschreibung |
+| **Privacy** | Public, Mutual Follow Friends, Followers Only, Private | Wer Ihr Video sehen kann |
+| **Allow Duets** | Ein / Aus | Ob andere Duette erstellen koennen |
+| **Allow Stitches** | Ein / Aus | Ob andere Ihr Video stitchen koennen |
+| **Allow Comments** | Ein / Aus | Ob Zuschauer kommentieren koennen |
+| **Auto-add Music** | Ja / Nein | TikTok Hintergrundmusik hinzufuegen lassen |
+| **Brand Content** | Ein / Aus | Marken-/gesponserte Inhalte offenlegen |
+| **Made with AI** | Ein / Aus | KI-generierte Inhalte offenlegen |
+
+<Warning>
+Diese Offenlegungseinstellungen sind durch TikToks API-Compliance-Regeln vorgeschrieben und koennen nicht uebersprungen werden. Postzee validiert sie vor jeder Veroeffentlichung, um die Einhaltung sicherzustellen.
+</Warning>
+
+## Unterstuetzte Inhaltstypen
+
+| Typ | Beschreibung |
+|-----|-------------|
+| **Video** | Vertikales Video (9:16 empfohlen) |
+
+## Tipps
+
+- **Seitenverhaeltnis:** Verwenden Sie immer 9:16 (Hochformat) fuer TikTok -- es ist fuer vertikales Ansehen konzipiert.
+- **Dauer:** Videos bis zu 10 Minuten werden unterstuetzt, aber 15-60 Sekunden erzielen in der Regel die beste Performance.
+- **KI-Offenlegung:** Wenn Ihr Video mit KI generiert wurde, aktivieren Sie den Schalter "Made with AI", um TikToks Richtlinien einzuhalten.
+
+<Card title="Kanaele verbinden" icon="plug" href="/channels/connecting">
+  Allgemeine Anleitung zum Verbinden von Social-Media-Konten.
+</Card>

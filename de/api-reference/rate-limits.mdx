@@ -1,0 +1,78 @@
+---
+title: Rate-Limits
+icon: gauge-high
+---
+
+Die Postzee API erzwingt Rate-Limits, um eine faire Nutzung und Plattformstabilitaet zu gewaehrleisten. Die Limits variieren je nach Endpunkttyp.
+
+## Rate-Limits nach Endpunkt
+
+| Endpunkt | Limit | Zeitfenster |
+|----------|-------|-------------|
+| **Globaler Standard** | 30 Anfragen | pro Stunde |
+| `POST /generate-image` | 10 Anfragen | pro Minute |
+| `POST /generate-video-ai` | 10 Anfragen | pro Minute |
+| `POST /generate-heygen-video` | 10 Anfragen | pro Minute |
+| `POST /enhance-prompt` | 10 Anfragen | pro Minute |
+| `GET /video-models` | 30 Anfragen | pro Minute |
+| `GET /image-models` | 30 Anfragen | pro Minute |
+| `GET /heygen-avatars` | 30 Anfragen | pro Minute |
+| `GET /heygen-voices` | 30 Anfragen | pro Minute |
+
+<Note>
+Endpunkte mit expliziten Pro-Minute-Limits ueberschreiben den globalen Standard. Die meisten Lese-Endpunkte (Kanaele, Credits, Posts, Jobs) fallen unter das globale 30/Stunde-Limit. KI-Generierungsendpunkte haben eigene hoeherfrequente Limits.
+</Note>
+
+## MCP-Server-Rate-Limits
+
+| Transport | Limit | Zeitfenster |
+|-----------|-------|-------------|
+| **SSE** (Server-Sent Events) | 30 Anfragen | pro Minute |
+| **HTTP POST** | 60 Anfragen | pro Minute |
+
+## Rate-Limit-Header
+
+Wenn Sie sich einem Rate-Limit naehern oder es ueberschreiten, gibt die API Standard-Rate-Limit-Header zurueck:
+
+| Header | Beschreibung |
+|--------|--------------|
+| `X-RateLimit-Limit` | Maximale Anzahl erlaubter Anfragen im Zeitfenster |
+| `X-RateLimit-Remaining` | Verbleibende Anfragen im aktuellen Zeitfenster |
+| `X-RateLimit-Reset` | Unix-Zeitstempel, wann das Zeitfenster zurueckgesetzt wird |
+
+## Limit ueberschritten
+
+Wenn Sie das Rate-Limit ueberschreiten, gibt die API zurueck:
+
+```
+HTTP 429 Too Many Requests
+```
+
+```json
+{
+  "statusCode": 429,
+  "message": "ThrottlerException: Too Many Requests"
+}
+```
+
+**Was zu tun ist:** Warten Sie, bis das Rate-Limit-Zeitfenster zurueckgesetzt wird (pruefen Sie den `X-RateLimit-Reset`-Header), und wiederholen Sie dann Ihre Anfrage.
+
+## Best Practices
+
+- **KI-Generierungsanfragen verteilen** — begrenzen Sie diese auf 10 pro Minute fuer Bild-/Videogenerierung
+- **Modelllisten cachen** — die verfuegbaren Modelle aendern sich nicht haeufig, cachen Sie daher Antworten von `/image-models` und `/video-models`
+- **Job-Status vernuenftig abfragen** — alle 5-10 Sekunden pruefen, nicht jede Sekunde
+- **Batch-Operationen verwenden** — bei der Generierung mehrerer Bilder verwenden Sie `generate-media` mit `quantity: 2-4` anstelle mehrerer `generate-image`-Aufrufe
+- **429-Fehler elegant behandeln** — implementieren Sie exponentielles Backoff bei Rate-Limiting
+
+## Limits nach Plan
+
+Die Rate-Limits sind fuer alle kostenpflichtigen Plaene gleich. Die API ist im Free-Plan nicht verfuegbar.
+
+| Plan | API-Zugang | Rate-Limits |
+|------|-----------|-------------|
+| Free | Nein | — |
+| Standard | Ja | Standard-Limits |
+| Team | Ja | Standard-Limits |
+| Pro | Ja | Standard-Limits |
+| Ultimate | Ja | Standard-Limits |

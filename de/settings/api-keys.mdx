@@ -1,0 +1,100 @@
+---
+title: API-Schluessel
+icon: key
+---
+
+Erstellen und verwalten Sie API-Schluessel, um programmatisch auf die oeffentliche REST-API von Postzee zuzugreifen. Verwenden Sie API-Schluessel, um die Inhaltserstellung zu automatisieren, mit externen Tools zu integrieren oder benutzerdefinierte Workflows zu erstellen.
+
+## So greifen Sie darauf zu
+
+Oeffnen Sie die Kontoschublade (klicken Sie auf Ihren Avatar oben rechts) → **Einstellungen** → Reiter **API**.
+
+<Note>
+Die Verwaltung von API-Schluesseln erfordert die Rolle **Admin** oder **Super Admin**. Teammitglieder mit der User-Rolle koennen API-Schluessel nicht anzeigen oder erstellen.
+</Note>
+
+## Einen API-Schluessel erstellen
+
+1. Gehen Sie zu **Einstellungen** → **API-Schluessel**
+2. Klicken Sie auf **API-Schluessel erstellen**
+3. Geben Sie einen Namen fuer Ihren Schluessel ein (mindestens 4 Zeichen) — verwenden Sie einen beschreibenden Namen wie "n8n Automation" oder "Benutzerdefiniertes Skript"
+4. Klicken Sie auf **Erstellen**
+5. **Kopieren Sie den Schluessel sofort** — er wird nur einmal angezeigt
+
+<Warning>
+Bewahren Sie Ihren API-Schluessel sicher auf. Er bietet vollen API-Zugang zu Ihrem Konto. Teilen Sie ihn niemals oeffentlich und committen Sie ihn nicht in die Versionskontrolle.
+</Warning>
+
+## Ihren API-Schluessel verwenden
+
+Fuegen Sie den API-Schluessel in den `Authorization`-Header Ihrer API-Anfragen ein:
+
+```bash
+curl -H "Authorization: YOUR_API_KEY" \
+  https://api.postzee.app/public/v1/credits
+```
+
+<Note>
+Verwenden Sie nicht das Praefix `Bearer` — uebergeben Sie den API-Schluessel direkt als Wert des Authorization-Headers.
+</Note>
+
+## Was Sie mit der API tun koennen
+
+Die oeffentliche API bietet Ihnen programmatischen Zugang zu:
+
+| Endpunkt | Beschreibung |
+|----------|--------------|
+| **Beitrag erstellen** | Beitraege auf Ihren Channels planen oder veroeffentlichen |
+| **Bild generieren** | KI-Bilder mit jedem verfuegbaren Modell generieren |
+| **Video generieren** | KI-Videos generieren |
+| **Channels auflisten** | Alle verbundenen Channels abrufen |
+| **Credits abrufen** | Aktuelles Credit-Guthaben pruefen |
+| **Prompt optimieren** | Prompts mit dem Prompt-Optimierer verbessern |
+| **Job-Status pruefen** | Asynchrone Generierungsaufgaben ueberwachen |
+
+Siehe die vollstaendige [API-Referenz](/api-reference/authentication) fuer alle Endpunkte.
+
+## API-Schluessel verwalten
+
+- **Anzeigen** — alle aktiven API-Schluessel und deren Namen sehen
+- **Loeschen** — einen API-Schluessel dauerhaft widerrufen (alle Integrationen, die ihn verwenden, funktionieren dann nicht mehr)
+- **Neu generieren** — den alten Schluessel loeschen und einen neuen erstellen
+
+## Tarife mit API-Zugang
+
+| Tarif | API-Zugang |
+|-------|-----------|
+| **Free** | — |
+| **Standard** | Ja |
+| **Team** | Ja |
+| **Pro** | Ja |
+| **Ultimate** | Ja |
+
+## Rate-Limits
+
+API-Anfragen sind zum Schutz der Plattform rate-limitiert:
+
+| Endpunkt-Typ | Limit |
+|-------------|-------|
+| **Allgemeine Anfragen** | 30 Anfragen/Stunde |
+| **KI-Generierung** | 10 Anfragen/Minute |
+| **Prompt-Optimierung** | 10 Anfragen/Minute |
+
+Siehe [Rate-Limits](/api-reference/rate-limits) fuer Details.
+
+## Integrationen, die API-Schluessel verwenden
+
+Postzee API-Schluessel werden verwendet von:
+
+- **[n8n-Integration](/integrations/n8n/overview)** — Workflows mit dem benutzerdefinierten Postzee-Node automatisieren
+- **[KI-Agenten (MCP)](/integrations/mcp/overview)** — Claude Code, OpenClaw und andere KI-Agenten verbinden
+- **Benutzerdefinierte Skripte** — eigene Automatisierungen mit der REST-API erstellen
+
+<CardGroup cols={2}>
+  <Card title="API-Referenz" icon="code" href="/api-reference/authentication">
+    Vollstaendige API-Dokumentation und Endpunkte.
+  </Card>
+  <Card title="n8n-Integration" icon="arrows-rotate" href="/integrations/n8n/overview">
+    Postzee mit n8n-Workflows automatisieren.
+  </Card>
+</CardGroup>

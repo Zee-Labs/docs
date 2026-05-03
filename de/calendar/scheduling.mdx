@@ -1,0 +1,107 @@
+---
+title: Beitraege planen
+icon: clock
+---
+
+Planen Sie Ihre Beitraege fuer die automatische Veroeffentlichung zum perfekten Zeitpunkt. Postzee uebernimmt die Zeitzonenumrechnung, Warteschlangenverwaltung und Zustellung an alle Ihre verbundenen Channels.
+
+## Veroeffentlichungsoptionen
+
+Beim Erstellen oder Bearbeiten eines Beitrags haben Sie drei Veroeffentlichungsoptionen:
+
+| Option | Was sie bewirkt |
+|--------|----------------|
+| **Jetzt veroeffentlichen** | Sendet den Beitrag sofort an Ihre ausgewaehlten Channels |
+| **Planen** | Stellt den Beitrag in die Warteschlange zur Veroeffentlichung zu einem bestimmten Datum und Uhrzeit |
+| **Als Entwurf speichern** | Speichert den Beitrag ohne Planung — Sie koennen ihn spaeter planen |
+
+## So planen Sie einen Beitrag
+
+1. Oeffnen Sie den **Beitragseditor** (ueber den Kalender, Zee Studio oder die Schaltflaeche **Beitrag erstellen**)
+2. Schreiben Sie Ihren Inhalt und waehlen Sie Ihre Channels aus
+3. Waehlen Sie Datum und Uhrzeit mit dem **Datum-/Uhrzeitwaehler**
+4. Klicken Sie auf **Planen**
+5. Der Beitrag erscheint in Ihrem Kalender mit einem blauen **Geplant**-Indikator
+6. Zum geplanten Zeitpunkt veroeffentlicht Postzee automatisch auf allen ausgewaehlten Channels
+
+<Note>
+Die frueheste Planungszeit ist der aktuelle Zeitpunkt. Sie koennen keine Beitraege in der Vergangenheit planen.
+</Note>
+
+## Zeitzonen-Behandlung
+
+Alle geplanten Zeiten richten sich nach der konfigurierten Zeitzone Ihres Teams:
+
+- Der Datum-/Uhrzeitwaehler zeigt Zeiten in **Ihrer Zeitzone** an
+- Bei der Veroeffentlichung konvertiert Postzee intern in UTC und liefert genau zum von Ihnen gewaehlten Zeitpunkt
+- Teammitglieder in verschiedenen Zeitzonen sehen alle dieselbe lokale Zeit relativ zur Teameinstellung
+
+Um die Zeitzone Ihres Teams zu aendern, oeffnen Sie die Kontoschublade → **Einstellungen** → Reiter **Praeferenzen** → **Zeitzone**.
+
+## Beste Zeit finden
+
+Nicht sicher, wann Sie posten sollen? Nutzen Sie die Funktion **Beste Zeit finden**:
+
+1. Klicken Sie im Beitragseditor auf **Beste Zeit finden** (oder das Uhr-Symbol)
+2. Postzee analysiert Ihren Kalender und findet die am wenigsten belegten Zeitfenster
+3. Ein vorgeschlagenes Datum/eine Uhrzeit wird automatisch eingetragen
+4. Passen Sie es bei Bedarf an und klicken Sie dann auf **Planen**
+
+Der Algorithmus betrachtet Ihre bestehenden geplanten Beitraege ueber alle Channels hinweg und schlaegt Zeiten vor, zu denen Ihr Kalender am wenigsten ausgelastet ist, um Ihre Inhalte gleichmaessig ueber den Tag zu verteilen.
+
+## Neu planen
+
+Es gibt zwei Moeglichkeiten, einen Beitrag neu zu planen:
+
+### Drag-and-Drop (Kalender)
+
+1. Oeffnen Sie die **Kalender**-Ansicht (Monat, Woche oder Tag)
+2. Klicken und ziehen Sie den Beitrag auf ein neues Datum oder Zeitfenster
+3. Der Beitrag wird sofort auf die neue Zeit umgeplant
+
+### Beitrag bearbeiten
+
+1. Klicken Sie auf den Beitrag im Kalender oder in der Beitragsliste
+2. Aendern Sie Datum/Uhrzeit im Editor
+3. Klicken Sie auf **Speichern** oder **Planen**
+
+<Note>
+Nur Beitraege mit dem Status **Entwurf** und **Geplant** koennen neu geplant werden. Sobald ein Beitrag veroeffentlicht ist, ist sein Datum fixiert.
+</Note>
+
+## Wiederkehrende Beitraege
+
+Richten Sie Beitraege ein, die sich automatisch in regelmaessigen Abstaenden wiederholen:
+
+1. Erstellen Sie Ihren Beitrag und planen Sie das erste Auftreten
+2. Legen Sie das **Wiederholungsintervall** (in Tagen) fest — zum Beispiel alle 7 Tage fuer woechentlich
+3. Klicken Sie auf **Planen**
+4. Postzee erstellt automatisch zukuenftige Vorkommen im festgelegten Intervall
+
+Wiederkehrende Beitraege werden im Kalender mit uebereinstimmenden Farbindikatoren gruppiert. Sie koennen die gesamte Serie verwalten oder einzelne Vorkommen bearbeiten.
+
+## Multi-Channel-Planung
+
+Wenn Sie mehrere Channels auswaehlen, wird derselbe Beitrag fuer alle gleichzeitig geplant:
+
+- Alle Channels erhalten den Beitrag zur selben geplanten Zeit
+- Plattformspezifische Einstellungen (TikTok-Privatsphaere, YouTube-Sichtbarkeit usw.) werden pro Channel angewendet
+- Wenn ein Channel fehlschlaegt, werden die anderen trotzdem erfolgreich veroeffentlicht — Sie koennen den fehlgeschlagenen einzeln wiederholen
+
+## Warteschlangenverarbeitung
+
+Folgendes passiert hinter den Kulissen, wenn Ihre geplante Zeit erreicht ist:
+
+1. Der Beitrag wechselt vom Status **Geplant** zu **Warteschlange**
+2. Postzees Worker verarbeitet die Warteschlange und sendet Inhalte an die API jeder Plattform
+3. Bei Erfolg wechselt der Beitrag zum Status **Veroeffentlicht**
+4. Bei Fehlschlag wechselt der Beitrag zum Status **Fehler** mit einer spezifischen Fehlermeldung
+
+<CardGroup cols={2}>
+  <Card title="Beitragseditor" icon="pen-to-square" href="/calendar/post-editor">
+    Erfahren Sie, wie Sie Ihre Beitraege erstellen und anpassen.
+  </Card>
+  <Card title="Beitrags-Lebenszyklus" icon="arrows-rotate" href="/calendar/post-lifecycle">
+    Verstehen Sie Beitragsstatus und Fehlerbehebung.
+  </Card>
+</CardGroup>
