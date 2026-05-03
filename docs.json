@@ -12,6 +12,19 @@
     "light": "/logo/light.svg",
     "dark": "/logo/dark.svg"
   },
+  "seo": {
+    "metatags": {
+      "og:site_name": "Postzee Docs",
+      "og:image": "/images/og-image.png",
+      "og:type": "website",
+      "og:locale": "en_US",
+      "twitter:card": "summary_large_image",
+      "twitter:image": "/images/og-image.png",
+      "keywords": "AI image generation, AI video generation, social media management, social media scheduler, MCP server, AI content creation, Instagram automation, TikTok automation, HeyGen avatar, Postzee",
+      "author": "Zee Labs LLC"
+    },
+    "indexing": "all"
+  },
   "navbar": {
     "links": [
       {
