@@ -284,6 +284,17 @@
                 ]
               },
               {
+                "group": "Solução de Problemas",
+                "pages": [
+                  "pt-BR/troubleshooting/post-errors",
+                  "pt-BR/troubleshooting/billing-issues",
+                  "pt-BR/troubleshooting/channel-problems",
+                  "pt-BR/troubleshooting/ai-generation-issues",
+                  "pt-BR/troubleshooting/account-access",
+                  "pt-BR/troubleshooting/common-issues"
+                ]
+              },
+              {
                 "group": "Perguntas Frequentes",
                 "pages": [
                   "pt-BR/faq"
@@ -432,6 +443,17 @@
                   "es/ai-models/image-models",
                   "es/ai-models/video-models",
                   "es/ai-models/pricing"
+                ]
+              },
+              {
+                "group": "Solución de Problemas",
+                "pages": [
+                  "es/troubleshooting/post-errors",
+                  "es/troubleshooting/billing-issues",
+                  "es/troubleshooting/channel-problems",
+                  "es/troubleshooting/ai-generation-issues",
+                  "es/troubleshooting/account-access",
+                  "es/troubleshooting/common-issues"
                 ]
               },
               {
@@ -586,6 +608,17 @@
                 ]
               },
               {
+                "group": "Dépannage",
+                "pages": [
+                  "fr/troubleshooting/post-errors",
+                  "fr/troubleshooting/billing-issues",
+                  "fr/troubleshooting/channel-problems",
+                  "fr/troubleshooting/ai-generation-issues",
+                  "fr/troubleshooting/account-access",
+                  "fr/troubleshooting/common-issues"
+                ]
+              },
+              {
                 "group": "Questions Fréquentes",
                 "pages": [
                   "fr/faq"
@@ -734,6 +767,17 @@
                   "de/ai-models/image-models",
                   "de/ai-models/video-models",
                   "de/ai-models/pricing"
+                ]
+              },
+              {
+                "group": "Fehlerbehebung",
+                "pages": [
+                  "de/troubleshooting/post-errors",
+                  "de/troubleshooting/billing-issues",
+                  "de/troubleshooting/channel-problems",
+                  "de/troubleshooting/ai-generation-issues",
+                  "de/troubleshooting/account-access",
+                  "de/troubleshooting/common-issues"
                 ]
               },
               {
