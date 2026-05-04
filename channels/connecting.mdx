@@ -109,6 +109,10 @@ To fix it:
 Scheduled posts for a disconnected channel will fail when their publish time arrives. Reconnect the channel before the scheduled time to avoid errors.
 </Note>
 
+<Warning>
+If reconnection fails, the platform may require a fresh connection. In that case, **remove the channel** and **connect it again** from scratch. Your scheduled posts will need to be reassigned to the new channel.
+</Warning>
+
 ## Troubleshooting
 
 | Problem | Solution |
@@ -116,6 +120,7 @@ Scheduled posts for a disconnected channel will fail when their publish time arr
 | Authorization fails | Make sure you're logging into the correct account on the platform |
 | Instagram not showing | Ensure your Instagram is a Business or Creator profile linked to a Facebook Page |
 | Channel shows "Needs Reconnection" | The token expired — click Reconnect to re-authorize |
+| Reconnection fails | The platform may require a fresh connection — remove the channel and connect it again |
 | Platform not in the list | Check [Supported Platforms](/get-started/supported-platforms) for the full list, or contact support |
 
 <CardGroup cols={2}>
