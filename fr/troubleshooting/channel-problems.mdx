@@ -1,0 +1,99 @@
+---
+title: Problemes de connexion des canaux
+description: "Resolvez les problemes de connexion, reconnexion et gestion des canaux de reseaux sociaux."
+icon: plug-circle-exclamation
+---
+
+## Mon canal affiche "Reconnexion necessaire"
+
+**Cause :** Les jetons OAuth expirent periodiquement (generalement tous les 60 jours pour Facebook/Instagram). Lorsque cela se produit, Postzee ne peut plus publier en votre nom.
+
+**Correction :**
+1. Allez dans **Canaux**
+2. Trouvez le canal avec l'indicateur d'avertissement
+3. Cliquez sur le menu **⋮** → **Reconnecter**
+4. Completez le flux d'autorisation OAuth
+5. Votre canal est restaure avec tous ses parametres intacts
+
+<Note>
+Les posts programmes pour un canal deconnecte echoueront lorsque leur heure de publication arrivera. Reconnectez-le avant l'heure prevue pour eviter les erreurs.
+</Note>
+
+## La reconnexion a echoue
+
+**Cause :** La plateforme peut exiger une connexion completement nouvelle au lieu d'une reconnexion. Cela peut se produire lorsque la plateforme revoque entierement votre autorisation precedente.
+
+**Correction :**
+1. Allez dans **Canaux**
+2. **Supprimez** le canal problematique (cliquez sur ⋮ → Supprimer)
+3. Cliquez sur **Ajouter un canal** et connectez-le a nouveau depuis le debut
+4. Reassignez tous les posts programmes au nouveau canal
+
+## Je n'arrive pas a connecter mon Instagram
+
+**Causes courantes :**
+
+| Probleme | Solution |
+|----------|----------|
+| Instagram n'apparait pas | Votre Instagram doit etre un profil **Business** ou **Createur**. Les profils personnels ne peuvent pas etre connectes via l'API. |
+| Aucune page n'apparait apres la connexion | Votre profil Instagram Business doit etre lie a une **Page Facebook**. Allez dans Parametres Instagram → Compte → Comptes lies → Facebook. |
+| Erreur d'autorisation | Assurez-vous de vous connecter avec le **compte Facebook** qui gere le profil Instagram, et non directement avec les identifiants Instagram. |
+| "Permissions insuffisantes" | Lors de l'autorisation, assurez-vous de cocher **toutes** les cases de permissions demandees par Postzee. |
+
+## Je n'arrive pas a connecter ma Page Facebook
+
+**Causes courantes :**
+
+| Probleme | Solution |
+|----------|----------|
+| Aucune page n'apparait | Vous devez etre **Administrateur** de la Page Facebook. Les roles Editeur ou Moderateur ne sont pas suffisants. |
+| Mauvaise page connectee | Vous pouvez connecter plusieurs pages. Si vous avez connecte la mauvaise, supprimez-la et ajoutez la bonne. |
+| "Page non accessible" | Assurez-vous que la page est publiee (pas non publiee/brouillon) et que vous avez un acces administrateur. |
+
+## Je n'arrive pas a connecter TikTok
+
+**Causes courantes :**
+
+| Probleme | Solution |
+|----------|----------|
+| L'autorisation echoue | Assurez-vous d'utiliser un compte **TikTok Business** ou **Createur**. Les comptes personnels ont un acces API limite. |
+| Divulgation de contenu requise | TikTok exige des parametres de divulgation de contenu. Postzee vous invitera a les configurer lors de la connexion. |
+
+## J'ai connecte le mauvais compte
+
+1. Allez dans **Canaux**
+2. Trouvez le canal incorrect
+3. Cliquez sur ⋮ → **Supprimer**
+4. Cliquez sur **Ajouter un canal** et connectez le bon compte
+
+Supprimer un canal ne **supprime pas** les posts deja publies sur la plateforme. Cela deconnecte uniquement l'acces de Postzee.
+
+## Mon canal apparait desactive
+
+**Cause :** La limite de canaux de votre plan a ete depassee, ou un administrateur a desactive le canal.
+
+**Correction :**
+1. Verifiez la limite de canaux de votre plan dans **Parametres** → **Facturation**
+2. Si vous avez depasse votre limite, mettez a niveau votre plan ou supprimez les canaux inutilises
+3. Si un administrateur l'a desactive, demandez-lui de le reactiver dans **Canaux** → ⋮ → **Activer**
+
+## Limite de canaux atteinte
+
+Chaque plan a un nombre maximum de canaux :
+
+| Plan | Canaux max. |
+|------|-------------|
+| Gratuit | 0 |
+| Standard | 5 |
+| Team | 10 |
+| Pro | 30 |
+| Ultimate | 100 |
+
+Pour connecter plus de canaux, mettez a niveau votre plan dans **Parametres** → **Facturation**.
+
+## Vous avez toujours des problemes ?
+
+Contactez le support via le widget de chat avec :
+- La plateforme que vous essayez de connecter (Instagram, Facebook, etc.)
+- Le message d'erreur que vous voyez
+- Le nom du compte/de la page que vous essayez de connecter

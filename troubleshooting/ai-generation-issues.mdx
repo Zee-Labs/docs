@@ -1,0 +1,125 @@
+---
+title: AI Generation Issues
+description: "Fix problems with AI image and video generation — failed tasks, credits, quality issues, and model-specific tips."
+icon: wand-magic-sparkles
+---
+
+## My AI generation failed — where are my credits?
+
+**Credits are automatically refunded** when a generation fails. You don't need to request a refund — it happens instantly.
+
+Check your credit balance in the **Credits** section. The refunded amount matches exactly what was deducted for that generation.
+
+<Note>
+You'll receive a notification when a generation fails. The notification includes the reason for the failure (content blocked, timeout, etc.).
+</Note>
+
+## Common failure reasons
+
+### Content blocked
+
+**Cause:** The AI model's safety filter detected potentially inappropriate content in your prompt.
+
+**Fix:**
+- Rephrase your prompt to avoid sensitive topics
+- Avoid requests for realistic depictions of real people
+- Remove explicit or violent descriptions
+- Try a different AI model — each model has different content policies
+
+### Generation timed out
+
+**Cause:** The AI model took too long to generate. This is more common with video models and high-resolution images.
+
+**Fix:**
+- Try again — timeouts are usually temporary server load issues
+- For videos: try a shorter duration (e.g., 5 seconds instead of 10)
+- For images: try a lower resolution or different aspect ratio
+- Try during off-peak hours
+
+### Image reference issues
+
+**Cause:** The reference image you provided couldn't be processed — it may be too small, too large, or in an unsupported format.
+
+**Fix:**
+- Use images between 512×512 and 4096×4096 pixels
+- Use JPG, PNG, or WebP format
+- Ensure the image file is not corrupted
+- Try without the reference image to isolate the issue
+
+### No output generated
+
+**Cause:** The AI model couldn't produce a result from your prompt. This can happen with very abstract or contradictory prompts.
+
+**Fix:**
+- Be more specific in your description
+- Use the **Prompt Optimizer** (✨ button) to improve your prompt
+- Try a different model that may interpret your prompt better
+
+## My image quality is poor
+
+**Tips for better results:**
+
+1. **Use the Prompt Optimizer** — Click the ✨ button to let AI enhance your prompt. This dramatically improves results.
+
+2. **Be specific** — "A golden retriever puppy on a beach at sunset, professional photography, shallow depth of field" works better than "dog on beach."
+
+3. **Choose the right model:**
+   - **Photorealism:** Nano Banana Pro, FLUX.2 Pro, GPT Image 2 (HD quality)
+   - **Illustrations/Art:** Recraft V4, Ideogram V3
+   - **Fast drafts:** GPT Image Mini, Nano Banana
+   - **Text in images:** Ideogram V3 (best at rendering text accurately)
+
+4. **Aspect ratio matters** — Use the aspect ratio that matches your target platform (9:16 for Stories/Reels, 1:1 for feed posts, 16:9 for YouTube).
+
+## My video has visual artifacts
+
+**Common causes:**
+- Very fast motion in the prompt — AI video models struggle with rapid movement
+- Very detailed scenes with many small elements
+- Unrealistic physics requests
+
+**Fix:**
+- Simplify the scene description
+- Use prompts that describe slow, smooth motion
+- Try a different video model (each has different strengths)
+- For best quality, use **Kling 2.0 Master** or **Veo 3.1**
+
+## The AI generated wrong text in the image
+
+**Cause:** Most AI models struggle with text rendering. They may misspell words or produce garbled text.
+
+**Best options for text in images:**
+1. Use **Ideogram V3** — it's specifically designed for accurate text rendering
+2. Use **Recraft V4** — excellent for logos and design with text
+3. Generate the image without text, then add text using the **Photo Editor**
+
+## I ran out of credits
+
+**Options to get more credits:**
+1. **Purchase credit packages** — Go to **Credits** → choose a package
+2. **Wait for monthly reset** — Paid plans receive fresh credits each billing cycle
+3. **Enable Auto-Recharge** — In **Credits** → **Auto-Recharge**, set a threshold to automatically purchase more credits when your balance gets low
+
+<Note>
+Monthly plan credits reset at each billing cycle. Purchased credits never expire, even if you cancel your subscription.
+</Note>
+
+## Which model should I use?
+
+| Goal | Recommended Model |
+|------|-------------------|
+| Photorealistic images | Nano Banana Pro, FLUX.2 Pro |
+| Logos and icons | Recraft V4 |
+| Text in images | Ideogram V3 |
+| Fast and cheap | GPT Image Mini, Nano Banana |
+| Best overall quality | GPT Image 2 (HD) |
+| Short videos (5-10s) | Kling 2.0, Wan 2.5 |
+| Cinematic videos | Veo 3.1 |
+| AI avatar videos | HeyGen |
+
+## Still having issues?
+
+Contact support through the chat widget with:
+- The model you used
+- Your prompt (or a description of what you were trying to generate)
+- The error message from the notification

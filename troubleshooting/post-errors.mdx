@@ -1,0 +1,103 @@
+---
+title: Post Publishing Errors
+description: "Common issues when publishing posts to social networks — error states, failed posts, and how to fix them."
+icon: triangle-exclamation
+---
+
+When a post fails to publish, it shows an **Error** status in the calendar. Here are the most common causes and how to fix them.
+
+## My post shows "Error" status
+
+1. Open the **Calendar**
+2. Click on the post with the error icon
+3. Click **View Error** to see the error message
+4. Follow the specific fix below based on the error
+
+## Channel token expired
+
+**Symptoms:** Post fails with an authorization or token error.
+
+**Cause:** OAuth tokens from social platforms expire periodically (typically every 60 days for Facebook/Instagram). When the token expires, Postzee can no longer publish on your behalf.
+
+**Fix:**
+1. Go to **Channels**
+2. Find the channel showing "Needs Reconnection"
+3. Click **Reconnect**
+4. Complete the authorization flow
+5. Reschedule the failed post
+
+<Note>
+Postzee sends you a notification when a channel needs reconnection. Reconnect it before your next scheduled post to avoid errors.
+</Note>
+
+## Content rejected by platform
+
+**Symptoms:** Post fails with a content policy or moderation error.
+
+**Cause:** The social platform (Instagram, TikTok, etc.) detected that the content violates their community guidelines.
+
+**Fix:**
+1. Review the error message for specific details
+2. Edit the post content — remove any flagged text or media
+3. Reschedule the post
+
+Common reasons for rejection:
+- Explicit or sensitive content
+- Copyrighted music in videos
+- Spam-like text or excessive hashtags
+- Text overlays that cover too much of the image (Instagram)
+
+## Unsupported media format
+
+**Symptoms:** Post fails with a format or file error.
+
+**Cause:** The media file format is not supported by the platform.
+
+**Fix:**
+- **Videos:** Must be in **MP4** format. Convert other formats (MOV, AVI, MKV) to MP4 before uploading.
+- **Images:** Use **JPG, PNG, or WebP**. Most platforms don't accept BMP, TIFF, or SVG.
+- Check platform-specific limits (e.g., TikTok requires videos between 3-60 seconds)
+
+## Post published but shows as error
+
+**Symptoms:** The post actually appeared on the social network, but Postzee shows it as "Error."
+
+**Cause:** The platform accepted the post but returned an unexpected response format. This is rare and usually caused by temporary API issues.
+
+**Fix:**
+- Check the social network directly to confirm the post is live
+- The post will remain as "Error" in Postzee, but no action is needed
+- If this happens frequently, contact support
+
+## Rate limit exceeded
+
+**Symptoms:** Multiple posts fail in a short time, error mentions "rate limit" or "too many requests."
+
+**Cause:** You're publishing too many posts in a short period. Each platform has limits on how many posts can be made per hour/day.
+
+**Fix:**
+- Space out your scheduled posts (at least 5-10 minutes apart)
+- Reduce the number of posts per day to that platform
+- Wait 1-2 hours and reschedule the failed posts
+
+## Post was scheduled but never published
+
+**Symptoms:** The post stays in "Scheduled" status even after the publish time has passed.
+
+**Cause:** The channel was disconnected or disabled when the publish time arrived.
+
+**Fix:**
+1. Check if the channel is connected and active in **Channels**
+2. Reconnect if needed
+3. Reschedule the post to a future time
+
+<Warning>
+Posts cannot be published retroactively. If a scheduled post missed its window, you must reschedule it to a new date/time.
+</Warning>
+
+## Still having issues?
+
+If none of the above solutions work:
+1. Check the error message carefully — it often includes specific guidance
+2. Try disconnecting and reconnecting the affected channel
+3. Contact support through the chat widget with the error message

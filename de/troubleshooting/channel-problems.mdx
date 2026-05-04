@@ -1,0 +1,99 @@
+---
+title: Probleme mit der Kanalverbindung
+description: "Beheben Sie Probleme beim Verbinden, erneuten Verbinden und Verwalten von Social-Media-Kanaelen."
+icon: plug-circle-exclamation
+---
+
+## Mein Kanal zeigt "Erneute Verbindung erforderlich"
+
+**Ursache:** OAuth-Tokens laufen regelmaessig ab (normalerweise alle 60 Tage bei Facebook/Instagram). Wenn dies geschieht, kann Postzee nicht mehr in Ihrem Namen veroeffentlichen.
+
+**Loesung:**
+1. Gehen Sie zu **Kanaele**
+2. Finden Sie den Kanal mit dem Warnsymbol
+3. Klicken Sie auf das **⋮**-Menue → **Erneut verbinden**
+4. Schliessen Sie den OAuth-Autorisierungsvorgang ab
+5. Ihr Kanal wird mit allen Einstellungen wiederhergestellt
+
+<Note>
+Geplante Beitraege fuer einen getrennten Kanal schlagen fehl, wenn ihre Veroeffentlichungszeit eintritt. Verbinden Sie den Kanal erneut, bevor die geplante Zeit eintritt, um Fehler zu vermeiden.
+</Note>
+
+## Erneute Verbindung fehlgeschlagen
+
+**Ursache:** Die Plattform erfordert moeglicherweise eine komplett neue Verbindung anstelle einer erneuten Verbindung. Dies kann passieren, wenn die Plattform Ihre vorherige Autorisierung vollstaendig widerruft.
+
+**Loesung:**
+1. Gehen Sie zu **Kanaele**
+2. **Entfernen** Sie den problematischen Kanal (klicken Sie auf ⋮ → Entfernen)
+3. Klicken Sie auf **Kanal hinzufuegen** und verbinden Sie ihn komplett neu
+4. Weisen Sie alle geplanten Beitraege dem neuen Kanal zu
+
+## Ich kann mein Instagram nicht verbinden
+
+**Haeufige Ursachen:**
+
+| Problem | Loesung |
+|---------|---------|
+| Instagram wird nicht angezeigt | Ihr Instagram muss ein **Business**- oder **Creator**-Profil sein. Persoenliche Profile koennen nicht ueber die API verbunden werden. |
+| Nach dem Login erscheinen keine Seiten | Ihr Instagram-Business-Profil muss mit einer **Facebook-Seite** verknuepft sein. Gehen Sie zu Instagram-Einstellungen → Konto → Verknuepfte Konten → Facebook. |
+| Autorisierungsfehler | Stellen Sie sicher, dass Sie sich mit dem **Facebook-Konto** anmelden, das das Instagram-Profil verwaltet, nicht direkt mit den Instagram-Anmeldedaten. |
+| "Ungenuegend Berechtigungen" | Stellen Sie waehrend der Autorisierung sicher, dass Sie **alle** von Postzee angeforderten Berechtigungsfelder aktivieren. |
+
+## Ich kann meine Facebook-Seite nicht verbinden
+
+**Haeufige Ursachen:**
+
+| Problem | Loesung |
+|---------|---------|
+| Keine Seiten erscheinen | Sie muessen ein **Admin** der Facebook-Seite sein. Redakteur- oder Moderator-Rollen reichen nicht aus. |
+| Falsche Seite verbunden | Sie koennen mehrere Seiten verbinden. Wenn Sie die falsche verbunden haben, entfernen Sie sie und fuegen Sie die richtige hinzu. |
+| "Seite nicht zugaenglich" | Stellen Sie sicher, dass die Seite veroeffentlicht ist (nicht unveroeffentlicht/Entwurf) und Sie Administratorzugang haben. |
+
+## Ich kann TikTok nicht verbinden
+
+**Haeufige Ursachen:**
+
+| Problem | Loesung |
+|---------|---------|
+| Autorisierung schlaegt fehl | Stellen Sie sicher, dass Sie ein **TikTok Business**- oder **Creator**-Konto verwenden. Persoenliche Konten haben eingeschraenkten API-Zugang. |
+| Inhaltsoffenlegung erforderlich | TikTok erfordert Inhaltsoffenlegungseinstellungen. Postzee fordert Sie auf, diese waehrend der Verbindung zu konfigurieren. |
+
+## Ich habe das falsche Konto verbunden
+
+1. Gehen Sie zu **Kanaele**
+2. Finden Sie den falschen Kanal
+3. Klicken Sie auf ⋮ → **Entfernen**
+4. Klicken Sie auf **Kanal hinzufuegen** und verbinden Sie das richtige Konto
+
+Das Entfernen eines Kanals loescht **keine** bereits auf der Plattform veroeffentlichten Beitraege. Es trennt nur den Zugang von Postzee.
+
+## Mein Kanal erscheint als deaktiviert
+
+**Ursache:** Das Kanallimit Ihres Plans wurde ueberschritten, oder ein Administrator hat den Kanal deaktiviert.
+
+**Loesung:**
+1. Ueberpruefen Sie das Kanallimit Ihres Plans unter **Einstellungen** → **Abrechnung**
+2. Wenn Sie Ihr Limit ueberschritten haben, upgraden Sie Ihren Plan oder entfernen Sie ungenutzte Kanaele
+3. Wenn ein Administrator ihn deaktiviert hat, bitten Sie ihn, ihn unter **Kanaele** → ⋮ → **Aktivieren** wieder zu aktivieren
+
+## Kanallimit erreicht
+
+Jeder Plan hat eine maximale Anzahl von Kanaelen:
+
+| Plan | Max. Kanaele |
+|------|-------------|
+| Free | 0 |
+| Standard | 5 |
+| Team | 10 |
+| Pro | 30 |
+| Ultimate | 100 |
+
+Um mehr Kanaele zu verbinden, upgraden Sie Ihren Plan unter **Einstellungen** → **Abrechnung**.
+
+## Immer noch Probleme?
+
+Kontaktieren Sie den Support ueber das Chat-Widget mit:
+- Der Plattform, die Sie verbinden moechten (Instagram, Facebook usw.)
+- Der Fehlermeldung, die Sie sehen
+- Dem Konto-/Seitennamen, den Sie verbinden moechten

@@ -1,0 +1,99 @@
+---
+title: Channel Connection Problems
+description: "Fix issues with connecting, reconnecting, and managing social media channels."
+icon: plug-circle-exclamation
+---
+
+## My channel shows "Needs Reconnection"
+
+**Cause:** OAuth tokens expire periodically (usually every 60 days for Facebook/Instagram). When this happens, Postzee can no longer publish on your behalf.
+
+**Fix:**
+1. Go to **Channels**
+2. Find the channel with the warning indicator
+3. Click the **⋮** menu → **Reconnect**
+4. Complete the OAuth authorization flow
+5. Your channel is restored with all settings intact
+
+<Note>
+Scheduled posts for a disconnected channel will fail when their publish time arrives. Reconnect before the scheduled time to avoid errors.
+</Note>
+
+## Reconnection failed
+
+**Cause:** The platform may require a completely new connection instead of a reconnection. This can happen when the platform revokes your previous authorization entirely.
+
+**Fix:**
+1. Go to **Channels**
+2. **Remove** the problematic channel (click ⋮ → Remove)
+3. Click **Add Channel** and connect it again from scratch
+4. Reassign any scheduled posts to the new channel
+
+## I can't connect my Instagram
+
+**Common causes:**
+
+| Issue | Solution |
+|-------|----------|
+| Instagram not showing up | Your Instagram must be a **Business** or **Creator** profile. Personal profiles cannot be connected via the API. |
+| No pages appear after login | Your Instagram Business profile must be linked to a **Facebook Page**. Go to Instagram Settings → Account → Linked Accounts → Facebook. |
+| Authorization error | Make sure you're logging in with the **Facebook account** that manages the Instagram profile, not the Instagram credentials directly. |
+| "Insufficient permissions" | During authorization, make sure you check **all** the permission boxes that Postzee requests. |
+
+## I can't connect my Facebook Page
+
+**Common causes:**
+
+| Issue | Solution |
+|-------|----------|
+| No pages appear | You must be an **Admin** of the Facebook Page. Editor or Moderator roles are not sufficient. |
+| Wrong page connected | You can connect multiple pages. If you connected the wrong one, remove it and add the correct one. |
+| "Page not accessible" | Ensure the page is published (not unpublished/draft) and you have admin access. |
+
+## I can't connect TikTok
+
+**Common causes:**
+
+| Issue | Solution |
+|-------|----------|
+| Authorization fails | Make sure you're using a **TikTok Business** or **Creator** account. Personal accounts have limited API access. |
+| Content disclosure required | TikTok requires content disclosure settings. Postzee will prompt you to configure these during connection. |
+
+## I connected the wrong account
+
+1. Go to **Channels**
+2. Find the incorrect channel
+3. Click ⋮ → **Remove**
+4. Click **Add Channel** and connect the correct account
+
+Removing a channel does **not** delete any posts already published on the platform. It only disconnects Postzee's access.
+
+## My channel appears disabled
+
+**Cause:** Your plan's channel limit was exceeded, or an admin disabled the channel.
+
+**Fix:**
+1. Check your plan's channel limit in **Settings** → **Billing**
+2. If you've exceeded your limit, upgrade your plan or remove unused channels
+3. If an admin disabled it, ask them to re-enable it in **Channels** → ⋮ → **Enable**
+
+## Channel limit reached
+
+Each plan has a maximum number of channels:
+
+| Plan | Max Channels |
+|------|-------------|
+| Free | 0 |
+| Standard | 5 |
+| Team | 10 |
+| Pro | 30 |
+| Ultimate | 100 |
+
+To connect more channels, upgrade your plan in **Settings** → **Billing**.
+
+## Still having issues?
+
+Contact support through the chat widget with:
+- The platform you're trying to connect (Instagram, Facebook, etc.)
+- The error message you see
+- The account/page name you're trying to connect

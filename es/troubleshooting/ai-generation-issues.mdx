@@ -1,0 +1,125 @@
+---
+title: Problemas con la Generación de IA
+description: "Soluciona problemas con la generación de imágenes y videos con IA — tareas fallidas, créditos, problemas de calidad y consejos por modelo."
+icon: wand-magic-sparkles
+---
+
+## Mi generación de IA falló — ¿dónde están mis créditos?
+
+**Los créditos se reembolsan automáticamente** cuando una generación falla. No necesitas solicitar un reembolso — sucede instantáneamente.
+
+Verifica tu saldo de créditos en la sección de **Créditos**. El monto reembolsado coincide exactamente con lo que se dedujo para esa generación.
+
+<Note>
+Recibirás una notificación cuando una generación falle. La notificación incluye la razón del fallo (contenido bloqueado, timeout, etc.).
+</Note>
+
+## Razones comunes de fallo
+
+### Contenido bloqueado
+
+**Causa:** El filtro de seguridad del modelo de IA detectó contenido potencialmente inapropiado en tu prompt.
+
+**Solución:**
+- Reformula tu prompt para evitar temas sensibles
+- Evita solicitar representaciones realistas de personas reales
+- Elimina descripciones explícitas o violentas
+- Prueba un modelo de IA diferente — cada modelo tiene políticas de contenido distintas
+
+### Generación agotada por tiempo
+
+**Causa:** El modelo de IA tardó demasiado en generar. Esto es más común con modelos de video e imágenes de alta resolución.
+
+**Solución:**
+- Intenta de nuevo — los timeouts generalmente son problemas temporales de carga del servidor
+- Para videos: prueba una duración más corta (ej.: 5 segundos en vez de 10)
+- Para imágenes: prueba una resolución menor o una relación de aspecto diferente
+- Intenta en horarios de menor demanda
+
+### Problemas con imagen de referencia
+
+**Causa:** La imagen de referencia que proporcionaste no pudo procesarse — puede ser demasiado pequeña, demasiado grande o estar en un formato no soportado.
+
+**Solución:**
+- Usa imágenes de entre 512×512 y 4096×4096 píxeles
+- Usa formato JPG, PNG o WebP
+- Asegúrate de que el archivo de imagen no esté corrupto
+- Intenta sin la imagen de referencia para aislar el problema
+
+### No se generó resultado
+
+**Causa:** El modelo de IA no pudo producir un resultado a partir de tu prompt. Esto puede suceder con prompts muy abstractos o contradictorios.
+
+**Solución:**
+- Sé más específico en tu descripción
+- Usa el **Optimizador de Prompts** (botón ✨) para mejorar tu prompt
+- Prueba un modelo diferente que pueda interpretar mejor tu prompt
+
+## La calidad de mi imagen es baja
+
+**Consejos para mejores resultados:**
+
+1. **Usa el Optimizador de Prompts** — Haz clic en el botón ✨ para que la IA mejore tu prompt. Esto mejora drásticamente los resultados.
+
+2. **Sé específico** — "Un cachorro golden retriever en una playa al atardecer, fotografía profesional, poca profundidad de campo" funciona mejor que "perro en playa".
+
+3. **Elige el modelo correcto:**
+   - **Fotorrealismo:** Nano Banana Pro, FLUX.2 Pro, GPT Image 2 (calidad HD)
+   - **Ilustraciones/Arte:** Recraft V4, Ideogram V3
+   - **Borradores rápidos:** GPT Image Mini, Nano Banana
+   - **Texto en imágenes:** Ideogram V3 (el mejor para renderizar texto con precisión)
+
+4. **La relación de aspecto importa** — Usa la relación de aspecto que coincida con tu plataforma objetivo (9:16 para Stories/Reels, 1:1 para posts del feed, 16:9 para YouTube).
+
+## Mi video tiene artefactos visuales
+
+**Causas comunes:**
+- Movimiento muy rápido en el prompt — los modelos de video con IA tienen dificultades con movimiento rápido
+- Escenas muy detalladas con muchos elementos pequeños
+- Solicitudes de física poco realista
+
+**Solución:**
+- Simplifica la descripción de la escena
+- Usa prompts que describan movimiento lento y suave
+- Prueba un modelo de video diferente (cada uno tiene diferentes fortalezas)
+- Para la mejor calidad, usa **Kling 2.0 Master** o **Veo 3.1**
+
+## La IA generó texto incorrecto en la imagen
+
+**Causa:** La mayoría de los modelos de IA tienen dificultades con la renderización de texto. Pueden escribir palabras mal o producir texto ilegible.
+
+**Mejores opciones para texto en imágenes:**
+1. Usa **Ideogram V3** — está diseñado específicamente para renderizar texto con precisión
+2. Usa **Recraft V4** — excelente para logos y diseño con texto
+3. Genera la imagen sin texto, luego agrega texto usando el **Editor de Fotos**
+
+## Me quedé sin créditos
+
+**Opciones para obtener más créditos:**
+1. **Compra paquetes de créditos** — Ve a **Créditos** → elige un paquete
+2. **Espera el reinicio mensual** — Los planes pagos reciben créditos nuevos en cada ciclo de facturación
+3. **Activa la Recarga Automática** — En **Créditos** → **Recarga Automática**, establece un umbral para comprar créditos automáticamente cuando tu saldo sea bajo
+
+<Note>
+Los créditos mensuales del plan se reinician en cada ciclo de facturación. Los créditos comprados nunca expiran, incluso si cancelas tu suscripción.
+</Note>
+
+## ¿Qué modelo debería usar?
+
+| Objetivo | Modelo Recomendado |
+|----------|-------------------|
+| Imágenes fotorrealistas | Nano Banana Pro, FLUX.2 Pro |
+| Logos e íconos | Recraft V4 |
+| Texto en imágenes | Ideogram V3 |
+| Rápido y económico | GPT Image Mini, Nano Banana |
+| Mejor calidad general | GPT Image 2 (HD) |
+| Videos cortos (5-10s) | Kling 2.0, Wan 2.5 |
+| Videos cinematográficos | Veo 3.1 |
+| Videos con avatar de IA | HeyGen |
+
+## ¿Sigues teniendo problemas?
+
+Contacta a soporte a través del widget de chat con:
+- El modelo que usaste
+- Tu prompt (o una descripción de lo que intentabas generar)
+- El mensaje de error de la notificación

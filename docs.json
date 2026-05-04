@@ -122,6 +122,17 @@
                 ]
               },
               {
+                "group": "Troubleshooting",
+                "pages": [
+                  "troubleshooting/post-errors",
+                  "troubleshooting/billing-issues",
+                  "troubleshooting/channel-problems",
+                  "troubleshooting/ai-generation-issues",
+                  "troubleshooting/account-access",
+                  "troubleshooting/common-issues"
+                ]
+              },
+              {
                 "group": "FAQ",
                 "pages": [
                   "faq"

@@ -1,0 +1,103 @@
+---
+title: Erreurs de publication de posts
+description: "Problemes courants lors de la publication de posts sur les reseaux sociaux — etats d'erreur, posts echoues et comment les corriger."
+icon: triangle-exclamation
+---
+
+Lorsqu'un post echoue a la publication, il affiche un statut **Erreur** dans le calendrier. Voici les causes les plus courantes et comment les corriger.
+
+## Mon post affiche le statut "Erreur"
+
+1. Ouvrez le **Calendrier**
+2. Cliquez sur le post avec l'icone d'erreur
+3. Cliquez sur **Voir l'erreur** pour consulter le message d'erreur
+4. Suivez la correction specifique ci-dessous en fonction de l'erreur
+
+## Jeton du canal expire
+
+**Symptomes :** Le post echoue avec une erreur d'autorisation ou de jeton.
+
+**Cause :** Les jetons OAuth des plateformes sociales expirent periodiquement (generalement tous les 60 jours pour Facebook/Instagram). Lorsque le jeton expire, Postzee ne peut plus publier en votre nom.
+
+**Correction :**
+1. Allez dans **Canaux**
+2. Trouvez le canal affichant "Reconnexion necessaire"
+3. Cliquez sur **Reconnecter**
+4. Completez le flux d'autorisation
+5. Replanifiez le post echoue
+
+<Note>
+Postzee vous envoie une notification lorsqu'un canal necessite une reconnexion. Reconnectez-le avant votre prochain post programme pour eviter les erreurs.
+</Note>
+
+## Contenu rejete par la plateforme
+
+**Symptomes :** Le post echoue avec une erreur de politique de contenu ou de moderation.
+
+**Cause :** La plateforme sociale (Instagram, TikTok, etc.) a detecte que le contenu enfreint ses regles communautaires.
+
+**Correction :**
+1. Consultez le message d'erreur pour obtenir des details specifiques
+2. Modifiez le contenu du post — supprimez tout texte ou media signale
+3. Replanifiez le post
+
+Raisons courantes de rejet :
+- Contenu explicite ou sensible
+- Musique protegee par des droits d'auteur dans les videos
+- Texte de type spam ou hashtags excessifs
+- Superpositions de texte couvrant une trop grande partie de l'image (Instagram)
+
+## Format de media non supporte
+
+**Symptomes :** Le post echoue avec une erreur de format ou de fichier.
+
+**Cause :** Le format du fichier media n'est pas supporte par la plateforme.
+
+**Correction :**
+- **Videos :** Doivent etre au format **MP4**. Convertissez les autres formats (MOV, AVI, MKV) en MP4 avant de telecharger.
+- **Images :** Utilisez **JPG, PNG ou WebP**. La plupart des plateformes n'acceptent pas les formats BMP, TIFF ou SVG.
+- Verifiez les limites specifiques a la plateforme (par ex., TikTok exige des videos entre 3 et 60 secondes)
+
+## Post publie mais affiche comme erreur
+
+**Symptomes :** Le post est bien apparu sur le reseau social, mais Postzee l'affiche comme "Erreur".
+
+**Cause :** La plateforme a accepte le post mais a renvoye un format de reponse inattendu. Cela est rare et generalement cause par des problemes temporaires d'API.
+
+**Correction :**
+- Verifiez directement sur le reseau social que le post est en ligne
+- Le post restera en "Erreur" dans Postzee, mais aucune action n'est necessaire
+- Si cela se produit frequemment, contactez le support
+
+## Limite de debit depassee
+
+**Symptomes :** Plusieurs posts echouent en peu de temps, l'erreur mentionne "rate limit" ou "too many requests".
+
+**Cause :** Vous publiez trop de posts en peu de temps. Chaque plateforme a des limites sur le nombre de posts pouvant etre effectues par heure/jour.
+
+**Correction :**
+- Espacez vos posts programmes (au moins 5 a 10 minutes d'intervalle)
+- Reduisez le nombre de posts par jour vers cette plateforme
+- Attendez 1 a 2 heures et replanifiez les posts echoues
+
+## Le post etait programme mais n'a jamais ete publie
+
+**Symptomes :** Le post reste en statut "Programme" meme apres l'heure de publication prevue.
+
+**Cause :** Le canal etait deconnecte ou desactive au moment de la publication.
+
+**Correction :**
+1. Verifiez que le canal est connecte et actif dans **Canaux**
+2. Reconnectez-le si necessaire
+3. Replanifiez le post a une heure future
+
+<Warning>
+Les posts ne peuvent pas etre publies retroactivement. Si un post programme a manque son creneau, vous devez le replanifier a une nouvelle date/heure.
+</Warning>
+
+## Vous avez toujours des problemes ?
+
+Si aucune des solutions ci-dessus ne fonctionne :
+1. Lisez attentivement le message d'erreur — il contient souvent des indications specifiques
+2. Essayez de deconnecter et reconnecter le canal concerne
+3. Contactez le support via le widget de chat avec le message d'erreur

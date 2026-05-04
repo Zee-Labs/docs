@@ -1,0 +1,97 @@
+---
+title: Problemes de facturation et paiement
+description: "Resolvez les problemes de paiement, les achats de credits, la gestion d'abonnement et les questions de facturation."
+icon: credit-card
+---
+
+Tous les paiements Postzee sont traites de maniere securisee via **Stripe**. Les prix sont en **USD** quel que soit votre emplacement.
+
+## Mon achat de credits n'apparait pas
+
+**Cause :** Le paiement est peut-etre encore en cours de traitement, ou la session de paiement ne s'est pas terminee.
+
+**Correction :**
+1. Verifiez votre email pour une confirmation de paiement de Stripe
+2. Allez dans **Credits** dans le tableau de bord — votre solde devrait se mettre a jour en quelques secondes
+3. Si aucun email de confirmation n'est arrive, le paiement n'a probablement pas abouti — reessayez
+4. Si vous avez recu une confirmation mais que les credits n'apparaissent pas, attendez quelques minutes et rafraichissez la page
+
+<Note>
+Les credits apparaissent instantanement apres un paiement reussi. S'ils n'apparaissent pas apres 5 minutes et que vous avez une confirmation de paiement, contactez le support avec votre email pour que nous puissions verifier.
+</Note>
+
+## Ma carte a ete refusee
+
+**Cause :** Votre banque ou l'emetteur de la carte a rejete la transaction. Raisons courantes :
+- Fonds insuffisants
+- Transaction internationale bloquee (Postzee facture en USD)
+- Carte expiree
+- Plafond de depenses journalier atteint
+
+**Correction :**
+1. Contactez votre banque pour autoriser les transactions internationales en USD
+2. Essayez une autre carte
+3. Assurez-vous que votre carte est activee pour les achats en ligne/internationaux
+
+## J'ai ete debite mais mon abonnement ne s'est pas active
+
+**Cause :** Il peut y avoir eu un delai entre le paiement et l'activation du compte.
+
+**Correction :**
+1. Deconnectez-vous et reconnectez-vous — votre plan peut necessite un rafraichissement de session
+2. Verifiez **Facturation** dans les parametres pour confirmer le statut de votre abonnement
+3. Si le plan affiche toujours Gratuit apres 10 minutes, contactez le support avec votre email
+
+## Comment annuler mon abonnement ?
+
+1. Allez dans **Parametres** → **Facturation**
+2. Cliquez sur **Gerer l'abonnement**
+3. Suivez les instructions pour annuler
+
+**Ce qui se passe apres l'annulation :**
+- Vous conservez l'acces jusqu'a la fin de la periode de facturation en cours
+- Les **credits IA mensuels** sont supprimes a la fin de la periode
+- Les **credits achetes** (achetes separement) ne sont **jamais supprimes** — ils restent sur votre compte indefiniment
+- Vous pouvez toujours utiliser les credits achetes avec le plan Gratuit
+
+## Comment changer ma carte de paiement ?
+
+1. Allez dans **Parametres** → **Facturation**
+2. Cliquez sur **Gerer l'abonnement** ou **Mettre a jour le moyen de paiement**
+3. Entrez les details de votre nouvelle carte
+
+Si le paiement de votre abonnement a echoue :
+1. Mettez a jour votre carte en suivant les etapes ci-dessus
+2. Stripe retentera automatiquement le paiement avec votre nouvelle carte
+3. Une fois le paiement reussi, votre compte est debloque automatiquement
+
+## Pourquoi mon compte a-t-il ete bloque ?
+
+Votre compte peut etre bloque si :
+- **Echec de paiement** — le paiement de votre abonnement n'a pas abouti. Mettez a jour votre carte et le compte est debloque automatiquement lorsque le paiement reussit.
+- **Litige de remboursement** — si vous avez conteste un debit aupres de votre banque, le compte est bloque jusqu'a la resolution du litige.
+
+## Je souhaite un remboursement
+
+- **Remboursements d'abonnement :** Contactez le support avec l'email de votre compte. L'eligibilite au remboursement depend de votre utilisation et de votre cycle de facturation.
+- **Achats de credits :** Les credits ne sont pas remboursables une fois utilises. Les soldes de credits non utilises peuvent etre eligibles a un remboursement — contactez le support.
+- **Generations IA echouees :** Les credits sont **automatiquement rembourses** lorsqu'une generation IA echoue. Vous n'avez pas besoin de le demander — cela se fait instantanement.
+
+## Pourquoi suis-je facture en USD ?
+
+Postzee traite tous les paiements en **dollars americains (USD)**. Votre banque peut convertir le montant dans votre devise locale et appliquer des frais de conversion. Ceci est standard pour les plateformes SaaS internationales et garantit une tarification coherente dans le monde entier.
+
+## Mon essai gratuit est termine mais je ne veux pas payer
+
+Pendant l'**essai gratuit de 7 jours**, vous avez un acces complet aux fonctionnalites du plan sauf les credits IA (les credits ne sont accordes qu'apres le premier paiement). A la fin de l'essai :
+- Si vous ne fournissez pas de moyen de paiement → l'abonnement est annule, vous revenez au plan Gratuit
+- Si vous fournissez un moyen de paiement → le premier debit a lieu et vous recevez vos credits IA mensuels
+
+Vous pouvez annuler avant la fin de l'essai pour eviter d'etre facture.
+
+## Vous avez toujours des problemes ?
+
+Contactez le support via le widget de chat avec :
+- L'email de votre compte
+- Le type de probleme (paiement, abonnement, credits)
+- Tout message d'erreur que vous voyez

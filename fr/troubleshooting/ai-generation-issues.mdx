@@ -1,0 +1,125 @@
+---
+title: Problemes de generation IA
+description: "Resolvez les problemes de generation d'images et de videos par IA — taches echouees, credits, problemes de qualite et conseils specifiques aux modeles."
+icon: wand-magic-sparkles
+---
+
+## Ma generation IA a echoue — ou sont mes credits ?
+
+**Les credits sont automatiquement rembourses** lorsqu'une generation echoue. Vous n'avez pas besoin de demander un remboursement — cela se fait instantanement.
+
+Verifiez votre solde de credits dans la section **Credits**. Le montant rembourse correspond exactement a ce qui a ete debite pour cette generation.
+
+<Note>
+Vous recevrez une notification lorsqu'une generation echoue. La notification inclut la raison de l'echec (contenu bloque, delai depasse, etc.).
+</Note>
+
+## Raisons courantes d'echec
+
+### Contenu bloque
+
+**Cause :** Le filtre de securite du modele IA a detecte un contenu potentiellement inapproprie dans votre prompt.
+
+**Correction :**
+- Reformulez votre prompt pour eviter les sujets sensibles
+- Evitez les demandes de representations realistes de personnes reelles
+- Supprimez les descriptions explicites ou violentes
+- Essayez un modele IA different — chaque modele a des politiques de contenu differentes
+
+### Generation expiree
+
+**Cause :** Le modele IA a mis trop de temps a generer. Cela est plus courant avec les modeles video et les images haute resolution.
+
+**Correction :**
+- Reessayez — les expirations sont generalement des problemes temporaires de charge serveur
+- Pour les videos : essayez une duree plus courte (par ex., 5 secondes au lieu de 10)
+- Pour les images : essayez une resolution inferieure ou un ratio d'aspect different
+- Essayez pendant les heures creuses
+
+### Problemes d'image de reference
+
+**Cause :** L'image de reference que vous avez fournie n'a pas pu etre traitee — elle peut etre trop petite, trop grande ou dans un format non supporte.
+
+**Correction :**
+- Utilisez des images entre 512x512 et 4096x4096 pixels
+- Utilisez le format JPG, PNG ou WebP
+- Assurez-vous que le fichier image n'est pas corrompu
+- Essayez sans l'image de reference pour isoler le probleme
+
+### Aucun resultat genere
+
+**Cause :** Le modele IA n'a pas pu produire de resultat a partir de votre prompt. Cela peut se produire avec des prompts tres abstraits ou contradictoires.
+
+**Correction :**
+- Soyez plus precis dans votre description
+- Utilisez l'**Optimiseur de prompt** (bouton ✨) pour ameliorer votre prompt
+- Essayez un modele different qui pourrait mieux interpreter votre prompt
+
+## La qualite de mon image est mauvaise
+
+**Conseils pour de meilleurs resultats :**
+
+1. **Utilisez l'Optimiseur de prompt** — Cliquez sur le bouton ✨ pour laisser l'IA ameliorer votre prompt. Cela ameliore considerablement les resultats.
+
+2. **Soyez precis** — "Un chiot golden retriever sur une plage au coucher du soleil, photographie professionnelle, faible profondeur de champ" fonctionne mieux que "chien sur la plage".
+
+3. **Choisissez le bon modele :**
+   - **Photorealisme :** Nano Banana Pro, FLUX.2 Pro, GPT Image 2 (qualite HD)
+   - **Illustrations/Art :** Recraft V4, Ideogram V3
+   - **Brouillons rapides :** GPT Image Mini, Nano Banana
+   - **Texte dans les images :** Ideogram V3 (le meilleur pour le rendu precis du texte)
+
+4. **Le ratio d'aspect compte** — Utilisez le ratio d'aspect correspondant a votre plateforme cible (9:16 pour les Stories/Reels, 1:1 pour les posts de fil, 16:9 pour YouTube).
+
+## Ma video a des artefacts visuels
+
+**Causes courantes :**
+- Mouvement tres rapide dans le prompt — les modeles video IA ont du mal avec les mouvements rapides
+- Scenes tres detaillees avec de nombreux petits elements
+- Demandes de physique irrealiste
+
+**Correction :**
+- Simplifiez la description de la scene
+- Utilisez des prompts qui decrivent des mouvements lents et fluides
+- Essayez un modele video different (chacun a des points forts differents)
+- Pour la meilleure qualite, utilisez **Kling 2.0 Master** ou **Veo 3.1**
+
+## L'IA a genere un texte incorrect dans l'image
+
+**Cause :** La plupart des modeles IA ont du mal avec le rendu de texte. Ils peuvent mal orthographier des mots ou produire du texte illisible.
+
+**Meilleures options pour du texte dans les images :**
+1. Utilisez **Ideogram V3** — il est specifiquement concu pour un rendu precis du texte
+2. Utilisez **Recraft V4** — excellent pour les logos et le design avec du texte
+3. Generez l'image sans texte, puis ajoutez le texte avec l'**Editeur photo**
+
+## Je n'ai plus de credits
+
+**Options pour obtenir plus de credits :**
+1. **Achetez des packs de credits** — Allez dans **Credits** → choisissez un pack
+2. **Attendez la reinitialisation mensuelle** — Les plans payants recoivent de nouveaux credits a chaque cycle de facturation
+3. **Activez la Recharge automatique** — Dans **Credits** → **Recharge automatique**, definissez un seuil pour acheter automatiquement plus de credits lorsque votre solde est bas
+
+<Note>
+Les credits mensuels du plan sont reinitialises a chaque cycle de facturation. Les credits achetes n'expirent jamais, meme si vous annulez votre abonnement.
+</Note>
+
+## Quel modele devrais-je utiliser ?
+
+| Objectif | Modele recommande |
+|----------|-------------------|
+| Images photorealistes | Nano Banana Pro, FLUX.2 Pro |
+| Logos et icones | Recraft V4 |
+| Texte dans les images | Ideogram V3 |
+| Rapide et economique | GPT Image Mini, Nano Banana |
+| Meilleure qualite globale | GPT Image 2 (HD) |
+| Videos courtes (5-10s) | Kling 2.0, Wan 2.5 |
+| Videos cinematographiques | Veo 3.1 |
+| Videos avec avatar IA | HeyGen |
+
+## Vous avez toujours des problemes ?
+
+Contactez le support via le widget de chat avec :
+- Le modele que vous avez utilise
+- Votre prompt (ou une description de ce que vous essayiez de generer)
+- Le message d'erreur de la notification

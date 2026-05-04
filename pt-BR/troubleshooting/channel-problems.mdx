@@ -1,0 +1,99 @@
+---
+title: Problemas com Conexão de Canais
+description: "Resolva problemas ao conectar, reconectar e gerenciar canais de redes sociais."
+icon: plug-circle-exclamation
+---
+
+## Meu canal mostra "Precisa Reconectar"
+
+**Causa:** Tokens OAuth expiram periodicamente (geralmente a cada 60 dias para Facebook/Instagram). Quando isso acontece, o Postzee não consegue mais publicar em seu nome.
+
+**Solução:**
+1. Vá até **Canais**
+2. Encontre o canal com o indicador de aviso
+3. Clique no menu **⋮** → **Reconectar**
+4. Complete o fluxo de autorização OAuth
+5. Seu canal é restaurado com todas as configurações intactas
+
+<Note>
+Posts agendados para um canal desconectado falharão quando o horário de publicação chegar. Reconecte antes do horário agendado para evitar erros.
+</Note>
+
+## A reconexão falhou
+
+**Causa:** A plataforma pode exigir uma conexão completamente nova em vez de uma reconexão. Isso pode acontecer quando a plataforma revoga completamente sua autorização anterior.
+
+**Solução:**
+1. Vá até **Canais**
+2. **Remova** o canal problemático (clique em ⋮ → Remover)
+3. Clique em **Adicionar Canal** e conecte-o novamente do zero
+4. Reatribua qualquer post agendado ao novo canal
+
+## Não consigo conectar meu Instagram
+
+**Causas comuns:**
+
+| Problema | Solução |
+|----------|---------|
+| Instagram não aparece | Seu Instagram deve ser um perfil **Business** ou **Criador de Conteúdo**. Perfis pessoais não podem ser conectados via API. |
+| Nenhuma página aparece após o login | Seu perfil Business do Instagram deve estar vinculado a uma **Página do Facebook**. Vá em Configurações do Instagram → Conta → Contas Vinculadas → Facebook. |
+| Erro de autorização | Certifique-se de que está fazendo login com a **conta do Facebook** que gerencia o perfil do Instagram, não com as credenciais do Instagram diretamente. |
+| "Permissões insuficientes" | Durante a autorização, certifique-se de marcar **todas** as caixas de permissão que o Postzee solicita. |
+
+## Não consigo conectar minha Página do Facebook
+
+**Causas comuns:**
+
+| Problema | Solução |
+|----------|---------|
+| Nenhuma página aparece | Você deve ser **Administrador** da Página do Facebook. Funções de Editor ou Moderador não são suficientes. |
+| Página errada conectada | Você pode conectar várias páginas. Se conectou a errada, remova-a e adicione a correta. |
+| "Página não acessível" | Certifique-se de que a página está publicada (não despublicada/rascunho) e que você tem acesso de administrador. |
+
+## Não consigo conectar o TikTok
+
+**Causas comuns:**
+
+| Problema | Solução |
+|----------|---------|
+| Autorização falha | Certifique-se de que está usando uma conta **TikTok Business** ou **Criador de Conteúdo**. Contas pessoais têm acesso limitado à API. |
+| Divulgação de conteúdo necessária | O TikTok exige configurações de divulgação de conteúdo. O Postzee solicitará que você configure isso durante a conexão. |
+
+## Conectei a conta errada
+
+1. Vá até **Canais**
+2. Encontre o canal incorreto
+3. Clique em ⋮ → **Remover**
+4. Clique em **Adicionar Canal** e conecte a conta correta
+
+Remover um canal **não** exclui nenhum post já publicado na plataforma. Apenas desconecta o acesso do Postzee.
+
+## Meu canal aparece desativado
+
+**Causa:** O limite de canais do seu plano foi excedido, ou um administrador desativou o canal.
+
+**Solução:**
+1. Verifique o limite de canais do seu plano em **Configurações** → **Cobrança**
+2. Se você excedeu seu limite, faça upgrade do plano ou remova canais não utilizados
+3. Se um administrador desativou, peça para reativar em **Canais** → ⋮ → **Ativar**
+
+## Limite de canais atingido
+
+Cada plano tem um número máximo de canais:
+
+| Plano | Máx. de Canais |
+|-------|----------------|
+| Free | 0 |
+| Standard | 5 |
+| Team | 10 |
+| Pro | 30 |
+| Ultimate | 100 |
+
+Para conectar mais canais, faça upgrade do seu plano em **Configurações** → **Cobrança**.
+
+## Ainda com problemas?
+
+Entre em contato com o suporte pelo chat com:
+- A plataforma que você está tentando conectar (Instagram, Facebook, etc.)
+- A mensagem de erro que você vê
+- O nome da conta/página que está tentando conectar

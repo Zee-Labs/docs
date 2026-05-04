@@ -1,0 +1,103 @@
+---
+title: Erros ao Publicar Posts
+description: "Problemas comuns ao publicar posts nas redes sociais — estados de erro, publicações que falharam e como resolver."
+icon: triangle-exclamation
+---
+
+Quando um post falha ao publicar, ele mostra o status de **Erro** no calendário. Aqui estão as causas mais comuns e como resolver.
+
+## Meu post mostra o status "Erro"
+
+1. Abra o **Calendário**
+2. Clique no post com o ícone de erro
+3. Clique em **Ver Erro** para ver a mensagem de erro
+4. Siga a solução específica abaixo com base no erro
+
+## Token do canal expirado
+
+**Sintomas:** O post falha com um erro de autorização ou token.
+
+**Causa:** Tokens OAuth de plataformas sociais expiram periodicamente (normalmente a cada 60 dias para Facebook/Instagram). Quando o token expira, o Postzee não consegue mais publicar em seu nome.
+
+**Solução:**
+1. Vá até **Canais**
+2. Encontre o canal mostrando "Precisa Reconectar"
+3. Clique em **Reconectar**
+4. Complete o fluxo de autorização
+5. Reagende o post que falhou
+
+<Note>
+O Postzee envia uma notificação quando um canal precisa de reconexão. Reconecte antes do próximo post agendado para evitar erros.
+</Note>
+
+## Conteúdo rejeitado pela plataforma
+
+**Sintomas:** O post falha com um erro de política de conteúdo ou moderação.
+
+**Causa:** A plataforma social (Instagram, TikTok, etc.) detectou que o conteúdo viola suas diretrizes da comunidade.
+
+**Solução:**
+1. Revise a mensagem de erro para detalhes específicos
+2. Edite o conteúdo do post — remova qualquer texto ou mídia sinalizado
+3. Reagende o post
+
+Razões comuns para rejeição:
+- Conteúdo explícito ou sensível
+- Música protegida por direitos autorais em vídeos
+- Texto com aparência de spam ou hashtags em excesso
+- Sobreposição de texto cobrindo muito da imagem (Instagram)
+
+## Formato de mídia não suportado
+
+**Sintomas:** O post falha com um erro de formato ou arquivo.
+
+**Causa:** O formato do arquivo de mídia não é suportado pela plataforma.
+
+**Solução:**
+- **Vídeos:** Devem estar no formato **MP4**. Converta outros formatos (MOV, AVI, MKV) para MP4 antes de fazer upload.
+- **Imagens:** Use **JPG, PNG ou WebP**. A maioria das plataformas não aceita BMP, TIFF ou SVG.
+- Verifique os limites específicos da plataforma (ex.: TikTok exige vídeos entre 3-60 segundos)
+
+## Post publicado mas aparece como erro
+
+**Sintomas:** O post realmente apareceu na rede social, mas o Postzee mostra como "Erro".
+
+**Causa:** A plataforma aceitou o post, mas retornou um formato de resposta inesperado. Isso é raro e geralmente causado por problemas temporários na API.
+
+**Solução:**
+- Verifique a rede social diretamente para confirmar que o post está publicado
+- O post permanecerá como "Erro" no Postzee, mas nenhuma ação é necessária
+- Se isso acontecer com frequência, entre em contato com o suporte
+
+## Limite de requisições excedido
+
+**Sintomas:** Vários posts falham em um curto período, o erro menciona "rate limit" ou "too many requests".
+
+**Causa:** Você está publicando muitos posts em um período curto. Cada plataforma tem limites de quantos posts podem ser feitos por hora/dia.
+
+**Solução:**
+- Espalhe seus posts agendados (pelo menos 5-10 minutos de intervalo)
+- Reduza o número de posts por dia para essa plataforma
+- Aguarde 1-2 horas e reagende os posts que falharam
+
+## Post foi agendado mas nunca foi publicado
+
+**Sintomas:** O post permanece no status "Agendado" mesmo após o horário de publicação ter passado.
+
+**Causa:** O canal estava desconectado ou desativado quando o horário de publicação chegou.
+
+**Solução:**
+1. Verifique se o canal está conectado e ativo em **Canais**
+2. Reconecte se necessário
+3. Reagende o post para um horário futuro
+
+<Warning>
+Posts não podem ser publicados retroativamente. Se um post agendado perdeu sua janela de publicação, você deve reagendá-lo para uma nova data/hora.
+</Warning>
+
+## Ainda com problemas?
+
+Se nenhuma das soluções acima funcionar:
+1. Verifique a mensagem de erro com atenção — ela geralmente inclui orientações específicas
+2. Tente desconectar e reconectar o canal afetado
+3. Entre em contato com o suporte pelo chat com a mensagem de erro

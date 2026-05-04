@@ -1,0 +1,103 @@
+---
+title: Fehler beim Veroeffentlichen von Beitraegen
+description: "Haeufige Probleme beim Veroeffentlichen von Beitraegen in sozialen Netzwerken — Fehlerstatus, fehlgeschlagene Beitraege und deren Behebung."
+icon: triangle-exclamation
+---
+
+Wenn ein Beitrag nicht veroeffentlicht werden kann, zeigt er im Kalender den Status **Fehler** an. Hier sind die haeufigsten Ursachen und deren Loesungen.
+
+## Mein Beitrag zeigt den Status "Fehler"
+
+1. Oeffnen Sie den **Kalender**
+2. Klicken Sie auf den Beitrag mit dem Fehlersymbol
+3. Klicken Sie auf **Fehler anzeigen**, um die Fehlermeldung zu sehen
+4. Befolgen Sie die untenstehende Loesung je nach Fehler
+
+## Kanal-Token abgelaufen
+
+**Symptome:** Der Beitrag schlaegt mit einem Autorisierungs- oder Token-Fehler fehl.
+
+**Ursache:** OAuth-Tokens von sozialen Plattformen laufen regelmaessig ab (typischerweise alle 60 Tage bei Facebook/Instagram). Wenn der Token ablaeuft, kann Postzee nicht mehr in Ihrem Namen veroeffentlichen.
+
+**Loesung:**
+1. Gehen Sie zu **Kanaele**
+2. Finden Sie den Kanal, der "Erneute Verbindung erforderlich" anzeigt
+3. Klicken Sie auf **Erneut verbinden**
+4. Schliessen Sie den Autorisierungsvorgang ab
+5. Planen Sie den fehlgeschlagenen Beitrag neu
+
+<Note>
+Postzee sendet Ihnen eine Benachrichtigung, wenn ein Kanal erneut verbunden werden muss. Verbinden Sie ihn erneut, bevor Ihr naechster geplanter Beitrag faellig ist, um Fehler zu vermeiden.
+</Note>
+
+## Inhalt von der Plattform abgelehnt
+
+**Symptome:** Der Beitrag schlaegt mit einem Inhaltsrichtlinien- oder Moderationsfehler fehl.
+
+**Ursache:** Die soziale Plattform (Instagram, TikTok usw.) hat festgestellt, dass der Inhalt gegen ihre Community-Richtlinien verstoesst.
+
+**Loesung:**
+1. Ueberpruefen Sie die Fehlermeldung auf spezifische Details
+2. Bearbeiten Sie den Beitragsinhalt — entfernen Sie markierten Text oder Medien
+3. Planen Sie den Beitrag neu
+
+Haeufige Gruende fuer die Ablehnung:
+- Explizite oder sensible Inhalte
+- Urheberrechtlich geschuetzte Musik in Videos
+- Spam-aehnlicher Text oder uebermassige Hashtags
+- Textueberlagerungen, die zu viel des Bildes bedecken (Instagram)
+
+## Nicht unterstuetztes Medienformat
+
+**Symptome:** Der Beitrag schlaegt mit einem Format- oder Dateifehler fehl.
+
+**Ursache:** Das Medienformat wird von der Plattform nicht unterstuetzt.
+
+**Loesung:**
+- **Videos:** Muessen im **MP4**-Format vorliegen. Konvertieren Sie andere Formate (MOV, AVI, MKV) vor dem Hochladen in MP4.
+- **Bilder:** Verwenden Sie **JPG, PNG oder WebP**. Die meisten Plattformen akzeptieren kein BMP, TIFF oder SVG.
+- Ueberpruefen Sie plattformspezifische Einschraenkungen (z.B. erfordert TikTok Videos zwischen 3-60 Sekunden)
+
+## Beitrag veroeffentlicht, wird aber als Fehler angezeigt
+
+**Symptome:** Der Beitrag erschien tatsaechlich im sozialen Netzwerk, aber Postzee zeigt ihn als "Fehler" an.
+
+**Ursache:** Die Plattform hat den Beitrag akzeptiert, aber ein unerwartetes Antwortformat zurueckgegeben. Dies ist selten und wird normalerweise durch voruebergehende API-Probleme verursacht.
+
+**Loesung:**
+- Ueberpruefen Sie das soziale Netzwerk direkt, um zu bestaetigten, dass der Beitrag online ist
+- Der Beitrag bleibt in Postzee als "Fehler" bestehen, aber es ist keine Aktion erforderlich
+- Wenn dies haeufig vorkommt, kontaktieren Sie den Support
+
+## Rate-Limit ueberschritten
+
+**Symptome:** Mehrere Beitraege schlagen in kurzer Zeit fehl, die Fehlermeldung erwaehnt "Rate-Limit" oder "zu viele Anfragen".
+
+**Ursache:** Sie veroeffentlichen zu viele Beitraege in kurzer Zeit. Jede Plattform hat Limits fuer die Anzahl der Beitraege pro Stunde/Tag.
+
+**Loesung:**
+- Verteilen Sie Ihre geplanten Beitraege (mindestens 5-10 Minuten Abstand)
+- Reduzieren Sie die Anzahl der Beitraege pro Tag fuer diese Plattform
+- Warten Sie 1-2 Stunden und planen Sie die fehlgeschlagenen Beitraege neu
+
+## Beitrag war geplant, wurde aber nie veroeffentlicht
+
+**Symptome:** Der Beitrag bleibt im Status "Geplant", auch nachdem die Veroeffentlichungszeit verstrichen ist.
+
+**Ursache:** Der Kanal war zum Zeitpunkt der Veroeffentlichung getrennt oder deaktiviert.
+
+**Loesung:**
+1. Ueberpruefen Sie, ob der Kanal in **Kanaele** verbunden und aktiv ist
+2. Verbinden Sie ihn bei Bedarf erneut
+3. Planen Sie den Beitrag auf einen zukuenftigen Zeitpunkt um
+
+<Warning>
+Beitraege koennen nicht rueckwirkend veroeffentlicht werden. Wenn ein geplanter Beitrag sein Zeitfenster verpasst hat, muessen Sie ihn auf ein neues Datum/eine neue Uhrzeit umplanen.
+</Warning>
+
+## Immer noch Probleme?
+
+Wenn keine der oben genannten Loesungen funktioniert:
+1. Lesen Sie die Fehlermeldung sorgfaeltig — sie enthaelt oft spezifische Hinweise
+2. Versuchen Sie, den betroffenen Kanal zu trennen und erneut zu verbinden
+3. Kontaktieren Sie den Support ueber das Chat-Widget mit der Fehlermeldung
