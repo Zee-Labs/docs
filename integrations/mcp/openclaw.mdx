@@ -37,22 +37,32 @@ It should show your connected social media accounts.
 
 ## Available tools
 
-Once installed, 12 tools are available to your OpenClaw agent:
+Once installed, **20 tools** are available to your OpenClaw agent. Highlights:
 
 | Tool | Description |
 |------|-------------|
+| `POSTZEE_GET_CONTEXT` | Plan, credits, storage, channels, features (recommended first call) |
+| `POSTZEE_LIST_PLANS` | The 5 subscription tiers with pricing and limits |
+| `POSTZEE_LIST_CREDIT_PACKAGES` | One-time credit packages (eternal) |
+| `POSTZEE_LIST_MODELS_DETAILED` | Capability matrix for image/video models |
+| `POSTZEE_LIST_PLATFORM_SPECS` | Per-platform specs (aspect ratios, carousel max, captions limits) |
+| `POSTZEE_GET_BEST_POSTING_TIMES` | Recommended posting windows in the org's timezone |
+| `POSTZEE_ESTIMATE_GENERATION_COST` | Cost in credits **before** generating |
+| `POSTZEE_VALIDATE_GENERATION` | Pre-flight validation (params, credits, storage, plan) |
 | `POSTZEE_LIST_CHANNELS` | List connected social media channels |
 | `POSTZEE_GET_CREDITS` | Check AI credit balance |
-| `POSTZEE_LIST_IMAGE_MODELS` | List available image models with costs |
-| `POSTZEE_LIST_VIDEO_MODELS` | List available video models with costs |
 | `POSTZEE_ENHANCE_PROMPT` | Optimize prompts for better results (free) |
-| `POSTZEE_GENERATE_IMAGE` | Generate an AI image (supports reference images, aspect ratio, quality, style) |
-| `POSTZEE_GENERATE_VIDEO` | Generate an AI video (supports image-to-video, duration, aspect ratio) |
-| `POSTZEE_GENERATE_HEYGEN_VIDEO` | Create an avatar video with HeyGen AI |
+| `POSTZEE_GENERATE_IMAGE` | Generate an AI image (reference images, aspect ratio, quality, style, seed, …) |
+| `POSTZEE_GENERATE_VIDEO` | Generate an AI video (text-to-video, image-to-video, first-last-frame, audio control, …) |
+| `POSTZEE_GENERATE_HEYGEN_VIDEO` | Create an avatar video with HeyGen (uses HeyGen credits) |
 | `POSTZEE_LIST_HEYGEN_AVATARS` | List available HeyGen avatars |
 | `POSTZEE_LIST_HEYGEN_VOICES` | List available HeyGen voices |
 | `POSTZEE_CHECK_JOB` | Check generation job status |
 | `POSTZEE_CREATE_POST` | Create, schedule, or publish a post |
+| `POSTZEE_LIST_IMAGE_MODELS` *(legacy)* | Use `POSTZEE_LIST_MODELS_DETAILED` instead |
+| `POSTZEE_LIST_VIDEO_MODELS` *(legacy)* | Use `POSTZEE_LIST_MODELS_DETAILED` instead |
+
+See the full [Tools Reference](/integrations/mcp/tools-reference) for parameters, returns, and error codes.
 
 ## Usage examples
 
@@ -75,13 +85,14 @@ You can send a photo directly in the Telegram chat. The agent will use it automa
 | Property | Value |
 |----------|-------|
 | **Slug** | `postzee` |
+| **Skill version** | 3.0.0 |
 | **Registry** | ClawHub |
-| **Tools** | 12 |
+| **Tools** | 20 |
 | **Install** | `clawhub install postzee` |
 
 <CardGroup cols={2}>
   <Card title="Tools Reference" icon="wrench" href="/integrations/mcp/tools-reference">
-    Complete reference for all 12 tools.
+    Complete reference for all 20 tools.
   </Card>
   <Card title="Claude Code" icon="terminal" href="/integrations/mcp/claude-code">
     Connect Postzee to Claude Code instead.
