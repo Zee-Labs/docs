@@ -171,6 +171,7 @@
                 "group": "AI Agents (MCP)",
                 "pages": [
                   "integrations/mcp/overview",
+                  "integrations/mcp/skill-overview",
                   "integrations/mcp/claude-code",
                   "integrations/mcp/openclaw",
                   "integrations/mcp/hermes-agent",
@@ -333,6 +334,7 @@
                 "group": "Agentes IA (MCP)",
                 "pages": [
                   "pt-BR/integrations/mcp/overview",
+                  "pt-BR/integrations/mcp/skill-overview",
                   "pt-BR/integrations/mcp/claude-code",
                   "pt-BR/integrations/mcp/openclaw",
                   "pt-BR/integrations/mcp/hermes-agent",
@@ -495,6 +497,7 @@
                 "group": "Agentes IA (MCP)",
                 "pages": [
                   "es/integrations/mcp/overview",
+                  "es/integrations/mcp/skill-overview",
                   "es/integrations/mcp/claude-code",
                   "es/integrations/mcp/openclaw",
                   "es/integrations/mcp/hermes-agent",
@@ -657,6 +660,7 @@
                 "group": "Agents IA (MCP)",
                 "pages": [
                   "fr/integrations/mcp/overview",
+                  "fr/integrations/mcp/skill-overview",
                   "fr/integrations/mcp/claude-code",
                   "fr/integrations/mcp/openclaw",
                   "fr/integrations/mcp/hermes-agent",
@@ -819,6 +823,7 @@
                 "group": "KI-Agenten (MCP)",
                 "pages": [
                   "de/integrations/mcp/overview",
+                  "de/integrations/mcp/skill-overview",
                   "de/integrations/mcp/claude-code",
                   "de/integrations/mcp/openclaw",
                   "de/integrations/mcp/hermes-agent",

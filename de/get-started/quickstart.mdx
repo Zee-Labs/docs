@@ -62,6 +62,60 @@ Ihr Beitrag ist erstellt! Überprüfen Sie die Seite **Calendar**, um ihn in Ihr
 2. Sehen Sie Engagement-Raten, Follower-Zahlen und Beitragsperformance über alle Ihre verbundenen Kanäle hinweg
 3. Filtern Sie nach Zeitraum und Plattform
 
+---
+
+## Schnellerer Weg — steuern Sie Postzee aus Ihrem KI-Agenten
+
+Wenn Sie **Claude Code**, **OpenClaw**, **Hermes Agent** oder einen anderen MCP-kompatiblen KI-Agenten nutzen, koennen Sie das Dashboard fuer die meisten Operationen ueberspringen und einfach in natuerlicher Sprache chatten.
+
+<Steps>
+  <Step title="Holen Sie Ihre MCP-URL">
+    Gehen Sie zu [Postzee Settings](https://dashboard.postzee.app/settings) → Tab **API Pública** → kopieren Sie Ihre **MCP-URL** (HTTP Streamable).
+  </Step>
+  <Step title="Installieren Sie die Postzee Skill">
+    Die Skill bringt Ihrem Agenten bei, Briefs zu erstellen, zu generieren, Captions zu schreiben und zu posten — wie Creative Director, Copywriter und Social-Media-Manager in einem.
+
+    ```bash
+    # Claude Code
+    gh skill install Zee-Labs/postzee-skill
+
+    # OpenClaw
+    clawhub install postzee
+
+    # Hermes Agent
+    hermes skills install https://github.com/Zee-Labs/postzee-skill
+    ```
+  </Step>
+  <Step title="Konfigurieren Sie die MCP-Verbindung">
+    ```bash
+    # Claude Code
+    claude mcp add postzee IHRE_MCP_URL
+    ```
+
+    Fuer OpenClaw und Hermes folgen Sie der [Client-spezifischen Einrichtung](/integrations/mcp/overview).
+  </Step>
+  <Step title="Beginnen Sie zu chatten">
+    > *"Generiere ein Cafe-Foto und poste es bei Instagram mit einer praegnanten Caption."*
+    >
+    > *"Erstelle ein 10-Slide-LinkedIn-Carousel: '7 Fehler, die Founder im ersten Jahr machen'."*
+    >
+    > *"Mache ein 15-Sekunden-cinematographisches Dialog-Video fuer TikTok."*
+
+    Der Agent macht den Brief, validiert die Kosten in Credits, generiert und (falls Ihr Plan dies erlaubt) veroeffentlicht.
+  </Step>
+</Steps>
+
+<CardGroup cols={2}>
+  <Card title="Skill-Uebersicht" icon="sparkles" href="/integrations/mcp/skill-overview">
+    Was die Postzee Skill wirklich kann — vollstaendige Feature-Tour.
+  </Card>
+  <Card title="MCP-Uebersicht" icon="robot" href="/integrations/mcp/overview">
+    Verbinden Sie Postzee mit jedem MCP-kompatiblen KI-Agenten.
+  </Card>
+</CardGroup>
+
+---
+
 ## Wie geht es weiter?
 
 <CardGroup cols={2}>
@@ -76,5 +130,11 @@ Ihr Beitrag ist erstellt! Überprüfen Sie die Seite **Calendar**, um ihn in Ihr
   </Card>
   <Card title="Mit n8n automatisieren" icon="gears" href="/integrations/n8n/overview">
     Richten Sie Workflow-Automatisierungen mit dem Postzee-n8n-Node ein.
+  </Card>
+  <Card title="Postzee mit KI-Agenten steuern" icon="robot" href="/integrations/mcp/overview">
+    Verbinden Sie Claude Code, OpenClaw oder Hermes via MCP und chatten Sie zur Veroeffentlichung.
+  </Card>
+  <Card title="Postzee Skill" icon="sparkles" href="/integrations/mcp/skill-overview">
+    Die Skill, die Ihren KI-Agenten in einen Creative Director der Weltklasse verwandelt.
   </Card>
 </CardGroup>

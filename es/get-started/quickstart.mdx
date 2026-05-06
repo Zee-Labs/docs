@@ -61,6 +61,60 @@ Cada generación consume créditos de IA. Consulta tu saldo en el panel de cuent
 2. Visualiza tasas de engagement, conteo de seguidores y rendimiento de posts en todos tus canales conectados
 3. Filtra por período de tiempo y plataforma
 
+---
+
+## Camino más rápido — controla Postzee desde tu agente de IA
+
+Si usas **Claude Code**, **OpenClaw**, **Hermes Agent** o cualquier agente compatible con MCP, puedes saltarte el dashboard en la mayoría de las operaciones y simplemente conversar en lenguaje natural.
+
+<Steps>
+  <Step title="Obtén tu URL MCP">
+    Ve a [Configuración de Postzee](https://dashboard.postzee.app/settings) → pestaña **API Pública** → copia tu **URL MCP** (HTTP Streamable).
+  </Step>
+  <Step title="Instala la Skill de Postzee">
+    La skill enseña a tu agente a hacer briefs, generar, escribir captions y publicar — como director creativo, copywriter y gestor de redes sociales en uno solo.
+
+    ```bash
+    # Claude Code
+    gh skill install Zee-Labs/postzee-skill
+
+    # OpenClaw
+    clawhub install postzee
+
+    # Hermes Agent
+    hermes skills install https://github.com/Zee-Labs/postzee-skill
+    ```
+  </Step>
+  <Step title="Configura la conexión MCP">
+    ```bash
+    # Claude Code
+    claude mcp add postzee TU_URL_MCP
+    ```
+
+    Para OpenClaw y Hermes, sigue la [configuración específica del cliente](/integrations/mcp/overview).
+  </Step>
+  <Step title="Empieza a conversar">
+    > *"Genera una foto de cafetería y publícala en Instagram con un caption llamativo."*
+    >
+    > *"Crea un carrusel de 10 slides para LinkedIn: '7 errores que cometen los founders en su primer año'."*
+    >
+    > *"Haz un video cinematográfico de 15 segundos con diálogo para TikTok."*
+
+    El agente te hará el brief, validará el costo en créditos, generará y (si tu plan lo permite) publicará.
+  </Step>
+</Steps>
+
+<CardGroup cols={2}>
+  <Card title="Resumen de la Skill" icon="sparkles" href="/integrations/mcp/skill-overview">
+    Lo que la Postzee Skill realmente hace — tour completo de funcionalidades.
+  </Card>
+  <Card title="Resumen del MCP" icon="robot" href="/integrations/mcp/overview">
+    Conecta Postzee a cualquier agente de IA compatible con MCP.
+  </Card>
+</CardGroup>
+
+---
+
 ## ¿Qué sigue?
 
 <CardGroup cols={2}>
@@ -75,5 +129,11 @@ Cada generación consume créditos de IA. Consulta tu saldo en el panel de cuent
   </Card>
   <Card title="Automatiza con n8n" icon="gears" href="/integrations/n8n/overview">
     Configura automatizaciones de flujo de trabajo con el nodo Postzee de n8n.
+  </Card>
+  <Card title="Controla Postzee con agentes de IA" icon="robot" href="/integrations/mcp/overview">
+    Conecta Claude Code, OpenClaw o Hermes vía MCP y conversa para crear y publicar posts.
+  </Card>
+  <Card title="Postzee Skill" icon="sparkles" href="/integrations/mcp/skill-overview">
+    La skill que convierte tu agente de IA en un director creativo de clase mundial.
   </Card>
 </CardGroup>

@@ -62,6 +62,60 @@ Your post is created! Check the **Calendar** page to see it on your schedule.
 2. View engagement rates, follower counts, and post performance across all your connected channels
 3. Filter by time period and platform
 
+---
+
+## Faster path — drive Postzee from your AI agent
+
+If you use **Claude Code**, **OpenClaw**, **Hermes Agent**, or any MCP-compatible AI agent, you can skip the dashboard for most operations and just chat in natural language.
+
+<Steps>
+  <Step title="Get your MCP URL">
+    Go to [Postzee Settings](https://dashboard.postzee.app/settings) → **API Pública** tab → copy your **MCP URL** (HTTP Streamable).
+  </Step>
+  <Step title="Install the Postzee Skill">
+    The skill teaches your agent how to brief, generate, caption, and post — like a creative director, copywriter, and social media manager rolled into one.
+
+    ```bash
+    # Claude Code
+    gh skill install Zee-Labs/postzee-skill
+
+    # OpenClaw
+    clawhub install postzee
+
+    # Hermes Agent
+    hermes skills install https://github.com/Zee-Labs/postzee-skill
+    ```
+  </Step>
+  <Step title="Configure the MCP connection">
+    ```bash
+    # Claude Code
+    claude mcp add postzee YOUR_MCP_URL
+    ```
+
+    For OpenClaw and Hermes, follow the [client-specific setup](/integrations/mcp/overview).
+  </Step>
+  <Step title="Start chatting">
+    > *"Generate a coffee shop photo and post it to Instagram with a punchy caption."*
+    >
+    > *"Create a 10-slide LinkedIn carousel: '7 mistakes founders make in their first year'."*
+    >
+    > *"Make a 15-second cinematic dialogue scene for TikTok."*
+
+    The agent will brief you, validate cost in credits, generate, and (if your plan allows) publish.
+  </Step>
+</Steps>
+
+<CardGroup cols={2}>
+  <Card title="Skill Overview" icon="sparkles" href="/integrations/mcp/skill-overview">
+    What the Postzee Skill actually does — full feature tour.
+  </Card>
+  <Card title="MCP Overview" icon="robot" href="/integrations/mcp/overview">
+    Connect Postzee to any MCP-compatible AI agent.
+  </Card>
+</CardGroup>
+
+---
+
 ## What's next?
 
 <CardGroup cols={2}>
@@ -76,5 +130,11 @@ Your post is created! Check the **Calendar** page to see it on your schedule.
   </Card>
   <Card title="Automate with n8n" icon="gears" href="/integrations/n8n/overview">
     Set up workflow automations with the Postzee n8n node.
+  </Card>
+  <Card title="Drive Postzee with AI agents" icon="robot" href="/integrations/mcp/overview">
+    Connect Claude Code, OpenClaw, or Hermes via MCP and chat your way to published posts.
+  </Card>
+  <Card title="Postzee Skill" icon="sparkles" href="/integrations/mcp/skill-overview">
+    The skill that turns your AI agent into a world-class creative director.
   </Card>
 </CardGroup>

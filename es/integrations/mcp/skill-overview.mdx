@@ -1,0 +1,159 @@
+---
+title: Resumen de la Postzee Skill
+description: "La skill que convierte tu agente de IA en director creativo, copywriter, productor de video y gestor de redes sociales de clase mundial — impulsado por Postzee."
+icon: sparkles
+---
+
+La **Postzee Skill** es un conjunto estructurado de instrucciones distribuido por GitHub (y ClawHub para OpenClaw) que enseña a tu agente de IA a usar Postzee como lo haría un equipo creativo senior.
+
+Una vez instalada, tu agente deja de ser un "wrapper de herramientas" y comienza a comportarse como una agencia creativa: hace briefs, elige el modelo correcto, valida el costo, escribe captions que convierten y publica en el orden óptimo.
+
+<Note>
+La skill se distribuye públicamente y funciona con cualquier agente compatible con MCP que soporte skills (Claude Code, OpenClaw, Hermes Agent y otros). Todo el trabajo de Postzee se realiza a través del [servidor MCP HTTP](/integrations/mcp/overview) — nunca por llamadas REST directas.
+</Note>
+
+## Qué hace
+
+La skill hace que tu agente sea fluido en cinco disciplinas a la vez:
+
+<CardGroup cols={2}>
+  <Card title="Director Creativo" icon="lightbulb">
+    Crea conceptos que encajen con tu objetivo, audiencia y plataforma. Hace las preguntas correctas durante el brief, propone ángulos alternativos, sugiere variaciones de hook.
+  </Card>
+  <Card title="Copywriter" icon="pen-nib">
+    Escribe hooks, captions y CTAs usando frameworks probados (AIDA, PAS, BAB, FAB, 4Ps). 80+ plantillas de hooks en 10 categorías.
+  </Card>
+  <Card title="Productor de Video" icon="film">
+    Descompone ideas en escenas, mantiene la consistencia del personaje, compone narrativas multi-clip. Recetas ffmpeg para agentes con acceso a shell.
+  </Card>
+  <Card title="Gestor de Redes Sociales" icon="bullhorn">
+    Conoce el algoritmo, formato y patrones de engagement de cada plataforma. Aspect ratios por red, límites de captions, estrategia de hashtags.
+  </Card>
+</CardGroup>
+
+## Características clave
+
+### 🌍 Multi-idioma nativo
+
+Tu agente **siempre responde en tu idioma** — español, inglés, portugués, francés, alemán, japonés o cualquier otro. Aunque la skill está escrita en inglés, el agente traduce todo a tu idioma y adapta el tono culturalmente.
+
+### 💳 Conciencia de plan y créditos
+
+Antes de generar cualquier cosa, el agente lee el contexto completo de tu cuenta — nivel del plan, saldo de créditos, almacenamiento, estado de canales — y **anticipa problemas en lugar de chocar con ellos a mitad del flujo**:
+
+- **Plan Free + quiere publicar?** Genera el asset, luego propone el plan pagado correcto con copy persuasiva y ofrece la entrega de archivos como alternativa.
+- **Créditos bajos?** Muestra el déficit y recomienda el paquete de créditos adecuado — sin paywalls sorpresa.
+- **Canales necesitan reconexión?** Te dice cuál y cómo (reconectar vs reactivar — son acciones diferentes).
+- **Almacenamiento casi lleno?** Te avisa antes de generar, así no se desperdician créditos en archivos que fallan al guardar.
+
+### 💰 Transparencia de costos
+
+El agente **siempre muestra el costo de generación en créditos antes de generar** — nunca en dólares, nunca como sorpresa. Usa la herramienta live `POSTZEE_ESTIMATE_GENERATION_COST` para calcular números exactos a partir del pricing actual — sin adivinanzas, sin valores hardcoded.
+
+### 🎨 Maestría en carruseles
+
+10 frameworks probados de carrusel — Listicle, Step-by-Step, Before/After, Mythbusting, Story Arc, Comparison, Mistakes, Hacks, Quote+Commentary, Behind-the-Scenes — cada uno con estructura, sweet spot y specs por plataforma.
+
+El agente arma los slides en el orden correcto de visualización, aplica un estilo visual consistente (paleta + tipografía) y escribe una caption con un hook complementario para que el carrusel y la caption funcionen como dos ángulos de ataque.
+
+### 🎬 Video multi-escena
+
+Para historias con 2+ escenas conectadas, la skill orquesta consistencia de personaje y escenario entre múltiples generaciones. Las estrategias están condicionadas a lo que está disponible actualmente en el MCP — el agente solo propone lo que funciona de extremo a extremo.
+
+### 🎙️ Decisiones de talking head
+
+Cuando pides a alguien hablando un texto específico, la skill elige inteligentemente entre **HeyGen** (lip-sync perfecto, control de voz, multi-idioma, formato largo) y **Sora 2** / **Veo 3.1** (escenas cinematográficas con audio nativo) — y te avisa de antemano cuál cobra créditos Postzee y cuál usa créditos HeyGen.
+
+### 🎞️ Composición con ffmpeg + Whisper
+
+Para agentes con acceso a shell (OpenClaw, Hermes, Claude Code con shell), la skill incluye un cookbook completo: concat con crossfades, mezcla de audio con sidechain ducking, normalización de loudness (-14 LUFS), conversión de aspect ratio, Ken Burns, picture-in-picture. Más workflows de subtítulos Whisper con 5 estilos.
+
+### 🔍 Conciencia de tendencias
+
+Para trabajo creativo, el agente hace una búsqueda web rápida de patrones virales actuales antes de proponer conceptos — sin citar fuentes a menos que lo pidas.
+
+### 📅 Programación inteligente
+
+El agente conoce los mejores horarios de publicación por plataforma, **en tu zona horaria** (leída de la configuración de tu org en Postzee) — y convierte a UTC ISO al programar.
+
+### 🔄 Auto-verificación de versión
+
+En cada nueva sesión, el agente verifica si la versión instalada de la skill coincide con la publicada actualmente. Si está desactualizada, te avisa una vez (en tu idioma) con el comando de actualización para tu cliente — y sigue trabajando con la versión que tienes.
+
+## Arquitectura
+
+La skill se distribuye como una **estructura multi-archivo**:
+
+```
+postzee-skill/
+├── SKILL.md                          # orquestador (cargado primero)
+└── reference/
+    ├── plans-and-pricing.md          # Los 5 planes + 5 paquetes + copy de CTA
+    ├── credit-aware-flow.md          # Matriz de estados plan/créditos
+    ├── carousel-mastery.md           # 10 frameworks en profundidad
+    ├── captions-frameworks.md        # AIDA / PAS / BAB / FAB / 4Ps
+    ├── hooks-library.md              # 80+ hooks probados
+    ├── multi-scene-workflow.md       # Estrategias multi-escena
+    ├── heygen-vs-aivideo.md          # Matriz de decisión talking-head
+    ├── ffmpeg-cookbook.md            # Recetas de composición
+    ├── subtitle-workflows.md         # Whisper + estilos de subtítulos
+    └── trends-2026.md                # Macro shifts y tendencias de formato
+```
+
+El orquestador se carga en cada sesión; los archivos de referencia se cargan bajo demanda.
+
+## Instalación
+
+<CardGroup cols={3}>
+  <Card title="Claude Code" icon="terminal" href="/integrations/mcp/claude-code">
+    `gh skill install Zee-Labs/postzee-skill`
+  </Card>
+  <Card title="OpenClaw" icon="plug" href="/integrations/mcp/openclaw">
+    `clawhub install postzee`
+  </Card>
+  <Card title="Hermes Agent" icon="brain" href="/integrations/mcp/hermes-agent">
+    `hermes skills install https://github.com/Zee-Labs/postzee-skill`
+  </Card>
+</CardGroup>
+
+Después de instalar, configura tu URL MCP de Postzee una vez y comienza a conversar.
+
+## Lo que la skill nunca hace
+
+- ❌ Cotizar precios en dólares para generaciones de IA (siempre créditos — `$1 USD = 1.000 créditos` es la razón de visualización)
+- ❌ Recomendar una función que no esté disponible vía MCP
+- ❌ Generar sin mostrarte primero el costo
+- ❌ Saltarse la verificación de versión en una nueva sesión
+- ❌ Publicar automáticamente en un canal desconectado o que necesite reauth
+- ❌ Traducir captions literalmente entre idiomas — adapta culturalmente
+
+## Actualización
+
+```bash
+# Claude Code
+gh skill update postzee
+
+# OpenClaw
+clawhub update postzee
+
+# Hermes Agent
+hermes skills update postzee
+
+# Manual (cualquier cliente)
+cd ~/.claude/skills/postzee && git pull
+```
+
+<CardGroup cols={2}>
+  <Card title="Setup Claude Code" icon="terminal" href="/integrations/mcp/claude-code">
+    Instala y configura la Postzee Skill en Claude Code.
+  </Card>
+  <Card title="Setup OpenClaw" icon="plug" href="/integrations/mcp/openclaw">
+    Instala y configura la Postzee Skill en OpenClaw.
+  </Card>
+  <Card title="Setup Hermes Agent" icon="brain" href="/integrations/mcp/hermes-agent">
+    Instala y configura la Postzee Skill en Hermes Agent.
+  </Card>
+  <Card title="Referencia de Herramientas" icon="wrench" href="/integrations/mcp/tools-reference">
+    Las 20 herramientas MCP que la skill orquesta.
+  </Card>
+</CardGroup>

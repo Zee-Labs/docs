@@ -6,12 +6,301 @@ icon: wrench
 Referencia completa de las **20 herramientas** expuestas por el servidor MCP de Postzee. Estas herramientas están disponibles para cualquier agente de IA compatible con MCP (Claude Code, OpenClaw, Hermes Agent o clientes MCP directos).
 
 <Note>
-La versión en inglés de esta página siempre está más actualizada e incluye las 8 herramientas nuevas (`POSTZEE_GET_CONTEXT`, `POSTZEE_LIST_PLANS`, `POSTZEE_LIST_CREDIT_PACKAGES`, `POSTZEE_ESTIMATE_GENERATION_COST`, `POSTZEE_VALIDATE_GENERATION`, `POSTZEE_LIST_MODELS_DETAILED`, `POSTZEE_LIST_PLATFORM_SPECS`, `POSTZEE_GET_BEST_POSTING_TIMES`) y los parámetros extendidos de `POSTZEE_GENERATE_IMAGE` / `POSTZEE_GENERATE_VIDEO`. Consulta la [Tools Reference en inglés](/integrations/mcp/tools-reference) mientras esta página se traduce.
+Todas las herramientas aceptan la clave de API embebida en tu URL MCP. Están limitadas a una sola organización. **Los costos de generación de IA siempre se devuelven en créditos, nunca en dólares.** ($1 USD = 1.000 créditos.)
 </Note>
 
-## POSTZEE_LIST_CHANNELS
+## Referencia rápida
 
-Obtiene todos los canales de redes sociales conectados.
+| Categoría | Herramientas |
+|-----------|--------------|
+| **Contexto y Descubrimiento** | `POSTZEE_GET_CONTEXT`, `POSTZEE_LIST_PLANS`, `POSTZEE_LIST_CREDIT_PACKAGES` |
+| **Modelos y Specs** | `POSTZEE_LIST_MODELS_DETAILED`, `POSTZEE_LIST_PLATFORM_SPECS`, `POSTZEE_GET_BEST_POSTING_TIMES` |
+| **Costo y Validación** | `POSTZEE_ESTIMATE_GENERATION_COST`, `POSTZEE_VALIDATE_GENERATION` |
+| **Canales y Créditos** | `POSTZEE_LIST_CHANNELS`, `POSTZEE_GET_CREDITS` |
+| **Optimización de Prompt** | `POSTZEE_ENHANCE_PROMPT` |
+| **Generación** | `POSTZEE_GENERATE_IMAGE`, `POSTZEE_GENERATE_VIDEO`, `POSTZEE_CHECK_JOB` |
+| **HeyGen** | `POSTZEE_LIST_HEYGEN_AVATARS`, `POSTZEE_LIST_HEYGEN_VOICES`, `POSTZEE_GENERATE_HEYGEN_VIDEO` |
+| **Publicación** | `POSTZEE_CREATE_POST` |
+| **Legacy (deprecadas)** | `POSTZEE_LIST_IMAGE_MODELS`, `POSTZEE_LIST_VIDEO_MODELS` |
+
+---
+
+## Contexto y Descubrimiento
+
+### POSTZEE_GET_CONTEXT
+
+Agregación de contexto en una sola llamada. **Recomendada como primera llamada de cada sesión.** Devuelve plan, créditos, almacenamiento, canales, features y versión de la skill en un round-trip.
+
+**Parámetros:** Ninguno
+
+**Devuelve:**
+```json
+{
+  "skill": { "currentVersion": "3.0.0", "repoUrl": "https://github.com/Zee-Labs/postzee-skill" },
+  "plan": {
+    "tier": "FREE | STANDARD | TEAM | PRO | ULTIMATE",
+    "isLifetime": false,
+    "period": "MONTHLY | YEARLY | null",
+    "cancelAt": "string | null",
+    "canPost": true,
+    "canConnectChannels": true,
+    "canUseAi": true,
+    "channelsLimit": 5,
+    "postsPerMonth": 400,
+    "postsRemaining": 380,
+    "monthlyCredits": 2000,
+    "storageLimitGB": 15,
+    "monthPriceUSD": 27,
+    "yearPriceUSD": 252
+  },
+  "credits": {
+    "available": 4500,
+    "monthly": 2000,
+    "purchased": 2500,
+    "used": 0,
+    "lastResetAt": "2026-04-15T10:00:00Z",
+    "nextResetAt": "2026-05-15T10:00:00Z"
+  },
+  "storage": { "usedGB": 1.2, "limitGB": 15, "percentUsed": 8 },
+  "channels": {
+    "connected": 5,
+    "active": 4,
+    "requiresReauth": 1,
+    "disabled": 0,
+    "withIssues": 1
+  },
+  "organization": { "id": "...", "timezone": "America/Mexico_City" },
+  "features": {
+    "img2vid": true,
+    "veoR2V": false,
+    "soraStoryboard": false,
+    "sora1080p": true,
+    "audioControl": true,
+    "firstLastFrame": true,
+    "firstLastFrameProvider": "wan-flf2v",
+    "heygen": true
+  }
+}
+```
+
+Las flags `features.*` reflejan lo que el MCP puede ejecutar **ahora mismo** — los agentes solo deben sugerir features cuya flag correspondiente sea `true`.
+
+---
+
+### POSTZEE_LIST_PLANS
+
+Lista los 5 niveles de suscripción con precios y límites.
+
+**Parámetros:** Ninguno
+
+**Devuelve:**
+```json
+[
+  {
+    "tier": "STANDARD",
+    "monthPriceUSD": 27,
+    "yearPriceUSD": 252,
+    "yearMonthlyDisplayUSD": 21,
+    "channelsLimit": 5,
+    "postsPerMonth": 400,
+    "postsUnlimited": false,
+    "monthlyCredits": 2000,
+    "storageLimitGB": 15,
+    "canPost": true,
+    "canUseAi": true,
+    "teamMembers": false,
+    "publicApi": true,
+    "webhooks": 2
+  }
+]
+```
+
+---
+
+### POSTZEE_LIST_CREDIT_PACKAGES
+
+Lista paquetes de créditos one-time (eternos — nunca expiran).
+
+**Parámetros:** Ninguno
+
+**Devuelve:**
+```json
+[
+  { "id": "starter", "name": "Starter", "priceUSD": 2, "credits": 2000, "popular": false },
+  { "id": "basic", "name": "Basic", "priceUSD": 10, "credits": 10000, "popular": false },
+  { "id": "standard", "name": "Standard", "priceUSD": 25, "credits": 25000, "popular": true },
+  { "id": "pro", "name": "Pro", "priceUSD": 50, "credits": 50000, "popular": false },
+  { "id": "enterprise", "name": "Enterprise", "priceUSD": 100, "credits": 100000, "popular": false }
+]
+```
+
+---
+
+## Modelos y Specs
+
+### POSTZEE_LIST_MODELS_DETAILED
+
+Matriz de capacidades para todos los modelos de imagen y video disponibles — duraciones, resoluciones, capacidades de audio, parámetros customizados aceptados, y tier de costo relativo.
+
+**Parámetros:**
+
+| Parámetro | Tipo | Requerido | Descripción |
+|-----------|------|:---:|-------------|
+| `type` | string | No | `"image"`, `"video"`, o `"all"` (default) |
+| `includeHeygen` | boolean | No | Incluye la entrada sintética HeyGen. Default: `true` |
+
+**Devuelve (por modelo):**
+```json
+{
+  "modelId": "sora-2-t2v-pro",
+  "displayName": "Sora 2 Pro Text-to-Video",
+  "type": "video",
+  "audio": "speech-lipsync",
+  "supportsImg2Img": false,
+  "supportsImg2Vid": false,
+  "supportsVector": false,
+  "durations": [10, 15],
+  "resolutions": ["720p", "1080p"],
+  "aspectRatios": ["16:9", "9:16"],
+  "customParamsAccepted": {
+    "duration": { "type": "enum", "enum": [10, 15], "description": "..." },
+    "quality": { "type": "enum", "enum": ["standard", "high"], "description": "..." }
+  },
+  "costTier": "high",
+  "popular": true,
+  "bestFor": ["cinematic dialogue", "native lip-sync", "1080p quality"],
+  "notRecommendedFor": []
+}
+```
+
+`costTier` es uno de `very-low`, `low`, `mid`, `high`, `premium` — el costo absoluto en créditos no se expone intencionalmente; usa `POSTZEE_ESTIMATE_GENERATION_COST` en su lugar.
+
+La entrada sintética `heygen-avatar-video` tiene `costTier: "external"` y un `billingNote` indicando que HeyGen factura en la cuenta HeyGen del usuario, no en créditos Postzee.
+
+---
+
+### POSTZEE_LIST_PLATFORM_SPECS
+
+Specs por plataforma (aspect ratios, máximo de slides para carruseles, límites de caracteres en captions, recomendaciones de hashtags).
+
+**Parámetros:**
+
+| Parámetro | Tipo | Requerido | Descripción |
+|-----------|------|:---:|-------------|
+| `platforms` | string[] | No | Filtra a plataformas específicas (ej.: `["instagram", "tiktok"]`). Omitir para todas. |
+
+Plataformas cubiertas: instagram, facebook, linkedin, x, tiktok, youtube, pinterest, threads, bluesky, reddit.
+
+---
+
+### POSTZEE_GET_BEST_POSTING_TIMES
+
+Ventanas heurísticas de los mejores horarios de publicación por canal, devueltas en la zona horaria de la organización.
+
+**Parámetros:**
+
+| Parámetro | Tipo | Requerido | Descripción |
+|-----------|------|:---:|-------------|
+| `channelIds` | string[] | No | Filtra a canales específicos. Omitir para todos los canales activos. |
+
+**Devuelve:**
+```json
+[
+  {
+    "channelId": "...",
+    "platform": "instagram",
+    "name": "My Instagram",
+    "timezone": "America/Mexico_City",
+    "bestTimes": [
+      { "time": "11:00", "timezone": "America/Mexico_City", "nextDateLocal": "2026-05-06", "score": 90, "reason": "Lunchtime peak", "source": "heuristic" },
+      { "time": "19:00", "timezone": "America/Mexico_City", "nextDateLocal": "2026-05-06", "score": 95, "reason": "Evening prime", "source": "heuristic" }
+    ]
+  }
+]
+```
+
+Los canales con estado `disabled` o `requiresReauth` se filtran — las recomendaciones solo aparecen para canales que efectivamente pueden publicar.
+
+---
+
+## Costo y Validación
+
+### POSTZEE_ESTIMATE_GENERATION_COST
+
+Fuente única de verdad para estimaciones de costo. **Siempre devuelve créditos, nunca dólares.**
+
+**Parámetros:**
+
+| Parámetro | Tipo | Requerido | Descripción |
+|-----------|------|:---:|-------------|
+| `type` | string | Sí | `"image"` o `"video"` |
+| `model` | string | Sí | ID del modelo de `POSTZEE_LIST_MODELS_DETAILED` |
+| `duration` | number | No | Segundos (video, para modelos con pricing por segundo) |
+| `resolution` | string | No | `"480p"`, `"540p"`, `"720p"`, `"1080p"`, `"4k"` |
+| `quality` | string | No | Sora 2 Pro: `"standard"` (720p) o `"high"` (1080p) |
+| `generateAudio` | boolean | No | Afecta costo en Veo, Pixverse, Wan 2.5 |
+| `voiceControl` | boolean | No | Kling 2.6/3.0 Pro |
+| `aspectRatio` | string | No | Informativo |
+
+**Devuelve:**
+```json
+{
+  "modelId": "sora-2-t2v-pro",
+  "displayName": "Sora 2 Pro Text-to-Video",
+  "estimatedCredits": 5000,
+  "currentBalance": 4500,
+  "willExceedBalance": true,
+  "creditsAfter": 0,
+  "shortfall": 500,
+  "warnings": []
+}
+```
+
+---
+
+### POSTZEE_VALIDATE_GENERATION
+
+Validación pre-ejecución — captura errores de parámetros, créditos insuficientes, problemas de almacenamiento y bloqueos de plan **antes** de quemar créditos.
+
+**Parámetros:**
+
+| Parámetro | Tipo | Requerido | Descripción |
+|-----------|------|:---:|-------------|
+| `type` | string | Sí | `"image"` o `"video"` |
+| `model` | string | Sí | ID del modelo |
+| `duration` | number | No | Segundos |
+| `aspectRatio` | string | No | ej.: `"4:5"` |
+| `resolution` | string | No | Resolución de salida |
+| `quality` | string | No | Sora Pro `"standard"` / `"high"` |
+| `generateAudio` | boolean | No | |
+| `voiceControl` | boolean | No | |
+| `imageUrl` | string | No | Requerido para modelos image-to-video |
+| `slideCount` | number | No | Para carruseles — multiplica el costo |
+
+**Devuelve:**
+```json
+{
+  "valid": true,
+  "errors": [],
+  "warnings": ["Storage at 85% — approaching limit."],
+  "estimatedCreditsPerItem": 160,
+  "totalEstimatedCredits": 1600,
+  "slideCount": 10,
+  "currentBalance": 4500,
+  "willExceedBalance": false,
+  "shortfall": 0
+}
+```
+
+Cuando `valid: false`, el array `errors[]` contiene problemas legibles — ej.: la duración no está en el conjunto permitido por el modelo, falta `imageUrl` para modelo i2v, almacenamiento al 100%, o modelo registrado pero aún no disponible vía MCP.
+
+---
+
+## Canales y Créditos
+
+### POSTZEE_LIST_CHANNELS
+
+Lista canales de redes sociales conectados con flags de acción explícitas.
 
 **Parámetros:** Ninguno
 
@@ -23,16 +312,25 @@ Obtiene todos los canales de redes sociales conectados.
     "name": "My Instagram",
     "platform": "instagram",
     "picture": "https://...",
-    "disabled": false
+    "profile": "https://...",
+    "disabled": false,
+    "requiresReauth": false,
+    "canPostNow": true,
+    "actionRequired": "none",
+    "actionUrl": null,
+    "actionMessage": null,
+    "status": "active"
   }
 ]
 ```
 
+`actionRequired` es uno de `"none"` (listo para publicar), `"reconnect"` (token expirado — el usuario reconecta), o `"reenable"` (admin/billing — el usuario reactiva, **no** lo mismo que reconectar).
+
 ---
 
-## POSTZEE_GET_CREDITS
+### POSTZEE_GET_CREDITS
 
-Consulta el saldo y uso de créditos de IA.
+Saldo de créditos ligero. Subset de `POSTZEE_GET_CONTEXT.credits` — prefiere este último para código nuevo.
 
 **Parámetros:** Ninguno
 
@@ -40,188 +338,253 @@ Consulta el saldo y uso de créditos de IA.
 ```json
 {
   "available": 4500,
-  "monthly": 5000,
-  "used": 500,
-  "purchased": 0
+  "monthly": 2000,
+  "used": 0,
+  "purchased": 2500
 }
 ```
 
-Todos los valores están en créditos (1,000 créditos = $1 USD).
+Todos los valores en créditos ($1 USD = 1.000 créditos).
 
 ---
 
-## POSTZEE_LIST_IMAGE_MODELS
+## Optimización de Prompt
 
-Lista los modelos de generación de imágenes con IA disponibles con sus capacidades.
+### POSTZEE_ENHANCE_PROMPT
 
-**Parámetros:** Ninguno
-
-**Devuelve:** Array de modelos con `id`, `displayName`, `supportsReferenceImages` y otros metadatos.
-
----
-
-## POSTZEE_LIST_VIDEO_MODELS
-
-Lista los modelos de generación de videos con IA disponibles con sus capacidades.
-
-**Parámetros:** Ninguno
-
-**Devuelve:** Array de modelos de video con `id`, `displayName` y otros metadatos.
-
----
-
-## POSTZEE_ENHANCE_PROMPT
-
-Optimiza un prompt del usuario para mejores resultados de generación IA. Es gratuito — sin costo de créditos.
+Optimiza el prompt del usuario para mejores resultados de generación de IA. **Gratis** — sin costo de créditos.
 
 **Parámetros:**
 
-| Parámetro | Tipo | Obligatorio | Descripción |
+| Parámetro | Tipo | Requerido | Descripción |
 |-----------|------|:---:|-------------|
 | `prompt` | string | Sí | El prompt del usuario a optimizar |
 | `mediaType` | string | Sí | `"image"` o `"video"` |
-| `model` | string | No | ID del modelo de IA de destino (para optimización específica del modelo) |
+| `model` | string | No | ID del modelo objetivo (para optimización específica del modelo) |
 
 **Devuelve:**
 ```json
-{
-  "success": true,
-  "enhancedPrompt": "A young woman in a tailored trench coat walks through..."
-}
+{ "success": true, "enhancedPrompt": "A young woman in a tailored trench coat walks through..." }
 ```
 
 ---
 
-## POSTZEE_GENERATE_IMAGE
+## Generación
 
-Genera una imagen con IA a partir de un prompt de texto. Esta es una **operación asíncrona** — devuelve un ID de trabajo que debes consultar con `POSTZEE_CHECK_JOB`.
+### POSTZEE_GENERATE_IMAGE
+
+Genera una imagen IA a partir de un prompt. **Operación asíncrona** — devuelve un job id para hacer poll con `POSTZEE_CHECK_JOB`.
 
 **Parámetros:**
 
-| Parámetro | Tipo | Obligatorio | Descripción |
+| Parámetro | Tipo | Requerido | Descripción |
 |-----------|------|:---:|-------------|
 | `prompt` | string | Sí | Descripción detallada de la imagen |
-| `model` | string | Sí | ID del modelo de `POSTZEE_LIST_IMAGE_MODELS` |
+| `model` | string | Sí | ID del modelo de `POSTZEE_LIST_MODELS_DETAILED` (type `"image"`) |
+| `aspectRatio` | string | No | ej.: `"1:1"`, `"4:5"`, `"9:16"`, `"16:9"`. Default: `"1:1"` |
+| `imageUrls` | string[] | No | URLs de imágenes de referencia para image-to-image |
+| `quality` | string | No | GPT Image 2: `"low"`, `"medium"` o `"high"`. Default: `"high"` |
+| `style` | string | No | Recraft V3/V4: `"realistic_image"`, `"digital_illustration"`, `"vector_illustration"` |
+| `renderingSpeed` | string | No | Tier de Ideogram V3: `"turbo"`, `"balanced"` o `"quality"` |
+| `negativePrompt` | string | No | Cosas a excluir de la imagen |
+| `seed` | number | No | Seed determinística opcional |
 
-**Devuelve:**
+**Devuelve (éxito):**
 ```json
-{
-  "jobId": "job-uuid",
-  "status": "processing",
-  "message": "Image generation started"
-}
+{ "success": true, "jobId": "job-uuid", "status": "processing", "message": "Image generation started..." }
+```
+
+**Devuelve (falla):**
+```json
+{ "success": false, "error": "unsupported_model | organization_not_found | generation_failed", "message": "..." }
 ```
 
 ---
 
-## POSTZEE_GENERATE_VIDEO
+### POSTZEE_GENERATE_VIDEO
 
-Genera un video con IA a partir de un prompt de texto. Esta es una **operación asíncrona** — devuelve un ID de trabajo que debes consultar con `POSTZEE_CHECK_JOB`.
+Genera un video IA a partir de un prompt o imagen de referencia. **Operación asíncrona.**
 
 **Parámetros:**
 
-| Parámetro | Tipo | Obligatorio | Descripción |
+| Parámetro | Tipo | Requerido | Descripción |
 |-----------|------|:---:|-------------|
 | `prompt` | string | Sí | Descripción detallada del video |
-| `model` | string | Sí | ID del modelo de `POSTZEE_LIST_VIDEO_MODELS` |
-| `duration` | number | No | Duración en segundos (ej., `5`, `10`) |
-| `aspectRatio` | string | No | Relación de aspecto (ej., `"16:9"`, `"9:16"`). Por defecto: `"16:9"` |
+| `model` | string | Sí | ID del modelo de `POSTZEE_LIST_MODELS_DETAILED` (type `"video"`) |
+| `duration` | number | No | Segundos. Valores permitidos varían por modelo — consulta `model.durations` |
+| `aspectRatio` | string | No | `"16:9"` o `"9:16"`. Default: `"16:9"` |
+| `imageUrl` | string | No | URL de imagen de referencia para modelos image-to-video |
+| `endImageUrl` | string | No | URL del frame final para interpolación first-last-frame (ej.: `wan-flf2v`) |
+| `resolution` | string | No | `"480p"`, `"540p"`, `"720p"`, `"1080p"`, `"4k"` (depende del modelo) |
+| `quality` | string | No | Solo Sora 2 Pro: `"standard"` (720p) o `"high"` (1080p) |
+| `generateAudio` | boolean | No | Genera audio ambiente (Veo 3.1, Pixverse, Wan 2.5). Afecta créditos. |
+| `voiceControl` | boolean | No | Control de voz (Kling 2.6/3.0 Pro). Afecta créditos. |
+| `negativePrompt` | string | No | Cosas a evitar en el video |
+| `seed` | number | No | Seed determinística opcional |
 
-**Devuelve:**
-```json
-{
-  "jobId": "job-uuid",
-  "status": "processing",
-  "message": "Video generation started"
-}
-```
+**Devuelve:** misma estructura que `POSTZEE_GENERATE_IMAGE`.
+
+<Warning>
+Algunos IDs de modelo en el catálogo todavía no están disponibles vía MCP y serán rechazados por adelantado (variantes Sora 2 storyboard, algunos paths Veo 3.1). Usa `POSTZEE_LIST_MODELS_DETAILED` para ver los modelos actualmente soportados — los filtra.
+</Warning>
 
 ---
 
-## POSTZEE_CHECK_JOB
+### POSTZEE_CHECK_JOB
 
-Consulta el estado de un trabajo asíncrono de generación de imagen o video.
+Hace poll del estado de un job asíncrono de generación de imagen o video.
 
 **Parámetros:**
 
-| Parámetro | Tipo | Obligatorio | Descripción |
+| Parámetro | Tipo | Requerido | Descripción |
 |-----------|------|:---:|-------------|
-| `jobId` | string | Sí | ID de trabajo de `POSTZEE_GENERATE_IMAGE` o `POSTZEE_GENERATE_VIDEO` |
+| `jobId` | string | Sí | Job id de `POSTZEE_GENERATE_*` |
 
 **Devuelve (procesando):**
 ```json
-{
-  "jobId": "job-uuid",
-  "status": "processing",
-  "progress": 45
-}
+{ "jobId": "...", "status": "processing", "progress": 45 }
 ```
 
-**Devuelve (exitoso):**
+**Devuelve (éxito):**
 ```json
-{
-  "jobId": "job-uuid",
-  "status": "success",
-  "progress": 100,
-  "mediaUrl": "https://cdn.postzee.app/...",
-  "mediaId": "media-uuid"
-}
+{ "jobId": "...", "status": "success", "progress": 100, "mediaUrl": "https://cdn.postzee.app/...", "mediaId": "media-uuid" }
 ```
 
-**Devuelve (fallido):**
+**Devuelve (falla):**
 ```json
-{
-  "jobId": "job-uuid",
-  "status": "failed",
-  "error": "Generation failed: insufficient credits"
-}
+{ "jobId": "...", "status": "failed", "error": "Generation failed: ..." }
+```
+
+**Devuelve (no encontrado):**
+```json
+{ "jobId": "...", "status": "not_found" }
 ```
 
 ---
 
-## POSTZEE_CREATE_POST
+## HeyGen
 
-Crea, programa o publica un post en uno o más canales de redes sociales.
+<Note>
+Las herramientas HeyGen requieren una clave de API HeyGen configurada en tu cuenta Postzee. Conéctala en [Settings → integración HeyGen](https://dashboard.postzee.app/settings). La generación de video HeyGen **factura en la cuenta HeyGen del usuario, no en créditos Postzee.**
+</Note>
+
+### POSTZEE_LIST_HEYGEN_AVATARS
+
+Lista avatares HeyGen disponibles (filtra por género, edad, estilo, etc. del lado del cliente).
+
+**Parámetros:** Ninguno
+**Devuelve:** Array de avatares de tu cuenta HeyGen.
+
+---
+
+### POSTZEE_LIST_HEYGEN_VOICES
+
+Lista voces HeyGen disponibles.
+
+**Parámetros:** Ninguno
+**Devuelve:** Array de voces de tu cuenta HeyGen, con info de idioma y género.
+
+---
+
+### POSTZEE_GENERATE_HEYGEN_VIDEO
+
+Crea un video de avatar con HeyGen. **Operación asíncrona** — haz poll con `POSTZEE_CHECK_JOB`.
 
 **Parámetros:**
 
-| Parámetro | Tipo | Obligatorio | Descripción |
+| Parámetro | Tipo | Requerido | Descripción |
 |-----------|------|:---:|-------------|
-| `type` | string | Sí | `"now"` (publicar inmediatamente), `"draft"` o `"schedule"` |
-| `date` | string | Solo schedule | Fecha y hora UTC (ej., `"2026-04-24T15:00:00Z"`) |
-| `channelId` | string | Sí | ID de canal de `POSTZEE_LIST_CHANNELS` |
-| `text` | string | Sí | Contenido de texto del post |
-| `mediaUrls` | string[] | No | URLs de medios de resultados de `POSTZEE_CHECK_JOB` |
+| `script` | string | Sí | Texto para que el avatar hable (20-1500 caracteres) |
+| `avatarId` | string | Sí | De `POSTZEE_LIST_HEYGEN_AVATARS` |
+| `voiceId` | string | Sí | De `POSTZEE_LIST_HEYGEN_VOICES` |
+| `aspectRatio` | string | No | `"16:9"` o `"9:16"`. Default: `"16:9"` |
 
-**Devuelve:**
-```json
-{
-  "success": true,
-  "postId": "post-uuid",
-  "message": "Post published successfully"
-}
-```
+**Devuelve:** misma estructura que `POSTZEE_GENERATE_IMAGE` — `jobId` + `status: "processing"`. La respuesta también avisa que se consumirán créditos HeyGen (no Postzee).
 
 ---
 
-## Patrón de flujo de trabajo asíncrono
+## Publicación
 
-La generación de imágenes y videos es asíncrona. El flujo de trabajo recomendado:
+### POSTZEE_CREATE_POST
 
-1. Llama a `POSTZEE_GENERATE_IMAGE` o `POSTZEE_GENERATE_VIDEO` → obtén `jobId`
-2. Espera unos segundos
-3. Llama a `POSTZEE_CHECK_JOB` con el `jobId`
-4. Si `status === "processing"`, espera y consulta de nuevo
-5. Si `status === "success"`, usa `mediaUrl` o `mediaId` en `POSTZEE_CREATE_POST`
-6. Si `status === "failed"`, lee el error y reintenta o informa al usuario
+Crea, programa o publica un post en un canal de redes sociales.
+
+**Parámetros:**
+
+| Parámetro | Tipo | Requerido | Descripción |
+|-----------|------|:---:|-------------|
+| `type` | string | Sí | `"now"` (publica inmediatamente), `"draft"` o `"schedule"` |
+| `date` | string | Solo schedule | UTC datetime (ej.: `"2026-04-24T15:00:00Z"`) — **requerido** cuando `type` es `"schedule"` |
+| `channelId` | string | Sí | ID del canal de `POSTZEE_LIST_CHANNELS` |
+| `text` | string | Sí | Contenido del post |
+| `mediaUrls` | string[] | No | URLs de medios (en orden de visualización — orden del array = orden de slides en carruseles) |
+
+**Devuelve (éxito):**
+```json
+{ "success": true, "postId": "post-uuid", "message": "Post published successfully." }
+```
+
+**Devuelve (falla):**
+```json
+{ "success": false, "error": "<error_code>", "message": "...", "upgradeUrl": "https://dashboard.postzee.app/billing" }
+```
+
+**Códigos de `error` posibles:**
+
+| Código | Significado |
+|--------|-------------|
+| `subscription_required` | El plan actual no permite publicar o se alcanzó el límite mensual de posts. Se incluye `upgradeUrl`. |
+| `date_required` | `type: "schedule"` se envió sin `date`. |
+| `invalid_date` | El string `date` no es un timestamp UTC ISO válido. |
+| `organization_not_found` | La clave MCP resolvió a una organización que no existe (raro). |
+| `post_failed` | Error de provider/red durante la publicación. Reintenta una vez; si persiste, surface el `message`. |
+
+---
+
+## Herramientas legacy (deprecadas)
+
+Las herramientas siguientes todavía funcionan pero están superadas:
+
+- **`POSTZEE_LIST_IMAGE_MODELS`** → usa `POSTZEE_LIST_MODELS_DETAILED({ type: "image" })`
+- **`POSTZEE_LIST_VIDEO_MODELS`** → usa `POSTZEE_LIST_MODELS_DETAILED({ type: "video" })`
+
+Se mantendrán por al menos 90 días para retrocompatibilidad, luego se removerán en una futura versión major.
+
+---
+
+## Patrón de workflow asíncrono
+
+La generación de imagen, video y HeyGen es asíncrona. El workflow recomendado:
+
+1. Valida primero — `POSTZEE_VALIDATE_GENERATION` para capturar errores de parámetros y créditos insuficientes sin quemar créditos
+2. Estima el costo — `POSTZEE_ESTIMATE_GENERATION_COST` si necesitas el número exacto para mostrar al usuario
+3. Optimiza el prompt — `POSTZEE_ENHANCE_PROMPT` (gratis)
+4. Genera — `POSTZEE_GENERATE_IMAGE` / `POSTZEE_GENERATE_VIDEO` / `POSTZEE_GENERATE_HEYGEN_VIDEO` → devuelve `jobId`
+5. Haz poll — `POSTZEE_CHECK_JOB` cada pocos segundos. Latencias típicas: 10-60s para imágenes, 30-180s para videos, hasta 5min para HeyGen
+6. En caso de éxito — usa `mediaUrl` en `POSTZEE_CREATE_POST`
+
+## Formato de error estándar
+
+Todas las herramientas write/generate devuelven:
+
+```json
+{
+  "success": true | false,
+  "error": "<machine_code>",
+  "message": "<human readable>",
+  "...": "campos específicos de la herramienta en éxito"
+}
+```
+
+Haz branch en el `error` machine code para lógica; usa `message` para narrar al usuario (traducido a su idioma).
 
 ## Límites de tasa
 
 | Endpoint | Límite |
-|----------|-------|
-| Conexión SSE | 30 solicitudes/minuto |
-| HTTP POST | 60 solicitudes/minuto |
-| Generación IA | 10 solicitudes/minuto |
+|----------|--------|
+| HTTP POST | 60 requests/minuto |
+| Conexión SSE (legacy) | 30 requests/minuto |
+| Generación IA (`GENERATE_*`) | 10 requests/minuto |
 
 <CardGroup cols={2}>
   <Card title="Claude Code" icon="terminal" href="/integrations/mcp/claude-code">
@@ -229,5 +592,11 @@ La generación de imágenes y videos es asíncrona. El flujo de trabajo recomend
   </Card>
   <Card title="OpenClaw" icon="plug" href="/integrations/mcp/openclaw">
     Conecta Postzee a OpenClaw.
+  </Card>
+  <Card title="Hermes Agent" icon="brain" href="/integrations/mcp/hermes-agent">
+    Conecta Postzee a Hermes Agent.
+  </Card>
+  <Card title="Resumen del MCP" icon="robot" href="/integrations/mcp/overview">
+    Vuelve al resumen del MCP.
   </Card>
 </CardGroup>
