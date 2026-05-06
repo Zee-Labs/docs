@@ -18,8 +18,9 @@ gh skill install Zee-Labs/postzee-skill
 ### Opção 2: Instalação manual
 
 ```bash
-mkdir -p ~/.claude/skills/postzee
-curl -o ~/.claude/skills/postzee/SKILL.md https://raw.githubusercontent.com/Zee-Labs/postzee-skill/main/SKILL.md
+git clone https://github.com/Zee-Labs/postzee-skill /tmp/postzee-skill
+mkdir -p ~/.claude/skills
+cp -r /tmp/postzee-skill/skills/postzee ~/.claude/skills/postzee
 ```
 
 ## Configurar a Conexão MCP
