@@ -3,7 +3,7 @@ title: MCP Tools Reference
 icon: wrench
 ---
 
-Complete reference for all **20 tools** exposed by Postzee's MCP server. These tools are available to any MCP-compatible AI agent (Claude Code, OpenClaw, Hermes Agent, or direct MCP clients).
+Complete reference for all **22 tools** exposed by Postzee's MCP server. These tools are available to any MCP-compatible AI agent (Claude Code, OpenClaw, Hermes Agent, or direct MCP clients).
 
 <Note>
 All tools accept the API key embedded in your MCP URL. They are scoped to a single organization. **Costs for AI generation are always returned in credits, never in USD.** ($1 USD = 1,000 credits.)
@@ -17,6 +17,7 @@ All tools accept the API key embedded in your MCP URL. They are scoped to a sing
 | **Models & Specs** | `POSTZEE_LIST_MODELS_DETAILED`, `POSTZEE_LIST_PLATFORM_SPECS`, `POSTZEE_GET_BEST_POSTING_TIMES` |
 | **Cost & Validation** | `POSTZEE_ESTIMATE_GENERATION_COST`, `POSTZEE_VALIDATE_GENERATION` |
 | **Channels & Credits** | `POSTZEE_LIST_CHANNELS`, `POSTZEE_GET_CREDITS` |
+| **Media Memory** | `POSTZEE_LIST_MEDIA`, `POSTZEE_UPLOAD_MEDIA` |
 | **Prompt Enhancement** | `POSTZEE_ENHANCE_PROMPT` |
 | **Generation** | `POSTZEE_GENERATE_IMAGE`, `POSTZEE_GENERATE_VIDEO`, `POSTZEE_CHECK_JOB` |
 | **HeyGen** | `POSTZEE_LIST_HEYGEN_AVATARS`, `POSTZEE_LIST_HEYGEN_VOICES`, `POSTZEE_GENERATE_HEYGEN_VIDEO` |
@@ -36,7 +37,7 @@ Single-shot context aggregation. **Recommended first call of every session.** Re
 **Returns:**
 ```json
 {
-  "skill": { "currentVersion": "3.0.0", "repoUrl": "https://github.com/Zee-Labs/postzee-skill" },
+  "skill": { "currentVersion": "3.3.0", "repoUrl": "https://github.com/Zee-Labs/postzee-skill" },
   "plan": {
     "tier": "FREE | STANDARD | TEAM | PRO | ULTIMATE",
     "isLifetime": false,
@@ -148,28 +149,38 @@ Capability matrix for all available image and video models — durations, resolu
 |-----------|------|:---:|-------------|
 | `type` | string | No | `"image"`, `"video"`, or `"all"` (default) |
 | `includeHeygen` | boolean | No | Include the synthetic HeyGen entry. Default: `true` |
+| `family` | string | No | Filter to a single family (e.g. `"ideogram-v3"`, `"sora-2"`, `"veo3.1"`) |
+| `agenticDefault` | boolean | No | When `true`, return only entries flagged as the recommended pick for automation |
 
 **Returns (per model):**
 ```json
 {
-  "modelId": "sora-2-t2v-pro",
-  "displayName": "Sora 2 Pro Text-to-Video",
+  "modelId": "sora-2-t2v-pro-1080p",
+  "displayName": "Sora 2 Pro 1080p (Text-to-Video)",
   "type": "video",
+  "family": "sora-2-pro",
+  "tierWithinFamily": "premium",
   "audio": "speech-lipsync",
   "supportsImg2Img": false,
   "supportsImg2Vid": false,
   "supportsVector": false,
   "durations": [10, 15],
-  "resolutions": ["720p", "1080p"],
+  "resolutions": ["1080p"],
   "aspectRatios": ["16:9", "9:16"],
-  "customParamsAccepted": {
-    "duration": { "type": "enum", "enum": [10, 15], "description": "..." },
-    "quality": { "type": "enum", "enum": ["standard", "high"], "description": "..." }
+  "recommendedAspectsByPlatform": {
+    "instagram_reels": "9:16",
+    "tiktok_feed": "9:16",
+    "youtube_feed": "16:9"
   },
-  "costTier": "high",
-  "popular": true,
-  "bestFor": ["cinematic dialogue", "native lip-sync", "1080p quality"],
-  "notRecommendedFor": []
+  "customParamsAccepted": {
+    "duration": { "type": "enum", "enum": [10, 15], "description": "..." }
+  },
+  "costTier": "premium",
+  "popular": false,
+  "agenticDefault": false,
+  "agenticDefaultFree": false,
+  "bestFor": ["highest cinematic quality", "1080p Pro", "final publication"],
+  "notRecommendedFor": ["high-volume automation"]
 }
 ```
 
@@ -348,6 +359,102 @@ All values in credits ($1 USD = 1,000 credits).
 
 ---
 
+## Media Memory
+
+The two tools below let an agent recall and reuse media assets — both AI-generated and user-uploaded — across turns and across sessions, instead of asking the user to paste URLs again.
+
+### POSTZEE_LIST_MEDIA
+
+Recent media list, scoped to the organization. Returns the newest items first.
+
+**Parameters:**
+
+| Parameter | Type | Required | Description |
+|-----------|------|:---:|-------------|
+| `type` | string | No | `"image"`, `"video"`, or `"all"` (default) |
+| `source` | string | No | `"generated"` (AI-created), `"uploaded"` (imported via `POSTZEE_UPLOAD_MEDIA`), or `"all"` (default) |
+| `search` | string | No | Case-insensitive search over the original prompt (AI media) and file name |
+| `since` | string | No | ISO date — only return media created after this instant |
+| `limit` | number | No | Default 20, max 100 |
+
+**Returns (per item):**
+```json
+{
+  "mediaId": "uuid",
+  "url": "https://cdn.postzee.app/abc.jpg",
+  "name": "abc.jpg",
+  "type": "image",
+  "source": "generated",
+  "prompt": "dog on the beach at sunset",
+  "modelUsed": "ideogram-v3-turbo",
+  "createdAt": "2026-05-07T14:23:00Z",
+  "sizeBytes": 245678,
+  "dimensions": { "width": 1024, "height": 1280 }
+}
+```
+
+**Returns (failure):**
+```json
+{ "error": "list_media_failed", "message": "..." }
+```
+
+<Note>
+Soft-deleted media is automatically excluded. Media used as a user profile picture is also excluded.
+</Note>
+
+---
+
+### POSTZEE_UPLOAD_MEDIA
+
+Import a public URL into Postzee's storage. Returns a stable `mediaId` and CDN URL for reuse across `GENERATE_*`, `CREATE_POST`, and `LIST_MEDIA` calls.
+
+**Parameters:**
+
+| Parameter | Type | Required | Description |
+|-----------|------|:---:|-------------|
+| `url` | string | Yes | Public `http://` or `https://` URL. Must be reachable without authentication. |
+| `description` | string | No | Short label stored alongside the media (helps the agent track its manifest) |
+
+**Returns (success):**
+```json
+{
+  "success": true,
+  "mediaId": "uuid",
+  "url": "https://cdn.postzee.app/uploads/xyz.jpg",
+  "type": "image",
+  "sizeBytes": 524288,
+  "dimensions": { "width": 1080, "height": 1920 }
+}
+```
+
+**Returns (failure):**
+```json
+{
+  "success": false,
+  "error": "blocked_url | unsupported_type | size_limit_exceeded | fetch_failed | storage_full | upload_failed | save_failed",
+  "message": "..."
+}
+```
+
+**Validation order (each step rejects before the next):**
+
+1. URL is parseable and uses `http`/`https`
+2. Hostname is **not** localhost / private IP / cloud-metadata endpoint (SSRF defense)
+3. HEAD probe succeeds (or ranged GET fallback)
+4. Content-Type is `image/*` or `video/*`
+5. Content-Length ≤ 50 MB
+6. Organization storage quota has room
+
+<Warning>
+For privacy and security, the tool never accepts authentication headers or auth tokens. URLs that require a Bot Token (e.g. Telegram `getFile` URLs) must be re-hosted by the chat client to a public URL first. For base64 / direct file uploads, use the existing REST `/media/upload-server` endpoint instead — the MCP tool handles URL imports only.
+</Warning>
+
+<Note>
+After a successful import, the media appears in `POSTZEE_LIST_MEDIA` with `source: "uploaded"`.
+</Note>
+
+---
+
 ## Prompt Enhancement
 
 ### POSTZEE_ENHANCE_PROMPT
@@ -396,7 +503,7 @@ Generate an AI image from a text prompt. **Async operation** — returns a job i
 
 **Returns (failure):**
 ```json
-{ "success": false, "error": "unsupported_model | organization_not_found | generation_failed", "message": "..." }
+{ "success": false, "error": "unsupported_model | unknown_model | wrong_type | organization_not_found | generation_failed", "message": "...", "suggestions": [{ "modelId": "...", "reason": "..." }] }
 ```
 
 ---
@@ -424,8 +531,12 @@ Generate an AI video from a text prompt or reference image. **Async operation.**
 
 **Returns:** same shape as `POSTZEE_GENERATE_IMAGE`.
 
+<Note>
+Tier-specific model ids returned by `POSTZEE_LIST_MODELS_DETAILED` (e.g. `ideogram-v3-turbo`, `gpt-image-2-high`, `sora-2-t2v-pro-1080p`, `recraft-v4-vector`) can be passed directly to `model`. The MCP translates them to the right backend payload automatically — no separate `tier` or `quality` param required for tier selection.
+</Note>
+
 <Warning>
-A few model ids in the catalog are not yet driveable through MCP and will be rejected upfront (Sora 2 storyboard variants, some Veo 3.1 paths). Use `POSTZEE_LIST_MODELS_DETAILED` to see currently supported models — it filters them out.
+A few model ids in the catalog are not yet driveable through MCP and will be rejected upfront (Sora 2 storyboard variants, some Veo 3.1 paths). The error response includes a `suggestions[]` array with up to three close alternatives — pick one of those.
 </Warning>
 
 ---

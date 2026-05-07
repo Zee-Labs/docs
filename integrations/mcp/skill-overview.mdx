@@ -76,6 +76,12 @@ For creative work, the agent runs a quick web search for current viral patterns 
 
 The agent knows the best posting times per platform, in **your timezone** (read from your Postzee org settings) — and converts to UTC ISO when scheduling. No mental math.
 
+### 🧭 Smart model routing (v3.2)
+
+You don't have to know which model to use. Say *"create a carousel about productivity for LinkedIn"* and the agent picks the right family (text-rendering vs photoreal vs illustration), the right tier (fast / balanced / premium), and the right aspect ratio for the platform — automatically. Default tier is **fast** to keep automation costs predictable.
+
+If you DO know what you want — say *"using Nano Banana"* or *"with the highest quality"* — the agent honors your override. The decision tree, multilingual signal vocabulary (PT / EN / ES / FR / DE), and worked examples live in `reference/smart-routing.md`.
+
 ### 🔄 Self version-check
 
 Every new session, the agent checks whether your installed skill version matches the currently published one. If you're outdated, it tells you once (in your language) with the upgrade command for your client — and keeps working with the version you have. No nagging.
@@ -88,6 +94,7 @@ The skill ships as a **multi-file structure**:
 postzee-skill/
 ├── SKILL.md                          # orchestrator (loaded first)
 └── reference/
+    ├── smart-routing.md              # Decision tree for model / aspect / quality (v3.2)
     ├── plans-and-pricing.md          # The 5 plans + 5 credit packs + CTA copy
     ├── credit-aware-flow.md          # State matrix for plan/credit scenarios
     ├── carousel-mastery.md           # 10 frameworks deep-dive

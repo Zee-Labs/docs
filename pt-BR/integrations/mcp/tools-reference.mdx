@@ -3,7 +3,7 @@ title: Referência de Ferramentas MCP
 icon: wrench
 ---
 
-Referência completa para todas as **20 ferramentas** expostas pelo servidor MCP do Postzee. Essas ferramentas estão disponíveis para qualquer agente IA compatível com MCP (Claude Code, OpenClaw, Hermes Agent ou clientes MCP diretos).
+Referência completa para todas as **22 ferramentas** expostas pelo servidor MCP do Postzee. Essas ferramentas estão disponíveis para qualquer agente IA compatível com MCP (Claude Code, OpenClaw, Hermes Agent ou clientes MCP diretos).
 
 <Note>
 Todas as ferramentas aceitam a chave de API embutida na sua URL MCP. Elas são escopadas a uma única organização. **Custos de geração de IA são sempre retornados em créditos, nunca em dólares.** ($1 USD = 1.000 créditos.)
@@ -17,6 +17,7 @@ Todas as ferramentas aceitam a chave de API embutida na sua URL MCP. Elas são e
 | **Modelos e Specs** | `POSTZEE_LIST_MODELS_DETAILED`, `POSTZEE_LIST_PLATFORM_SPECS`, `POSTZEE_GET_BEST_POSTING_TIMES` |
 | **Custo e Validação** | `POSTZEE_ESTIMATE_GENERATION_COST`, `POSTZEE_VALIDATE_GENERATION` |
 | **Canais e Créditos** | `POSTZEE_LIST_CHANNELS`, `POSTZEE_GET_CREDITS` |
+| **Memória de Mídia** | `POSTZEE_LIST_MEDIA`, `POSTZEE_UPLOAD_MEDIA` |
 | **Otimização de Prompt** | `POSTZEE_ENHANCE_PROMPT` |
 | **Geração** | `POSTZEE_GENERATE_IMAGE`, `POSTZEE_GENERATE_VIDEO`, `POSTZEE_CHECK_JOB` |
 | **HeyGen** | `POSTZEE_LIST_HEYGEN_AVATARS`, `POSTZEE_LIST_HEYGEN_VOICES`, `POSTZEE_GENERATE_HEYGEN_VIDEO` |
@@ -36,7 +37,7 @@ Agregação de contexto em uma única chamada. **Recomendada como primeira chama
 **Retorna:**
 ```json
 {
-  "skill": { "currentVersion": "3.0.0", "repoUrl": "https://github.com/Zee-Labs/postzee-skill" },
+  "skill": { "currentVersion": "3.3.0", "repoUrl": "https://github.com/Zee-Labs/postzee-skill" },
   "plan": {
     "tier": "FREE | STANDARD | TEAM | PRO | ULTIMATE",
     "isLifetime": false,
@@ -152,24 +153,32 @@ Matriz de capacidades para todos os modelos de imagem e vídeo disponíveis — 
 **Retorna (por modelo):**
 ```json
 {
-  "modelId": "sora-2-t2v-pro",
-  "displayName": "Sora 2 Pro Text-to-Video",
+  "modelId": "sora-2-t2v-pro-1080p",
+  "displayName": "Sora 2 Pro 1080p (Text-to-Video)",
   "type": "video",
+  "family": "sora-2-pro",
+  "tierWithinFamily": "premium",
   "audio": "speech-lipsync",
   "supportsImg2Img": false,
   "supportsImg2Vid": false,
   "supportsVector": false,
   "durations": [10, 15],
-  "resolutions": ["720p", "1080p"],
+  "resolutions": ["1080p"],
   "aspectRatios": ["16:9", "9:16"],
-  "customParamsAccepted": {
-    "duration": { "type": "enum", "enum": [10, 15], "description": "..." },
-    "quality": { "type": "enum", "enum": ["standard", "high"], "description": "..." }
+  "recommendedAspectsByPlatform": {
+    "instagram_reels": "9:16",
+    "tiktok_feed": "9:16",
+    "youtube_feed": "16:9"
   },
-  "costTier": "high",
-  "popular": true,
-  "bestFor": ["cinematic dialogue", "native lip-sync", "1080p quality"],
-  "notRecommendedFor": []
+  "customParamsAccepted": {
+    "duration": { "type": "enum", "enum": [10, 15], "description": "..." }
+  },
+  "costTier": "premium",
+  "popular": false,
+  "agenticDefault": false,
+  "agenticDefaultFree": false,
+  "bestFor": ["highest cinematic quality", "1080p Pro", "final publication"],
+  "notRecommendedFor": ["high-volume automation"]
 }
 ```
 
@@ -348,6 +357,102 @@ Todos os valores em créditos ($1 USD = 1.000 créditos).
 
 ---
 
+## Memória de Mídia
+
+As duas ferramentas abaixo permitem que o agente recupere e reutilize ativos de mídia — gerados por IA ou enviados pelo usuário — entre turnos e entre sessões, sem precisar pedir URLs ao usuário novamente.
+
+### POSTZEE_LIST_MEDIA
+
+Lista de mídia recente, escopada à organização. Retorna os itens mais novos primeiro.
+
+**Parâmetros:**
+
+| Parâmetro | Tipo | Obrigatório | Descrição |
+|-----------|------|:---:|-------------|
+| `type` | string | Não | `"image"`, `"video"` ou `"all"` (padrão) |
+| `source` | string | Não | `"generated"` (criado por IA), `"uploaded"` (importado via `POSTZEE_UPLOAD_MEDIA`) ou `"all"` (padrão) |
+| `search` | string | Não | Busca case-insensitive no prompt original (mídia IA) e no nome do arquivo |
+| `since` | string | Não | Data ISO — retorna apenas mídia criada após esse instante |
+| `limit` | number | Não | Padrão 20, máximo 100 |
+
+**Retorna (por item):**
+```json
+{
+  "mediaId": "uuid",
+  "url": "https://cdn.postzee.app/abc.jpg",
+  "name": "abc.jpg",
+  "type": "image",
+  "source": "generated",
+  "prompt": "cachorro na praia ao pôr do sol",
+  "modelUsed": "ideogram-v3-turbo",
+  "createdAt": "2026-05-07T14:23:00Z",
+  "sizeBytes": 245678,
+  "dimensions": { "width": 1024, "height": 1280 }
+}
+```
+
+**Retorna (falha):**
+```json
+{ "error": "list_media_failed", "message": "..." }
+```
+
+<Note>
+Mídias com soft-delete são excluídas automaticamente. Mídia em uso como foto de perfil também é excluída.
+</Note>
+
+---
+
+### POSTZEE_UPLOAD_MEDIA
+
+Importa uma URL pública para o storage do Postzee. Retorna um `mediaId` estável e URL na CDN para reuso em chamadas `GENERATE_*`, `CREATE_POST` e `LIST_MEDIA`.
+
+**Parâmetros:**
+
+| Parâmetro | Tipo | Obrigatório | Descrição |
+|-----------|------|:---:|-------------|
+| `url` | string | Sim | URL pública `http://` ou `https://`. Deve ser acessível sem autenticação. |
+| `description` | string | Não | Rótulo curto guardado junto à mídia (ajuda o agente a manter seu manifest) |
+
+**Retorna (sucesso):**
+```json
+{
+  "success": true,
+  "mediaId": "uuid",
+  "url": "https://cdn.postzee.app/uploads/xyz.jpg",
+  "type": "image",
+  "sizeBytes": 524288,
+  "dimensions": { "width": 1080, "height": 1920 }
+}
+```
+
+**Retorna (falha):**
+```json
+{
+  "success": false,
+  "error": "blocked_url | unsupported_type | size_limit_exceeded | fetch_failed | storage_full | upload_failed | save_failed",
+  "message": "..."
+}
+```
+
+**Ordem de validação (cada passo rejeita antes do próximo):**
+
+1. URL é parseável e usa `http`/`https`
+2. Hostname **não** é localhost / IP privado / endpoint de cloud-metadata (defesa SSRF)
+3. Sondagem HEAD bem-sucedida (ou GET ranged como fallback)
+4. Content-Type é `image/*` ou `video/*`
+5. Content-Length ≤ 50 MB
+6. Quota de storage da organização tem espaço
+
+<Warning>
+Por privacidade e segurança, a ferramenta nunca aceita headers de autenticação ou tokens. URLs que requerem Bot Token (ex.: URLs `getFile` do Telegram) precisam ser re-hospedadas pelo cliente de chat em uma URL pública primeiro. Para uploads em base64 / arquivos diretos, use o endpoint REST existente `/media/upload-server` — a ferramenta MCP só lida com importações via URL.
+</Warning>
+
+<Note>
+Após importação bem-sucedida, a mídia aparece em `POSTZEE_LIST_MEDIA` com `source: "uploaded"`.
+</Note>
+
+---
+
 ## Otimização de Prompt
 
 ### POSTZEE_ENHANCE_PROMPT
@@ -396,7 +501,7 @@ Gera uma imagem IA a partir de um prompt. **Operação assíncrona** — retorna
 
 **Retorna (falha):**
 ```json
-{ "success": false, "error": "unsupported_model | organization_not_found | generation_failed", "message": "..." }
+{ "success": false, "error": "unsupported_model | unknown_model | wrong_type | organization_not_found | generation_failed", "message": "...", "suggestions": [{ "modelId": "...", "reason": "..." }] }
 ```
 
 ---
@@ -424,8 +529,12 @@ Gera um vídeo IA a partir de um prompt ou imagem de referência. **Operação a
 
 **Retorna:** mesma estrutura de `POSTZEE_GENERATE_IMAGE`.
 
+<Note>
+Os IDs específicos de tier retornados por `POSTZEE_LIST_MODELS_DETAILED` (ex.: `ideogram-v3-turbo`, `gpt-image-2-high`, `sora-2-t2v-pro-1080p`, `recraft-v4-vector`) podem ser passados diretamente em `model`. O MCP traduz para o payload correto do backend automaticamente — não é necessário um parâmetro `tier` ou `quality` separado para a seleção de tier.
+</Note>
+
 <Warning>
-Alguns IDs de modelo no catálogo ainda não estão disponíveis via MCP e serão rejeitados de antemão (variantes Sora 2 storyboard, alguns paths Veo 3.1). Use `POSTZEE_LIST_MODELS_DETAILED` para ver os modelos atualmente suportados — ele filtra esses casos.
+Alguns IDs de modelo no catálogo ainda não estão disponíveis via MCP e serão rejeitados de antemão (variantes Sora 2 storyboard, alguns paths Veo 3.1). A resposta de erro inclui um array `suggestions[]` com até três alternativas próximas — escolha uma delas.
 </Warning>
 
 ---
