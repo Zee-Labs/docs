@@ -76,6 +76,12 @@ Fuer Kreativarbeit fuehrt der Agent eine schnelle Websuche nach aktuellen virale
 
 Der Agent kennt die besten Veroeffentlichungszeiten pro Plattform, **in Ihrer Zeitzone** (gelesen aus Ihren Postzee-Org-Einstellungen) — und konvertiert beim Planen in UTC ISO.
 
+### 🧭 Intelligentes Modell-Routing (v3.2)
+
+Sie muessen nicht wissen, welches Modell zu verwenden ist. Sagen Sie *"erstelle ein Karussell ueber Produktivitaet fuer LinkedIn"* und der Agent waehlt die richtige Familie (textlastig vs fotorealistisch vs Illustration), das richtige Tier (fast / balanced / premium) und das richtige Aspect-Ratio fuer die Plattform — automatisch. Das Standard-Tier ist **fast**, um die Automatisierungskosten vorhersehbar zu halten.
+
+Wenn Sie WISSEN, was Sie wollen — sagen Sie *"mit Nano Banana"* oder *"mit hoechster Qualitaet"* — respektiert der Agent Ihren Override. Der Entscheidungsbaum, das mehrsprachige Signal-Vokabular (PT / EN / ES / FR / DE) und die vollstaendigen Beispiele leben in `reference/smart-routing.md`.
+
 ### 🔄 Selbst-Versionspruefung
 
 Bei jeder neuen Session prueft der Agent, ob die installierte Skill-Version mit der aktuell veroeffentlichten uebereinstimmt. Falls Sie veraltet sind, sagt er es Ihnen einmal (in Ihrer Sprache) mit dem Update-Befehl fuer Ihren Client — und arbeitet weiter mit der Version, die Sie haben.
@@ -88,6 +94,8 @@ Die Skill wird als **Multi-Datei-Struktur** verteilt:
 postzee-skill/
 ├── SKILL.md                          # Orchestrator (zuerst geladen)
 └── reference/
+    ├── smart-routing.md              # Entscheidungsbaum fuer Modell / Aspect / Qualitaet (v3.2)
+    ├── media-memory.md               # Manifest-Pattern + Wiederverwendung von Medien ueber Turns/Sessions (v3.3)
     ├── plans-and-pricing.md          # Die 5 Plaene + 5 Pakete + CTA-Copy
     ├── credit-aware-flow.md          # Status-Matrix Plan/Credits
     ├── carousel-mastery.md           # 10 Frameworks im Detail

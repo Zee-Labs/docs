@@ -149,6 +149,8 @@ Capability-Matrix fuer alle verfuegbaren Bild- und Video-Modelle — Dauern, Auf
 |-----------|-----|:---:|--------------|
 | `type` | string | Nein | `"image"`, `"video"` oder `"all"` (default) |
 | `includeHeygen` | boolean | Nein | Inkludiert den synthetischen HeyGen-Eintrag. Default: `true` |
+| `family` | string | Nein | Filtert auf eine einzelne Familie (z. B. `"ideogram-v3"`, `"sora-2"`, `"veo3.1"`) |
+| `agenticDefault` | boolean | Nein | Bei `true` werden nur Eintraege zurueckgegeben, die als empfohlene Wahl fuer Automatisierung markiert sind |
 
 **Gibt zurueck (pro Modell):**
 ```json

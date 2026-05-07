@@ -149,6 +149,8 @@ Matrice de capacites pour tous les modeles d'image et video disponibles — dure
 |-----------|------|:---:|-------------|
 | `type` | string | Non | `"image"`, `"video"` ou `"all"` (default) |
 | `includeHeygen` | boolean | Non | Inclut l'entree synthetique HeyGen. Default : `true` |
+| `family` | string | Non | Filtre vers une seule famille (ex. : `"ideogram-v3"`, `"sora-2"`, `"veo3.1"`) |
+| `agenticDefault` | boolean | Non | Quand `true`, ne retourne que les entrees marquees comme choix recommande pour l'automatisation |
 
 **Retourne (par modele) :**
 ```json

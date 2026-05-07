@@ -76,6 +76,12 @@ Para trabalho criativo, o agente roda uma busca rápida na web por padrões vira
 
 O agente conhece os melhores horários de postagem por plataforma, **no seu fuso horário** (lido das configurações da sua org no Postzee) — e converte para UTC ISO ao agendar. Sem cálculo mental.
 
+### 🧭 Roteamento inteligente de modelos (v3.2)
+
+Você não precisa saber qual modelo usar. Diga *"crie um carrossel sobre produtividade para o LinkedIn"* e o agente escolhe a família certa (texto-pesado vs fotorrealista vs ilustração), o tier certo (fast / balanced / premium) e o aspect ratio certo para a plataforma — automaticamente. O tier padrão é **fast** para manter o custo da automação previsível.
+
+Se você SABE o que quer — diga *"usando Nano Banana"* ou *"com a maior qualidade"* — o agente respeita seu override. A decision tree, vocabulário multilingual de signals (PT / EN / ES / FR / DE) e exemplos completos vivem em `reference/smart-routing.md`.
+
 ### 🔄 Auto-verificação de versão
 
 A cada nova sessão, o agente verifica se a versão da skill instalada bate com a publicada atualmente. Se você estiver desatualizado, ele te avisa uma vez (no seu idioma) com o comando de update do seu cliente — e segue trabalhando com a versão que você tem. Sem incomodar.
@@ -88,6 +94,8 @@ A skill é distribuída como uma **estrutura multi-arquivo**:
 postzee-skill/
 ├── SKILL.md                          # orquestrador (carregado primeiro)
 └── reference/
+    ├── smart-routing.md              # Decision tree para modelo / aspect / qualidade (v3.2)
+    ├── media-memory.md               # Manifest pattern + reuso de mídia entre turns/sessões (v3.3)
     ├── plans-and-pricing.md          # Os 5 planos + 5 pacotes + copy de CTA
     ├── credit-aware-flow.md          # Matriz de estados plano/créditos
     ├── carousel-mastery.md           # 10 frameworks aprofundados
