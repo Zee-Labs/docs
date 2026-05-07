@@ -439,9 +439,18 @@ Importiert eine oeffentliche URL in Postzees Speicher. Gibt eine stabile `mediaI
 1. URL ist parsebar und nutzt `http`/`https`
 2. Hostname ist **nicht** localhost / private IP / Cloud-Metadata-Endpoint (SSRF-Schutz)
 3. HEAD-Probe erfolgreich (oder Range-GET als Fallback)
-4. Content-Type ist `image/*` oder `video/*`
-5. Content-Length <= 50 MB
+4. Content-Type entspricht der konfigurierten Allowlist (Standard: `image/jpeg`, `image/png`, `image/webp`, `image/gif` / `video/mp4`, `video/quicktime`, `video/webm`)
+5. Groesse innerhalb des typ-spezifischen Limits (Standard: 25 MB Bild, 500 MB Video)
 6. Speicher-Quota der Organisation hat Platz
+
+**Standard-Limits (konfigurierbar via SystemConfig):**
+
+| Typ | Max-Groesse | Akzeptierte Formate |
+|-----|-------------|---------------------|
+| Bild | 25 MB | JPG, PNG, WebP, GIF |
+| Video | 500 MB | MP4, MOV, WebM |
+
+Limits und akzeptierte Formate koennen zur Laufzeit angepasst werden, indem die `UPLOAD_*`-Schluessel im `SystemConfig` geaendert werden. Sowohl dieses MCP-Tool als auch die REST-Upload-Endpoints teilen sich dieselbe Quelle — einmal aendern, gilt ueberall innerhalb von ~5 Minuten (Cache-TTL).
 
 <Warning>
 Aus Datenschutz- und Sicherheitsgruenden akzeptiert das Tool niemals Authentifizierungs-Header oder Tokens. URLs, die einen Bot-Token erfordern (z. B. Telegram `getFile`-URLs), muessen vom Chat-Client zuerst auf eine oeffentliche URL umgehostet werden. Fuer Base64-/Direkt-Datei-Uploads nutzen Sie den bestehenden REST-Endpoint `/media/upload-server` — das MCP-Tool verwaltet nur URL-Importe.

@@ -439,9 +439,18 @@ Importa uma URL pública para o storage do Postzee. Retorna um `mediaId` estáve
 1. URL é parseável e usa `http`/`https`
 2. Hostname **não** é localhost / IP privado / endpoint de cloud-metadata (defesa SSRF)
 3. Sondagem HEAD bem-sucedida (ou GET ranged como fallback)
-4. Content-Type é `image/*` ou `video/*`
-5. Content-Length ≤ 50 MB
+4. Content-Type bate com a allowlist configurada (padrão: `image/jpeg`, `image/png`, `image/webp`, `image/gif` / `video/mp4`, `video/quicktime`, `video/webm`)
+5. Tamanho dentro do cap por tipo (padrão: 25 MB imagem, 500 MB vídeo)
 6. Quota de storage da organização tem espaço
+
+**Limites padrão (configuráveis via SystemConfig):**
+
+| Tipo | Tamanho máximo | Formatos aceitos |
+|------|----------------|------------------|
+| Imagem | 25 MB | JPG, PNG, WebP, GIF |
+| Vídeo | 500 MB | MP4, MOV, WebM |
+
+Limites e formatos aceitos podem ser ajustados em runtime alterando as chaves `UPLOAD_*` no `SystemConfig`. Tanto esta ferramenta MCP quanto os endpoints REST de upload compartilham a mesma fonte de verdade — altera uma vez, vale para todos em ~5 minutos (TTL do cache).
 
 <Warning>
 Por privacidade e segurança, a ferramenta nunca aceita headers de autenticação ou tokens. URLs que requerem Bot Token (ex.: URLs `getFile` do Telegram) precisam ser re-hospedadas pelo cliente de chat em uma URL pública primeiro. Para uploads em base64 / arquivos diretos, use o endpoint REST existente `/media/upload-server` — a ferramenta MCP só lida com importações via URL.
