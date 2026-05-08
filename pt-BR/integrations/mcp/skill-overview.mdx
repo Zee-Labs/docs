@@ -50,11 +50,13 @@ Antes de gerar qualquer coisa, o agente lê o contexto completo da sua conta —
 
 O agente **sempre mostra o custo da geração em créditos antes de gerar** — nunca em dólares, nunca como surpresa. Usa a tool live `POSTZEE_ESTIMATE_GENERATION_COST` para computar números exatos a partir do pricing atual — sem chutes, sem valores hardcoded.
 
-### 🎨 Maestria em carrosséis
+### 🎨 Maestria em carrosséis (HTML render — v3.4+)
 
-10 frameworks comprovados de carrossel — Listicle, Step-by-Step, Before/After, Mythbusting, Story Arc, Comparison, Mistakes, Hacks, Quote+Commentary, Behind-the-Scenes — cada um com estrutura, sweet spot e specs por plataforma.
+Carrosséis passam por um pipeline dedicado: o agente **escreve o HTML de cada slide** (texto pixel-perfect, sua tipografia) e o Postzee renderiza em PNG via Chromium headless. Modelos de imagem IA renderizam texto mal — esse approach elimina essa limitação por completo.
 
-O agente monta os slides na ordem correta de exibição, aplica estilo visual consistente (paleta + tipografia) e escreve uma caption com hook complementar pra que o carrossel e a caption funcionem como dois ângulos de ataque.
+A skill impõe um **workflow de 6 fases**: Brief (4 perguntas, análise de concorrente opcional) → Roteiro (plano completo com 3 variantes de hook e 3 de caption) → Aprovação (hard stop, sem geração silenciosa) → Render (HTML + backgrounds Nano Banana opcionais) → Iteração (substituição cirúrgica de slide via `POSTZEE_REPLACE_CAROUSEL_SLIDE` — nunca re-renderiza tudo por 1 ajuste) → Publicação.
+
+O deep-dive vive em `reference/carousel-mastery.md` — design system (escala tipográfica, paletas, fontes, espaçamento), tratamento de logo (CSS estilo foto de perfil do IG), 5 padrões de layout (hook, card numerado, citação, CTA, bg+overlay composto), playbook de análise de concorrente, variantes de caption, tática meta-proof e o template de roteiro que o agente preenche antes de pedir sua aprovação.
 
 ### 🎬 Vídeo multi-cena
 
@@ -78,7 +80,7 @@ O agente conhece os melhores horários de postagem por plataforma, **no seu fuso
 
 ### 🧭 Roteamento inteligente de modelos (v3.2)
 
-Você não precisa saber qual modelo usar. Diga *"crie um carrossel sobre produtividade para o LinkedIn"* e o agente escolhe a família certa (texto-pesado vs fotorrealista vs ilustração), o tier certo (fast / balanced / premium) e o aspect ratio certo para a plataforma — automaticamente. O tier padrão é **fast** para manter o custo da automação previsível.
+Você não precisa saber qual modelo usar. Diga *"crie uma foto de pôr do sol para o Instagram"* e o agente escolhe a família certa (texto-pesado vs fotorrealista vs ilustração), o tier certo (fast / balanced / premium) e o aspect ratio certo para a plataforma — automaticamente. O tier padrão é **fast** para manter o custo da automação previsível. (Carrosséis vão por `POSTZEE_RENDER_CAROUSEL` e dispensam seleção de modelo — o pipeline HTML cuida deles.)
 
 Se você SABE o que quer — diga *"usando Nano Banana"* ou *"com a maior qualidade"* — o agente respeita seu override. A decision tree, vocabulário multilingual de signals (PT / EN / ES / FR / DE) e exemplos completos vivem em `reference/smart-routing.md`.
 
@@ -98,7 +100,7 @@ postzee-skill/
     ├── media-memory.md               # Manifest pattern + reuso de mídia entre turns/sessões (v3.3)
     ├── plans-and-pricing.md          # Os 5 planos + 5 pacotes + copy de CTA
     ├── credit-aware-flow.md          # Matriz de estados plano/créditos
-    ├── carousel-mastery.md           # 10 frameworks aprofundados
+    ├── carousel-mastery.md           # Pipeline HTML render + design system + template de roteiro + replace-slide
     ├── captions-frameworks.md        # AIDA / PAS / BAB / FAB / 4Ps
     ├── hooks-library.md              # 80+ hooks comprovados
     ├── multi-scene-workflow.md       # Estratégias multi-cena
@@ -140,7 +142,14 @@ O agente escolhe o modelo fotoreal certo, valida o custo em créditos, melhora s
 
 > *"Crie um carrossel de 10 slides para o LinkedIn sobre erros de produtividade."*
 
-O agente propõe um framework (ex.: Mistakes — "10 erros a evitar"), faz 2-3 perguntas curtas, valida o custo total dos 10 slides, gera cada slide com paleta e tipografia consistentes, escreve a caption com hook complementar, e publica quando estiver pronto.
+O agente roda o **workflow de carrossel em 6 fases**:
+
+1. **Brief** — pergunta tópico, audiência, plataforma (LinkedIn → 1:1 1080×1080) e cores/logo da marca. Se você colou um post de concorrente como referência, o agente faz análise estratégica de posicionamento primeiro.
+2. **Roteiro** — entrega plano completo: framework escolhido (ex.: "Mistakes"), plano slide a slide (label + copy + direção visual), **3 variantes de hook** para o slide 1, **3 variantes de caption** (contrarian / story / direta), hashtags e 3 decisões específicas para você travar.
+3. **Aprovação** — hard stop. Espera você responder "hook 1, caption A, cor da marca #AE85F3" antes de gerar qualquer coisa.
+4. **Render** — compõe 10 documentos HTML (um por slide) usando o design system (Inter Bold, suas cores, logo com tratamento estilo foto de perfil do IG), valida saldo de créditos e chama `POSTZEE_RENDER_CAROUSEL`. Todos os slides renderizam em paralelo e chegam como um MediaGroup ordenado.
+5. **Iteração** — se você diz "muda o slide 4", o agente chama `POSTZEE_REPLACE_CAROUSEL_SLIDE` apenas para esse slide. Os outros 9 mantêm URLs e identidade.
+6. **Publicação** — `POSTZEE_CREATE_POST` com `mediaUrls` já em ordem de exibição.
 
 ### História multi-cena
 

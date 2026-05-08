@@ -20,6 +20,7 @@ Todas as ferramentas aceitam a chave de API embutida na sua URL MCP. Elas são e
 | **Memória de Mídia** | `POSTZEE_LIST_MEDIA`, `POSTZEE_UPLOAD_MEDIA` |
 | **Otimização de Prompt** | `POSTZEE_ENHANCE_PROMPT` |
 | **Geração** | `POSTZEE_GENERATE_IMAGE`, `POSTZEE_GENERATE_VIDEO`, `POSTZEE_CHECK_JOB` |
+| **Carrosséis** | `POSTZEE_RENDER_CAROUSEL`, `POSTZEE_REPLACE_CAROUSEL_SLIDE` |
 | **HeyGen** | `POSTZEE_LIST_HEYGEN_AVATARS`, `POSTZEE_LIST_HEYGEN_VOICES`, `POSTZEE_GENERATE_HEYGEN_VIDEO` |
 | **Postagem** | `POSTZEE_CREATE_POST` |
 | **Legacy (deprecadas)** | `POSTZEE_LIST_IMAGE_MODELS`, `POSTZEE_LIST_VIDEO_MODELS` |
@@ -38,7 +39,7 @@ Agregação de contexto em uma única chamada. **Recomendada como primeira chama
 ```json
 {
   "skill": {
-    "currentVersion": "3.3.1",
+    "currentVersion": "3.4.1",
     "repoUrl": "https://github.com/Zee-Labs/postzee-skill",
     "downloadUrl": "https://github.com/Zee-Labs/postzee-skill/releases/latest/download/postzee-skill.zip",
     "releaseNotesUrl": "https://github.com/Zee-Labs/postzee-skill/releases/latest"
@@ -291,7 +292,7 @@ Validação pré-execução — captura erros de parâmetros, créditos insufici
 | `generateAudio` | boolean | Não | |
 | `voiceControl` | boolean | Não | |
 | `imageUrl` | string | Não | Obrigatório para modelos image-to-video |
-| `slideCount` | number | Não | Para carrosséis — multiplica o custo |
+| `slideCount` | number | Não | Multiplicador de batch (ex.: N variações do mesmo prompt). **Não use para carrosséis** — esses passam por `POSTZEE_RENDER_CAROUSEL` com modelo de custo próprio. |
 
 **Retorna:**
 ```json
@@ -584,6 +585,93 @@ Faz poll do status de um job assíncrono de geração de imagem ou vídeo.
 ```json
 { "jobId": "...", "status": "not_found" }
 ```
+
+---
+
+## Carrosséis
+
+O novo pipeline de carrossel (skill v3.4+) renderiza HTML fornecido pelo agente para PNG via Chromium headless. Modelos de imagem IA renderizam texto mal; o render via HTML entrega tipografia pixel-perfect, fontes consistentes e zero alucinação de palavras. Duas tools cobrem o ciclo: um render completo, e uma substituição cirúrgica.
+
+### POSTZEE_RENDER_CAROUSEL
+
+Renderiza N slides HTML para PNG e os agrupa atomicamente como um `MediaGroup` de carrossel. **Síncrona** — bloqueia até todos os slides finalizarem.
+
+**Parâmetros:**
+
+| Parâmetro | Tipo | Obrigatório | Descrição |
+|-----------|------|:---:|-------------|
+| `slides` | array | Sim | 1-15 objetos slide em ordem de exibição. Cada um: `{ html: string, width?: number, height?: number }`. O índice do array vira a ordem do slide. |
+| `aspectRatio` | string | Não | Tamanho default quando width/height são omitidos: `"1:1"` (1080×1080), `"4:5"` (1080×1350), `"9:16"` (1080×1920). Default `"1:1"`. |
+| `name` | string | Não | Título opcional exibido na galeria. |
+
+**Limites server-side:**
+- Máximo **15 slides** por chamada
+- Mínimo 256 / máximo **2160** px por dimensão
+- 250 KB de HTML por slide
+- 30 s de timeout por slide
+- All-or-nothing: qualquer falha de slide → grupo inteiro é revertido (soft-delete)
+
+**Ordem é estrutural, não temporal.** O índice do array = `orderInGroup`, atribuído ANTES de qualquer worker rodar. Slides podem renderizar em paralelo, mas a ordem é preservada deterministicamente.
+
+**Modelo de segurança.** JavaScript é **desabilitado** no renderer; tags `<script>` são inertes. Requisições de rede são interceptadas e bloqueiam SSRF (RFC1918, loopback, hosts de cloud-metadata).
+
+**Retorna:**
+```json
+{
+  "success": true,
+  "mediaGroupId": "uuid",
+  "totalSlides": 10,
+  "aspectRatio": "4:5",
+  "slides": [
+    { "mediaId": "...", "url": "https://cdn.postzee.app/.../slide-0.png", "orderInGroup": 0 },
+    { "mediaId": "...", "url": "https://cdn.postzee.app/.../slide-1.png", "orderInGroup": 1 }
+  ],
+  "mediaUrls": [
+    "https://cdn.postzee.app/.../slide-0.png",
+    "https://cdn.postzee.app/.../slide-1.png"
+  ]
+}
+```
+
+`mediaUrls` já vem em ordem de exibição — passe direto para `POSTZEE_CREATE_POST`.
+
+**Resposta de falha:**
+```json
+{ "success": false, "error": "render_failed", "message": "Carousel rendering failed: ..." }
+```
+
+### POSTZEE_REPLACE_CAROUSEL_SLIDE
+
+Substitui cirurgicamente UM slide de um carrossel existente sem tocar nos outros. Use quando o usuário pede "muda o slide N" — economiza tempo e créditos, e preserva a identidade dos demais slides (URLs e IDs intactos).
+
+**Parâmetros:**
+
+| Parâmetro | Tipo | Obrigatório | Descrição |
+|-----------|------|:---:|-------------|
+| `mediaGroupId` | string | Sim | O id retornado por `POSTZEE_RENDER_CAROUSEL`. |
+| `orderInGroup` | number | Sim | Índice base-zero do slide a substituir. Slide 4 → `3`. Deve apontar pra slide ativo (não soft-deleted). |
+| `slide` | object | Sim | `{ html, width?, height? }` — mesma estrutura de uma entrada de `RENDER_CAROUSEL.slides`. |
+
+O slide substituído é soft-deleted **depois** que o novo render é uploadado com sucesso; o novo slide assume o mesmo `orderInGroup`. Se `orderInGroup === 0`, o thumbnail de capa do carrossel é atualizado automaticamente.
+
+**Retorna:**
+```json
+{
+  "success": true,
+  "mediaGroupId": "uuid",
+  "replacedOrderInGroup": 3,
+  "newMediaId": "...",
+  "newMediaUrl": "https://cdn.postzee.app/.../slide-3-{ts}.png",
+  "totalSlides": 10,
+  "slides": [ /* ... lista ordenada completa ... */ ],
+  "mediaUrls": [ /* ... lista ordenada completa ... */ ],
+  "message": "Slide 4 replaced. The other slides are unchanged. If you already attached the carousel to a draft post, refresh the attachments — the old slide URL is now soft-deleted."
+}
+```
+
+<Warning>
+Não há primitiva de inserir / reordenar / remover na v1. Se o usuário pedir pra inserir um slide, trocar dois slides de posição ou remover um, refaça o carrossel inteiro com `POSTZEE_RENDER_CAROUSEL` a partir de um novo roteiro.
+</Warning>
 
 ---
 

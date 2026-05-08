@@ -50,11 +50,13 @@ Antes de generar cualquier cosa, el agente lee el contexto completo de tu cuenta
 
 El agente **siempre muestra el costo de generación en créditos antes de generar** — nunca en dólares, nunca como sorpresa. Usa la herramienta live `POSTZEE_ESTIMATE_GENERATION_COST` para calcular números exactos a partir del pricing actual — sin adivinanzas, sin valores hardcoded.
 
-### 🎨 Maestría en carruseles
+### 🎨 Maestría en carruseles (HTML render — v3.4+)
 
-10 frameworks probados de carrusel — Listicle, Step-by-Step, Before/After, Mythbusting, Story Arc, Comparison, Mistakes, Hacks, Quote+Commentary, Behind-the-Scenes — cada uno con estructura, sweet spot y specs por plataforma.
+Los carruseles pasan por un pipeline dedicado: el agente **escribe el HTML de cada slide** (texto pixel-perfect, tu tipografía) y Postzee renderiza a PNG via Chromium headless. Los modelos de imagen IA renderizan texto pobremente — este enfoque elimina esa limitación por completo.
 
-El agente arma los slides en el orden correcto de visualización, aplica un estilo visual consistente (paleta + tipografía) y escribe una caption con un hook complementario para que el carrusel y la caption funcionen como dos ángulos de ataque.
+La skill impone un **workflow de 6 fases**: Brief (4 preguntas, análisis de competidor opcional) → Guion (plan completo con 3 variantes de hook y 3 de caption) → Aprobación (hard stop, sin generación silenciosa) → Render (HTML + backgrounds Nano Banana opcionales) → Iteración (reemplazo quirúrgico de slide via `POSTZEE_REPLACE_CAROUSEL_SLIDE` — nunca re-renderiza todo por 1 ajuste) → Publicación.
+
+El deep-dive vive en `reference/carousel-mastery.md` — design system (escala tipográfica, paletas, fuentes, espaciado), tratamiento de logo (CSS estilo foto de perfil de IG), 5 patrones de layout (hook, card numerado, cita, CTA, bg+overlay compuesto), playbook de análisis de competidor, variantes de caption, táctica meta-proof y el template de guion que el agente rellena antes de pedir tu aprobación.
 
 ### 🎬 Video multi-escena
 
@@ -78,7 +80,7 @@ El agente conoce los mejores horarios de publicación por plataforma, **en tu zo
 
 ### 🧭 Enrutamiento inteligente de modelos (v3.2)
 
-No tienes que saber qué modelo usar. Di *"crea un carrusel sobre productividad para LinkedIn"* y el agente elige la familia correcta (texto-pesado vs fotorrealista vs ilustración), el tier correcto (fast / balanced / premium) y el aspect ratio correcto para la plataforma — automáticamente. El tier predeterminado es **fast** para mantener el costo de la automatización predecible.
+No tienes que saber qué modelo usar. Di *"crea una foto de un atardecer para Instagram"* y el agente elige la familia correcta (texto-pesado vs fotorrealista vs ilustración), el tier correcto (fast / balanced / premium) y el aspect ratio correcto para la plataforma — automáticamente. El tier predeterminado es **fast** para mantener el costo de la automatización predecible. (Los carruseles van por `POSTZEE_RENDER_CAROUSEL` y no necesitan selección de modelo — el pipeline HTML los maneja.)
 
 Si SABES lo que quieres — di *"usando Nano Banana"* o *"con la mayor calidad"* — el agente respeta tu override. El árbol de decisión, vocabulario multilingüe de signals (PT / EN / ES / FR / DE) y ejemplos completos viven en `reference/smart-routing.md`.
 
@@ -98,7 +100,7 @@ postzee-skill/
     ├── media-memory.md               # Patrón de manifest + reutilización de medios entre turns/sesiones (v3.3)
     ├── plans-and-pricing.md          # Los 5 planes + 5 paquetes + copy de CTA
     ├── credit-aware-flow.md          # Matriz de estados plan/créditos
-    ├── carousel-mastery.md           # 10 frameworks en profundidad
+    ├── carousel-mastery.md           # Pipeline HTML render + design system + template de guion + replace-slide
     ├── captions-frameworks.md        # AIDA / PAS / BAB / FAB / 4Ps
     ├── hooks-library.md              # 80+ hooks probados
     ├── multi-scene-workflow.md       # Estrategias multi-escena

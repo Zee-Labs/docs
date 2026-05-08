@@ -27,6 +27,8 @@ With Postzee's MCP tools, an AI agent can:
 - **Discover plans and credit packages** — list all 5 subscription tiers and 5 one-time credit packs with current pricing
 - **Pick the right model** — capability matrix for every image/video model (durations, resolutions, audio, accepted params, cost tier)
 - **Read platform specs** — aspect ratios, max slides for carousels, caption limits, hashtag recommendations per network
+- **Render carousels from HTML** — submit complete HTML/CSS per slide and get back atomically-grouped, pixel-perfect PNGs (skill v3.4+)
+- **Replace a single carousel slide** — surgical iteration without re-rendering the rest
 - **Find the best posting time** — heuristic windows per channel, in the organization's timezone
 - **Estimate cost** — credits required for a generation **before** spending them
 - **Validate parameters** — pre-flight check that catches duration mismatches, missing image inputs, storage issues, and plan blocks
@@ -52,12 +54,12 @@ You (conversation) → AI Agent → MCP Protocol → Postzee API → Social Plat
 | Property | Value |
 |----------|-------|
 | **Server name** | Postzee |
-| **Skill version** | 3.3.1 |
+| **Skill version** | 3.4.1 |
 | **Transport** | HTTP Streamable (recommended) + SSE (legacy) |
 | **HTTP Endpoint** | `https://api.postzee.app/mcp/{apiKey}/http` |
 | **SSE Endpoint** | `https://api.postzee.app/mcp/{apiKey}/sse` (legacy) |
 | **Authentication** | API key (embedded in URL) |
-| **Tools** | 20 |
+| **Tools** | 22 |
 
 ## Requirements
 
@@ -76,6 +78,6 @@ You (conversation) → AI Agent → MCP Protocol → Postzee API → Social Plat
     Connect Postzee to Hermes Agent.
   </Card>
   <Card title="Tools Reference" icon="wrench" href="/integrations/mcp/tools-reference">
-    Complete reference for all 20 MCP tools.
+    Complete reference for all 22 MCP tools.
   </Card>
 </CardGroup>

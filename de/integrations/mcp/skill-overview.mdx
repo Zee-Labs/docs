@@ -50,11 +50,13 @@ Bevor irgendetwas generiert wird, liest der Agent den vollstaendigen Account-Kon
 
 Der Agent **zeigt immer die Generierungskosten in Credits vor der Generierung** — nie in Dollar, nie als Ueberraschung. Er nutzt das Live-Tool `POSTZEE_ESTIMATE_GENERATION_COST`, um exakte Zahlen aus der aktuellen Preisgestaltung zu berechnen — kein Raten, keine hardcoded Werte.
 
-### 🎨 Carousel-Meisterschaft
+### 🎨 Karussell-Meisterschaft (HTML-Render -- v3.4+)
 
-10 erprobte Carousel-Frameworks — Listicle, Step-by-Step, Before/After, Mythbusting, Story Arc, Comparison, Mistakes, Hacks, Quote+Commentary, Behind-the-Scenes — jedes mit Struktur, Sweet Spot und Plattform-Specs.
+Karussells laufen ueber eine dedizierte Pipeline: der Agent **schreibt das HTML jeder Folie** (pixelgenauer Text, Ihre Typografie) und Postzee rendert per Headless-Chromium zu PNG. KI-Bildmodelle rendern Text schlecht — dieser Ansatz beseitigt diese Einschraenkung vollstaendig.
 
-Der Agent stellt die Slides in der richtigen Anzeigereihenfolge zusammen, wendet einen konsistenten visuellen Stil an (Palette + Typografie) und schreibt eine Caption mit komplementaerem Hook, sodass Carousel und Caption als zwei Angriffswinkel funktionieren.
+Die Skill erzwingt einen **6-Phasen-Workflow**: Brief (4 Fragen, optionale Konkurrenzanalyse) → Skript (vollstaendiger Plan mit 3 Hook-Varianten und 3 Caption-Varianten) → Freigabe (Hard Stop, keine stille Generierung) → Render (HTML + optionale Nano-Banana-Hintergruende) → Iteration (chirurgischer Slide-Austausch via `POSTZEE_REPLACE_CAROUSEL_SLIDE` -- nie das Ganze fuer eine Anpassung neu rendern) → Veroeffentlichung.
+
+Der Deep-Dive lebt in `reference/carousel-mastery.md` — Design-System (Typografieskala, Paletten, Schriften, Abstaende), Logo-Behandlung (CSS im Stil eines IG-Profilbilds), 5 Layout-Patterns (Hook, nummerierte Karte, Zitat, CTA, BG+Overlay), Konkurrenzanalyse-Playbook, Caption-Varianten, Meta-Proof-Taktik und das Skript-Template, das der Agent vor Ihrer Freigabe ausfuellt.
 
 ### 🎬 Multi-Szenen-Video
 
@@ -78,7 +80,7 @@ Der Agent kennt die besten Veroeffentlichungszeiten pro Plattform, **in Ihrer Ze
 
 ### 🧭 Intelligentes Modell-Routing (v3.2)
 
-Sie muessen nicht wissen, welches Modell zu verwenden ist. Sagen Sie *"erstelle ein Karussell ueber Produktivitaet fuer LinkedIn"* und der Agent waehlt die richtige Familie (textlastig vs fotorealistisch vs Illustration), das richtige Tier (fast / balanced / premium) und das richtige Aspect-Ratio fuer die Plattform — automatisch. Das Standard-Tier ist **fast**, um die Automatisierungskosten vorhersehbar zu halten.
+Sie muessen nicht wissen, welches Modell zu verwenden ist. Sagen Sie *"erstelle ein Sonnenuntergangs-Foto fuer Instagram"* und der Agent waehlt die richtige Familie (textlastig vs fotorealistisch vs Illustration), das richtige Tier (fast / balanced / premium) und das richtige Aspect-Ratio fuer die Plattform — automatisch. Das Standard-Tier ist **fast**, um die Automatisierungskosten vorhersehbar zu halten. (Karussells laufen ueber `POSTZEE_RENDER_CAROUSEL` und brauchen keine Modellauswahl -- die HTML-Pipeline erledigt sie.)
 
 Wenn Sie WISSEN, was Sie wollen — sagen Sie *"mit Nano Banana"* oder *"mit hoechster Qualitaet"* — respektiert der Agent Ihren Override. Der Entscheidungsbaum, das mehrsprachige Signal-Vokabular (PT / EN / ES / FR / DE) und die vollstaendigen Beispiele leben in `reference/smart-routing.md`.
 
@@ -98,7 +100,7 @@ postzee-skill/
     ├── media-memory.md               # Manifest-Pattern + Wiederverwendung von Medien ueber Turns/Sessions (v3.3)
     ├── plans-and-pricing.md          # Die 5 Plaene + 5 Pakete + CTA-Copy
     ├── credit-aware-flow.md          # Status-Matrix Plan/Credits
-    ├── carousel-mastery.md           # 10 Frameworks im Detail
+    ├── carousel-mastery.md           # HTML-Render-Pipeline + Design-System + Skript-Template + Replace-Slide
     ├── captions-frameworks.md        # AIDA / PAS / BAB / FAB / 4Ps
     ├── hooks-library.md              # 80+ erprobte Hooks
     ├── multi-scene-workflow.md       # Multi-Szenen-Strategien

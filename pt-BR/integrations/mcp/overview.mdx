@@ -28,7 +28,9 @@ O [Model Context Protocol](https://modelcontextprotocol.io) é um padrão aberto
 - **Listar modelos de IA** — com custos em créditos
 - **Verificar saldo** — créditos disponíveis
 - **Listar canais** — contas de redes sociais conectadas
-- **Criar posts** — publicar, agendar ou salvar como rascunho
+- **Criar posts** — publicar, agendar ou salvar como rascunho (carrosséis suportados)
+- **Renderizar carrosséis a partir de HTML** — envie HTML/CSS completo por slide e receba PNGs pixel-perfect agrupados atomicamente (skill v3.4+)
+- **Substituir um único slide do carrossel** — iteração cirúrgica sem re-renderizar o resto
 
 ## Como funciona
 
@@ -41,12 +43,12 @@ Você (conversa) → Agente de IA → Protocolo MCP → API Postzee → Redes So
 | Propriedade | Valor |
 |-------------|-------|
 | **Nome** | Postzee |
-| **Versão** | 3.3.1 |
+| **Versão** | 3.4.1 |
 | **Transporte** | HTTP Streamable (recomendado) + SSE (legacy) |
 | **Endpoint HTTP** | `https://api.postzee.app/mcp/{apiKey}/http` |
 | **Endpoint SSE** | `https://api.postzee.app/mcp/{apiKey}/sse` (legacy) |
 | **Autenticação** | API key (embutida na URL) |
-| **Ferramentas** | 12 |
+| **Ferramentas** | 22 |
 
 ## Requisitos
 
