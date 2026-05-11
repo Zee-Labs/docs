@@ -50,13 +50,13 @@ Bevor irgendetwas generiert wird, liest der Agent den vollstaendigen Account-Kon
 
 Der Agent **zeigt immer die Generierungskosten in Credits vor der Generierung** — nie in Dollar, nie als Ueberraschung. Er nutzt das Live-Tool `POSTZEE_ESTIMATE_GENERATION_COST`, um exakte Zahlen aus der aktuellen Preisgestaltung zu berechnen — kein Raten, keine hardcoded Werte.
 
-### 🎨 Karussell-Meisterschaft (HTML-Render -- v3.4+)
+### 🎨 Karussell-Meisterschaft (HTML-Render -- v3.5+)
 
 Karussells laufen ueber eine dedizierte Pipeline: der Agent **schreibt das HTML jeder Folie** (pixelgenauer Text, Ihre Typografie) und Postzee rendert per Headless-Chromium zu PNG. KI-Bildmodelle rendern Text schlecht — dieser Ansatz beseitigt diese Einschraenkung vollstaendig.
 
-Die Skill erzwingt einen **6-Phasen-Workflow**: Brief (4 Fragen, optionale Konkurrenzanalyse) → Skript (vollstaendiger Plan mit 3 Hook-Varianten und 3 Caption-Varianten) → Freigabe (Hard Stop, keine stille Generierung) → Render (HTML + optionale Nano-Banana-Hintergruende) → Iteration (chirurgischer Slide-Austausch via `POSTZEE_REPLACE_CAROUSEL_SLIDE` -- nie das Ganze fuer eine Anpassung neu rendern) → Veroeffentlichung.
+Skill v3.5 bringt eine **vollstaendige redaktionelle Methodologie**, die Karussells produziert, die nicht von dem zu unterscheiden sind, was ein erstklassiges menschliches Redaktionsteam veroeffentlichen wuerde. Die Skill erzwingt einen **obligatorischen 7-Phasen-Workflow**: Brief (7 Fragen kreatives Briefing) → Stille Triage (filtert schwache Blickwinkel) → 10 nummerierte Headlines (5 interpretative + 5 kontraintuitive, der Agent waehlt die Sprache) → Nutzer waehlt die Headline → 18-Block-Skript mit obligatorischer Brueckenphrase + redaktionelles Validation-Gate (7 Parameter, 5 finale Tests, visuelle Checkliste) → Nutzer tippt `freigegeben` → Render via `POSTZEE_RENDER_CAROUSEL` + Iteration Slide fuer Slide via `POSTZEE_REPLACE_CAROUSEL_SLIDE` (nie das Ganze fuer eine Anpassung neu rendern), oder Slide-fuer-Slide bauen via `POSTZEE_APPEND_CAROUSEL_SLIDE` fuer iteratives Authoring.
 
-Der Deep-Dive lebt in `reference/carousel-mastery.md` — Design-System (Typografieskala, Paletten, Schriften, Abstaende), Logo-Behandlung (CSS im Stil eines IG-Profilbilds), 5 Layout-Patterns (Hook, nummerierte Karte, Zitat, CTA, BG+Overlay), Konkurrenzanalyse-Playbook, Caption-Varianten, Meta-Proof-Taktik und das Skript-Template, das der Agent vor Ihrer Freigabe ausfuellt.
+Der Deep-Dive lebt in `reference/carousel-mastery.md` (Orchestrator) — Design-System (CSS-Variablen, Slide-Types A-F, Font-Embedding-Regel), Steuerbefehle, Iterations-Playbook, Wettbewerbspositionierung. Vier Referenz-Dateien decken disziplinspezifische Tiefe ab: Headline-Engine, redaktioneller Filter, Qualitaetshandbuch, Designprinzipien.
 
 ### 🎬 Multi-Szenen-Video
 

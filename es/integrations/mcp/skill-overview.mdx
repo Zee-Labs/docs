@@ -50,13 +50,13 @@ Antes de generar cualquier cosa, el agente lee el contexto completo de tu cuenta
 
 El agente **siempre muestra el costo de generación en créditos antes de generar** — nunca en dólares, nunca como sorpresa. Usa la herramienta live `POSTZEE_ESTIMATE_GENERATION_COST` para calcular números exactos a partir del pricing actual — sin adivinanzas, sin valores hardcoded.
 
-### 🎨 Maestría en carruseles (HTML render — v3.4+)
+### 🎨 Maestría en carruseles (HTML render — v3.5+)
 
 Los carruseles pasan por un pipeline dedicado: el agente **escribe el HTML de cada slide** (texto pixel-perfect, tu tipografía) y Postzee renderiza a PNG via Chromium headless. Los modelos de imagen IA renderizan texto pobremente — este enfoque elimina esa limitación por completo.
 
-La skill impone un **workflow de 6 fases**: Brief (4 preguntas, análisis de competidor opcional) → Guion (plan completo con 3 variantes de hook y 3 de caption) → Aprobación (hard stop, sin generación silenciosa) → Render (HTML + backgrounds Nano Banana opcionales) → Iteración (reemplazo quirúrgico de slide via `POSTZEE_REPLACE_CAROUSEL_SLIDE` — nunca re-renderiza todo por 1 ajuste) → Publicación.
+La skill v3.5 trae una **metodología editorial completa** que produce carruseles indistinguibles de lo que un equipo editorial humano de élite publicaría. La skill impone un **workflow obligatorio de 7 etapas**: Brief (7 preguntas de briefing creativo) → Triage silencioso (filtra ángulos débiles) → 10 headlines numeradas (5 interpretativas + 5 contraintuitivas, el agente escoge el idioma) → Usuario escoge la headline → Guion de 18 bloques con frase-puente obligatoria + gate de validación editorial (7 parámetros, 5 tests finales, checklist visual) → Usuario escribe `aprobado` → Render via `POSTZEE_RENDER_CAROUSEL` + iteración slide por slide via `POSTZEE_REPLACE_CAROUSEL_SLIDE` (nunca re-renderiza todo por 1 ajuste), o construye slide-a-slide via `POSTZEE_APPEND_CAROUSEL_SLIDE` para autoría iterativa.
 
-El deep-dive vive en `reference/carousel-mastery.md` — design system (escala tipográfica, paletas, fuentes, espaciado), tratamiento de logo (CSS estilo foto de perfil de IG), 5 patrones de layout (hook, card numerado, cita, CTA, bg+overlay compuesto), playbook de análisis de competidor, variantes de caption, táctica meta-proof y el template de guion que el agente rellena antes de pedir tu aprobación.
+El deep-dive vive en `reference/carousel-mastery.md` (orquestador) — design system (variables CSS, slide types A-F, regla de embed de fuentes), comandos de control, playbook de iteración, posicionamiento competitivo. Cuatro archivos de referencia cubren profundidad discipline-specific: headline engine, filtro editorial, manual de calidad, principios de diseño.
 
 ### 🎬 Video multi-escena
 

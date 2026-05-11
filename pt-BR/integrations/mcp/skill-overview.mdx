@@ -50,13 +50,13 @@ Antes de gerar qualquer coisa, o agente lê o contexto completo da sua conta —
 
 O agente **sempre mostra o custo da geração em créditos antes de gerar** — nunca em dólares, nunca como surpresa. Usa a tool live `POSTZEE_ESTIMATE_GENERATION_COST` para computar números exatos a partir do pricing atual — sem chutes, sem valores hardcoded.
 
-### 🎨 Maestria em carrosséis (HTML render — v3.4+)
+### 🎨 Maestria em carrosséis (HTML render — v3.5+)
 
 Carrosséis passam por um pipeline dedicado: o agente **escreve o HTML de cada slide** (texto pixel-perfect, sua tipografia) e o Postzee renderiza em PNG via Chromium headless. Modelos de imagem IA renderizam texto mal — esse approach elimina essa limitação por completo.
 
-A skill impõe um **workflow de 6 fases**: Brief (4 perguntas, análise de concorrente opcional) → Roteiro (plano completo com 3 variantes de hook e 3 de caption) → Aprovação (hard stop, sem geração silenciosa) → Render (HTML + backgrounds Nano Banana opcionais) → Iteração (substituição cirúrgica de slide via `POSTZEE_REPLACE_CAROUSEL_SLIDE` — nunca re-renderiza tudo por 1 ajuste) → Publicação.
+A skill v3.5 traz uma **metodologia editorial completa** que produz carrosséis indistinguíveis do que um time editorial humano de elite publicaria. A skill impõe um **workflow obrigatório de 7 estágios**: Brief (7 perguntas de briefing criativo) → Triagem silenciosa (filtra ângulos fracos) → 10 headlines numeradas (5 interpretativas + 5 contraintuitivas, agente escolhe a língua) → Usuário escolhe a headline → Roteiro em 18 blocos com frase-ponte obrigatória + gate de validação editorial (7 parâmetros, 5 testes finais, checklist visual) → Usuário digita `aprovado` → Render via `POSTZEE_RENDER_CAROUSEL` + iteração um slide por vez via `POSTZEE_REPLACE_CAROUSEL_SLIDE` (nunca re-renderiza tudo por 1 ajuste), ou construa slide-a-slide via `POSTZEE_APPEND_CAROUSEL_SLIDE` para autoria iterativa.
 
-O deep-dive vive em `reference/carousel-mastery.md` — design system (escala tipográfica, paletas, fontes, espaçamento), tratamento de logo (CSS estilo foto de perfil do IG), 5 padrões de layout (hook, card numerado, citação, CTA, bg+overlay composto), playbook de análise de concorrente, variantes de caption, tática meta-proof e o template de roteiro que o agente preenche antes de pedir sua aprovação.
+O deep-dive vive em `reference/carousel-mastery.md` (orquestrador) — design system (variáveis CSS, slide types A-F, regra de embed de fontes), comandos de controle, playbook de iteração, posicionamento competitivo. Quatro arquivos de referência cobrem profundidade discipline-specific: headline engine, filtro editorial, manual de qualidade, princípios de design.
 
 ### 🎬 Vídeo multi-cena
 
@@ -142,14 +142,15 @@ O agente escolhe o modelo fotoreal certo, valida o custo em créditos, melhora s
 
 > *"Crie um carrossel de 10 slides para o LinkedIn sobre erros de produtividade."*
 
-O agente roda o **workflow de carrossel em 6 fases**:
+O agente roda o **workflow editorial de carrossel em 7 estágios** (v3.5):
 
-1. **Brief** — pergunta tópico, audiência, plataforma (LinkedIn → 1:1 1080×1080) e cores/logo da marca. Se você colou um post de concorrente como referência, o agente faz análise estratégica de posicionamento primeiro.
-2. **Roteiro** — entrega plano completo: framework escolhido (ex.: "Mistakes"), plano slide a slide (label + copy + direção visual), **3 variantes de hook** para o slide 1, **3 variantes de caption** (contrarian / story / direta), hashtags e 3 decisões específicas para você travar.
-3. **Aprovação** — hard stop. Espera você responder "hook 1, caption A, cor da marca #AE85F3" antes de gerar qualquer coisa.
-4. **Render** — compõe 10 documentos HTML (um por slide) usando o design system (Inter Bold, suas cores, logo com tratamento estilo foto de perfil do IG), valida saldo de créditos e chama `POSTZEE_RENDER_CAROUSEL`. Todos os slides renderizam em paralelo e chegam como um MediaGroup ordenado.
-5. **Iteração** — se você diz "muda o slide 4", o agente chama `POSTZEE_REPLACE_CAROUSEL_SLIDE` apenas para esse slide. Os outros 9 mantêm URLs e identidade.
-6. **Publicação** — `POSTZEE_CREATE_POST` com `mediaUrls` já em ordem de exibição.
+1. **Brief** — pergunta tópico, audiência, plataforma (LinkedIn → 1:1 1080×1080), tom desejado, gancho preferido, e cores/logo da marca. 7 perguntas de briefing criativo.
+2. **Triagem silenciosa** — descarta internamente ângulos fracos (clichês, low-engagement) sem te incomodar com isso.
+3. **10 headlines numeradas** — entrega 5 interpretativas + 5 contraintuitivas, na sua língua, pra você escolher a melhor (rejeita por número se quiser refazer).
+4. **Roteiro de 18 blocos** — depois da headline escolhida, monta plano slide a slide com frase-ponte obrigatória entre blocos + **3 variantes de caption** (contrarian / story / direta) + hashtags. Aplica gate de validação editorial (7 parâmetros, 5 testes finais, checklist visual).
+5. **Aprovação** — hard stop. Espera você digitar `aprovado` antes de gerar qualquer coisa.
+6. **Render** — compõe 10 documentos HTML usando o design system (variáveis CSS, slide types A-F, fontes embedded como base64), valida saldo de créditos e chama `POSTZEE_RENDER_CAROUSEL`. Todos os slides renderizam em paralelo e chegam como um MediaGroup ordenado. Se quiser construir slide-a-slide ao vivo, alternativa: chamada inicial `RENDER_CAROUSEL` com slide 1, depois `POSTZEE_APPEND_CAROUSEL_SLIDE` pra cada slide adicional.
+7. **Publicação** — `POSTZEE_CREATE_POST` com `mediaUrls` já em ordem de exibição. Iteração entre Render e Publicação: se você diz "muda o slide 4", o agente chama `POSTZEE_REPLACE_CAROUSEL_SLIDE` só para esse slide; os outros 9 mantêm URLs e identidade.
 
 ### História multi-cena
 

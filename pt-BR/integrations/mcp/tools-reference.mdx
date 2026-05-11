@@ -20,7 +20,7 @@ Todas as ferramentas aceitam a chave de API embutida na sua URL MCP. Elas são e
 | **Memória de Mídia** | `POSTZEE_LIST_MEDIA`, `POSTZEE_UPLOAD_MEDIA` |
 | **Otimização de Prompt** | `POSTZEE_ENHANCE_PROMPT` |
 | **Geração** | `POSTZEE_GENERATE_IMAGE`, `POSTZEE_GENERATE_VIDEO`, `POSTZEE_CHECK_JOB` |
-| **Carrosséis** | `POSTZEE_RENDER_CAROUSEL`, `POSTZEE_REPLACE_CAROUSEL_SLIDE` |
+| **Carrosséis** | `POSTZEE_RENDER_CAROUSEL`, `POSTZEE_REPLACE_CAROUSEL_SLIDE`, `POSTZEE_APPEND_CAROUSEL_SLIDE` |
 | **HeyGen** | `POSTZEE_LIST_HEYGEN_AVATARS`, `POSTZEE_LIST_HEYGEN_VOICES`, `POSTZEE_GENERATE_HEYGEN_VIDEO` |
 | **Postagem** | `POSTZEE_CREATE_POST` |
 | **Legacy (deprecadas)** | `POSTZEE_LIST_IMAGE_MODELS`, `POSTZEE_LIST_VIDEO_MODELS` |
@@ -594,7 +594,7 @@ Faz poll do status de um job assíncrono de geração de imagem ou vídeo.
 
 ## Carrosséis
 
-O novo pipeline de carrossel (skill v3.4+) renderiza HTML fornecido pelo agente para PNG via Chromium headless. Modelos de imagem IA renderizam texto mal; o render via HTML entrega tipografia pixel-perfect, fontes consistentes e zero alucinação de palavras. Duas tools cobrem o ciclo: um render completo, e uma substituição cirúrgica.
+O pipeline de carrossel (skill v3.5+) renderiza HTML fornecido pelo agente para PNG via Chromium headless. Modelos de imagem IA renderizam texto mal; o render via HTML entrega tipografia pixel-perfect, fontes consistentes e zero alucinação de palavras. Três tools cobrem o ciclo: um render completo para o batch inicial, uma substituição cirúrgica para correções, e um append incremental para autoria iterativa (construir slide por slide e ver cada um cair no mesmo carrossel crescente).
 
 ### POSTZEE_RENDER_CAROUSEL
 
@@ -613,7 +613,8 @@ Renderiza N slides HTML para PNG e os agrupa atomicamente como um `MediaGroup` d
 - Mínimo 256 / máximo **2160** px por dimensão
 - 250 KB de HTML por slide
 - 30 s de timeout por slide
-- All-or-nothing: qualquer falha de slide → grupo inteiro é revertido (soft-delete)
+
+**Modelo de falha tolerante a parcial.** Se um slide falhar ou o dispatcher timeout antes de todos os slides assentarem, o grupo é preservado com `renderStatus: "partial"` no `aiMetadata` (em vez de ser revertido). Refaça os slides faltantes via `POSTZEE_REPLACE_CAROUSEL_SLIDE` ou `POSTZEE_APPEND_CAROUSEL_SLIDE`. Slides que renderizaram nunca são destruídos — o usuário mantém o trabalho mesmo em falha parcial.
 
 **Ordem é estrutural, não temporal.** O índice do array = `orderInGroup`, atribuído ANTES de qualquer worker rodar. Slides podem renderizar em paralelo, mas a ordem é preservada deterministicamente.
 
@@ -673,8 +674,37 @@ O slide substituído é soft-deleted **depois** que o novo render é uploadado c
 }
 ```
 
+### POSTZEE_APPEND_CAROUSEL_SLIDE
+
+Adiciona UM novo slide ao **final** de um carrossel existente. Use para **autoria iterativa** — quando o usuário quer construir o carrossel slide a slide ("mostra o slide 1… agora o slide 2…"), isso mantém cada novo slide caindo no MESMO `MediaGroup` em vez de produzir N grupos de slide único órfãos na galeria.
+
+**Parâmetros:**
+
+| Parâmetro | Tipo | Obrigatório | Descrição |
+|-----------|------|:---:|-------------|
+| `mediaGroupId` | string | Sim | O id do carrossel que você está expandindo. Retornado por `POSTZEE_RENDER_CAROUSEL` (primeiro slide) ou por uma chamada anterior de `APPEND_CAROUSEL_SLIDE`. |
+| `slide` | object | Sim | `{ html, width?, height? }` — mesma estrutura de uma entrada de `RENDER_CAROUSEL.slides`. |
+
+O novo slide é adicionado no **próximo `orderInGroup` disponível** (gap-safe — se slides intermediários foram deletados, isso pega `max(orderInGroup) + 1`, nunca reaproveita slot livre). Thumbnail de capa não é alterado.
+
+**Padrão de autoria iterativa.** Primeiro slide ainda deve ir por `POSTZEE_RENDER_CAROUSEL` (é o que cria o `MediaGroup`). Cada slide subsequente vai por `APPEND_CAROUSEL_SLIDE` com o mesmo `mediaGroupId`. Chamar `RENDER_CAROUSEL` uma segunda vez para o mesmo carrossel lógico produz um novo grupo e quebra o fluxo iterativo — não faça.
+
+**Retorna:**
+```json
+{
+  "success": true,
+  "mediaGroupId": "uuid",
+  "appendedOrderInGroup": 7,
+  "newMediaId": "...",
+  "newMediaUrl": "https://cdn.postzee.app/.../slide-7-{ts}.png",
+  "totalSlides": 8,
+  "slides": [ /* ... lista ordenada completa incluindo o novo ... */ ],
+  "mediaUrls": [ /* ... lista ordenada completa ... */ ]
+}
+```
+
 <Warning>
-Não há primitiva de inserir / reordenar / remover na v1. Se o usuário pedir pra inserir um slide, trocar dois slides de posição ou remover um, refaça o carrossel inteiro com `POSTZEE_RENDER_CAROUSEL` a partir de um novo roteiro.
+Não há primitiva de inserir-no-meio, reordenar ou remover na v1. `APPEND_CAROUSEL_SLIDE` só adiciona ao FINAL. Se o usuário pedir pra inserir em posição específica, trocar dois slides ou remover um, refaça o carrossel inteiro com `POSTZEE_RENDER_CAROUSEL` a partir de um novo roteiro.
 </Warning>
 
 ---
