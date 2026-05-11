@@ -336,12 +336,15 @@ Lista canais de redes sociais conectados com flags de ação explícitas.
     "actionRequired": "none",
     "actionUrl": null,
     "actionMessage": null,
-    "status": "active"
+    "status": "active",
+    "statusMessage": null
   }
 ]
 ```
 
 `actionRequired` é um de `"none"` (pronto para postar), `"reconnect"` (token expirado — usuário reconecta), ou `"reenable"` (admin/billing — usuário reativa, **não** o mesmo que reconectar).
+
+`statusMessage` é uma explicação legível quando o canal requer ação (ex: `"Token do canal expirado. Reconecte para continuar postando."`). É `null` quando `actionRequired` é `"none"`.
 
 ---
 
@@ -483,6 +486,7 @@ Otimiza o prompt do usuário para melhores resultados de geração de IA. **Grá
 | `prompt` | string | Sim | O prompt do usuário a ser otimizado |
 | `mediaType` | string | Sim | `"image"` ou `"video"` |
 | `model` | string | Não | ID do modelo alvo (para otimização específica do modelo) |
+| `language` | string | Não | Código do idioma de saída (ex: `"pt"`, `"es"`, `"fr"`, `"de"`). Se omitido, usa o idioma do proprietário da conta ou padrão inglês. |
 
 **Retorna:**
 ```json

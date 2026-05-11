@@ -336,12 +336,15 @@ List connected social media channels with explicit action flags.
     "actionRequired": "none",
     "actionUrl": null,
     "actionMessage": null,
-    "status": "active"
+    "status": "active",
+    "statusMessage": null
   }
 ]
 ```
 
 `actionRequired` is one of `"none"` (ready to post), `"reconnect"` (token expired — user reconnects), or `"reenable"` (admin/billing — user re-enables, **not** the same as reconnect).
+
+`statusMessage` is a human-readable explanation when the channel requires action (e.g., `"Channel token expired. Reconnect to keep posting."`). It is `null` when `actionRequired` is `"none"`.
 
 ---
 
@@ -483,6 +486,7 @@ Optimize a user prompt for better AI generation results. **Free** — no credit 
 | `prompt` | string | Yes | The user's prompt to optimize |
 | `mediaType` | string | Yes | `"image"` or `"video"` |
 | `model` | string | No | Target AI model id (for model-specific optimization) |
+| `language` | string | No | Output language code (e.g., `"pt"`, `"es"`, `"fr"`, `"de"`). If omitted, uses the account owner's language or defaults to English. |
 
 **Returns:**
 ```json

@@ -336,12 +336,15 @@ Listet verbundene Social-Media-Kanaele mit expliziten Action-Flags auf.
     "actionRequired": "none",
     "actionUrl": null,
     "actionMessage": null,
-    "status": "active"
+    "status": "active",
+    "statusMessage": null
   }
 ]
 ```
 
 `actionRequired` ist einer von `"none"` (bereit zu posten), `"reconnect"` (Token abgelaufen — der Benutzer verbindet neu) oder `"reenable"` (Admin/Billing — der Benutzer reaktiviert, **nicht** dasselbe wie reconnect).
+
+`statusMessage` ist eine lesbare Erklarung, wenn der Kanal eine Aktion erfordert (z.B. `"Kanal-Token abgelaufen. Verbinden Sie erneut, um weiter zu posten."`). Es ist `null`, wenn `actionRequired` `"none"` ist.
 
 ---
 
@@ -483,6 +486,7 @@ Optimiert den Benutzer-Prompt fuer bessere KI-Generierungsergebnisse. **Kostenlo
 | `prompt` | string | Ja | Der zu optimierende Benutzer-Prompt |
 | `mediaType` | string | Ja | `"image"` oder `"video"` |
 | `model` | string | Nein | Ziel-Model-ID (fuer modellspezifische Optimierung) |
+| `language` | string | Nein | Ausgabesprache-Code (z.B. `"pt"`, `"es"`, `"fr"`, `"de"`). Falls weggelassen, wird die Sprache des Kontoinhabers oder Englisch als Standard verwendet. |
 
 **Gibt zurueck:**
 ```json
