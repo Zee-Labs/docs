@@ -614,6 +614,8 @@ Render N HTML slides to PNG and atomically group them as one carousel `MediaGrou
 - 250 KB max HTML per slide
 - 30 s timeout per slide
 
+**Platform-aware publish guards.** Rendering accepts up to 15 slides, but **publishing** is bound by each social network's native limit (Instagram/Facebook ≤ 10, LinkedIn ≤ 20, TikTok ≤ 35, Threads/Reddit ≤ 20, Pinterest ≤ 5, X ≤ 4, Bluesky/Mastodon ≤ 4, Telegram/VK ≤ 10). When `POSTZEE_CREATE_POST` is called with `mediaUrls` exceeding the destination limit, Postzee rejects the post before calling the platform API, with an error message translated to the user's language. Call `POSTZEE_LIST_PLATFORM_SPECS` for the live table.
+
 **Partial-tolerant failure model.** If a slide errors out or the dispatcher times out before all slides settle, the group is preserved with `renderStatus: "partial"` in `aiMetadata` (instead of being rolled back). Retry missing slides via `POSTZEE_REPLACE_CAROUSEL_SLIDE` or `POSTZEE_APPEND_CAROUSEL_SLIDE`. Slides that DID render are never destroyed — the user keeps their work even on partial failure.
 
 **Order is structural, not temporal.** The array index = `orderInGroup`, assigned BEFORE any worker runs. Slides may render in parallel but order is preserved deterministically.

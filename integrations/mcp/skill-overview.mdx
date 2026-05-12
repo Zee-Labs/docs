@@ -58,6 +58,23 @@ Skill v3.5 ships a complete **editorial methodology** that produces carousels in
 
 The deep-dive lives in `reference/carousel-mastery.md` (orchestrator) — design system (CSS variables, slide types A-F, font embedding rule), control commands, iteration playbook, competitor positioning. Four reference files cover discipline-specific depth: headline engine, editorial filter, quality manual, design principles.
 
+### ✅ Platform-aware publish guards (v3.5.1+)
+
+Postzee enforces each social network's native carousel limits **before** dispatching to the platform API — no more burning 4 minutes of retries and 30+ media containers on a carousel the platform was always going to reject.
+
+| Network | Max slides per carousel |
+|---|---|
+| Instagram / Facebook | 10 |
+| LinkedIn | 20 |
+| TikTok | 35 |
+| Threads / Reddit | 20 |
+| Pinterest | 5 |
+| X | 4 |
+| Bluesky / Mastodon | 4 |
+| Telegram / VK | 10 |
+
+When a carousel exceeds the destination limit (e.g., 13 slides → Instagram), Postzee fails fast with a message **translated to the user's language** — *"Instagram accepts at most 10 slides per carousel. Your post has 13."* — instead of letting the social network's API return a `fbtrace_id`. Skill v3.5.1+ also caps slide count at brief time when the destination platform is known, so the user is corrected before the first render call.
+
 ### 🎬 Multi-scene video
 
 For stories with 2+ connected scenes, the skill orchestrates character and scene consistency across multiple generations. Strategies are gated by what's currently available in the MCP — the agent only proposes what works end-to-end.

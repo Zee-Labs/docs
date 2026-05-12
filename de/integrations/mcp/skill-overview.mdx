@@ -58,6 +58,23 @@ Skill v3.5 bringt eine **vollstaendige redaktionelle Methodologie**, die Karusse
 
 Der Deep-Dive lebt in `reference/carousel-mastery.md` (Orchestrator) — Design-System (CSS-Variablen, Slide-Types A-F, Font-Embedding-Regel), Steuerbefehle, Iterations-Playbook, Wettbewerbspositionierung. Vier Referenz-Dateien decken disziplinspezifische Tiefe ab: Headline-Engine, redaktioneller Filter, Qualitaetshandbuch, Designprinzipien.
 
+### ✅ Plattformbewusste Publish-Guards (v3.5.1+)
+
+Postzee setzt die nativen Karussell-Limits jedes sozialen Netzwerks durch, **bevor** der Plattform-API-Aufruf erfolgt — keine 4 Minuten Retries und 30+ Media-Container, die fuer ein Karussell verschwendet werden, das das Netzwerk sowieso abgelehnt haette.
+
+| Netzwerk | Max. Slides pro Karussell |
+|---|---|
+| Instagram / Facebook | 10 |
+| LinkedIn | 20 |
+| TikTok | 35 |
+| Threads / Reddit | 20 |
+| Pinterest | 5 |
+| X | 4 |
+| Bluesky / Mastodon | 4 |
+| Telegram / VK | 10 |
+
+Wenn ein Karussell das Limit des Ziel-Netzwerks ueberschreitet (z. B. 13 Slides → Instagram), bricht Postzee sofort ab — mit einer Meldung, die **in die Sprache des Nutzers uebersetzt** ist — *"Instagram akzeptiert maximal 10 Slides pro Karussell. Dein Beitrag hat 13."* — statt die Netzwerk-API einen `fbtrace_id` zurueckgeben zu lassen. Skill v3.5.1+ deckelt zudem die Slide-Anzahl bereits im Brief, wenn die Zielplattform bekannt ist, sodass der Nutzer vor dem ersten Render korrigiert wird.
+
 ### 🎬 Multi-Szenen-Video
 
 Fuer Geschichten mit 2+ verbundenen Szenen orchestriert die Skill Charakter- und Schauplatz-Konsistenz ueber mehrere Generierungen hinweg. Strategien sind an das gebunden, was im MCP aktuell verfuegbar ist — der Agent schlaegt nur vor, was Ende-zu-Ende funktioniert.

@@ -58,6 +58,23 @@ La skill v3.5 trae una **metodología editorial completa** que produce carrusele
 
 El deep-dive vive en `reference/carousel-mastery.md` (orquestador) — design system (variables CSS, slide types A-F, regla de embed de fuentes), comandos de control, playbook de iteración, posicionamiento competitivo. Cuatro archivos de referencia cubren profundidad discipline-specific: headline engine, filtro editorial, manual de calidad, principios de diseño.
 
+### ✅ Guardrails de publicación por plataforma (v3.5.1+)
+
+Postzee aplica los límites nativos de carrusel de cada red social **antes** de despachar a la API de la plataforma — se acabó quemar 4 minutos en reintentos y 30+ media containers en un carrusel que la red iba a rechazar igualmente.
+
+| Red | Máx. diapositivas por carrusel |
+|---|---|
+| Instagram / Facebook | 10 |
+| LinkedIn | 20 |
+| TikTok | 35 |
+| Threads / Reddit | 20 |
+| Pinterest | 5 |
+| X | 4 |
+| Bluesky / Mastodon | 4 |
+| Telegram / VK | 10 |
+
+Cuando un carrusel excede el límite de la red destino (ej.: 13 diapositivas → Instagram), Postzee falla rápidamente con un mensaje **traducido al idioma del usuario** — *"Instagram acepta como máximo 10 diapositivas por carrusel. Tu publicación tiene 13."* — en lugar de dejar que la API de la red devuelva un `fbtrace_id`. La skill v3.5.1+ también limita el conteo de diapositivas en el brief cuando la plataforma destino es conocida, así el usuario es corregido antes del primer render.
+
 ### 🎬 Video multi-escena
 
 Para historias con 2+ escenas conectadas, la skill orquesta consistencia de personaje y escenario entre múltiples generaciones. Las estrategias están condicionadas a lo que está disponible actualmente en el MCP — el agente solo propone lo que funciona de extremo a extremo.

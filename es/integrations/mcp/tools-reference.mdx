@@ -614,6 +614,8 @@ Renderiza N slides HTML a PNG y los agrupa atómicamente como un `MediaGroup` de
 - 250 KB de HTML por slide
 - 30 s de timeout por slide
 
+**Guardrails por plataforma en la publicación.** El render acepta hasta 15 slides, pero la **publicación** está limitada por el tope nativo de cada red social (Instagram/Facebook ≤ 10, LinkedIn ≤ 20, TikTok ≤ 35, Threads/Reddit ≤ 20, Pinterest ≤ 5, X ≤ 4, Bluesky/Mastodon ≤ 4, Telegram/VK ≤ 10). Cuando se llama a `POSTZEE_CREATE_POST` con `mediaUrls` excediendo el límite de la red destino, Postzee rechaza la publicación antes de llamar a la API de la plataforma, con mensaje traducido al idioma del usuario. Usa `POSTZEE_LIST_PLATFORM_SPECS` para la tabla viva.
+
 **Modelo de falla tolerante a parcial.** Si un slide falla o el dispatcher hace timeout antes que todos los slides se asienten, el grupo se preserva con `renderStatus: "partial"` en `aiMetadata` (en lugar de revertirse). Reintenta los slides faltantes via `POSTZEE_REPLACE_CAROUSEL_SLIDE` o `POSTZEE_APPEND_CAROUSEL_SLIDE`. Los slides que SÍ renderizaron nunca son destruidos — el usuario conserva su trabajo incluso en falla parcial.
 
 **El orden es estructural, no temporal.** El índice del array = `orderInGroup`, asignado ANTES de que cualquier worker corra. Los slides pueden renderizar en paralelo, pero el orden se preserva determinísticamente.
