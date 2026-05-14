@@ -1,0 +1,144 @@
+---
+title: Migration — Integrations to Channels
+icon: arrows-rotate
+---
+
+The public REST API now uses **channels** instead of **integrations** — matching the dashboard UI and the MCP layer. The previous routes still work and will be removed on **2026-11-13**.
+
+## Why this change
+
+The Postzee dashboard, the MCP server, the Claude Code skill, and the n8n node all use the word **channel** to describe a connected social account. The public REST API was the last surface still using the legacy term **integration**. This migration aligns every consumer surface around one consistent vocabulary.
+
+## Deprecation window
+
+| Date | Event |
+|------|-------|
+| 2026-05-13 | `/public/v1/channels` released. `/public/v1/integrations` marked deprecated. |
+| 2026-11-13 | Legacy `/public/v1/integrations` is **removed**. Calls return `410 Gone`. |
+
+During the window, legacy calls succeed normally but return:
+
+```
+Deprecation: true
+Sunset: Fri, 13 Nov 2026 00:00:00 GMT
+Link: </public/v1/channels>; rel="successor-version"
+Warning: 299 - "Deprecated API — use /public/v1/channels"
+```
+
+## What changed
+
+### 1. List endpoint
+
+| Before | After |
+|--------|-------|
+| `GET /public/v1/integrations` | `GET /public/v1/channels` |
+
+### 2. Response field name
+
+| Before (`identifier`) | After (`platform`) |
+|---|---|
+| `"identifier": "instagram"` | `"platform": "instagram"` |
+
+The values themselves did not change — same identifiers (`instagram`, `linkedin-page`, `tiktok`, `x`, etc.). Only the field name changed.
+
+### 3. Create-post body shape
+
+| Before | After |
+|--------|-------|
+| `posts[].integration.id` | `posts[].channel.id` |
+
+```diff
+  {
+    "type": "schedule",
+    "date": "2026-05-01T14:00:00Z",
+    "posts": [
+      {
+-       "integration": { "id": "channel-uuid" },
++       "channel": { "id": "channel-uuid" },
+        "value": [ ... ]
+      }
+    ]
+  }
+```
+
+<Warning>
+Sending **both** `channel` and `integration` in the same post object returns `400 Bad Request`. Use one or the other.
+</Warning>
+
+### 4. New endpoint — fetch a single channel
+
+```
+GET /public/v1/channels/:id
+```
+
+The previous API didn't expose this. Useful for refreshing one channel's metadata without paying the cost of a full list.
+
+## What did NOT change
+
+- The values of platform identifiers (`instagram`, `tiktok`, etc.)
+- Authentication (`Authorization` header, same API key)
+- Rate limits
+- The `GET /public/v1/posts` response shape — still embeds the legacy `integration` object (with `identifier`). This will change in a future major version.
+- All other endpoints (`/posts`, `/media`, `/credits`, `/jobs`, `/find-slot`)
+
+## Migration steps
+
+### If you call the REST API directly
+
+1. Replace `GET /public/v1/integrations` with `GET /public/v1/channels`.
+2. In your response parsing, rename `identifier` → `platform`.
+3. In your `POST /public/v1/posts` body, rename `integration` → `channel` inside each post object.
+
+### If you use the n8n custom node
+
+Upgrade `n8n-nodes-postzee` to **v2.0.0** or later. No workflow changes required — the node handles the new shape internally. Saved workflows continue to work after the upgrade.
+
+### If you use the Postzee MCP server or the Claude Code skill
+
+No action required. Both already use the modern `channel` / `platform` terminology.
+
+## Code examples
+
+### Before (legacy)
+
+```bash
+curl -H "Authorization: YOUR_API_KEY" \
+  https://api.postzee.app/public/v1/integrations
+
+# Response: [{ "id": "...", "identifier": "instagram", ... }]
+
+curl -X POST -H "Authorization: YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "type": "now",
+    "posts": [{
+      "integration": { "id": "channel-uuid" },
+      "value": [{ "content": "Hello", "id": "uuid", "image": [] }]
+    }]
+  }' \
+  https://api.postzee.app/public/v1/posts
+```
+
+### After (modern)
+
+```bash
+curl -H "Authorization: YOUR_API_KEY" \
+  https://api.postzee.app/public/v1/channels
+
+# Response: [{ "id": "...", "platform": "instagram", ... }]
+
+curl -X POST -H "Authorization: YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "type": "now",
+    "posts": [{
+      "channel": { "id": "channel-uuid" },
+      "value": [{ "content": "Hello", "id": "uuid", "image": [] }]
+    }]
+  }' \
+  https://api.postzee.app/public/v1/posts
+```
+
+## Need help?
+
+Open a thread in our community or contact support — we can help you migrate before the 2026-11-13 sunset.

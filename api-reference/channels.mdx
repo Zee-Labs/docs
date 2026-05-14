@@ -8,7 +8,7 @@ Retrieve your connected social media channels.
 ## List channels
 
 ```
-GET /public/v1/integrations
+GET /public/v1/channels
 ```
 
 Returns all connected social media channels for your account.
@@ -17,7 +17,7 @@ Returns all connected social media channels for your account.
 
 ```bash
 curl -H "Authorization: YOUR_API_KEY" \
-  https://api.postzee.app/public/v1/integrations
+  https://api.postzee.app/public/v1/channels
 ```
 
 ### Response
@@ -27,19 +27,19 @@ curl -H "Authorization: YOUR_API_KEY" \
   {
     "id": "abc123-def456",
     "name": "My Instagram",
-    "identifier": "instagram",
+    "platform": "instagram",
     "picture": "https://...",
     "disabled": false,
     "profile": "username",
     "customer": {
       "id": "cust-123",
-      "name": "Client A"
+      "name": "Customer A"
     }
   },
   {
     "id": "ghi789-jkl012",
     "name": "Company LinkedIn",
-    "identifier": "linkedin-page",
+    "platform": "linkedin-page",
     "picture": "https://...",
     "disabled": false,
     "profile": "Company Name",
@@ -54,12 +54,50 @@ curl -H "Authorization: YOUR_API_KEY" \
 |-------|------|-------------|
 | `id` | string | Unique channel ID — use this in Create Post |
 | `name` | string | Channel display name |
-| `identifier` | string | Platform identifier (e.g., `instagram`, `linkedin-page`, `tiktok`, `x`) |
+| `platform` | string | Platform identifier (e.g., `instagram`, `linkedin-page`, `tiktok`, `x`) |
 | `picture` | string | Profile picture URL |
 | `disabled` | boolean | Whether the channel is disabled |
 | `profile` | string | Platform username or page name |
 | `customer` | object/null | Customer grouping (if assigned) |
 
 <Note>
-The `id` field is what you pass as `channelId` when creating posts. The `identifier` field tells you which platform this channel belongs to.
+The `id` field is what you pass as `channel.id` when creating posts. The `platform` field tells you which network this channel belongs to.
 </Note>
+
+## Get a single channel
+
+```
+GET /public/v1/channels/:id
+```
+
+Fetch metadata for one channel. Returns `404` if the channel doesn't belong to your organization.
+
+```bash
+curl -H "Authorization: YOUR_API_KEY" \
+  https://api.postzee.app/public/v1/channels/abc123-def456
+```
+
+The response shape is identical to a single entry in the list endpoint.
+
+---
+
+## Legacy endpoint (deprecated)
+
+```
+GET /public/v1/integrations
+```
+
+The previous endpoint is still served for backwards compatibility but is **deprecated** and will be removed on **2026-11-13**. Migrate to `/public/v1/channels` at your convenience.
+
+When called, the legacy endpoint returns RFC 8594 deprecation headers:
+
+```
+Deprecation: true
+Sunset: Fri, 13 Nov 2026 00:00:00 GMT
+Link: </public/v1/channels>; rel="successor-version"
+Warning: 299 - "Deprecated API — use /public/v1/channels"
+```
+
+The response body of `/integrations` still uses the legacy field name `identifier` (instead of `platform`). The new `/channels` endpoint normalizes this to `platform`.
+
+See the [migration guide](/api-reference/migration-v1-to-v2) for a side-by-side mapping.

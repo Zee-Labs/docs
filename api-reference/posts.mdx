@@ -24,7 +24,7 @@ curl -X POST \
     "date": "2026-05-01T14:00:00Z",
     "posts": [
       {
-        "integration": { "id": "channel-uuid" },
+        "channel": { "id": "channel-uuid" },
         "value": [
           {
             "content": "Check out our latest product launch!",
@@ -45,13 +45,17 @@ curl -X POST \
 | `type` | string | Yes | `"now"` (publish immediately), `"schedule"`, or `"draft"` |
 | `date` | string | Schedule only | UTC datetime in ISO 8601 format (e.g., `"2026-05-01T14:00:00Z"`) |
 | `posts` | array | Yes | Array of post objects (one per channel) |
-| `posts[].integration.id` | string | Yes | Channel ID from the [Channels endpoint](/api-reference/channels) |
+| `posts[].channel.id` | string | Yes | Channel ID from the [Channels endpoint](/api-reference/channels) |
 | `posts[].value[].content` | string | Yes | Post text content |
 | `posts[].value[].id` | string | Yes | Unique identifier (UUID) for this content block |
 | `posts[].value[].image` | array | No | Array of media objects to attach |
 | `posts[].settings` | object | No | Platform-specific settings (see below) |
 | `tags` | array | No | Content tags (`[{ "value": "id", "label": "name" }]`) |
 | `shortLink` | boolean | No | Enable URL shortening and click tracking |
+
+<Note>
+**Legacy field name:** the previous `posts[].integration.id` is still accepted during the deprecation window (sunset **2026-11-13**) but emits `Deprecation` / `Sunset` headers in the response. Sending both `channel` and `integration` in the same post returns `400`.
+</Note>
 
 ### Platform-specific settings
 
@@ -127,7 +131,7 @@ curl -H "Authorization: YOUR_API_KEY" \
 |-----------|------|:---:|-------------|
 | `startDate` | string | Yes | Start date (ISO 8601) |
 | `endDate` | string | Yes | End date (ISO 8601) |
-| `customer` | string | No | Filter by customer/group ID |
+| `customer` | string | No | Filter by customer ID |
 
 ### Response
 
@@ -148,6 +152,10 @@ curl -H "Authorization: YOUR_API_KEY" \
   ]
 }
 ```
+
+<Note>
+The list response still embeds the legacy `integration` object (with `identifier`) for backwards compatibility. A future major version will switch this to `channel.platform` — see the [migration guide](/api-reference/migration-v1-to-v2).
+</Note>
 
 ---
 

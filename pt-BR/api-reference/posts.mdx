@@ -24,10 +24,10 @@ curl -X POST \
     "date": "2026-05-01T14:00:00Z",
     "posts": [
       {
-        "integration": { "id": "channel-uuid" },
+        "channel": { "id": "channel-uuid" },
         "value": [
           {
-            "content": "Check out our latest product launch!",
+            "content": "Confira nosso novo lançamento!",
             "id": "unique-uuid",
             "image": []
           }
@@ -45,13 +45,17 @@ curl -X POST \
 | `type` | string | Sim | `"now"` (publicar imediatamente), `"schedule"` ou `"draft"` |
 | `date` | string | Apenas agendamento | Data e hora UTC no formato ISO 8601 (ex.: `"2026-05-01T14:00:00Z"`) |
 | `posts` | array | Sim | Array de objetos de post (um por canal) |
-| `posts[].integration.id` | string | Sim | ID do canal do [endpoint de Canais](/api-reference/channels) |
+| `posts[].channel.id` | string | Sim | ID do canal vindo do [endpoint de Canais](/pt-BR/api-reference/channels) |
 | `posts[].value[].content` | string | Sim | Conteúdo de texto do post |
 | `posts[].value[].id` | string | Sim | Identificador único (UUID) para este bloco de conteúdo |
 | `posts[].value[].image` | array | Não | Array de objetos de mídia para anexar |
 | `posts[].settings` | object | Não | Configurações específicas da plataforma (veja abaixo) |
 | `tags` | array | Não | Tags de conteúdo (`[{ "value": "id", "label": "name" }]`) |
 | `shortLink` | boolean | Não | Habilitar encurtamento de URL e rastreamento de cliques |
+
+<Note>
+**Nome de campo legado:** o antigo `posts[].integration.id` ainda é aceito durante a janela de descontinuação (encerramento em **13/11/2026**), mas a resposta passa a incluir headers `Deprecation` / `Sunset`. Enviar `channel` e `integration` no mesmo post resulta em `400`.
+</Note>
 
 ### Configurações específicas por plataforma
 
@@ -127,7 +131,7 @@ curl -H "Authorization: YOUR_API_KEY" \
 |-----------|------|:---:|-----------|
 | `startDate` | string | Sim | Data de início (ISO 8601) |
 | `endDate` | string | Sim | Data de fim (ISO 8601) |
-| `customer` | string | Não | Filtrar por ID de cliente/grupo |
+| `customer` | string | Não | Filtrar por ID de cliente |
 
 ### Resposta
 
@@ -148,6 +152,10 @@ curl -H "Authorization: YOUR_API_KEY" \
   ]
 }
 ```
+
+<Note>
+A resposta de listagem ainda inclui o objeto legado `integration` (com `identifier`) por compatibilidade. Uma futura versão maior vai trocá-lo por `channel.platform` — veja o [guia de migração](/pt-BR/api-reference/migration-v1-to-v2).
+</Note>
 
 ---
 
