@@ -102,7 +102,16 @@ Include these in `posts[].settings` for platform-specific features:
 
 ### Response
 
-Returns the created post object with `id`, `status`, and scheduled date.
+Returns an array with one entry per post that was created:
+
+```json
+[
+  {
+    "postId": "post-uuid",
+    "channelId": "channel-uuid"
+  }
+]
+```
 
 ---
 
@@ -137,24 +146,18 @@ curl -H "Authorization: YOUR_API_KEY" \
     {
       "id": "post-uuid",
       "content": "Post text content...",
-      "status": "published",
+      "state": "PUBLISHED",
       "publishDate": "2026-04-15T14:00:00Z",
-      "integration": {
+      "channel": {
         "id": "channel-uuid",
+        "platform": "instagram",
         "name": "My Instagram",
-        "identifier": "instagram"
+        "picture": "https://..."
       }
     }
   ]
 }
 ```
-
-<Note>
-In the list response, each entry embeds the connected channel under the
-`integration` key with `identifier` for the platform name. The values map
-directly to the `/channels` endpoint: `integration.id` ↔ `channel.id`,
-`integration.identifier` ↔ `channel.platform`.
-</Note>
 
 ---
 

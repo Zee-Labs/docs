@@ -102,7 +102,16 @@ Incluye estas en `posts[].settings` para funciones específicas de plataforma:
 
 ### Respuesta
 
-Devuelve el objeto de post creado con `id`, `status` y fecha programada.
+Devuelve un array con una entrada por cada post creado:
+
+```json
+[
+  {
+    "postId": "post-uuid",
+    "channelId": "channel-uuid"
+  }
+]
+```
 
 ---
 
@@ -136,25 +145,19 @@ curl -H "Authorization: YOUR_API_KEY" \
   "posts": [
     {
       "id": "post-uuid",
-      "content": "Post text content...",
-      "status": "published",
+      "content": "Contenido del post...",
+      "state": "PUBLISHED",
       "publishDate": "2026-04-15T14:00:00Z",
-      "integration": {
+      "channel": {
         "id": "channel-uuid",
+        "platform": "instagram",
         "name": "My Instagram",
-        "identifier": "instagram"
+        "picture": "https://..."
       }
     }
   ]
 }
 ```
-
-<Note>
-En la respuesta del listado, cada entrada incluye el canal conectado bajo
-la clave `integration`, con `identifier` para el nombre de la plataforma.
-Los valores mapean directamente al endpoint `/channels`:
-`integration.id` ↔ `channel.id`, `integration.identifier` ↔ `channel.platform`.
-</Note>
 
 ---
 

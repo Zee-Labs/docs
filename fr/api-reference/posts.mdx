@@ -102,7 +102,16 @@ Incluez-les dans `posts[].settings` pour les fonctionnalites specifiques a chaqu
 
 ### Reponse
 
-Retourne l'objet de post cree avec `id`, `status` et la date programmee.
+Retourne un tableau avec une entree par post cree :
+
+```json
+[
+  {
+    "postId": "post-uuid",
+    "channelId": "channel-uuid"
+  }
+]
+```
 
 ---
 
@@ -136,25 +145,19 @@ curl -H "Authorization: YOUR_API_KEY" \
   "posts": [
     {
       "id": "post-uuid",
-      "content": "Post text content...",
-      "status": "published",
+      "content": "Contenu du post...",
+      "state": "PUBLISHED",
       "publishDate": "2026-04-15T14:00:00Z",
-      "integration": {
+      "channel": {
         "id": "channel-uuid",
+        "platform": "instagram",
         "name": "My Instagram",
-        "identifier": "instagram"
+        "picture": "https://..."
       }
     }
   ]
 }
 ```
-
-<Note>
-Dans la reponse du listage, chaque entree inclut le canal connecte sous la
-cle `integration`, avec `identifier` pour le nom de la plateforme. Les
-valeurs correspondent directement au endpoint `/channels` :
-`integration.id` ↔ `channel.id`, `integration.identifier` ↔ `channel.platform`.
-</Note>
 
 ---
 

@@ -102,7 +102,16 @@ Fuegen Sie diese in `posts[].settings` fuer plattformspezifische Funktionen ein:
 
 ### Antwort
 
-Gibt das erstellte Post-Objekt mit `id`, `status` und geplantem Datum zurueck.
+Gibt ein Array mit einem Eintrag pro erstelltem Post zurueck:
+
+```json
+[
+  {
+    "postId": "post-uuid",
+    "channelId": "channel-uuid"
+  }
+]
+```
 
 ---
 
@@ -136,25 +145,19 @@ curl -H "Authorization: YOUR_API_KEY" \
   "posts": [
     {
       "id": "post-uuid",
-      "content": "Post text content...",
-      "status": "published",
+      "content": "Post-Textinhalt...",
+      "state": "PUBLISHED",
       "publishDate": "2026-04-15T14:00:00Z",
-      "integration": {
+      "channel": {
         "id": "channel-uuid",
+        "platform": "instagram",
         "name": "My Instagram",
-        "identifier": "instagram"
+        "picture": "https://..."
       }
     }
   ]
 }
 ```
-
-<Note>
-In der List-Antwort enthaelt jeder Eintrag den verbundenen Kanal unter dem
-Schluessel `integration`, mit `identifier` fuer den Plattformnamen. Die
-Werte entsprechen direkt dem `/channels`-Endpoint:
-`integration.id` ↔ `channel.id`, `integration.identifier` ↔ `channel.platform`.
-</Note>
 
 ---
 
