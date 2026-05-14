@@ -78,26 +78,3 @@ curl -H "Authorization: YOUR_API_KEY" \
 ```
 
 O formato da resposta é idêntico a uma entrada individual do endpoint de listagem.
-
----
-
-## Endpoint legado (descontinuado)
-
-```
-GET /public/v1/integrations
-```
-
-O endpoint anterior continua respondendo por compatibilidade, porém está **descontinuado** e será removido em **13/11/2026**. Migre para `/public/v1/channels` quando puder.
-
-Quando chamado, o endpoint legado retorna headers de descontinuação no padrão RFC 8594:
-
-```
-Deprecation: true
-Sunset: Fri, 13 Nov 2026 00:00:00 GMT
-Link: </public/v1/channels>; rel="successor-version"
-Warning: 299 - "Deprecated API — use /public/v1/channels"
-```
-
-O corpo da resposta de `/integrations` ainda usa o nome de campo legado `identifier` (em vez de `platform`). O novo endpoint `/channels` normaliza isso para `platform`.
-
-Veja o [guia de migração](/pt-BR/api-reference/migration-v1-to-v2) para a comparação lado a lado.

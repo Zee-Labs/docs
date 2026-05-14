@@ -53,10 +53,6 @@ curl -X POST \
 | `tags` | array | No | Content tags (`[{ "value": "id", "label": "name" }]`) |
 | `shortLink` | boolean | No | Enable URL shortening and click tracking |
 
-<Note>
-**Legacy field name:** the previous `posts[].integration.id` is still accepted during the deprecation window (sunset **2026-11-13**) but emits `Deprecation` / `Sunset` headers in the response. Sending both `channel` and `integration` in the same post returns `400`.
-</Note>
-
 ### Platform-specific settings
 
 Include these in `posts[].settings` for platform-specific features:
@@ -154,7 +150,10 @@ curl -H "Authorization: YOUR_API_KEY" \
 ```
 
 <Note>
-The list response still embeds the legacy `integration` object (with `identifier`) for backwards compatibility. A future major version will switch this to `channel.platform` — see the [migration guide](/api-reference/migration-v1-to-v2).
+In the list response, each entry embeds the connected channel under the
+`integration` key with `identifier` for the platform name. The values map
+directly to the `/channels` endpoint: `integration.id` ↔ `channel.id`,
+`integration.identifier` ↔ `channel.platform`.
 </Note>
 
 ---

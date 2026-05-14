@@ -78,26 +78,3 @@ curl -H "Authorization: YOUR_API_KEY" \
 ```
 
 El formato de la respuesta es idéntico a una entrada individual del endpoint de listado.
-
----
-
-## Endpoint heredado (obsoleto)
-
-```
-GET /public/v1/integrations
-```
-
-El endpoint anterior sigue respondiendo por compatibilidad, pero está **obsoleto** y será eliminado el **13/11/2026**. Migra a `/public/v1/channels` cuando puedas.
-
-Al ser llamado, el endpoint heredado devuelve headers de obsolescencia según RFC 8594:
-
-```
-Deprecation: true
-Sunset: Fri, 13 Nov 2026 00:00:00 GMT
-Link: </public/v1/channels>; rel="successor-version"
-Warning: 299 - "Deprecated API — use /public/v1/channels"
-```
-
-El cuerpo de la respuesta de `/integrations` aún usa el nombre de campo heredado `identifier` (en vez de `platform`). El nuevo endpoint `/channels` lo normaliza a `platform`.
-
-Consulta la [guía de migración](/es/api-reference/migration-v1-to-v2) para una comparación lado a lado.

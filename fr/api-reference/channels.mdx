@@ -78,26 +78,3 @@ curl -H "Authorization: YOUR_API_KEY" \
 ```
 
 Le format de la reponse est identique a une entree individuelle du endpoint de listage.
-
----
-
-## Endpoint legacy (deprecie)
-
-```
-GET /public/v1/integrations
-```
-
-L'endpoint precedent reste accessible pour la compatibilite, mais est **deprecie** et sera supprime le **13/11/2026**. Migrez vers `/public/v1/channels` quand vous le pouvez.
-
-Lors de l'appel, l'endpoint legacy retourne des headers de depreciation selon RFC 8594 :
-
-```
-Deprecation: true
-Sunset: Fri, 13 Nov 2026 00:00:00 GMT
-Link: </public/v1/channels>; rel="successor-version"
-Warning: 299 - "Deprecated API — use /public/v1/channels"
-```
-
-Le corps de reponse de `/integrations` utilise encore le nom de champ legacy `identifier` (au lieu de `platform`). Le nouveau endpoint `/channels` normalise cela en `platform`.
-
-Consultez le [guide de migration](/fr/api-reference/migration-v1-to-v2) pour une comparaison cote a cote.

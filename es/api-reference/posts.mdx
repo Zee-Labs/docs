@@ -53,10 +53,6 @@ curl -X POST \
 | `tags` | array | No | Etiquetas de contenido (`[{ "value": "id", "label": "name" }]`) |
 | `shortLink` | boolean | No | Habilitar acortamiento de URLs y seguimiento de clics |
 
-<Note>
-**Nombre de campo heredado:** el antiguo `posts[].integration.id` aún se acepta durante la ventana de obsolescencia (cierre el **13/11/2026**), pero la respuesta incluye headers `Deprecation` / `Sunset`. Enviar `channel` e `integration` en el mismo post devuelve `400`.
-</Note>
-
 ### Configuraciones específicas de plataforma
 
 Incluye estas en `posts[].settings` para funciones específicas de plataforma:
@@ -154,7 +150,10 @@ curl -H "Authorization: YOUR_API_KEY" \
 ```
 
 <Note>
-La respuesta del listado aún incluye el objeto heredado `integration` (con `identifier`) por compatibilidad. Una versión mayor futura lo cambiará por `channel.platform` — consulta la [guía de migración](/es/api-reference/migration-v1-to-v2).
+En la respuesta del listado, cada entrada incluye el canal conectado bajo
+la clave `integration`, con `identifier` para el nombre de la plataforma.
+Los valores mapean directamente al endpoint `/channels`:
+`integration.id` ↔ `channel.id`, `integration.identifier` ↔ `channel.platform`.
 </Note>
 
 ---

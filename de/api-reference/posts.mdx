@@ -53,10 +53,6 @@ curl -X POST \
 | `tags` | array | Nein | Inhalts-Tags (`[{ "value": "id", "label": "name" }]`) |
 | `shortLink` | boolean | Nein | URL-Kuerzung und Klick-Tracking aktivieren |
 
-<Note>
-**Legacy-Feldname:** das alte `posts[].integration.id` wird waehrend des Deprecation-Fensters weiterhin akzeptiert (Ende am **13.11.2026**), aber die Antwort enthaelt `Deprecation`- / `Sunset`-Header. Wenn Sie `channel` und `integration` im selben Post senden, erhalten Sie `400`.
-</Note>
-
 ### Plattformspezifische Einstellungen
 
 Fuegen Sie diese in `posts[].settings` fuer plattformspezifische Funktionen ein:
@@ -154,7 +150,10 @@ curl -H "Authorization: YOUR_API_KEY" \
 ```
 
 <Note>
-Die List-Antwort enthaelt aus Kompatibilitaetsgruenden weiterhin das Legacy-Objekt `integration` (mit `identifier`). Eine zukuenftige Major-Version wird auf `channel.platform` umstellen — siehe den [Migrationsleitfaden](/de/api-reference/migration-v1-to-v2).
+In der List-Antwort enthaelt jeder Eintrag den verbundenen Kanal unter dem
+Schluessel `integration`, mit `identifier` fuer den Plattformnamen. Die
+Werte entsprechen direkt dem `/channels`-Endpoint:
+`integration.id` ↔ `channel.id`, `integration.identifier` ↔ `channel.platform`.
 </Note>
 
 ---

@@ -199,12 +199,6 @@
                   "api-reference/credits",
                   "api-reference/jobs"
                 ]
-              },
-              {
-                "group": "Migration",
-                "pages": [
-                  "api-reference/migration-v1-to-v2"
-                ]
               }
             ]
           }
@@ -367,12 +361,6 @@
                   "pt-BR/api-reference/media",
                   "pt-BR/api-reference/credits",
                   "pt-BR/api-reference/jobs"
-                ]
-              },
-              {
-                "group": "Migração",
-                "pages": [
-                  "pt-BR/api-reference/migration-v1-to-v2"
                 ]
               }
             ]
@@ -537,12 +525,6 @@
                   "es/api-reference/credits",
                   "es/api-reference/jobs"
                 ]
-              },
-              {
-                "group": "Migración",
-                "pages": [
-                  "es/api-reference/migration-v1-to-v2"
-                ]
               }
             ]
           }
@@ -706,12 +688,6 @@
                   "fr/api-reference/credits",
                   "fr/api-reference/jobs"
                 ]
-              },
-              {
-                "group": "Migration",
-                "pages": [
-                  "fr/api-reference/migration-v1-to-v2"
-                ]
               }
             ]
           }
@@ -874,12 +850,6 @@
                   "de/api-reference/media",
                   "de/api-reference/credits",
                   "de/api-reference/jobs"
-                ]
-              },
-              {
-                "group": "Migration",
-                "pages": [
-                  "de/api-reference/migration-v1-to-v2"
                 ]
               }
             ]
