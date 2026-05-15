@@ -3,7 +3,7 @@ title: MCP Tools-Referenz
 icon: wrench
 ---
 
-Vollstaendige Referenz fuer alle **22 Tools**, die von Postzees MCP-Server bereitgestellt werden. Diese Tools stehen jedem MCP-kompatiblen KI-Agenten zur Verfuegung (Claude Code, OpenClaw, Hermes Agent oder direkte MCP-Clients).
+Vollstaendige Referenz fuer alle **25 Tools**, die von Postzees MCP-Server bereitgestellt werden. Diese Tools stehen jedem MCP-kompatiblen KI-Agenten zur Verfuegung (Claude Code, OpenClaw, Hermes Agent oder direkte MCP-Clients).
 
 <Note>
 Alle Tools akzeptieren den API-Key, der in Ihrer MCP-URL eingebettet ist. Sie sind auf eine einzelne Organisation beschraenkt. **Kosten fuer KI-Generierung werden immer in Credits zurueckgegeben, niemals in Dollar.** ($1 USD = 1.000 Credits.)
@@ -20,7 +20,8 @@ Alle Tools akzeptieren den API-Key, der in Ihrer MCP-URL eingebettet ist. Sie si
 | **Medien-Speicher** | `POSTZEE_LIST_MEDIA`, `POSTZEE_UPLOAD_MEDIA` |
 | **Prompt-Optimierung** | `POSTZEE_ENHANCE_PROMPT` |
 | **Generierung** | `POSTZEE_GENERATE_IMAGE`, `POSTZEE_GENERATE_VIDEO`, `POSTZEE_CHECK_JOB` |
-| **Karussells** | `POSTZEE_RENDER_CAROUSEL`, `POSTZEE_REPLACE_CAROUSEL_SLIDE`, `POSTZEE_APPEND_CAROUSEL_SLIDE` |
+| **Bilder und Karussells (HTML-Render)** | `POSTZEE_RENDER_IMAGE`, `POSTZEE_RENDER_CAROUSEL`, `POSTZEE_REPLACE_CAROUSEL_SLIDE`, `POSTZEE_APPEND_CAROUSEL_SLIDE` |
+| **Vorgerenderter Upload** | `POSTZEE_UPLOAD_RENDERED_IMAGE`, `POSTZEE_UPLOAD_RENDERED_CAROUSEL` |
 | **HeyGen** | `POSTZEE_LIST_HEYGEN_AVATARS`, `POSTZEE_LIST_HEYGEN_VOICES`, `POSTZEE_GENERATE_HEYGEN_VIDEO` |
 | **Veroeffentlichung** | `POSTZEE_CREATE_POST` |
 | **Legacy (veraltet)** | `POSTZEE_LIST_IMAGE_MODELS`, `POSTZEE_LIST_VIDEO_MODELS` |
@@ -592,9 +593,50 @@ Pollt den Status eines asynchronen Bild- oder Video-Generierungsjobs.
 
 ---
 
-## Karussells
+## Bilder und Karussells (HTML-Render)
 
-Die Karussell-Pipeline (Skill v3.5+) rendert vom Agenten geliefertes HTML zu PNG via Headless-Chromium. KI-Bildmodelle rendern Text schlecht; HTML-Rendering liefert pixelgenaue Typografie, konsistente Schriften und keine halluzinierten Woerter. Drei Tools decken den Lebenszyklus ab: ein vollstaendiges Render fuer den initialen Batch, ein chirurgischer Slide-Austausch fuer Korrekturen, und ein inkrementeller Append fuer iteratives Authoring (Slide fuer Slide bauen und jeden im selben wachsenden Karussell landen sehen).
+Die Bild- und Karussell-Pipeline (Skill v3.5+ fuer Karussells, v3.7+ fuer Einzelbilder) rendert vom Agenten geliefertes HTML zu PNG via Headless-Chromium. KI-Bildmodelle rendern Text schlecht; HTML-Rendering liefert pixelgenaue Typografie, konsistente Schriften und keine halluzinierten Woerter.
+
+Fuenf Tools decken den Lebenszyklus ab: ein Einzelbild-Render fuer eigenstaendige redaktionelle Posts mit gepflegter Typografie, ein vollstaendiges Karussell-Render fuer den initialen Batch, chirurgischer Slide-Austausch fuer Korrekturen, inkrementeller Append fuer iteratives Authoring, plus ein Upload-Pfad fuer Agenten, die die Bytes bereits lokal produziert haben (umgeht den serverseitigen Renderer komplett).
+
+### POSTZEE_RENDER_IMAGE
+
+Rendert EIN HTML-Dokument zu einem einzelnen `Media`-PNG. Das Single-Image-Gegenstueck zu `POSTZEE_RENDER_CAROUSEL`, fuer eigenstaendige redaktionelle Posts (textreiche Einzelbilder, Magazin-Style-Cover, Hero-Quote-Cards), bei denen der Wert im Layout + der Typografie liegt statt in einer swipebaren Sequenz.
+
+**Parameter:**
+
+| Parameter | Typ | Erforderlich | Beschreibung |
+|-----------|-----|:---:|--------------|
+| `html` | string | Ja | Vollstaendiges `<!doctype html>`-Dokument. JavaScript ist beim Render deaktiviert — nur CSS verwenden. Bilder als base64 `data:image/...;base64,...`-URIs embedden. |
+| `width` | number | Nein | Ausgabebreite in px (256-2160). Default `1080`. |
+| `height` | number | Nein | Ausgabehoehe in px (256-2160). Default `1350` (4:5 — optimiert fuer Instagram-Feed). |
+| `name` | string | Nein | Optionaler Titel in der Galerie. |
+
+**Gleiche harte Limits wie `POSTZEE_RENDER_CAROUSEL`:** 7 MB max HTML, 256-2160 px pro Dimension, 45 s Render-Timeout.
+
+**Gibt zurueck (Erfolg):**
+```json
+{
+  "success": true,
+  "mediaId": "media-uuid",
+  "mediaUrl": "https://cdn.postzee.app/...",
+  "width": 1080,
+  "height": 1350,
+  "mediaGroupId": "group-uuid",
+  "message": "Image rendered successfully (1080×1350). Use 'mediaUrl' when calling POSTZEE_CREATE_POST."
+}
+```
+
+`mediaGroupId` ist fuer fortgeschrittene Caller verfuegbar, aber die typische Verwendung ist, die `mediaUrl` direkt an `POSTZEE_CREATE_POST` als Einzelelement-`mediaUrls`-Array zu uebergeben.
+
+**Gibt zurueck (Fehler):**
+```json
+{ "success": false, "error": "render_failed", "message": "..." }
+```
+
+Gleicher Idempotency-Cache wie das Karussell-Render: identische Payloads innerhalb eines 1-Stunden-Fensters geben die gecachte `mediaId` zurueck statt neu zu rendern.
+
+---
 
 ### POSTZEE_RENDER_CAROUSEL
 
@@ -611,8 +653,9 @@ Rendert N HTML-Slides zu PNG und gruppiert sie atomar als ein `MediaGroup`-Karus
 **Server-side enforcierte Limits:**
 - Maximal **15 Slides** pro Aufruf
 - Minimum 256 / Maximum **2160** px pro Dimension
-- 250 KB HTML pro Slide
-- 30 s Timeout pro Slide
+- **7 MB** max HTML pro Slide
+- **50 MB** max Gesamt-Payload pro Aufruf (Summe aller Slides)
+- **45 s** Timeout pro Slide
 
 **Plattformbewusste Publish-Guards.** Das Rendering akzeptiert bis zu 15 Slides, aber das **Publishing** ist an das native Limit jedes sozialen Netzwerks gebunden (Instagram/Facebook ≤ 10, LinkedIn ≤ 20, TikTok ≤ 35, Threads/Reddit ≤ 20, Pinterest ≤ 5, X ≤ 4, Bluesky/Mastodon ≤ 4, Telegram/VK ≤ 10). Wenn `POSTZEE_CREATE_POST` mit `mediaUrls` aufgerufen wird, die das Limit des Ziel-Netzwerks ueberschreiten, lehnt Postzee den Beitrag ab, bevor die Plattform-API aufgerufen wird — mit einer in die Sprache des Nutzers uebersetzten Fehlermeldung. Rufe `POSTZEE_LIST_PLATFORM_SPECS` fuer die aktuelle Tabelle ab.
 
@@ -711,6 +754,84 @@ Es gibt in v1 keine Insert-in-der-Mitte / Reorder / Delete-Primitive. `APPEND_CA
 
 ---
 
+## Vorgerenderter Upload (v3.7+)
+
+Wenn der Agent in einer Surface mit einem nutzbaren Headless-Browser laeuft (z.B. Claude Code mit Bash + Playwright), kann er das HTML lokal zu PNG rendern und die Bytes direkt hochladen — er umgeht Postzees serverseitigen Renderer fuer einen schnelleren Round-Trip. Gleiche `Media` / `MediaGroup`-Ausgabe wie der HTML-Render-Pfad, sodass der nachgelagerte Code (Veroeffentlichung, Galerie, REST-API) sich nicht aendert.
+
+Wenn der Agent keine lokale Render-Faehigkeit hat, faellt er transparent auf `POSTZEE_RENDER_IMAGE` / `POSTZEE_RENDER_CAROUSEL` zurueck.
+
+### POSTZEE_UPLOAD_RENDERED_IMAGE
+
+Lade ein einzelnes vorgerendertes Bild (PNG / JPEG / WebP) hoch und erhalte ein standalone `Media` zurueck. Spiegel von `POSTZEE_RENDER_IMAGE` aus Sicht des nachgelagerten Codes — gleiche Return-Shape.
+
+**Parameter:**
+
+| Parameter | Typ | Erforderlich | Beschreibung |
+|-----------|-----|:---:|--------------|
+| `imageBase64` | string | Ja | Base64-encodierte Bild-Bytes. Max 10 MB raw pro Bild. Kann den `data:image/...;base64,...`-Praefix enthalten oder nur den Payload — beide akzeptiert. |
+| `mimeType` | string | Ja | Muss zu den tatsaechlichen Bytes passen. Erlaubt: `image/png`, `image/jpeg`, `image/webp`. Content-Type-Spoofing wird durch Magic-Byte-Validierung abgelehnt. |
+| `width` | number | Ja | Ausgabebreite in px (256-2160). Muss zu den tatsaechlichen Pixel-Dimensionen der Bytes passen (validiert gegen den Datei-Header). |
+| `height` | number | Ja | Ausgabehoehe in px (256-2160). Gleiche Validierung wie width. |
+| `name` | string | Nein | Optionaler Titel in der Galerie. |
+
+**Gibt zurueck (Erfolg):**
+```json
+{
+  "success": true,
+  "mediaId": "media-uuid",
+  "mediaUrl": "https://cdn.postzee.app/...",
+  "width": 1080,
+  "height": 1350,
+  "message": "Image uploaded (1080×1350). Use 'mediaUrl' when calling POSTZEE_CREATE_POST."
+}
+```
+
+**Validierungs-Hardening** (diese Tools akzeptieren nicht vertrauenswuerdige Bytes):
+- **Magic-Byte-Check** gegen den deklarierten `mimeType` — eine HTML-Datei, die behauptet `image/png` zu sein, wird abgelehnt.
+- **Dimension-Check** — die vom Agenten deklarierten `width`/`height` muessen zu den tatsaechlichen Pixel-Dimensionen passen, die aus dem Datei-Header geparst wurden (Toleranz ±2 px). `width: 2160` zusammen mit den Bytes eines 100×100-Bildes zu senden schlaegt schnell fehl.
+- **Size-Cap** — 10 MB pro Bild; ueberschreiten wirft einen klaren Fehler.
+
+Per-Image-Idempotency-Cache (1 Stunde): erneuter Upload identischer Bytes gibt die gecachte `mediaId` zurueck statt zu duplizieren.
+
+---
+
+### POSTZEE_UPLOAD_RENDERED_CAROUSEL
+
+Lade N vorgerenderte Bilder hoch und bilde daraus ein `MediaGroup`. Spiegel von `POSTZEE_RENDER_CAROUSEL` aus Sicht des nachgelagerten Codes.
+
+**Parameter:**
+
+| Parameter | Typ | Erforderlich | Beschreibung |
+|-----------|-----|:---:|--------------|
+| `slides` | array | Ja | 1-15 Slide-Objekte in Anzeigereihenfolge. Jedes: `{ imageBase64, mimeType, width, height }`. Gleiche Pro-Slide-Validierung wie `POSTZEE_UPLOAD_RENDERED_IMAGE`. Gesamtbytes ueber alle Slides auf 70 MB begrenzt. |
+| `aspectRatio` | string | Nein | `"1:1"` / `"4:5"` / `"9:16"` — nur Metadaten, skaliert Bilder nicht. Default `"1:1"`. |
+| `name` | string | Nein | Optionaler Titel in der Galerie. |
+
+**Harte Limits:**
+- 1-15 Slides pro Aufruf
+- 10 MB max pro Slide
+- 70 MB max Gesamt-Payload pro Aufruf
+
+**Gibt zurueck (Erfolg):**
+```json
+{
+  "success": true,
+  "mediaGroupId": "group-uuid",
+  "totalSlides": 9,
+  "aspectRatio": "4:5",
+  "mediaUrls": [
+    "https://cdn.postzee.app/.../slide-0.png",
+    "https://cdn.postzee.app/.../slide-1.png",
+    "..."
+  ],
+  "message": "Uploaded 9 slide(s). Use 'mediaUrls' (already in display order) when calling POSTZEE_CREATE_POST."
+}
+```
+
+Gleiche atomare Semantik wie `POSTZEE_RENDER_CAROUSEL`: jedes Slide, das die Validierung nicht besteht, bricht den gesamten Upload ab und soft-delete-t die partielle Gruppe. Das Karussell landet entweder vollstaendig oder gar nicht.
+
+---
+
 ## HeyGen
 
 <Note>
@@ -767,6 +888,7 @@ Erstellt, plant oder veroeffentlicht einen Post auf einem Social-Media-Kanal.
 | `channelId` | string | Ja | Channel-ID aus `POSTZEE_LIST_CHANNELS` |
 | `text` | string | Ja | Post-Inhalt |
 | `mediaUrls` | string[] | Nein | Medien-URLs (in Anzeigereihenfolge — Array-Reihenfolge = Slide-Reihenfolge fuer Carousels) |
+| `settings` | object | Nein | Plattform-spezifische Veroeffentlichungseinstellungen. Senden Sie ein flaches Objekt mit nur den fuer das Zielnetzwerk relevanten Feldern — z.B. `{ "post_type": "story" }` fuer Instagram, `{ "privacy_level": "PUBLIC_TO_EVERYONE", "duet": true }` fuer TikTok. Der MCP routet die Settings basierend auf dem Kanal zum richtigen Validator. Siehe [Plattform-Einstellungen](/de/channels/platform-settings) fuer die vollstaendige Referenz. |
 
 **Gibt zurueck (Erfolg):**
 ```json

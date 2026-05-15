@@ -50,13 +50,15 @@ Antes de generar cualquier cosa, el agente lee el contexto completo de tu cuenta
 
 El agente **siempre muestra el costo de generación en créditos antes de generar** — nunca en dólares, nunca como sorpresa. Usa la herramienta live `POSTZEE_ESTIMATE_GENERATION_COST` para calcular números exactos a partir del pricing actual — sin adivinanzas, sin valores hardcoded.
 
-### 🎨 Maestría en carruseles (HTML render — v3.5+)
+### 🎨 Maestría en imágenes y carruseles (HTML render — v3.5+ para carruseles, v3.7+ para imágenes sueltas)
 
-Los carruseles pasan por un pipeline dedicado: el agente **escribe el HTML de cada slide** (texto pixel-perfect, tu tipografía) y Postzee renderiza a PNG via Chromium headless. Los modelos de imagen IA renderizan texto pobremente — este enfoque elimina esa limitación por completo.
+Los carruseles e imágenes sueltas con mucho texto pasan por un pipeline dedicado: el agente **escribe el HTML de cada slide** (texto pixel-perfect, tu tipografía) y Postzee renderiza a PNG via Chromium headless. Los modelos de imagen IA renderizan texto pobremente — este enfoque elimina esa limitación por completo.
 
-La skill v3.5 trae una **metodología editorial completa** que produce carruseles indistinguibles de lo que un equipo editorial humano de élite publicaría. La skill impone un **workflow obligatorio de 7 etapas**: Brief (7 preguntas de briefing creativo) → Triage silencioso (filtra ángulos débiles) → 10 headlines numeradas (5 interpretativas + 5 contraintuitivas, el agente escoge el idioma) → Usuario escoge la headline → Guion de 18 bloques con frase-puente obligatoria + gate de validación editorial (7 parámetros, 5 tests finales, checklist visual) → Usuario escribe `aprobado` → Render via `POSTZEE_RENDER_CAROUSEL` + iteración slide por slide via `POSTZEE_REPLACE_CAROUSEL_SLIDE` (nunca re-renderiza todo por 1 ajuste), o construye slide-a-slide via `POSTZEE_APPEND_CAROUSEL_SLIDE` para autoría iterativa.
+La skill trae una metodología editorial completa que produce trabajo indistinguible de lo que un equipo editorial humano de élite publicaría — selección de ángulo fuerte, validación rigurosa de calidad y un sistema visual que conquista el scroll. El usuario ve la propuesta, aprueba, y el agente entrega los assets via `POSTZEE_RENDER_IMAGE` (imagen editorial suelta) o `POSTZEE_RENDER_CAROUSEL` (multi-slide). Iteración post-render es quirúrgica — `POSTZEE_REPLACE_CAROUSEL_SLIDE` para un ajuste puntual, `POSTZEE_APPEND_CAROUSEL_SLIDE` para extender un carrusel en construcción.
 
-El deep-dive vive en `reference/carousel-mastery.md` (orquestador) — design system (variables CSS, slide types A-F, regla de embed de fuentes), comandos de control, playbook de iteración, posicionamiento competitivo. Cuatro archivos de referencia cubren profundidad discipline-specific: headline engine, filtro editorial, manual de calidad, principios de diseño.
+### ⚙️ Conciencia de configuraciones por plataforma (v3.7+)
+
+La skill conoce los settings de cada red social — Instagram story vs feed, controles de privacidad + duet + música de TikTok, visibilidad + tags de YouTube, modo carrusel de LinkedIn, board de Pinterest y más. Cuando dices "publica eso como story" o "upload privado a TikTok", el agente enruta el setting correcto al `POSTZEE_CREATE_POST` automáticamente — no necesitas especificar las mecánicas de la plataforma.
 
 ### ✅ Guardrails de publicación por plataforma (v3.5.1+)
 
@@ -99,7 +101,7 @@ El agente conoce los mejores horarios de publicación por plataforma, **en tu zo
 
 No tienes que saber qué modelo usar. Di *"crea una foto de un atardecer para Instagram"* y el agente elige la familia correcta (texto-pesado vs fotorrealista vs ilustración), el tier correcto (fast / balanced / premium) y el aspect ratio correcto para la plataforma — automáticamente. El tier predeterminado es **fast** para mantener el costo de la automatización predecible. (Los carruseles van por `POSTZEE_RENDER_CAROUSEL` y no necesitan selección de modelo — el pipeline HTML los maneja.)
 
-Si SABES lo que quieres — di *"usando Nano Banana"* o *"con la mayor calidad"* — el agente respeta tu override. El árbol de decisión, vocabulario multilingüe de signals (PT / EN / ES / FR / DE) y ejemplos completos viven en `reference/smart-routing.md`.
+Si SABES lo que quieres — di *"usando Nano Banana"* o *"con la mayor calidad"* — el agente respeta tu override. El vocabulario multilingüe de signals (PT / EN / ES / FR / DE) viene de fábrica.
 
 ### 🔄 Auto-verificación de versión
 
@@ -107,27 +109,9 @@ En cada nueva sesión, el agente verifica si la versión instalada de la skill c
 
 ## Arquitectura
 
-La skill se distribuye como una **estructura multi-archivo**:
+La skill se distribuye como un **archivo orquestador** que se carga en cada sesión, más un conjunto de archivos de referencia que el orquestador trae bajo demanda cuando los necesita (briefing creativo, model routing, composición de video, etc.). Esto mantiene el contexto de la sesión liviano mientras le da al agente conocimiento profundo exactamente donde cada parte del workflow lo necesita.
 
-```
-postzee-skill/
-├── SKILL.md                          # orquestador (cargado primero)
-└── reference/
-    ├── smart-routing.md              # Árbol de decisión para modelo / aspect / calidad (v3.2)
-    ├── media-memory.md               # Patrón de manifest + reutilización de medios entre turns/sesiones (v3.3)
-    ├── plans-and-pricing.md          # Los 5 planes + 5 paquetes + copy de CTA
-    ├── credit-aware-flow.md          # Matriz de estados plan/créditos
-    ├── carousel-mastery.md           # Pipeline HTML render + design system + template de guion + replace-slide
-    ├── captions-frameworks.md        # AIDA / PAS / BAB / FAB / 4Ps
-    ├── hooks-library.md              # 80+ hooks probados
-    ├── multi-scene-workflow.md       # Estrategias multi-escena
-    ├── heygen-vs-aivideo.md          # Matriz de decisión talking-head
-    ├── ffmpeg-cookbook.md            # Recetas de composición
-    ├── subtitle-workflows.md         # Whisper + estilos de subtítulos
-    └── trends-2026.md                # Macro shifts y tendencias de formato
-```
-
-El orquestador se carga en cada sesión; los archivos de referencia se cargan bajo demanda.
+La skill se publica como un archivo abierto vía GitHub Releases — puedes leerlo de punta a punta si quieres entender exactamente qué hace tu agente.
 
 ## Instalación
 
@@ -181,6 +165,6 @@ cd ~/.claude/skills/postzee && git pull
     Instala y configura la Postzee Skill en Hermes Agent.
   </Card>
   <Card title="Referencia de Herramientas" icon="wrench" href="/integrations/mcp/tools-reference">
-    Las 22 herramientas MCP que la skill orquesta.
+    Las 25 herramientas MCP que la skill orquesta.
   </Card>
 </CardGroup>

@@ -50,13 +50,15 @@ Bevor irgendetwas generiert wird, liest der Agent den vollstaendigen Account-Kon
 
 Der Agent **zeigt immer die Generierungskosten in Credits vor der Generierung** — nie in Dollar, nie als Ueberraschung. Er nutzt das Live-Tool `POSTZEE_ESTIMATE_GENERATION_COST`, um exakte Zahlen aus der aktuellen Preisgestaltung zu berechnen — kein Raten, keine hardcoded Werte.
 
-### 🎨 Karussell-Meisterschaft (HTML-Render -- v3.5+)
+### 🎨 Bild- und Karussell-Meisterschaft (HTML-Render -- v3.5+ fuer Karussells, v3.7+ fuer einzelne Bilder)
 
-Karussells laufen ueber eine dedizierte Pipeline: der Agent **schreibt das HTML jeder Folie** (pixelgenauer Text, Ihre Typografie) und Postzee rendert per Headless-Chromium zu PNG. KI-Bildmodelle rendern Text schlecht — dieser Ansatz beseitigt diese Einschraenkung vollstaendig.
+Karussells und textreiche einzelne Bilder laufen ueber eine dedizierte Pipeline: der Agent **schreibt das HTML jeder Folie** (pixelgenauer Text, Ihre Typografie) und Postzee rendert per Headless-Chromium zu PNG. KI-Bildmodelle rendern Text schlecht — dieser Ansatz beseitigt diese Einschraenkung vollstaendig.
 
-Skill v3.5 bringt eine **vollstaendige redaktionelle Methodologie**, die Karussells produziert, die nicht von dem zu unterscheiden sind, was ein erstklassiges menschliches Redaktionsteam veroeffentlichen wuerde. Die Skill erzwingt einen **obligatorischen 7-Phasen-Workflow**: Brief (7 Fragen kreatives Briefing) → Stille Triage (filtert schwache Blickwinkel) → 10 nummerierte Headlines (5 interpretative + 5 kontraintuitive, der Agent waehlt die Sprache) → Nutzer waehlt die Headline → 18-Block-Skript mit obligatorischer Brueckenphrase + redaktionelles Validation-Gate (7 Parameter, 5 finale Tests, visuelle Checkliste) → Nutzer tippt `freigegeben` → Render via `POSTZEE_RENDER_CAROUSEL` + Iteration Slide fuer Slide via `POSTZEE_REPLACE_CAROUSEL_SLIDE` (nie das Ganze fuer eine Anpassung neu rendern), oder Slide-fuer-Slide bauen via `POSTZEE_APPEND_CAROUSEL_SLIDE` fuer iteratives Authoring.
+Die Skill bringt eine vollstaendige redaktionelle Methodologie, die Arbeit produziert, die nicht von dem zu unterscheiden ist, was ein erstklassiges menschliches Redaktionsteam veroeffentlichen wuerde — starke Winkelauswahl, rigorose Qualitaetspruefung und ein visuelles System, das den Scroll erobert. Der Nutzer sieht den Vorschlag, gibt frei, und der Agent liefert die Assets via `POSTZEE_RENDER_IMAGE` (redaktionelles Einzelbild) oder `POSTZEE_RENDER_CAROUSEL` (Multi-Slide). Iteration nach dem Render ist chirurgisch — `POSTZEE_REPLACE_CAROUSEL_SLIDE` fuer eine punktuelle Anpassung, `POSTZEE_APPEND_CAROUSEL_SLIDE` zum Erweitern eines wachsenden Karussells.
 
-Der Deep-Dive lebt in `reference/carousel-mastery.md` (Orchestrator) — Design-System (CSS-Variablen, Slide-Types A-F, Font-Embedding-Regel), Steuerbefehle, Iterations-Playbook, Wettbewerbspositionierung. Vier Referenz-Dateien decken disziplinspezifische Tiefe ab: Headline-Engine, redaktioneller Filter, Qualitaetshandbuch, Designprinzipien.
+### ⚙️ Plattform-Settings-Awareness (v3.7+)
+
+Die Skill kennt die Settings jedes sozialen Netzwerks — Instagram Story vs Feed, TikTok-Privatsphaere + Duet + Musik-Steuerung, YouTube-Sichtbarkeit + Tags, LinkedIn-Karussell-Modus, Pinterest-Board und mehr. Wenn Sie sagen „poste das als Story" oder „privater Upload auf TikTok", routet der Agent das richtige Setting automatisch an `POSTZEE_CREATE_POST` — Sie muessen die Plattform-Mechaniken nicht ausspecifizieren.
 
 ### ✅ Plattformbewusste Publish-Guards (v3.5.1+)
 
@@ -99,7 +101,7 @@ Der Agent kennt die besten Veroeffentlichungszeiten pro Plattform, **in Ihrer Ze
 
 Sie muessen nicht wissen, welches Modell zu verwenden ist. Sagen Sie *"erstelle ein Sonnenuntergangs-Foto fuer Instagram"* und der Agent waehlt die richtige Familie (textlastig vs fotorealistisch vs Illustration), das richtige Tier (fast / balanced / premium) und das richtige Aspect-Ratio fuer die Plattform — automatisch. Das Standard-Tier ist **fast**, um die Automatisierungskosten vorhersehbar zu halten. (Karussells laufen ueber `POSTZEE_RENDER_CAROUSEL` und brauchen keine Modellauswahl -- die HTML-Pipeline erledigt sie.)
 
-Wenn Sie WISSEN, was Sie wollen — sagen Sie *"mit Nano Banana"* oder *"mit hoechster Qualitaet"* — respektiert der Agent Ihren Override. Der Entscheidungsbaum, das mehrsprachige Signal-Vokabular (PT / EN / ES / FR / DE) und die vollstaendigen Beispiele leben in `reference/smart-routing.md`.
+Wenn Sie WISSEN, was Sie wollen — sagen Sie *"mit Nano Banana"* oder *"mit hoechster Qualitaet"* — respektiert der Agent Ihren Override. Das mehrsprachige Signal-Vokabular (PT / EN / ES / FR / DE) ist nativ eingebaut.
 
 ### 🔄 Selbst-Versionspruefung
 
@@ -107,27 +109,9 @@ Bei jeder neuen Session prueft der Agent, ob die installierte Skill-Version mit 
 
 ## Architektur
 
-Die Skill wird als **Multi-Datei-Struktur** verteilt:
+Die Skill wird als **Orchestrator-Datei** verteilt, die bei jeder Session geladen wird, plus einer Reihe von Referenzdateien, die der Orchestrator bei Bedarf laedt (kreatives Briefing, Model-Routing, Video-Komposition usw.). Das haelt den Session-Kontext schlank und gibt dem Agenten tiefes Wissen genau dort, wo jeder Teil des Workflows es benoetigt.
 
-```
-postzee-skill/
-├── SKILL.md                          # Orchestrator (zuerst geladen)
-└── reference/
-    ├── smart-routing.md              # Entscheidungsbaum fuer Modell / Aspect / Qualitaet (v3.2)
-    ├── media-memory.md               # Manifest-Pattern + Wiederverwendung von Medien ueber Turns/Sessions (v3.3)
-    ├── plans-and-pricing.md          # Die 5 Plaene + 5 Pakete + CTA-Copy
-    ├── credit-aware-flow.md          # Status-Matrix Plan/Credits
-    ├── carousel-mastery.md           # HTML-Render-Pipeline + Design-System + Skript-Template + Replace-Slide
-    ├── captions-frameworks.md        # AIDA / PAS / BAB / FAB / 4Ps
-    ├── hooks-library.md              # 80+ erprobte Hooks
-    ├── multi-scene-workflow.md       # Multi-Szenen-Strategien
-    ├── heygen-vs-aivideo.md          # Talking-Head-Entscheidungsmatrix
-    ├── ffmpeg-cookbook.md            # Kompositions-Rezepte
-    ├── subtitle-workflows.md         # Whisper + Untertitelstile
-    └── trends-2026.md                # Makro-Shifts und Format-Trends
-```
-
-Der Orchestrator wird bei jeder Session geladen; Referenzdateien werden bei Bedarf geladen.
+Die Skill wird als offenes Archiv ueber GitHub Releases publiziert — Sie koennen sie von Anfang bis Ende lesen, wenn Sie genau verstehen wollen, was Ihr Agent tut.
 
 ## Installation
 
@@ -181,6 +165,6 @@ cd ~/.claude/skills/postzee && git pull
     Installieren und konfigurieren Sie die Postzee Skill in Hermes Agent.
   </Card>
   <Card title="Tools-Referenz" icon="wrench" href="/integrations/mcp/tools-reference">
-    Die 20 MCP-Tools, die die Skill orchestriert.
+    Die 25 MCP-Tools, die die Skill orchestriert.
   </Card>
 </CardGroup>

@@ -50,13 +50,15 @@ Before generating anything, the agent reads your full account context — plan t
 
 The agent **always shows generation cost in credits before generating** — never in dollars, never as a surprise. It uses the live `POSTZEE_ESTIMATE_GENERATION_COST` tool to compute exact numbers from the current pricing — no guessing, no hardcoded values.
 
-### 🎨 Carousel mastery (HTML render — v3.5+)
+### 🎨 Image & Carousel mastery (HTML render — v3.5+ for carousels, v3.7+ for single images)
 
-Carousels go through a dedicated pipeline: the agent **writes the HTML for each slide** (pixel-perfect text, your typography), and Postzee renders to PNG via headless Chromium. AI image models render text poorly — this approach removes that constraint entirely.
+Carousels and text-heavy single images go through a dedicated pipeline: the agent **writes the HTML for each slide** (pixel-perfect text, your typography), and Postzee renders to PNG via headless Chromium. AI image models render text poorly — this approach removes that constraint entirely.
 
-Skill v3.5 ships a complete **editorial methodology** that produces carousels indistinguishable from what a top human editorial team would publish. The skill enforces a **mandatory 7-stage workflow**: Brief (7-question creative briefing) → Silent triage (filter weak angles) → 10 numbered headlines (5 interpretive + 5 contrarian, agent picks language) → User picks the headline → 18-block script with mandatory bridge phrase + editorial validation gate (7 parameters, 5 final tests, visual checklist) → User types `aprovado` / `approved` → Render via `POSTZEE_RENDER_CAROUSEL` + iterate one slide at a time via `POSTZEE_REPLACE_CAROUSEL_SLIDE` (never re-render the whole thing for one tweak), or build slide-by-slide via `POSTZEE_APPEND_CAROUSEL_SLIDE` for iterative authoring.
+The skill ships a complete editorial methodology that produces work indistinguishable from what a top human editorial team would publish — strong angle selection, rigorous quality validation, and a visual system that earns the scroll. The user sees the proposal, approves, and the agent ships the final assets via `POSTZEE_RENDER_IMAGE` (single editorial image) or `POSTZEE_RENDER_CAROUSEL` (multi-slide). Iteration after render is surgical — `POSTZEE_REPLACE_CAROUSEL_SLIDE` for a single fix, `POSTZEE_APPEND_CAROUSEL_SLIDE` to extend a growing carousel.
 
-The deep-dive lives in `reference/carousel-mastery.md` (orchestrator) — design system (CSS variables, slide types A-F, font embedding rule), control commands, iteration playbook, competitor positioning. Four reference files cover discipline-specific depth: headline engine, editorial filter, quality manual, design principles.
+### ⚙️ Per-platform publish awareness (v3.7+)
+
+The skill knows each social network's settings — Instagram story vs feed, TikTok privacy + duet + music controls, YouTube visibility + tags, LinkedIn carousel mode, Pinterest board target, and more. When you say "post that as a story" or "private upload to TikTok", the agent routes the right setting to `POSTZEE_CREATE_POST` automatically; you don't have to spell out the platform mechanics.
 
 ### ✅ Platform-aware publish guards (v3.5.1+)
 
@@ -99,7 +101,7 @@ The agent knows the best posting times per platform, in **your timezone** (read 
 
 You don't have to know which model to use. Say *"create a sunset photo for Instagram"* and the agent picks the right family (text-rendering vs photoreal vs illustration), the right tier (fast / balanced / premium), and the right aspect ratio for the platform — automatically. Default tier is **fast** to keep automation costs predictable. (Carousels go through `POSTZEE_RENDER_CAROUSEL` and don't need model selection — the HTML pipeline handles them.)
 
-If you DO know what you want — say *"using Nano Banana"* or *"with the highest quality"* — the agent honors your override. The decision tree, multilingual signal vocabulary (PT / EN / ES / FR / DE), and worked examples live in `reference/smart-routing.md`.
+If you DO know what you want — say *"using Nano Banana"* or *"with the highest quality"* — the agent honors your override. The multilingual signal vocabulary (PT / EN / ES / FR / DE) is built in.
 
 ### 🔄 Self version-check
 
@@ -107,26 +109,9 @@ Every new session, the agent checks whether your installed skill version matches
 
 ## Architecture
 
-The skill ships as a **multi-file structure**:
+The skill ships as an **orchestrator file** that's loaded on every session, plus a set of on-demand reference files the orchestrator pulls in when it needs them (creative brief, model routing, video composition, etc.). This keeps the session context lean while giving the agent deep knowledge exactly when each part of the workflow needs it.
 
-```
-postzee-skill/
-├── SKILL.md                          # orchestrator (loaded first)
-└── reference/
-    ├── smart-routing.md              # Decision tree for model / aspect / quality (v3.2)
-    ├── plans-and-pricing.md          # The 5 plans + 5 credit packs + CTA copy
-    ├── credit-aware-flow.md          # State matrix for plan/credit scenarios
-    ├── carousel-mastery.md           # HTML render pipeline + design system + script template + replace-slide playbook
-    ├── captions-frameworks.md        # AIDA / PAS / BAB / FAB / 4Ps
-    ├── hooks-library.md              # 80+ proven hooks
-    ├── multi-scene-workflow.md       # Multi-scene strategies
-    ├── heygen-vs-aivideo.md          # Talking-head decision matrix
-    ├── ffmpeg-cookbook.md            # Composition recipes
-    ├── subtitle-workflows.md         # Whisper + caption styles
-    └── trends-2026.md                # Macro shifts and format trends
-```
-
-The orchestrator loads on every session; reference files are pulled on demand. This keeps context lean while giving the agent deep knowledge when it needs it.
+The skill is published as an open archive distributed through GitHub Releases — you can read it end-to-end if you want to understand exactly what your agent is doing.
 
 ## Installation
 
@@ -158,15 +143,13 @@ The agent picks the right photoreal model, validates the cost in credits, enhanc
 
 > *"Create a 10-slide LinkedIn carousel about productivity mistakes."*
 
-The agent runs the **7-stage editorial carousel workflow** (v3.5):
+The agent runs an editorial workflow: it gathers the brief, drafts a strong angle, validates it, and proposes the final headline + caption for you to approve. Once approved, it composes the slides and calls `POSTZEE_RENDER_CAROUSEL`. If you want to tweak slide 4 after the carousel exists, the agent calls `POSTZEE_REPLACE_CAROUSEL_SLIDE` for that slide only — the other 9 keep their URLs and identity.
 
-1. **Brief** — 7-question creative briefing covers topic, audience, platform (LinkedIn → 1:1 1080×1080), tone, preferred hook angle, and brand colors/logo.
-2. **Silent triage** — agent internally discards weak angles (clichés, low-engagement) without bothering you with the rejected options.
-3. **10 numbered headlines** — 5 interpretive + 5 contrarian, in your language. You pick by number (or reject all and ask for new ones).
-4. **18-block script** — after you pick the headline, full slide-by-slide plan with mandatory bridge phrases between blocks + **3 caption variants** (contrarian / story / direct) + hashtags. Editorial validation gate (7 parameters, 5 final tests, visual checklist) runs before showing it to you.
-5. **Approval** — hard stop. Waits for your literal `approved` / `aprovado` before generating anything.
-6. **Render** — composes 10 HTML documents using the design system (CSS variables, slide types A-F, fonts embedded as base64), validates credit balance, then calls `POSTZEE_RENDER_CAROUSEL`. All slides render in parallel and arrive as one ordered MediaGroup. Alternative for live slide-by-slide authoring: initial `RENDER_CAROUSEL` with slide 1, then `POSTZEE_APPEND_CAROUSEL_SLIDE` for every subsequent slide.
-7. **Publish** — `POSTZEE_CREATE_POST` with `mediaUrls` already in display order. Iteration between Render and Publish: if you say "change slide 4", the agent calls `POSTZEE_REPLACE_CAROUSEL_SLIDE` for that slide only; the other 9 keep their URLs and identity.
+### Editorial single-image post (v3.7+)
+
+> *"Create a hero image for Instagram announcing the new pricing."*
+
+Same editorial pipeline but for standalone single-image posts: the agent drafts the hook, proposes a layout treatment, composes the HTML, and renders via `POSTZEE_RENDER_IMAGE`. Useful for text-heavy posts where the value is in the typography + composition rather than in a swipeable sequence.
 
 ### Multi-scene story
 
@@ -220,6 +203,6 @@ cd ~/.claude/skills/postzee && git pull
     Install and configure the Postzee Skill in Hermes Agent.
   </Card>
   <Card title="Tools Reference" icon="wrench" href="/integrations/mcp/tools-reference">
-    The 20 MCP tools the skill orchestrates.
+    The 25 MCP tools the skill orchestrates.
   </Card>
 </CardGroup>
