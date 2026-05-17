@@ -12,6 +12,25 @@ When installed, your agent stops being a tool wrapper and starts behaving like a
 The skill is distributed publicly and works with any MCP-compatible agent that supports skills (Claude Code, OpenClaw, Hermes Agent, and others). All Postzee work is driven through the [MCP HTTP server](/integrations/mcp/overview) — never through direct REST calls.
 </Note>
 
+## What's new in v4.0.0
+
+v4.0.0 simplifies the creative loop and tightens the agent's discipline around the things that affect *you* directly: cost transparency, plan capability, your assets, and the way the agent talks to you.
+
+<CardGroup cols={2}>
+  <Card title="🎯 Render-direct workflow" icon="bolt">
+    The agent goes from approved script straight to a real, rendered carousel — no intermediate preview to maintain. You see the actual slides in the conversation. Iteration runs on the real slides via single-slide replace or append.
+  </Card>
+  <Card title="💰 Cost transparency, enforced" icon="coins">
+    The agent **never quotes a credit cost from memory**. Every number it tells you came from a live pricing call in that same response. Carousel rendering, slide replacement, uploads, and posting are all credit-free — only AI image and video generation consume credits.
+  </Card>
+  <Card title="✅ Plan capability, proactive" icon="circle-check">
+    The agent reads your plan capability at the start of the conversation. If you're on a plan that can't publish to social channels, it tells you upfront and offers the upgrade — never a surprise paywall after you invested time scripting.
+  </Card>
+  <Card title="📎 Your images, one step" icon="image">
+    Drop an image in the chat — attachment, link, paste — and the agent uploads it to Postzee for you in one go. No more "host this somewhere and paste the URL", ever.
+  </Card>
+</CardGroup>
+
 ## What it does
 
 The skill makes your agent fluent in five disciplines at once:
