@@ -50,17 +50,17 @@ Bevor irgendetwas generiert wird, liest der Agent den vollstaendigen Account-Kon
 
 Der Agent **zeigt immer die Generierungskosten in Credits vor der Generierung** — nie in Dollar, nie als Ueberraschung. Er nutzt das Live-Tool `POSTZEE_ESTIMATE_GENERATION_COST`, um exakte Zahlen aus der aktuellen Preisgestaltung zu berechnen — kein Raten, keine hardcoded Werte.
 
-### 🎨 Bild- und Karussell-Meisterschaft (HTML-Render -- v3.5+ fuer Karussells, v3.7+ fuer einzelne Bilder)
+### 🎨 Bild- und Karussell-Meisterschaft
 
-Karussells und textreiche einzelne Bilder laufen ueber eine dedizierte Pipeline: der Agent **schreibt das HTML jeder Folie** (pixelgenauer Text, Ihre Typografie) und Postzee rendert per Headless-Chromium zu PNG. KI-Bildmodelle rendern Text schlecht — dieser Ansatz beseitigt diese Einschraenkung vollstaendig.
+Karussells und textreiche einzelne Bilder laufen ueber eine dedizierte editoriale Pipeline: der Agent komponiert die Folien mit pixelgenauem Text und Ihrer Typografie, und Postzee rendert sie. KI-Bildmodelle rendern Text schlecht — diese Pipeline beseitigt diese Einschraenkung vollstaendig.
 
-Die Skill bringt eine vollstaendige redaktionelle Methodologie, die Arbeit produziert, die nicht von dem zu unterscheiden ist, was ein erstklassiges menschliches Redaktionsteam veroeffentlichen wuerde — starke Winkelauswahl, rigorose Qualitaetspruefung und ein visuelles System, das den Scroll erobert. Der Nutzer sieht den Vorschlag, gibt frei, und der Agent liefert die Assets via `POSTZEE_RENDER_IMAGE` (redaktionelles Einzelbild) oder `POSTZEE_RENDER_CAROUSEL` (Multi-Slide). Iteration nach dem Render ist chirurgisch — `POSTZEE_REPLACE_CAROUSEL_SLIDE` fuer eine punktuelle Anpassung, `POSTZEE_APPEND_CAROUSEL_SLIDE` zum Erweitern eines wachsenden Karussells.
+Die Skill bringt eine vollstaendige redaktionelle Methodologie, die Arbeit produziert, die nicht von dem zu unterscheiden ist, was ein erstklassiges menschliches Redaktionsteam veroeffentlichen wuerde — starke Winkelauswahl, rigorose Qualitaetspruefung und ein visuelles System, das den Scroll erobert. Der Nutzer sieht den Vorschlag, gibt frei, und der Agent liefert das gerenderte Karussell veroeffentlichungsbereit. Iteration nachdem das Karussell existiert ist chirurgisch — eine Folie aendern ohne die anderen zu beruehren, eine neue Folie hinzufuegen um ein wachsendes Karussell zu erweitern.
 
-### ⚙️ Plattform-Settings-Awareness (v3.7+)
+### ⚙️ Plattform-Settings-Awareness
 
-Die Skill kennt die Settings jedes sozialen Netzwerks — Instagram Story vs Feed, TikTok-Privatsphaere + Duet + Musik-Steuerung, YouTube-Sichtbarkeit + Tags, LinkedIn-Karussell-Modus, Pinterest-Board und mehr. Wenn Sie sagen „poste das als Story" oder „privater Upload auf TikTok", routet der Agent das richtige Setting automatisch an `POSTZEE_CREATE_POST` — Sie muessen die Plattform-Mechaniken nicht ausspecifizieren.
+Die Skill kennt die Settings jedes sozialen Netzwerks — Instagram Story vs Feed, TikTok-Privatsphaere + Duet + Musik-Steuerung, YouTube-Sichtbarkeit + Tags, LinkedIn-Karussell-Modus, Pinterest-Board und mehr. Wenn Sie sagen „poste das als Story" oder „privater Upload auf TikTok", routet der Agent das richtige Setting automatisch — Sie muessen die Plattform-Mechaniken nicht ausspecifizieren.
 
-### ✅ Plattformbewusste Publish-Guards (v3.5.1+)
+### ✅ Plattformbewusste Publish-Guards
 
 Postzee setzt die nativen Karussell-Limits jedes sozialen Netzwerks durch, **bevor** der Plattform-API-Aufruf erfolgt — keine 4 Minuten Retries und 30+ Media-Container, die fuer ein Karussell verschwendet werden, das das Netzwerk sowieso abgelehnt haette.
 
@@ -75,7 +75,7 @@ Postzee setzt die nativen Karussell-Limits jedes sozialen Netzwerks durch, **bev
 | Bluesky / Mastodon | 4 |
 | Telegram / VK | 10 |
 
-Wenn ein Karussell das Limit des Ziel-Netzwerks ueberschreitet (z. B. 13 Slides → Instagram), bricht Postzee sofort ab — mit einer Meldung, die **in die Sprache des Nutzers uebersetzt** ist — *"Instagram akzeptiert maximal 10 Slides pro Karussell. Dein Beitrag hat 13."* — statt die Netzwerk-API einen `fbtrace_id` zurueckgeben zu lassen. Skill v3.5.1+ deckelt zudem die Slide-Anzahl bereits im Brief, wenn die Zielplattform bekannt ist, sodass der Nutzer vor dem ersten Render korrigiert wird.
+Wenn ein Karussell das Limit des Ziel-Netzwerks ueberschreitet (z. B. 13 Slides → Instagram), bricht Postzee sofort ab — mit einer Meldung, die **in die Sprache des Nutzers uebersetzt** ist — *"Instagram akzeptiert maximal 10 Slides pro Karussell. Dein Beitrag hat 13."* — statt die Netzwerk-API einen `fbtrace_id` zurueckgeben zu lassen. Die Skill deckelt zudem die Slide-Anzahl bereits im Brief, wenn die Zielplattform bekannt ist, sodass der Nutzer vor dem ersten Render korrigiert wird.
 
 ### 🎬 Multi-Szenen-Video
 
@@ -97,9 +97,9 @@ Fuer Kreativarbeit fuehrt der Agent eine schnelle Websuche nach aktuellen virale
 
 Der Agent kennt die besten Veroeffentlichungszeiten pro Plattform, **in Ihrer Zeitzone** (gelesen aus Ihren Postzee-Org-Einstellungen) — und konvertiert beim Planen in UTC ISO.
 
-### 🧭 Intelligentes Modell-Routing (v3.2)
+### 🧭 Intelligentes Modell-Routing
 
-Sie muessen nicht wissen, welches Modell zu verwenden ist. Sagen Sie *"erstelle ein Sonnenuntergangs-Foto fuer Instagram"* und der Agent waehlt die richtige Familie (textlastig vs fotorealistisch vs Illustration), das richtige Tier (fast / balanced / premium) und das richtige Aspect-Ratio fuer die Plattform — automatisch. Das Standard-Tier ist **fast**, um die Automatisierungskosten vorhersehbar zu halten. (Karussells laufen ueber `POSTZEE_RENDER_CAROUSEL` und brauchen keine Modellauswahl -- die HTML-Pipeline erledigt sie.)
+Sie muessen nicht wissen, welches Modell zu verwenden ist. Sagen Sie *"erstelle ein Sonnenuntergangs-Foto fuer Instagram"* und der Agent waehlt die richtige Familie (textlastig vs fotorealistisch vs Illustration), das richtige Tier (fast / balanced / premium) und das richtige Aspect-Ratio fuer die Plattform — automatisch. Das Standard-Tier ist **fast**, um die Automatisierungskosten vorhersehbar zu halten. Karussells laufen ueber die editoriale Pipeline und brauchen keine Modellauswahl.
 
 Wenn Sie WISSEN, was Sie wollen — sagen Sie *"mit Nano Banana"* oder *"mit hoechster Qualitaet"* — respektiert der Agent Ihren Override. Das mehrsprachige Signal-Vokabular (PT / EN / ES / FR / DE) ist nativ eingebaut.
 

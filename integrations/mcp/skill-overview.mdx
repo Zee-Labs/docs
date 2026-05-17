@@ -50,17 +50,17 @@ Before generating anything, the agent reads your full account context — plan t
 
 The agent **always shows generation cost in credits before generating** — never in dollars, never as a surprise. It uses the live `POSTZEE_ESTIMATE_GENERATION_COST` tool to compute exact numbers from the current pricing — no guessing, no hardcoded values.
 
-### 🎨 Image & Carousel mastery (HTML render — v3.5+ for carousels, v3.7+ for single images)
+### 🎨 Image & Carousel mastery
 
-Carousels and text-heavy single images go through a dedicated pipeline: the agent **writes the HTML for each slide** (pixel-perfect text, your typography), and Postzee renders to PNG via headless Chromium. AI image models render text poorly — this approach removes that constraint entirely.
+Carousels and text-heavy single images go through a dedicated editorial pipeline: the agent composes the slides with pixel-perfect text and your typography, then Postzee renders them. AI image models render text poorly — this pipeline removes that constraint entirely.
 
-The skill ships a complete editorial methodology that produces work indistinguishable from what a top human editorial team would publish — strong angle selection, rigorous quality validation, and a visual system that earns the scroll. The user sees the proposal, approves, and the agent ships the final assets via `POSTZEE_RENDER_IMAGE` (single editorial image) or `POSTZEE_RENDER_CAROUSEL` (multi-slide). Iteration after render is surgical — `POSTZEE_REPLACE_CAROUSEL_SLIDE` for a single fix, `POSTZEE_APPEND_CAROUSEL_SLIDE` to extend a growing carousel.
+The skill ships a complete editorial methodology that produces work indistinguishable from what a top human editorial team would publish — strong angle selection, rigorous quality validation, and a visual system that earns the scroll. The user sees the proposal, approves, and the agent ships the final carousel ready to publish. Iteration after the carousel exists is surgical — change one slide without touching the others, append a new slide to extend a growing carousel.
 
-### ⚙️ Per-platform publish awareness (v3.7+)
+### ⚙️ Per-platform publish awareness
 
-The skill knows each social network's settings — Instagram story vs feed, TikTok privacy + duet + music controls, YouTube visibility + tags, LinkedIn carousel mode, Pinterest board target, and more. When you say "post that as a story" or "private upload to TikTok", the agent routes the right setting to `POSTZEE_CREATE_POST` automatically; you don't have to spell out the platform mechanics.
+The skill knows each social network's settings — Instagram story vs feed, TikTok privacy + duet + music controls, YouTube visibility + tags, LinkedIn carousel mode, Pinterest board target, and more. When you say "post that as a story" or "private upload to TikTok", the agent routes the right setting automatically; you don't have to spell out the platform mechanics.
 
-### ✅ Platform-aware publish guards (v3.5.1+)
+### ✅ Platform-aware publish guards
 
 Postzee enforces each social network's native carousel limits **before** dispatching to the platform API — no more burning 4 minutes of retries and 30+ media containers on a carousel the platform was always going to reject.
 
@@ -75,7 +75,7 @@ Postzee enforces each social network's native carousel limits **before** dispatc
 | Bluesky / Mastodon | 4 |
 | Telegram / VK | 10 |
 
-When a carousel exceeds the destination limit (e.g., 13 slides → Instagram), Postzee fails fast with a message **translated to the user's language** — *"Instagram accepts at most 10 slides per carousel. Your post has 13."* — instead of letting the social network's API return a `fbtrace_id`. Skill v3.5.1+ also caps slide count at brief time when the destination platform is known, so the user is corrected before the first render call.
+When a carousel exceeds the destination limit (e.g., 13 slides → Instagram), Postzee fails fast with a message **translated to the user's language** — *"Instagram accepts at most 10 slides per carousel. Your post has 13."* — instead of letting the social network's API return a `fbtrace_id`. The skill also caps slide count at brief time when the destination platform is known, so the user is corrected before the first render call.
 
 ### 🎬 Multi-scene video
 
@@ -97,9 +97,9 @@ For creative work, the agent runs a quick web search for current viral patterns 
 
 The agent knows the best posting times per platform, in **your timezone** (read from your Postzee org settings) — and converts to UTC ISO when scheduling. No mental math.
 
-### 🧭 Smart model routing (v3.2)
+### 🧭 Smart model routing
 
-You don't have to know which model to use. Say *"create a sunset photo for Instagram"* and the agent picks the right family (text-rendering vs photoreal vs illustration), the right tier (fast / balanced / premium), and the right aspect ratio for the platform — automatically. Default tier is **fast** to keep automation costs predictable. (Carousels go through `POSTZEE_RENDER_CAROUSEL` and don't need model selection — the HTML pipeline handles them.)
+You don't have to know which model to use. Say *"create a sunset photo for Instagram"* and the agent picks the right family (text-rendering vs photoreal vs illustration), the right tier (fast / balanced / premium), and the right aspect ratio for the platform — automatically. Default tier is **fast** to keep automation costs predictable. Carousels go through the editorial pipeline and don't need model selection at all.
 
 If you DO know what you want — say *"using Nano Banana"* or *"with the highest quality"* — the agent honors your override. The multilingual signal vocabulary (PT / EN / ES / FR / DE) is built in.
 
@@ -143,13 +143,13 @@ The agent picks the right photoreal model, validates the cost in credits, enhanc
 
 > *"Create a 10-slide LinkedIn carousel about productivity mistakes."*
 
-The agent runs an editorial workflow: it gathers the brief, drafts a strong angle, validates it, and proposes the final headline + caption for you to approve. Once approved, it composes the slides and calls `POSTZEE_RENDER_CAROUSEL`. If you want to tweak slide 4 after the carousel exists, the agent calls `POSTZEE_REPLACE_CAROUSEL_SLIDE` for that slide only — the other 9 keep their URLs and identity.
+The agent runs an editorial workflow: it gathers the brief, drafts a strong angle, validates it, and proposes the final headline + caption for you to approve. Once approved, it ships the rendered carousel ready to publish. If you want to tweak slide 4 after the carousel exists, the agent updates just that slide — the other 9 keep their identity.
 
-### Editorial single-image post (v3.7+)
+### Editorial single-image post
 
 > *"Create a hero image for Instagram announcing the new pricing."*
 
-Same editorial pipeline but for standalone single-image posts: the agent drafts the hook, proposes a layout treatment, composes the HTML, and renders via `POSTZEE_RENDER_IMAGE`. Useful for text-heavy posts where the value is in the typography + composition rather than in a swipeable sequence.
+Same editorial pipeline but for standalone single-image posts: the agent drafts the hook, proposes a layout treatment, composes the design, and ships the rendered image. Useful for text-heavy posts where the value is in the typography + composition rather than in a swipeable sequence.
 
 ### Multi-scene story
 

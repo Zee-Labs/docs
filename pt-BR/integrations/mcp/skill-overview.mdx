@@ -50,17 +50,17 @@ Antes de gerar qualquer coisa, o agente lê o contexto completo da sua conta —
 
 O agente **sempre mostra o custo da geração em créditos antes de gerar** — nunca em dólares, nunca como surpresa. Usa a tool live `POSTZEE_ESTIMATE_GENERATION_COST` para computar números exatos a partir do pricing atual — sem chutes, sem valores hardcoded.
 
-### 🎨 Maestria em imagens e carrosséis (HTML render — v3.5+ pra carrosséis, v3.7+ pra imagens avulsas)
+### 🎨 Maestria em imagens e carrosséis
 
-Carrosséis e imagens avulsas com texto pesado passam por um pipeline dedicado: o agente **escreve o HTML de cada slide** (texto pixel-perfect, sua tipografia) e o Postzee renderiza em PNG via Chromium headless. Modelos de imagem IA renderizam texto mal — esse approach elimina essa limitação por completo.
+Carrosséis e imagens avulsas com texto pesado passam por um pipeline editorial dedicado: o agente compõe os slides com texto pixel-perfect e a sua tipografia, e o Postzee renderiza. Modelos de imagem IA renderizam texto mal — esse pipeline elimina essa limitação por completo.
 
-A skill traz uma metodologia editorial completa que produz trabalho indistinguível do que um time editorial humano de elite publicaria — seleção de ângulo forte, validação rigorosa de qualidade e um sistema visual que conquista o scroll. O usuário vê a proposta, aprova, e o agente entrega os assets via `POSTZEE_RENDER_IMAGE` (imagem editorial avulsa) ou `POSTZEE_RENDER_CAROUSEL` (multi-slide). Iteração pós-render é cirúrgica — `POSTZEE_REPLACE_CAROUSEL_SLIDE` pra um ajuste específico, `POSTZEE_APPEND_CAROUSEL_SLIDE` pra estender carrossel em construção.
+A skill traz uma metodologia editorial completa que produz trabalho indistinguível do que um time editorial humano de elite publicaria — seleção de ângulo forte, validação rigorosa de qualidade e um sistema visual que conquista o scroll. O usuário vê a proposta, aprova, e o agente entrega o carrossel pronto pra publicar. Iteração depois do carrossel existir é cirúrgica — muda um slide sem tocar nos outros, adiciona um novo slide pra estender um carrossel em construção.
 
-### ⚙️ Awareness de configurações por plataforma (v3.7+)
+### ⚙️ Awareness de configurações por plataforma
 
-A skill conhece os settings de cada rede social — Instagram story vs feed, controles de privacidade + duet + música do TikTok, visibilidade + tags do YouTube, modo carrossel do LinkedIn, board do Pinterest, e mais. Quando você diz "posta isso como story" ou "upload privado pro TikTok", o agente roteia o setting correto pro `POSTZEE_CREATE_POST` automaticamente — você não precisa especificar mecânicas da plataforma.
+A skill conhece os settings de cada rede social — Instagram story vs feed, controles de privacidade + duet + música do TikTok, visibilidade + tags do YouTube, modo carrossel do LinkedIn, board do Pinterest, e mais. Quando você diz "posta isso como story" ou "upload privado pro TikTok", o agente roteia o setting correto automaticamente — você não precisa especificar mecânicas da plataforma.
 
-### ✅ Guardrails de publicação por plataforma (v3.5.1+)
+### ✅ Guardrails de publicação por plataforma
 
 O Postzee enforça os limites nativos de carrossel de cada rede social **antes** de chamar a API da plataforma — chega de queimar 4 minutos em retries e 30+ media containers em um carrossel que a rede já ia rejeitar.
 
@@ -75,7 +75,7 @@ O Postzee enforça os limites nativos de carrossel de cada rede social **antes**
 | Bluesky / Mastodon | 4 |
 | Telegram / VK | 10 |
 
-Quando um carrossel excede o limite da rede destino (ex.: 13 slides → Instagram), o Postzee falha imediatamente com uma mensagem **traduzida para o idioma do usuário** — *"Instagram aceita no máximo 10 slides por carrossel. Seu post tem 13."* — em vez de deixar a API da rede devolver um `fbtrace_id`. A skill v3.5.1+ também limita a contagem de slides no momento do brief quando a plataforma destino é conhecida, então o usuário é corrigido antes do primeiro render.
+Quando um carrossel excede o limite da rede destino (ex.: 13 slides → Instagram), o Postzee falha imediatamente com uma mensagem **traduzida para o idioma do usuário** — *"Instagram aceita no máximo 10 slides por carrossel. Seu post tem 13."* — em vez de deixar a API da rede devolver um `fbtrace_id`. A skill também limita a contagem de slides no momento do brief quando a plataforma destino é conhecida, então o usuário é corrigido antes do primeiro render.
 
 ### 🎬 Vídeo multi-cena
 
@@ -97,9 +97,9 @@ Para trabalho criativo, o agente roda uma busca rápida na web por padrões vira
 
 O agente conhece os melhores horários de postagem por plataforma, **no seu fuso horário** (lido das configurações da sua org no Postzee) — e converte para UTC ISO ao agendar. Sem cálculo mental.
 
-### 🧭 Roteamento inteligente de modelos (v3.2)
+### 🧭 Roteamento inteligente de modelos
 
-Você não precisa saber qual modelo usar. Diga *"crie uma foto de pôr do sol para o Instagram"* e o agente escolhe a família certa (texto-pesado vs fotorrealista vs ilustração), o tier certo (fast / balanced / premium) e o aspect ratio certo para a plataforma — automaticamente. O tier padrão é **fast** para manter o custo da automação previsível. (Carrosséis vão por `POSTZEE_RENDER_CAROUSEL` e dispensam seleção de modelo — o pipeline HTML cuida deles.)
+Você não precisa saber qual modelo usar. Diga *"crie uma foto de pôr do sol para o Instagram"* e o agente escolhe a família certa (texto-pesado vs fotorrealista vs ilustração), o tier certo (fast / balanced / premium) e o aspect ratio certo para a plataforma — automaticamente. O tier padrão é **fast** para manter o custo da automação previsível. Carrosséis vão pelo pipeline editorial e dispensam seleção de modelo.
 
 Se você SABE o que quer — diga *"usando Nano Banana"* ou *"com a maior qualidade"* — o agente respeita seu override. O vocabulário multilingual de signals (PT / EN / ES / FR / DE) é nativo.
 
@@ -143,13 +143,13 @@ O agente escolhe o modelo fotoreal certo, valida o custo em créditos, melhora s
 
 > *"Crie um carrossel de 10 slides para o LinkedIn sobre erros de produtividade."*
 
-O agente roda um workflow editorial: coleta o brief, desenha um ângulo forte, valida, e te apresenta a headline e a caption finais pra aprovação. Aprovado, compõe os slides e chama `POSTZEE_RENDER_CAROUSEL`. Se você quiser ajustar o slide 4 depois do carrossel existir, o agente chama `POSTZEE_REPLACE_CAROUSEL_SLIDE` só pra esse slide — os outros 9 mantêm URLs e identidade.
+O agente roda um workflow editorial: coleta o brief, desenha um ângulo forte, valida, e te apresenta a headline e a caption finais pra aprovação. Aprovado, entrega o carrossel renderizado pronto pra publicar. Se você quiser ajustar o slide 4 depois do carrossel existir, o agente atualiza só esse slide — os outros 9 mantêm identidade.
 
-### Imagem editorial avulsa (v3.7+)
+### Imagem editorial avulsa
 
 > *"Cria uma imagem hero pro Instagram anunciando o novo preço."*
 
-Mesmo pipeline editorial mas pra posts de imagem avulsa: o agente desenha o hook, propõe um tratamento de layout, compõe o HTML e renderiza via `POSTZEE_RENDER_IMAGE`. Útil pra posts text-heavy onde o valor está na tipografia + composição em vez de numa sequência deslizável.
+Mesmo pipeline editorial mas pra posts de imagem avulsa: o agente desenha o hook, propõe um tratamento de layout, compõe o design e entrega a imagem renderizada. Útil pra posts text-heavy onde o valor está na tipografia + composição em vez de numa sequência deslizável.
 
 ### História multi-cena
 

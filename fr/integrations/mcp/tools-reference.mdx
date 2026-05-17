@@ -20,8 +20,7 @@ Tous les outils acceptent la cle API integree dans votre URL MCP. Ils sont limit
 | **Memoire des Medias** | `POSTZEE_LIST_MEDIA`, `POSTZEE_UPLOAD_MEDIA` |
 | **Optimisation de Prompt** | `POSTZEE_ENHANCE_PROMPT` |
 | **Generation** | `POSTZEE_GENERATE_IMAGE`, `POSTZEE_GENERATE_VIDEO`, `POSTZEE_CHECK_JOB` |
-| **Images et Carrousels (rendu HTML)** | `POSTZEE_RENDER_IMAGE`, `POSTZEE_RENDER_CAROUSEL`, `POSTZEE_REPLACE_CAROUSEL_SLIDE`, `POSTZEE_APPEND_CAROUSEL_SLIDE` |
-| **Upload pre-rendu** | `POSTZEE_UPLOAD_RENDERED_IMAGE`, `POSTZEE_UPLOAD_RENDERED_CAROUSEL` |
+| **Images et Carrousels** | `POSTZEE_RENDER_IMAGE`, `POSTZEE_RENDER_CAROUSEL`, `POSTZEE_REPLACE_CAROUSEL_SLIDE`, `POSTZEE_APPEND_CAROUSEL_SLIDE` |
 | **HeyGen** | `POSTZEE_LIST_HEYGEN_AVATARS`, `POSTZEE_LIST_HEYGEN_VOICES`, `POSTZEE_GENERATE_HEYGEN_VIDEO` |
 | **Publication** | `POSTZEE_CREATE_POST` |
 | **Legacy (depreciees)** | `POSTZEE_LIST_IMAGE_MODELS`, `POSTZEE_LIST_VIDEO_MODELS` |
@@ -593,11 +592,11 @@ Poll le statut d'un job asynchrone de generation d'image ou de video.
 
 ---
 
-## Images et Carrousels (rendu HTML)
+## Images et Carrousels
 
-Le pipeline d'image et carrousel (skill v3.5+ pour carrousels, v3.7+ pour images uniques) rend du HTML fourni par l'agent en PNG via Chromium headless. Les modeles d'image IA rendent mal le texte ; le rendu HTML offre une typographie au pixel pres, des polices coherentes et zero hallucination de mots.
+Le pipeline d'image et carrousel laisse l'agent composer des slides editoriaux avec une typographie au pixel pres, des polices coherentes et zero hallucination de mots. L'agent soumet le(s) slide(s) compose(s) ; Postzee rend et renvoie le media final pret a publier.
 
-Cinq outils couvrent le cycle : un rendu d'image unique pour des posts editoriaux uniques avec typographie soignee, un rendu complet de carrousel pour le batch initial, remplacement chirurgical pour les corrections, append incremental pour l'authoring iteratif, plus un chemin d'upload pour les agents qui ont deja produit les bytes localement (saute completement le renderer cote serveur).
+Quatre outils couvrent le cycle : un rendu d'image unique pour des posts editoriaux uniques avec typographie soignee, un rendu complet de carrousel pour le batch initial, remplacement chirurgical pour les corrections et append incremental pour l'authoring iteratif.
 
 ### POSTZEE_RENDER_IMAGE
 
@@ -607,12 +606,12 @@ Rend UN document HTML en un `Media` PNG unique. La contrepartie single-image de 
 
 | Parametre | Type | Requis | Description |
 |-----------|------|:---:|-------------|
-| `html` | string | Oui | Document `<!doctype html>` complet. JavaScript est desactive au moment du rendu — utilisez uniquement CSS. Embed les images comme URIs base64 `data:image/...;base64,...`. |
+| `html` | string | Oui | Document `<!doctype html>` complet du slide. Referencez les images par leur URL Postzee CDN (renvoyee par `POSTZEE_GENERATE_IMAGE` ou `POSTZEE_UPLOAD_MEDIA`). Composition statique uniquement — pas de scripts interactifs. |
 | `width` | number | Non | Largeur de sortie en px (256-2160). Default `1080`. |
 | `height` | number | Non | Hauteur de sortie en px (256-2160). Default `1350` (4:5 — optimise pour le feed Instagram). |
 | `name` | string | Non | Titre optionnel affiche dans la galerie. |
 
-**Memes limites strictes que `POSTZEE_RENDER_CAROUSEL` :** 7 MB max de HTML, 256-2160 px par dimension, 45 s de timeout.
+**Memes limites strictes que `POSTZEE_RENDER_CAROUSEL` :** 7 MB max par slide, 256-2160 px par dimension, 45 s de timeout.
 
 **Retourne (succes) :**
 ```json
@@ -663,7 +662,7 @@ Rend N slides HTML en PNG et les regroupe atomiquement en un `MediaGroup` de car
 
 **L'ordre est structurel, pas temporel.** L'index du tableau = `orderInGroup`, assigne AVANT que tout worker tourne. Les slides peuvent rendre en parallele mais l'ordre est preserve de maniere deterministe.
 
-**Modele de securite.** JavaScript est **desactive** dans le renderer ; toute balise `<script>` est inerte. Les requetes reseau sont interceptees et bloquees contre SSRF (RFC1918, loopback, hosts de metadata cloud).
+**Modele de securite.** Les compositions de slides sont rendues comme contenu statique — les scripts interactifs sont inertes. Les requetes reseau pour les assets referencees sont limitees aux hosts publics (les adresses privees/internes sont bloquees).
 
 **Retourne :**
 ```json
@@ -751,84 +750,6 @@ Le nouveau slide est ajoute au **prochain `orderInGroup` disponible** (gap-safe 
 <Warning>
 Il n'y a pas de primitive d'insertion-au-milieu, de reordonnancement, ou de suppression en v1. `APPEND_CAROUSEL_SLIDE` n'ajoute qu'a la FIN. Si l'utilisateur demande d'inserer a une position specifique, d'echanger deux slides ou d'en supprimer un, recomposez tout le carrousel avec `POSTZEE_RENDER_CAROUSEL` a partir d'un nouveau scenario.
 </Warning>
-
----
-
-## Upload pre-rendu (v3.7+)
-
-Quand l'agent tourne dans une surface avec un navigateur headless utilisable (ex. : Claude Code avec Bash + Playwright), il peut rendre le HTML en PNG localement et uploader les bytes directement — sautant le renderer cote serveur de Postzee pour un round-trip plus rapide. Meme sortie `Media` / `MediaGroup` que le chemin HTML-render, donc le code en aval (publication, galerie, REST API) ne change pas.
-
-Si l'agent n'a pas la capacite de rendu local, il bascule de maniere transparente vers `POSTZEE_RENDER_IMAGE` / `POSTZEE_RENDER_CAROUSEL`.
-
-### POSTZEE_UPLOAD_RENDERED_IMAGE
-
-Upload une image pre-rendue unique (PNG / JPEG / WebP) et retourne un `Media` standalone. Miroir de `POSTZEE_RENDER_IMAGE` du point de vue du code en aval — meme shape de retour.
-
-**Parametres :**
-
-| Parametre | Type | Requis | Description |
-|-----------|------|:---:|-------------|
-| `imageBase64` | string | Oui | Bytes de l'image en base64. Max 10 MB raw par image. Peut inclure le prefixe `data:image/...;base64,...` ou juste le payload — les deux sont acceptes. |
-| `mimeType` | string | Oui | Doit correspondre aux bytes reels. Autorises : `image/png`, `image/jpeg`, `image/webp`. Le spoofing de content-type est rejete par validation magic-byte. |
-| `width` | number | Oui | Largeur de sortie en px (256-2160). Doit correspondre aux dimensions reelles en pixels des bytes (validee contre le header du fichier). |
-| `height` | number | Oui | Hauteur de sortie en px (256-2160). Meme validation que width. |
-| `name` | string | Non | Titre optionnel affiche dans la galerie. |
-
-**Retourne (succes) :**
-```json
-{
-  "success": true,
-  "mediaId": "media-uuid",
-  "mediaUrl": "https://cdn.postzee.app/...",
-  "width": 1080,
-  "height": 1350,
-  "message": "Image uploaded (1080×1350). Use 'mediaUrl' when calling POSTZEE_CREATE_POST."
-}
-```
-
-**Hardening de validation** (ces outils acceptent des bytes non fiables) :
-- **Magic-byte check** contre le `mimeType` declare — un fichier HTML pretendant etre `image/png` est rejete.
-- **Dimension check** — le `width`/`height` declare par l'agent doit correspondre aux dimensions reelles en pixels parsees du header du fichier (tolerance de ±2 px). Envoyer `width: 2160` avec les bytes d'une image 100×100 echoue rapidement.
-- **Size cap** — 10 MB par image ; depasser leve une erreur claire.
-
-Cache d'idempotency par image (1 heure) : re-uploader des bytes identiques retourne le `mediaId` mis en cache au lieu de dupliquer.
-
----
-
-### POSTZEE_UPLOAD_RENDERED_CAROUSEL
-
-Upload N images pre-rendues et les assemble en un `MediaGroup`. Miroir de `POSTZEE_RENDER_CAROUSEL` du point de vue du code en aval.
-
-**Parametres :**
-
-| Parametre | Type | Requis | Description |
-|-----------|------|:---:|-------------|
-| `slides` | array | Oui | 1-15 objets slide en ordre d'affichage. Chacun : `{ imageBase64, mimeType, width, height }`. Meme validation par slide que `POSTZEE_UPLOAD_RENDERED_IMAGE`. Total des bytes sur tous les slides limite a 70 MB. |
-| `aspectRatio` | string | Non | `"1:1"` / `"4:5"` / `"9:16"` — uniquement metadonnee, ne redimensionne pas les images. Default `"1:1"`. |
-| `name` | string | Non | Titre optionnel affiche dans la galerie. |
-
-**Limites strictes :**
-- 1-15 slides par appel
-- 10 MB max par slide
-- 70 MB max de payload total par appel
-
-**Retourne (succes) :**
-```json
-{
-  "success": true,
-  "mediaGroupId": "group-uuid",
-  "totalSlides": 9,
-  "aspectRatio": "4:5",
-  "mediaUrls": [
-    "https://cdn.postzee.app/.../slide-0.png",
-    "https://cdn.postzee.app/.../slide-1.png",
-    "..."
-  ],
-  "message": "Uploaded 9 slide(s). Use 'mediaUrls' (already in display order) when calling POSTZEE_CREATE_POST."
-}
-```
-
-Meme semantique atomique que `POSTZEE_RENDER_CAROUSEL` : tout slide echouant a la validation abandonne tout l'upload et soft-delete le groupe partiel. Le carrousel atterrit complet ou n'atterrit pas du tout.
 
 ---
 
